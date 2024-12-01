@@ -1,0 +1,466 @@
+<template>
+  <div>
+    <ElCard class="my-4 ">
+      <b> Tourist Spot Edit</b>
+    </ElCard>
+    
+
+    <ElCard>
+      <ElForm
+        ref="ruleFormRef"
+        
+        :model="ruleForm"
+        :rules="rules"
+        label-width="auto"
+        class="demo-ruleForm"
+        :size="formSize"
+        label-position="top"
+        status-icon
+      >
+      <VRow>
+        <VCol cols="12" >
+        <ElFormItem
+          label="Link"
+          prop="link"
+        >
+          <ElInput v-model="ruleForm.link"  />
+
+        </ElFormItem>
+        </VCol>          
+      </VRow>       
+          
+
+        <el-tabs
+          type="card"
+          class="demo-tabs"    
+        >
+          <el-tab-pane
+            v-for="(item, index) in ruleForm &&  ruleForm.spot ? ruleForm.spot : ruleForm.data" :key="index"
+            :label="index == 0 ? 'Bangla':'English'"
+            :name="item.name"
+          >
+                <fieldset   class="rounded py-2 px-2">
+                  <legend class='mx-4'> <b>  {{index == 0 ? 'Bangla':'English'}} </b> </legend>
+                  <VRow>
+                    <VCol cols="12" md="6"   >
+                      
+                    <ElFormItem
+                      label="Name"
+                      prop=""
+                    >
+                      <ElInput v-model="item.name"  />
+
+                    </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+
+                    <ElFormItem
+                      label="Description"
+                      prop="description"
+                    >
+                      <ElInput v-model="item.description"  />
+
+                    </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+
+                    <ElFormItem
+                      label="Tagline"
+                      prop="tagline"
+                    >
+                      <ElInput v-model="item.tag_line"  />
+                    </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Distance"
+                        prop="distance"
+                      >
+                        <ElInput v-model="item.distance"  />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Travel Info"
+                        prop="travel_info"
+                      >
+                        <ElInput v-model="item.travel_info"  />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Foods"
+                        prop="foods"
+                      >
+                        <ElInput v-model="item.foods"  />
+                      </ElFormItem>
+                    </VCol>
+                    <!-- visiting_time -->
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Visiting Time"
+                        prop="visiting_time"
+                      >                  
+                        <el-time-select
+                            v-model="item.visiting_time"
+                            
+                            start="00:00"
+                            step="00:60"
+                            end="24:00"
+                            placeholder="Select time"
+                        />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Rides"
+                        prop="rides"
+                      >
+                        <ElInput v-model="item.rides"  />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Fair"
+                        prop="fair"
+                      >
+                        <ElInput v-model="item.fair"  />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Details"
+                        prop="details"
+                      >
+                        <ElInput v-model="item.details"  />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Safety Guideline"
+                        prop="safety_guideline"
+                      >
+                        <ElInput v-model="item.safety_guideline"  />
+                      </ElFormItem>
+                    </VCol>
+                      <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Tourist Places"
+                        prop="tourist_places"
+                      >
+                        <ElInput v-model="item.tourist_places"  />
+                      </ElFormItem>
+                    </VCol>
+                    
+                    
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Hazard Info"
+                        prop="hazard_info"
+                      >
+                        <ElInput v-model="item.hazard_info"  />
+                      </ElFormItem>
+                    </VCol>
+
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Advice"
+                        prop="advice"
+                      >
+                        <ElInput v-model="item.advice"  />
+                      </ElFormItem>
+                    </VCol>
+
+                    
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Others Info"
+                        prop="others_info"
+                      >
+                        <ElInput v-model="item.others_info"  />
+                      </ElFormItem>
+                    </VCol>
+
+                    
+
+                    <VCol cols="12" md="6"   >
+                      <ElFormItem
+                        label="Risk Factor"
+                        prop="risk_factor"
+                      >
+                        <ElInput v-model="item.risk_factor"  />
+                      </ElFormItem>
+                    </VCol>
+
+                    
+                  </VRow>
+                </fieldset>
+          </el-tab-pane>
+        </el-tabs>
+
+          
+          <VRow>
+            <VCol cols="12" md="6" class=" my-2">
+                  <ElFormItem
+                    label="Image"
+                    prop="image">
+                    <el-upload
+                      class="upload-section"
+                      drag
+                      :on-change="onFileChange"
+                      :before-upload="beforeAvatarUpload"            
+                    >
+                      
+                      <div class="el-upload__text" @click="viewImage(ruleForm.image)">
+                        <el-icon v-if="!ruleForm.image" class="el-icon--upload"><upload-filled /></el-icon> 
+                        <img :src="previewImage ? previewImage : ruleForm.image" alt="" height="60" width="60" class="border mt-2">                  
+                        <el-icon  class="avatar-uploader-icon"><Plus /></el-icon> <br>
+                        Drop file here or <em>click to upload</em>
+                      </div>
+                      <template #tip>
+                        
+                        <div class="el-upload__tip">
+                          jpg/png files with a size less than 500kb
+                        </div>
+                      </template>
+                    </el-upload>   
+                  </ElFormItem>           
+            </VCol>
+            <VCol cols="12" md="6" class="d-flex justify-center my-2">
+              <ElFormItem
+                  label="Images"
+                  prop="images">    
+                  <el-upload
+                      class="upload-demo"
+                      drag
+                      action="#"
+                      multiple
+                      :auto-upload="false"
+                      :on-change="onFileChangeMultiple"
+                      :before-upload="beforeAvatarUpload"
+                    >
+                      <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                      <div class="el-upload__text">
+                        Drop file here or <em>click to upload</em>
+                      </div>
+                      <template #tip>
+                        <div class="el-upload__tip">
+                          jpg/png files with a size less than 500kb
+                        </div>
+                      </template>
+                    </el-upload>                                                                 
+              </ElFormItem>  
+              <VRow class="px-4">
+                      <VCol class="btn-section text-center mt-2 d-flex flex-column justify-center align-center" cols="12" md="3" v-for="(item,index) in ruleForm.images" :key="index"> 
+                              
+
+                      <img   @click="viewImage(ruleForm.images[index].name)"  :src="item.name" alt="" height="120" width="120" class="border m-1">
+                      <button
+                                
+                                class="dlt-btn"
+                                @click.prevent="removeImage(item)"
+                              >
+                                <el-icon><Delete /></el-icon>
+                      </button>
+                              
+                      </VCol>
+                      <VCol class="text-center mt-2" cols="12" md="3" v-for="(item,index) in  previewMultipleImage" :key="index">
+                                <img height="100" width="100" :src="item" alt="">
+                      </VCol>
+              </VRow>
+            </VCol>
+          </VRow>                       
+        <div class=" py-4 text-center">
+          <ElButton
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            Create
+          </ElButton>
+        
+        </div>
+      </ElForm>
+    </ElCard>
+     <el-dialog
+      v-model="imgViewModal"
+      title="Tips"
+      width="500"
+     >
+      <div class="text-center px-2 py-2">
+        <img :src="modalImg" alt="" height="400" width="400">
+      </div>
+      </el-dialog>
+  </div>
+</template>
+
+
+<script setup lang="ts">
+import { useSpotStore } from "@/stores/tourism/spotStore";
+import { notify } from '@/utils/notification';
+import { Delete, UploadFilled } from '@element-plus/icons-vue';
+import type { UploadProps } from 'element-plus';
+import { ElMessage, type ComponentSize, type FormInstance, type FormRules } from 'element-plus';
+import { defineEmits, defineProps, reactive, ref } from 'vue';
+import { useRoute } from 'vue-router';
+const emit = defineEmits(["getEmit"]);
+const route = useRoute()
+
+const props = defineProps({
+  ruleForm: {
+    type: Object,
+    default: () => ({}),
+  },
+  mode: {
+    type: String,
+    default:'create'
+  },
+  
+}) 
+const spotStore = useSpotStore()
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  console.log("uploadFile",uploadFile)
+  props.ruleForm.image = URL.createObjectURL(uploadFile.raw!)
+}
+const previewImage = ref(null)
+const tempImg = ref('')
+const onFileChange = (file) => {
+    
+    tempImg.value = file.raw;
+
+    
+
+    const reader = new FileReader()
+
+    reader.readAsDataURL(file.raw)
+    reader.onload = () => {
+      previewImage.value = reader.result
+    }
+
+}
+const multpleTempImg = ref([])
+const previewMultipleImage = ref([])
+const onFileChangeMultiple = (file) => {  
+  multpleTempImg.value.push(file.raw);  
+  const reader = new FileReader()
+    reader.readAsDataURL(file.raw)
+    reader.onload = () => {
+    
+      previewMultipleImage.value.push(reader.result)
+    }
+}
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
+const formSize = ref<ComponentSize>('default')
+const ruleFormRef = ref<FormInstance>()
+const locationOptions = ['Home', 'Company', 'School']
+const rules = reactive<FormRules<RuleForm>>({
+  // name: [
+  //   { required: true, message: 'Please input Activity name', trigger: 'blur' },
+  //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+  // ],  
+})
+
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  console.log("multpleTempImg.value ", multpleTempImg.value)
+  // multpleTempImg.value.length == 0 ? props.ruleForm.images = [] : props.ruleForm.images = multpleTempImg.value
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+   
+   const updatedData = props.mode == 'update' ? props.ruleForm.spot.map(({ created_at, updated_at, ...rest }) => rest):'';
+
+
+    
+
+    if (valid) {
+      // remove a key value from  array objects using map
+      props.ruleForm.images.map((e)=>{
+       console.log("props.ruleForm.images",  e.name )
+        
+      })
+
+      
+      
+      let form = {
+      id: props.ruleForm.id,
+      image: tempImg.value ? tempImg.value : '',
+      link: props.ruleForm.link,
+      images: multpleTempImg.value,
+      data: updatedData
+      }
+      const { data } = props.ruleForm.id ?  await spotStore.updateSpot( form ) : await spotStore.createSpot( props.ruleForm )
+      data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
+        emit('getEmit')
+      ) : ''
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+
+const imgViewModal = ref(false)
+const modalImg = ref(null)
+
+const removeImage = async(item)=>{
+  
+  let arr = []
+  arr.push(item.id)
+  try {
+    const {data} = await spotStore.deleteImage({ ids: arr })
+    console.log("response", data)
+    data.status_code == 200 ? notify('Warning!', data.message, 'warning', 'top-right',
+      // getSpotlist()
+      emit('getEmit')
+    ) : ''
+    
+  }catch(error){
+    console.log("error", error)
+  }
+}
+
+const viewImage = (item)=>{  
+  imgViewModal.value = true
+  modalImg.value = item
+}
+
+
+</script>
+
+<style scoped>
+.upload-section{
+  display: block;
+  text-align: center;
+}
+
+.dlt-btn{
+  position: relative;
+  display: none;
+  border-radius: 50%;
+  background-color: white;
+  block-size: 30px;
+  inline-size:30px;
+  inset-block-start:-25%;
+  opacity: 0.8;
+
+  /* transition: 0.3s; */
+  
+}
+
+.btn-section:hover  .dlt-btn{
+  display: block;
+  
+}
+
+
+</style>

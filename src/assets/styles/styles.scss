@@ -1,0 +1,28 @@
+// Write your overrides
+
+.el-loading-spinner .path {
+  stroke-width: 5px !important;
+  stroke: #19ae69 !important;
+}
+
+html.dark .el-card {
+  --el-card-bg-color: #25293c !important;
+}
+
+html.light .el-card {
+  --el-card-bg-color: #fff !important;
+}
+
+html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-background .btn-next:disabled, .el-pagination.is-background .btn-prev.is-disabled, .el-pagination.is-background .btn-prev:disabled, .el-pagination.is-background .el-pager li.is-disabled, .el-pagination.is-background .el-pager li:disabled {
+  background-color: var(--el-disabled-bg-color);
+  color: var(--el-text-color-placeholder);
+}
+
+.el-card {
+  --el-card-padding: 15px !important;
+}
+
+
+.masonry-item {
+  margin: 5px !important;
+}
