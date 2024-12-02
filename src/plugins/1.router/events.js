@@ -1,0 +1,43 @@
+export const eventsRoutes = [
+  {
+    path: '/events',
+    meta: {
+      subject: "Dashboard",
+      action: "show menu",
+    },
+    children: [
+      {
+        path: '',
+        name: 'eventsList',
+        component: () => import('@/views/events/index.vue'),
+        meta: {
+          subject: "Dashboard",
+          action: "show menu",
+        },
+      },
+    
+      {
+        path: 'create-events',
+        name: 'createEvents',
+        component: () => import('@/views/events/create.vue'),
+        meta: {
+          subject: "Dashboard",
+          action: "show menu",
+          navActiveLink: 'events',
+        },
+      },
+      {
+        path: 'edit-events/:id',
+        name: 'editEvents',
+        component: () => import('@/views/events/update.vue'),
+        meta: {
+          subject: "Dashboard",
+          action: "show menu",
+          navActiveLink: 'events',
+        },
+      },
+      
+    ],
+  },
+]
+    

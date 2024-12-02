@@ -1,0 +1,235 @@
+<template>
+  <div>
+    <ElCard class="my-4 ">
+      <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+    </ElCard>
+    <ElCard>
+      <ElForm
+        ref="ruleFormRef"
+        
+        :model="ruleForm"
+        :rules="rules"
+        label-width="auto"
+        class="demo-ruleForm"
+        :size="formSize"
+        label-position="top"
+        status-icon
+      >
+
+      
+      <VRow>
+        <VCol cols="12" md="6">
+<!-- spotDropdownData -->
+          <!-- <label for=""> Tourist Spot </label> -->
+          <ElFormItem
+            label="Tourist Spot"
+            prop="spot_parent_id"
+            :rules="{              
+                required: true,
+                message: 'Please select Tourist Spot',
+                trigger: 'change'              
+            }"
+
+          >
+            <el-select
+              v-model="ruleForm.spot_parent_id"
+              placeholder="Select Tourist Spot"                          
+            >
+            
+              <el-option
+                v-for="(item,index) in spotDropdownData"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+                
+              />
+            </el-select>
+            </ElFormItem>
+        </VCol>
+        <VCol cols="12" md="6">
+          <ElFormItem
+            label="Link"
+            prop="link"
+            :rules="{
+              required: true,
+              message: 'link can not be empty and should be like https://www.xyz.com',
+              trigger: 'blur',
+            }"
+          >         
+            <ElInput v-model="ruleForm.link"  />
+
+          </ElFormItem>
+        </VCol>          
+      </VRow>       
+        <VRow
+              
+        >
+          <VCol
+            v-for="(item, index) in ruleForm && ruleForm.lockers ? ruleForm.lockers : ruleForm.data" :key="index"
+           
+          >
+                <fieldset   class="rounded py-2 px-2">
+                  <legend class='mx-4'> <b>  {{index == 0 ? 'Bangla':'English'}} </b> </legend>
+                  <VRow>
+                    <VCol cols="12"  md="6"  >
+                      
+                    <ElFormItem
+                      label="Phone"
+                      prop="phone"
+                    >
+                      <ElInput v-model="item.phone"  />
+
+                    </ElFormItem>
+                    </VCol>
+                    <VCol cols="12"  md="6"  >
+                      
+                    <ElFormItem
+                      label="Address"
+                      prop="address"
+                    >
+                      <ElInput v-model="item.address"  />
+
+                    </ElFormItem>
+                    </VCol>
+                     <VCol cols="12"  md="6"  >
+                      
+                    <ElFormItem
+                      label="Description"
+                      prop="description"
+                    >
+                      <ElInput v-model="item.description"  />
+
+                    </ElFormItem>
+                    </VCol>
+                  </VRow>
+                </fieldset>
+          </VCol>
+        </VRow>
+
+          
+                                
+        <div class=" py-4 text-center">
+          <ElButton
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            {{mode}}
+          </ElButton>
+        
+        </div>
+      </ElForm>
+    </ElCard>    
+  </div>
+</template>
+
+
+<script setup lang="ts">
+import { useLockerStore } from "@/stores/tourism/lockerStore";
+import { useSpotStore } from "@/stores/tourism/spotStore";
+import { notify } from '@/utils/notification';
+import { type ComponentSize, type FormInstance, type FormRules } from 'element-plus';
+import { defineEmits, defineProps, onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+const emit = defineEmits(["getEmit"]);
+const route = useRoute()
+const router = useRouter()
+const props = defineProps({
+  ruleForm: {
+    type: Object,
+    default: () => ({}),
+  },
+  mode: {
+    type: String,
+    default:'create'
+  },
+  
+}) 
+const lockerStore = useLockerStore()
+const spotStore = useSpotStore()
+const formSize = ref<ComponentSize>('default')
+const ruleFormRef = ref<FormInstance>()
+const locationOptions = ['Home', 'Company', 'School']
+const rules = reactive<FormRules<RuleForm>>({
+  // name: [
+  //   { required: true, message: 'Please input Activity name', trigger: 'blur' },
+  //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+  // ],  
+})
+const spotDropdownData = ref([])
+const getSpotDropdownList = async () => {
+  try{
+  const { data } = await spotStore.getSpotDropdown()
+  
+  spotDropdownData.value = data.data
+  }catch(e){
+      console.log(e)
+  }
+  
+}
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    let data = []
+    props.mode == 'update' ? data = props.ruleForm.news : '';
+    let form = {
+      id: props.ruleForm.id,
+      spot_parent_id: props.ruleForm.spot_parent_id,
+      link: props.ruleForm.link,
+      data: props.ruleForm.lockers
+    }
+    props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id
+    if (valid) {
+      const { data } = props.ruleForm.id ?  await lockerStore.updateLocker( form ) : await lockerStore.createLocker( props.ruleForm )
+      data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
+        emit('getEmit')
+      ) : ''
+      router.push({ name: 'lockerList' })
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+
+const typeList = ref([])
+
+
+ 
+
+onMounted(() => {
+  getSpotDropdownList()
+})
+
+
+
+
+</script>
+
+<style scoped>
+.upload-section{
+  display: block;
+  text-align: center;
+}
+
+.dlt-btn{
+  position: relative;
+  display: none;
+  border-radius: 50%;
+  background-color: white;
+  block-size: 30px;
+  inline-size:30px;
+  inset-block-start:-25%;
+  opacity: 0.8;
+
+  /* transition: 0.3s; */
+  
+}
+
+.btn-section:hover  .dlt-btn{
+  display: block;
+  
+}
+
+
+</style>

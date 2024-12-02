@@ -2,8 +2,8 @@ import App from '@/App.vue'
 import { registerPlugins } from '@core/utils/plugins'
 import { createApp } from 'vue'
 // eslint-disable-next-line import/no-named-as-default
-import vueDebounce from 'vue-debounce'
 import MasonryWall from '@yeger/vue-masonry-wall'
+import vueDebounce from 'vue-debounce'
 
 // quill editor 
 import { QuillEditor } from '@vueup/vue-quill'

@@ -21,7 +21,7 @@
         <NewsTable
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getspotList"
+          @table-data-emit="getLockerList"
         />
       </div>
     </ElCard>
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
 import { useLockerStore } from "@/stores/tourism/lockerStore"
-import NewsTable from "./newsTable.vue"
+import NewsTable from "./lockerTable.vue"
 
 const configStore = useConfigStore()
 
@@ -46,7 +46,7 @@ const columns = ref( [
   { label: 'Description', prop: 'description', sortable: true },        
 ])
 
-const getspotList = async () => {
+const getLockerList = async () => {
   try {
     const { data } = await lockerStore.getLocker()
 
@@ -62,7 +62,7 @@ const getspotList = async () => {
 
 onMounted(() => {
   
-  getspotList()
+  getLockerList()
 })
 </script>
 

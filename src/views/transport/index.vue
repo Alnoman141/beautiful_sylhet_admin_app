@@ -1,76 +1,79 @@
 <template>
-  <div class="px-4">
+  <div>
     <ElCard>
-      <QuillEditor
-        ref="quillEditor" 
-        theme="snow"
-        placeholder="Type here..."
-      
-        @text-change="onTextChange"
-      />
-    
-      <div class="px-8 ">
-        <h3>Editor Content:</h3>
-        <pre v-html="editorContent" />
+      <div class="text-end my-4">
+        <RouterLink
+          type="primary"
+          :underline="false"          
+          
+          :to="{ name: 'createTransport'}"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          :limit="3"
+          :on-exceed="handleExceed"
+          class="create-btn "
+        >
+          Create  Transport
+        </RouterLink>
+      </div>
+      <div class="mb-5">
+        <NewsTable
+          :filter-table-data="spotList"
+          :columns="columns"
+          @table-data-emit="getspotList"
+        />
       </div>
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { useConfigStore } from "@/@core/stores/config"
+import { useTransportStore } from "@/stores/tourism/transportStore"
+import NewsTable from "./transportTable.vue"
 
-const editorContent = ref('') // Reactive variable to store the editor content
-const quillEditor = ref(null) // Ref to the Quill editor instance
+const configStore = useConfigStore()
 
-const editorOptions = {
-  placeholder: 'Type here...',
-  theme: 'snow', // Change to 'bubble' or other supported themes if needed
-}
+const transportStore = useTransportStore()
 
-const onTextChange = () => {
- 
-  const htmlContent = quillEditor.value.getHTML()
+const spotList = ref([])
 
-  console.log(htmlContent)
-  editorContent.value = htmlContent
-  
+const columns = ref( [
+  { label: 'ID', prop: 'parent_id', sortable: true },
+  { label: 'Name', prop: 'name', sortable: true },
+  { label: 'Phone', prop: 'phone', sortable: true },
+  { label: 'Address', prop: 'address', sortable: true },        
+  { label: 'Description', prop: 'description', sortable: true },        
+])
 
-}
+const getspotList = async () => {
+  try {
+    const { data } = await transportStore.getTransport()
 
-onMounted(async () => {
-  // Simulate API call to fetch HTML content
-  const apiHtmlResponse = `       
-        </li></ol><h1>This is an H1 Title</h1>
-        <p>This is a paragraph of text.</p>
-        <p>This is another paragraph.</p>
-        <ol><li>tuhinjamal</li><li>yusuf</li><li>muhammad</li></ol>
-        <ol><li>tuhinjamal</li><li>yusuf</li><li>muhammad</li></ol>        
-      `
+    console.log("data", data)
 
+    spotList.value = data.data.data
 
-  if (quillEditor.value ) {
-  //   // Set the editor's content as HTML
-    //   quillEditor.value.quill.root.innerHTML = apiHtmlResponse
-    quillEditor.value.setHTML(apiHtmlResponse)
-
-    // assign the editor content to the reactive variable
-    editorContent.value = apiHtmlResponse
-
-
-  
+    console.log(spotList.value)
+  } catch (error) {
+    console.log(error)
   }
+}
+
+onMounted(() => {
+  
+  getspotList()
 })
 </script>
 
-<style scoped>
-.editor-content {
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-block-start: 10px;
-}
 
-.editor-content > ul > li {
-  margin: 2% !important;
+<style scoped>
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
 }
 </style>

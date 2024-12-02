@@ -29,13 +29,31 @@
           </div>
         </template>
         <template #default="scope">
-          {{ scope.row }}
-          <RouterLink :to="{ name: 'editTouristSpot', params: { id: scope.row.parent_id } }">
+          <ElButton
+            circle
+            type="success"
+          >
+            <RouterLink
+              style="color: white"
+              :to="{ name: 'editTouristSpot', params: { id: scope.row.parent_id } }"
+            >
+              <VIcon
+                icon="tabler-edit"
+                size="20"
+              />
+            </RouterLink>
+          </ElButton>
+          <ElButton
+            type="danger"
+            circle
+            @click="showAlert(scope.row.parent_id)"
+          >
             <VIcon
-              icon="tabler-edit"
+              icon="tabler-trash"
               size="20"
             />
-          </RouterLink>
+            <!--  v-if="scope.row.status == 0" -->
+          </ElButton>
         </template>
       </ElTableColumn>
     </ElTable>
@@ -44,7 +62,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
-import { useAwarenessStore } from "@/stores/tourism/awarenessStore"
+import { useSpotStore } from "@/stores/tourism/spotStore"
 import { defineEmits, defineProps, ref } from "vue"
 
 const props = defineProps({
@@ -59,13 +77,14 @@ const props = defineProps({
   
 }) 
 
-const emit = defineEmits(["tableDataEmit"]) ;const editorContent = ref('') // Reactive variable to store the editor content
+const emit = defineEmits(["tableDataEmit"])
+const editorContent = ref('') // Reactive variable to store the editor content
 
 
 
 
 
-const awarenessStore = useAwarenessStore()
+const spotStore = useSpotStore()
 
 const configStore = useConfigStore()
 const search = ref('')
@@ -77,7 +96,40 @@ const filterTableData = computed(() =>
       !search.value ||
       data.name.toLowerCase().includes(search.value.toLowerCase()), 
   ),
-
-
 )
+
+const deleteSpot = async item => {
+
+  // el message
+  
+
+  
+  try{
+    const { data } = await spotStore.deleteSpot({ id: item })
+
+    data.status_code == 200 ? notify('Deleted!', data.message, 'warning', 'top-right') : notify('Error', data.message, 'error', 'top-right')
+
+    emit('tableDataEmit')}
+  catch(err){
+    console.log(err)
+  }
+}
+
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const showAlert = item => {
+  ElMessageBox.alert('Are you sure that you want to delete this Tourist Spot ?', 'Delete', {
+    confirmButtonText: 'Delete',
+    confirmButtonClass: 'el-button--danger',
+    callback: action => {
+      ElMessage({
+        type: 'info',
+        message: `action: ${action}`,
+      })
+
+      console.log("action", action)
+      action == 'confirm' ? deleteSpot(item) : ''
+    },
+  })
+}
 </script>

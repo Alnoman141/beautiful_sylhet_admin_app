@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Hotel Type Create </b>
+      <b> Hotel Category {{mode == 'update' ? 'Edit' : 'Create'}} </b>
     </ElCard>
     <ElCard>
       <ElForm
@@ -15,15 +15,13 @@
         label-position="top"
         status-icon
       > 
-        <el-tabs
-          type="card"
-          class="demo-tabs"    
+        <VRow
+          
         >
-          <el-tab-pane
+          <VCol
           
             v-for="(item, index) in ruleForm && ruleForm.categories ? ruleForm.categories : ruleForm.data" :key="index"
-            :label="index == 0 ? 'Bangla':'English'"
-            :name="index == 0 ? 'Bangla':'English'"
+          
           >
                 <fieldset   class="rounded py-2 px-2">
                   <legend class='mx-4'> <b>  {{index == 0 ? 'Bangla':'English'}} </b> </legend>
@@ -32,17 +30,23 @@
                       
                     <ElFormItem
                       label="Name"
-                      prop="name"
+                      :prop="ruleForm && ruleForm.categories ? `categories.${index}.name` : `data.${index}.name`"
+                      :rules="{
+                        required: true,
+                        message: 'Please input Activity name',
+                        trigger: 'blur'
+                    }"
+
                     >
-                      <ElInput v-model="item.name"  />
+                      <ElInput v-model="item.name"  placeholder="Enter Category name" />
 
                     </ElFormItem>
                     </VCol>
                     
                   </VRow>
                 </fieldset>
-          </el-tab-pane>
-        </el-tabs>
+          </VCol>
+        </VRow>
 
           
                                 
@@ -51,7 +55,7 @@
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
-            Create
+            {{mode}}
           </ElButton>
         
         </div>
@@ -67,10 +71,10 @@ import { useHotelCategoryStore } from "@/stores/tourism/hotelCategoryStore";
 import { notify } from '@/utils/notification';
 import { type ComponentSize, type FormInstance, type FormRules } from 'element-plus';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const emit = defineEmits(["getEmit"]);
 const route = useRoute()
-
+const router = useRouter()
 const props = defineProps({
   ruleForm: {
     type: Object,
@@ -110,6 +114,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
         emit('getEmit')
       ) : ''
+      router.push({name:'hotelCategoryList'})
     } else {
       console.log('error submit!', fields)
     }

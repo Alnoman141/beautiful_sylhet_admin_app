@@ -29,12 +29,20 @@
           </div>
         </template>
         <template #default="scope">
-          <ElLink :href="`/edit-guideline/${scope.row.id}`">
-            <VIcon
-              icon="tabler-edit"
-              size="20"
-            />
-          </ElLink>
+          <ElButton
+            type="success"
+            circle
+          >
+            <RouterLink
+              :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"
+              style=" color:white !important;text-decoration: none !important;"
+            >
+              <VIcon
+                icon="tabler-edit"
+                size="20"
+              />
+            </RouterLink>
+          </ElButton>
         </template>
       </ElTableColumn>
     </ElTable>

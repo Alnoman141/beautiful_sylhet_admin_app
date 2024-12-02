@@ -5,7 +5,9 @@ import { redirects, routes } from './additional-routes'
 import { setupGuards } from './guards'
 
 import { bankRoutes } from './bank'
+import { campaignRoutes } from './campaign'
 import { emergencyRoutes } from './emergency'
+import { eventsRoutes } from './events'
 import { hotelRoutes } from './hotel'
 import { hotelCategoryRoutes } from './hotelCategory'
 import { hotelTypeRoutes } from './hotelType'
@@ -13,6 +15,7 @@ import { lockerRoutes } from './locker'
 import { newsRoutes } from './news'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
+import { transportRoutes } from './transport'
 
 function recursiveLayouts(route) {
   if (route.children) {
@@ -47,6 +50,9 @@ const router = createRouter({
       ...hotelRoutes,
       ...hotelTypeRoutes,
       ...hotelCategoryRoutes,
+      ...transportRoutes,
+      ...eventsRoutes,
+      ...campaignRoutes,
     ].map(route => recursiveLayouts(route)),
   ],
 })

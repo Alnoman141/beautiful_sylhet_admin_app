@@ -35,15 +35,25 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton>
-            <RouterLink :to="{ name: 'editNews', params: { id: scope.row.parent_id } }">
+          <ElButton
+            circle
+            type="primary"
+          >
+            <RouterLink
+              style="color:white"
+              :to="{ name: 'editNews', params: { id: scope.row.parent_id } }"
+            >
               <VIcon
                 icon="tabler-edit"
                 size="20"
               />
             </RouterLink>
           </ElButton>
-          <ElButton @click="deleteNews(scope.row.parent_id)">
+          <ElButton
+            type="danger"
+            circle
+            @click="showAlert(scope.row.parent_id)"
+          >
             <VIcon
               icon="tabler-trash"
               size="20"
@@ -52,7 +62,11 @@
           </ElButton>
           <!-- publish button  -->
           
-          <ElButton @click="publishNews(scope.row.parent_id)">
+          <ElButton
+            circle
+            :type="scope.row.status == 1 ? 'success':''"
+            @click="publishNews(scope.row.parent_id,scope.row.status)"
+          >
             <VIcon
               :icon="scope.row.status == 1 ? 'tabler-check':'tabler-eye-off'"
               size="20"
@@ -121,11 +135,13 @@ const deleteNews = async item => {
   }
 }
 
-const publishNews = async item => {
+const publishNews = async (item, sts) => {
   let arr = []
   arr.push(item)
+  let status = null
+  sts == 1 ? status = 0 : status = 1
   try{
-    const { data } = await newsStore.publishNews({ ids: arr })
+    const { data } = await newsStore.publishNews({ ids: arr, status: status })
 
     data.status_code == 200 ? notify('Deleted!', data.message, 'warning', 'top-right') : notify('Error', data.message, 'error', 'top-right')
 
@@ -136,5 +152,23 @@ const publishNews = async item => {
   catch(err){
     console.log(err)
   }
+}
+
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const showAlert = item => {
+  ElMessageBox.alert('Are you sure that you want to delete this news ?', 'Delete', {
+    confirmButtonText: 'Delete',
+    confirmButtonClass: 'el-button--danger',
+    callback: action => {
+      ElMessage({
+        type: 'info',
+        message: `action: ${action}`,
+      })
+
+      console.log("action", action)
+      action == 'confirm' ? deleteNews(item) : ''
+    },
+  })
 }
 </script>

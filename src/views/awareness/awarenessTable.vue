@@ -7,27 +7,6 @@
       :header-cell-style="configStore.getHeaderRowStyle"
       style="inline-size: 100%"
     >
-      <!-- Dynamic Columns -->
-      <!--
-        <ElTableColumn
-        v-for="(column, index) in columns"
-        :key="index"
-        :label="column.label"
-        :prop="column.prop"
-        :sortable="column.sortable"
-        :align="column.align"
-        >
-        <template
-        v-if="column.slot"
-        #default="scope"
-        >
-        <component
-        :is="column.slot"
-        v-bind="column.slotProps(scope)"
-        />
-        </template>
-        </ElTableColumn> 
-      -->
       <ElTableColumn
         v-for="(column, index) in columns"
         :key="index"
@@ -50,12 +29,20 @@
           </div>
         </template>
         <template #default="scope">
-          <ElLink :href="`/edit-awareness/${scope.row.id}`">
-            <VIcon
-              icon="tabler-edit"
-              size="20"
-            />
-          </ElLink>
+          <ElButton
+            type="success"
+            circle
+          >
+            <RouterLink
+              :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
+              style=" color:white !important;text-decoration: none !important;"
+            >
+              <VIcon
+                icon="tabler-edit"
+                size="20"
+              />
+            </RouterLink>
+          </ElButton>
         </template>
       </ElTableColumn>
     </ElTable>

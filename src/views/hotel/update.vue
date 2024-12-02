@@ -13,7 +13,7 @@
 import { useHotelStore } from "@/stores/tourism/hotelStore"
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import NewsForm from './form.vue'
+import NewsForm from './hotelForm.vue'
 
 const route = useRoute()
 

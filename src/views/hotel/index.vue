@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
 import { useHotelStore } from "@/stores/tourism/hotelStore"
-import HotelTable from "./table.vue"
+import HotelTable from "./hotelTable.vue"
 
 const configStore = useConfigStore()
 

@@ -1,28 +1,43 @@
 <template>
   <div>
-    <ElCard>
-      <div
-        v-for="(item, index) in awarenessData"
-        :key="index"
-        class="mb-5"
-      >
-        <QuillEditor
-          v-model:content="item.name"
-          content-type="html"
-          theme="snow"          
-          toolbar="full"
-        />
+    <ElCard class="my-4 ">
+      <b> Awareness Edit</b>
+    </ElCard>
+    <ElForm
+      label-width="auto"          
+      label-position="top"
+      class="py-4"
+    >
+      <VRow>
+        <VCol
+          v-for="(item, index) in awarenessData"
+          :key="index"
+          class="mb-5"
+        >
+          <ElCard>
+            <ElFormItem :label="index == 0 ? 'Bangla':'English'">
+              <div>
+                <QuillEditor
+                  v-model:content="item.name"
+                  content-type="html"
+                  theme="snow"          
+                  toolbar="full"
+                />
+              </div>
+            </ElFormItem>
+          </ElCard>
+        </VCol>
+      </VRow>
       
-        <div class="text-end py-4">
-          <ElButton
-            type="primary"
-            @click="updateAwarenessData"
-          >
-            Submit
-          </ElButton>
-        </div>
+      <div class="text-end py-4">
+        <ElButton
+          type="primary"
+          @click="updateAwarenessData"
+        >
+          Submit
+        </ElButton>
       </div>
-    </ElCard> 
+    </ElForm>
   </div>
 </template>
 
@@ -77,9 +92,17 @@ const getAwareness = async () => {
   }
 }
 
+const validationLock = ref(false)
 
 const updateAwarenessData = async () => {  
+  awarenessData.value[0].name.length <= 11 || awarenessData.value[1].name.length <= 11 ? validationLock.value = true : validationLock.value = false
+
   
+  if (validationLock.value) {
+    notify('Error!', 'Please fill all fields', 'error', 'top-right')
+    
+    return
+  }
   try {
    
 

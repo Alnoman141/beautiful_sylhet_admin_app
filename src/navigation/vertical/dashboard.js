@@ -82,6 +82,13 @@ export default [
     ],
   },
   {
+    title: 'Transport',
+    to: 'transportList',
+    icon: { icon: 'tabler-smart-home' },
+    subject: "Dashboard",
+    action: "show menu",
+  },
+  {
     title: 'Events',
     to: 'events',
     icon: { icon: 'tabler-smart-home' },
@@ -102,13 +109,7 @@ export default [
     subject: "Dashboard",
     action: "show menu",
   },
-  {
-    title: 'Transport',
-    to: 'transport',
-    icon: { icon: 'tabler-smart-home' },
-    subject: "Dashboard",
-    action: "show menu",
-  },
+ 
   
 
   {

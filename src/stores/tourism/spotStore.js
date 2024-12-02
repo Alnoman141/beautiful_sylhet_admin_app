@@ -1,4 +1,4 @@
-import { createSpot, deleteImage, editSpot, getSpot, getSpotDropdown, updateSpot } from '@/api/toruism/spot'
+import { createSpot, deleteImage, deleteSpot, editSpot, getSpot, getSpotDropdown, updateSpot } from '@/api/toruism/spot'
 import { defineStore } from 'pinia'
 
 export const useSpotStore = defineStore('spotStore', {
@@ -60,6 +60,19 @@ export const useSpotStore = defineStore('spotStore', {
     createSpot(data) {
       return new Promise((resolve, reject) => {
         createSpot(data)
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    // deleteSpot
+    deleteSpot(data) {
+      return new Promise((resolve, reject) => {
+        deleteSpot(data)
           .then(response => {
             resolve(response)
           })

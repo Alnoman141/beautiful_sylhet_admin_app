@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Tourist Spot Edit</b>
+      <b> Tourist Spot {{ mode == 'update' ? 'Edit' : 'Create' }}</b>
     </ElCard>
     
 
@@ -22,8 +22,13 @@
         <ElFormItem
           label="Link"
           prop="link"
+          :rules="{
+            required: true,
+            message: 'link can not be empty and should be like https://www.xyz.com',
+            trigger: 'blur',
+          }"
         >
-          <ElInput v-model="ruleForm.link"  />
+          <ElInput v-model="ruleForm.link"  placeholder="https://www.xyz.com"/>
 
         </ElFormItem>
         </VCol>          
@@ -34,35 +39,28 @@
           type="card"
           class="demo-tabs"    
         >
-          <el-tab-pane
-            v-for="(item, index) in ruleForm &&  ruleForm.spot ? ruleForm.spot : ruleForm.data" :key="index"
-            :label="index == 0 ? 'Bangla':'English'"
-            :name="item.name"
-          >
+          <VRow>
+            <VCol v-for="(item, index) in ruleForm &&  ruleForm.spot ? ruleForm.spot : ruleForm.data" :key="index">
+                <el-form-item  :label="index == 0 ? 'Bangla':'English'">
                 <fieldset   class="rounded py-2 px-2">
                   <legend class='mx-4'> <b>  {{index == 0 ? 'Bangla':'English'}} </b> </legend>
                   <VRow>
                     <VCol cols="12" md="6"   >
-                      
+                     
                     <ElFormItem
-                      label="Name"
-                      prop=""
+                      label="Name"                      
+                      :prop="ruleForm.spot ? 'spot.' + index + '.name' : 'data.' + index + '.name'"
+                      :rules="{
+                        required: true,
+                        message: 'name can not be empty',
+                        trigger: 'blur',
+                      }"
                     >
                       <ElInput v-model="item.name"  />
 
                     </ElFormItem>
                     </VCol>
-                    <VCol cols="12" md="6"   >
-
-                    <ElFormItem
-                      label="Description"
-                      prop="description"
-                    >
-                      <ElInput v-model="item.description"  />
-
-                    </ElFormItem>
-                    </VCol>
-                    <VCol cols="12" md="6"   >
+                     <VCol cols="12" md="6"   >
 
                     <ElFormItem
                       label="Tagline"
@@ -79,14 +77,7 @@
                         <ElInput v-model="item.distance"  />
                       </ElFormItem>
                     </VCol>
-                    <VCol cols="12" md="6"   >
-                      <ElFormItem
-                        label="Travel Info"
-                        prop="travel_info"
-                      >
-                        <ElInput v-model="item.travel_info"  />
-                      </ElFormItem>
-                    </VCol>
+                   
                     <VCol cols="12" md="6"   >
                       <ElFormItem
                         label="Foods"
@@ -191,18 +182,48 @@
                         <ElInput v-model="item.risk_factor"  />
                       </ElFormItem>
                     </VCol>
+                     <VCol cols="12" >
+                      <ElFormItem
+                        label="Travel Info"
+                        :prop="ruleForm.spot ? 'spot.' + index + '.travel_info' : 'data.' + index + '.travel_info'"
+                        :rules="{
+                          required: true,
+                          message: 'travel_info can not be empty',
+                          trigger: 'blur',
+                        }"
+                      >
+                        <ElInput type="textarea" v-model="item.travel_info"  />
+                      </ElFormItem>
+                    </VCol>
+                    <VCol cols="12"    >
+
+                    <ElFormItem
+                      label="Description"
+                      :prop="ruleForm.spot ? 'spot.' + index + '.description' : 'data.' + index + '.description'"
+                      :rules="{
+                        required: true,
+                        message: 'description can not be empty',
+                        trigger: 'blur',
+                      }"
+                    >
+                      <ElInput type="textarea" v-model="item.description"  />
+
+                    </ElFormItem>
+                    </VCol>
+                   
+                    
 
                     
                   </VRow>
                 </fieldset>
-          </el-tab-pane>
-        </el-tabs>
-
-          
+                </el-form-item> 
+            </VCol>
+          </VRow>
+        </el-tabs>          
           <VRow>
             <VCol cols="12" md="6" class=" my-2">
                   <ElFormItem
-                    label="Image"
+                    label="Single Image"
                     prop="image">
                     <el-upload
                       class="upload-section"
@@ -211,7 +232,7 @@
                       :before-upload="beforeAvatarUpload"            
                     >
                       
-                      <div class="el-upload__text" @click="viewImage(ruleForm.image)">
+                      <div class="el-upload__text">
                         <el-icon v-if="!ruleForm.image" class="el-icon--upload"><upload-filled /></el-icon> 
                         <img :src="previewImage ? previewImage : ruleForm.image" alt="" height="60" width="60" class="border mt-2">                  
                         <el-icon  class="avatar-uploader-icon"><Plus /></el-icon> <br>
@@ -228,7 +249,7 @@
             </VCol>
             <VCol cols="12" md="6" class="d-flex justify-center my-2">
               <ElFormItem
-                  label="Images"
+                  label="Multiple Image"
                   prop="images">    
                   <el-upload
                       class="upload-demo"
@@ -250,7 +271,10 @@
                       </template>
                     </el-upload>                                                                 
               </ElFormItem>  
-              <VRow class="px-4">
+             
+            </VCol>
+          </VRow>      
+          <VRow class="px-4">
                       <VCol class="btn-section text-center mt-2 d-flex flex-column justify-center align-center" cols="12" md="3" v-for="(item,index) in ruleForm.images" :key="index"> 
                               
 
@@ -267,15 +291,13 @@
                       <VCol class="text-center mt-2" cols="12" md="3" v-for="(item,index) in  previewMultipleImage" :key="index">
                                 <img height="100" width="100" :src="item" alt="">
                       </VCol>
-              </VRow>
-            </VCol>
-          </VRow>                       
+          </VRow>                 
         <div class=" py-4 text-center">
           <ElButton
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
-            Create
+            {{mode}}
           </ElButton>
         
         </div>
@@ -297,14 +319,15 @@
 <script setup lang="ts">
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from '@/utils/notification';
-import { Delete, UploadFilled } from '@element-plus/icons-vue';
+import { UploadFilled } from '@element-plus/icons-vue';
 import type { UploadProps } from 'element-plus';
 import { ElMessage, type ComponentSize, type FormInstance, type FormRules } from 'element-plus';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+
 const emit = defineEmits(["getEmit"]);
 const route = useRoute()
-
+const router = useRouter()
 const props = defineProps({
   ruleForm: {
     type: Object,
@@ -403,6 +426,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
         emit('getEmit')
       ) : ''
+       router.push({name:'touristSpot'}) 
     } else {
       console.log('error submit!', fields)
     }

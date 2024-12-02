@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Hotel Type Create </b>
+      <b> Hotel Type {{ mode == 'update' ? "Edit" : "Create" }} </b>
     </ElCard>
     <ElCard>
       <ElForm
@@ -18,15 +18,13 @@
 
       
        
-        <el-tabs
-          type="card"
-          class="demo-tabs"    
+        <VRow
+             
         >
-          <el-tab-pane
+          <VCol
           
             v-for="(item, index) in ruleForm && ruleForm.types ? ruleForm.types : ruleForm.data" :key="index"
-            :label="index == 0 ? 'Bangla':'English'"
-            :name="index == 0 ? 'Bangla':'English'"
+            
           >
                 <fieldset   class="rounded py-2 px-2">
                   <legend class='mx-4'> <b>  {{index == 0 ? 'Bangla':'English'}} </b> </legend>
@@ -44,8 +42,8 @@
                     
                   </VRow>
                 </fieldset>
-          </el-tab-pane>
-        </el-tabs>
+          </VCol>
+        </VRow>
 
           
                                 
@@ -54,7 +52,7 @@
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
-            Create
+            {{mode}}
           </ElButton>
         
         </div>
@@ -70,10 +68,10 @@ import { useHotelTypeStore } from "@/stores/tourism/hotelTypeStore";
 import { notify } from '@/utils/notification';
 import { type ComponentSize, type FormInstance, type FormRules } from 'element-plus';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const emit = defineEmits(["getEmit"]);
 const route = useRoute()
-
+const router = useRouter()
 const props = defineProps({
   ruleForm: {
     type: Object,
@@ -113,6 +111,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
         emit('getEmit')
       ) : ''
+      router.push({name:'hotelTypeList'})
     } else {
       console.log('error submit!', fields)
     }

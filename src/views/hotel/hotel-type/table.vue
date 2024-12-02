@@ -29,15 +29,25 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton>
-            <RouterLink :to="{ name: 'editHotelType', params: { id: scope.row.parent_id } }">
+          <ElButton
+            circle
+            type="success"
+          >
+            <RouterLink
+              style="color:white"
+              :to="{ name: 'editHotelType', params: { id: scope.row.parent_id } }"
+            >
               <VIcon
                 icon="tabler-edit"
                 size="20"
               />
             </RouterLink>
           </ElButton>
-          <ElButton @click="deleteHotelType(scope.row.parent_id)">
+          <ElButton
+            type="danger"
+            circle
+            @click="showAlert(scope.row.parent_id)"
+          >
             <VIcon
               icon="tabler-trash"
               size="20"
@@ -105,5 +115,23 @@ const deleteHotelType = async item => {
   catch(err){
     console.log(err)
   }
+}
+
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const showAlert = item => {
+  ElMessageBox.alert('Are you sure that you want to delete this news ?', 'Delete', {
+    confirmButtonText: 'Delete',
+    confirmButtonClass: 'el-button--danger',
+    callback: action => {
+      ElMessage({
+        type: 'info',
+        message: `action: ${action}`,
+      })
+
+      console.log("action", action)
+      action == 'confirm' ? deleteHotelType(item) : ''
+    },
+  })
 }
 </script>

@@ -13,7 +13,7 @@
 import { useLockerStore } from "@/stores/tourism/lockerStore"
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import NewsForm from './newsForm.vue'
+import NewsForm from './lockerForm.vue'
 
 const route = useRoute()
 
