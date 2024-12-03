@@ -1,22 +1,29 @@
 <template>
   <div>
-    <ElCard>
-      <div class="text-end my-4">
-        <RouterLink
-          type="primary"
-          :underline="false"          
+    <ElCard class=" my-4">
+      <VRow>
+        <VCol>
+          <b> Transport List</b>
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
           
-          :to="{ name: 'createTransport'}"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          :limit="3"
-          :on-exceed="handleExceed"
-          class="create-btn "
-        >
-          Create  Transport
-        </RouterLink>
-      </div>
+            :to="{ name: 'createTransport'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+            Create  Transport
+          </RouterLink>
+        </VCol>
+      </VRow>
+    </ElCard>
+    <ElCard>
       <div class="mb-5">
         <NewsTable
           :filter-table-data="spotList"

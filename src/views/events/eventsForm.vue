@@ -1,8 +1,31 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+      <VRow>
+        <VCol>
+          <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+      </VCol>
+      
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
+          
+            :to="{ name: 'eventsList'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+              Event List
+          </RouterLink>
+        </VCol>
+        
+      </VRow>
     </ElCard>
+
     <ElCard>
       <ElForm
         ref="ruleFormRef"
@@ -308,5 +331,12 @@ onMounted(() => {
   
 }
 
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
+}
 
 </style>

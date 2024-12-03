@@ -22,16 +22,19 @@
 
 
       <!-- Action Buttons Column -->
-      <ElTableColumn align="right">
+      <ElTableColumn
+        align="left"
+        width="100"
+      >
         <template #header>
-          <div class="text-right">
+          <div class="text-left">
             Actions
           </div>
         </template>
         <template #default="scope">
           <ElButton
             type="success"
-            circle
+            size="small"
           >
             <RouterLink
               :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"

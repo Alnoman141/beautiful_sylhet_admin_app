@@ -1,22 +1,29 @@
 <template>
   <div>
-    <ElCard>
-      <div class="text-end my-4">
-        <RouterLink
-          type="primary"
-          :underline="false"          
+    <ElCard class=" my-4">
+      <VRow>
+        <VCol>
+          <b> Locker List</b>
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
           
-          :to="{ name: 'createLocker'}"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          :limit="3"
-          :on-exceed="handleExceed"
-          class="create-btn "
-        >
-          Create  Locker
-        </RouterLink>
-      </div>
+            :to="{ name: 'createLocker'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+            Create  Locker
+          </RouterLink>
+        </VCol>
+      </VRow>
+    </ElCard>
+    <ElCard>
       <div class="mb-5">
         <NewsTable
           :filter-table-data="spotList"

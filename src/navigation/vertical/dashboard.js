@@ -9,28 +9,30 @@ export default [
   {
     title: 'Guide Line',
     to: 'guide-line',
-    icon: { icon: 'tabler-smart-home' },
+
+    // need an icon for guideline
+    icon: { icon: 'tabler-arrow-bear-right' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'Awareness',
     to: 'awareness',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-speakerphone' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'Tourist Spot',
     to: 'touristSpot',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-map' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'News',
     to: 'newsList',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-brand-flipboard' },
     subject: "Dashboard",
     action: "show menu",
   },
@@ -38,29 +40,23 @@ export default [
   {
     title: 'Locker',
     to: 'lockerList',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-lock-square-rounded' },
     subject: "Dashboard",
     action: "show menu",
   },
 
-  // {
-  //   title: 'Hotel',
-  //   to: 'hotel',
-  //   icon: { icon: 'tabler-smart-home' },
-  //   subject: "Dashboard",
-  //   action: "show menu",
-  // },
+  
   {
     title: 'Hotel',
     to: 'hotelList',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-building-skyscraper' },
     subject: "Dashboard",
     action: "show menu",
     children: [
       {
         title: 'Hotels',
         to: 'hotelList',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-building-skyscraper' },
         subject: "Dashboard",
         action: "show menu",
       },
@@ -68,14 +64,14 @@ export default [
       {
         title: 'Type',
         to: 'hotelTypeList',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-list' },
         subject: "Dashboard",
         action: "show menu",
       },
       {
         title: 'Category',
         to: 'hotelCategoryList',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-category' },
         subject: "Dashboard",
         action: "show menu",
       },
@@ -84,23 +80,48 @@ export default [
   {
     title: 'Transport',
     to: 'transportList',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-bus' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'Events',
     to: 'events',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-ticket' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'Campaign',
     to: 'campaign',
+    icon: { icon: 'tabler-brand-campaignmonitor' },
+    subject: "Dashboard",
+    action: "show menu",
+  },
+  {
+    title: 'Banks & ATM',
+    to: 'bank',
     icon: { icon: 'tabler-smart-home' },
     subject: "Dashboard",
     action: "show menu",
+    children: [
+      
+      {
+        title: 'Bank',
+        to: 'bankList',
+        icon: { icon: 'tabler-smart-home' },
+        subject: "Dashboard",
+        action: "show menu",
+      },
+
+      {
+        title: 'ATM',
+        to: 'atmList',
+        icon: { icon: 'tabler-smart-home' },
+        subject: "Dashboard",
+        action: "show menu",
+      },
+    ],
   },
   {
     title: 'Coxs bazar Info',
@@ -112,30 +133,7 @@ export default [
  
   
 
-  {
-    title: 'Banks & ATM',
-    to: 'bank',
-    icon: { icon: 'tabler-smart-home' },
-    subject: "Dashboard",
-    action: "show menu",
-    children: [
-      
-      {
-        title: 'Bank',
-        to: 'bank',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-      {
-        title: 'ATM',
-        to: 'atm',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-    ],
-  },
+ 
  
   {
     title: 'Emergency',

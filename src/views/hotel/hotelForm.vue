@@ -1,8 +1,25 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Hotel {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+      <VRow>
+        <VCol>
+          <b> Hotel {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"                    
+            :to="{ name: 'hotelList'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            class="create-btn "
+            >
+            Hotel List</RouterLink>
 
+        </VCol>
+      </VRow>
       
     </ElCard>
     <ElCard>
@@ -384,6 +401,14 @@ onMounted(() => {
 .btn-section:hover  .dlt-btn{
   display: block;
   
+}
+
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
 }
 
 

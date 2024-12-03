@@ -71,15 +71,15 @@ export const routes = [
   },
 
   
-  // {
-  //   path: '/locker',
-  //   name: 'locker',
-  //   component: () => import('@/views/locker/index.vue'),
-  //   meta: {
-  //     subject: "Dashboard",
-  //     action: "show menu",
-  //   },
-  // },
+  {
+    path: '/locker',
+    name: 'locker',
+    component: () => import('@/views/locker/index.vue'),
+    meta: {
+      subject: "Dashboard",
+      action: "show menu",
+    },
+  },
   {
     path: '/hotel',
     name: 'hotel',

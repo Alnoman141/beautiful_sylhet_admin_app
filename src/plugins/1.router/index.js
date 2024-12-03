@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 import { redirects, routes } from './additional-routes'
 import { setupGuards } from './guards'
 
+import { atmRoutes } from './atm'
 import { bankRoutes } from './bank'
 import { campaignRoutes } from './campaign'
 import { emergencyRoutes } from './emergency'
@@ -44,7 +45,6 @@ const router = createRouter({
       ...settingRoutes,
       ...newsRoutes,
       ...emergencyRoutes,
-      ...bankRoutes,
       ...spotRoutes,
       ...lockerRoutes,
       ...hotelRoutes,
@@ -53,6 +53,8 @@ const router = createRouter({
       ...transportRoutes,
       ...eventsRoutes,
       ...campaignRoutes,
+      ...bankRoutes,
+      ...atmRoutes,
     ].map(route => recursiveLayouts(route)),
   ],
 })

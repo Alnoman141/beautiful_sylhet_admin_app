@@ -1,7 +1,27 @@
 <template>
   <div>
-    <ElCard class="my-4 ">
+    <ElCard class="my-4">
+      <VRow>
+        <VCol cols="6">
       <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+      </VCol>
+      <VCol cols="6" class="text-right">
+      <RouterLink
+        type="primary"
+        :underline="false"          
+          
+        :to="{ name: 'campaignList'}"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        :limit="3"
+        :on-exceed="handleExceed"
+        class="create-btn "
+      >
+        Campaign List
+      </RouterLink>
+      </VCol>
+      </VRow>
     </ElCard>
     <ElCard>
       <ElForm
@@ -51,9 +71,8 @@
                 </fieldset>            
           </VCol>
         </VRow>
-           <VRow>
-        
-            <VCol cols="12" md="6" class=" my-2">
+        <VRow>
+          <VCol cols="12" md="6" class=" my-2">
                   <ElFormItem
                     label="Image"
                     prop="image">
@@ -79,12 +98,8 @@
                       </template>
                     </el-upload>   
                   </ElFormItem>           
-            </VCol>
-            
-          </VRow>   
-        
-          
-                                
+          </VCol>
+        </VRow>                         
         <div class=" py-4 text-center">
           <ElButton
             type="primary"
@@ -108,12 +123,12 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from '@/utils/notification';
 import { type ComponentSize, type FormInstance, type FormRules } from 'element-plus';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const spotStore = useSpotStore()
 const emit = defineEmits(["getEmit"]);
 const route = useRoute()
-
+const router = useRouter()
 const props = defineProps({
   ruleForm: {
     type: Object,
@@ -157,6 +172,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
         emit('getEmit')
       ) : ''
+      data.status_code == 200 ? router.push({ name: 'campaignList' }) : ''
     } else {
       console.log('error submit!', fields)
     }
@@ -199,6 +215,14 @@ const viewImage = (item)=>{
 </script>
 
 <style scoped>
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
+}
+
 .upload-section{
   display: block;
   text-align: center;

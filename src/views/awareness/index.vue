@@ -1,5 +1,12 @@
 <template>
   <div>
+    <ElCard class="my-4 ">
+      <VRow>
+        <VCol>
+          <b> Awareness </b>
+        </VCol>
+      </VRow>
+    </ElCard>
     <ElCard>
       <div class="mb-5">
         <!-- {{ awarenessList }} -->

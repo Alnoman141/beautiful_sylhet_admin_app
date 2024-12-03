@@ -1,1 +1,0 @@
-import{_ as o}from"./_plugin-vue_export-helper-c27b6911.js";import{b as a,o as c,B as s,C as t,h as _}from"./index-e8127dba.js";const d={},n=e=>(s("data-v-ccaf3abd"),e=e(),t(),e),p=n(()=>_("h1",null,"Admin Dashboard",-1)),r=[p];function i(e,f,l,u,h,m){return c(),a("div",null,r)}const v=o(d,[["render",i],["__scopeId","data-v-ccaf3abd"]]);export{v as default};

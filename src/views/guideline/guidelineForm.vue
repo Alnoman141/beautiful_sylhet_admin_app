@@ -1,7 +1,27 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Guideline Edit</b>
+      <VRow>
+        <VCol>
+          <b> Guideline Edit </b>
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
+          
+            :to="{ name: 'guide-line'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+            Guideline List
+          </RouterLink>
+        </VCol>
+      </VRow>
     </ElCard>
     <ElForm
       label-width="auto"          
@@ -123,3 +143,14 @@ onMounted(() => {
   
 })
 </script>
+
+
+<style scoped>
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
+}
+</style>

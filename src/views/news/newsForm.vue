@@ -1,7 +1,28 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Tourist Spot Edit</b>
+      <VRow>
+        <VCol>
+                <b> Tourist Spot {{ mode == 'update' ? 'Edit' : 'Create' }}</b>
+
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
+          
+            :to="{ name: 'newsList'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+            News List
+          </RouterLink>
+        </VCol>
+      </VRow>
     </ElCard>
     
 
@@ -186,5 +207,12 @@ onMounted(() => {
   
 }
 
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
+}
 
 </style>

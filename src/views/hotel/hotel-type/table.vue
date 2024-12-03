@@ -22,15 +22,18 @@
 
 
       <!-- Action Buttons Column -->
-      <ElTableColumn align="right">
+      <ElTableColumn
+        align="left"
+        width="180"
+      >
         <template #header>
-          <div class="text-right">
+          <div class="text-left">
             Actions
           </div>
         </template>
         <template #default="scope">
           <ElButton
-            circle
+            size="small"
             type="success"
           >
             <RouterLink
@@ -45,7 +48,7 @@
           </ElButton>
           <ElButton
             type="danger"
-            circle
+            size="small"
             @click="showAlert(scope.row.parent_id)"
           >
             <VIcon

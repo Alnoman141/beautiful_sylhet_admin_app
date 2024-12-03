@@ -1,7 +1,27 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Awareness Edit</b>
+      <VRow>
+        <VCol>
+          <b> Awareness Edit </b>
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
+          
+            :to="{ name: 'awareness'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+            Awareness List
+          </RouterLink>
+        </VCol>
+      </VRow>
     </ElCard>
     <ElForm
       label-width="auto"          
@@ -126,3 +146,13 @@ onMounted(() => {
   
 })
 </script>
+
+<style scoped>
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
+}
+</style>

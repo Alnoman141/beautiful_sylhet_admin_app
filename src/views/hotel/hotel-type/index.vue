@@ -1,22 +1,30 @@
 <template>
   <div>
-    <ElCard>
-      <div class="text-end my-4">
-        <RouterLink
-          type="primary"
-          :underline="false"          
+    <ElCard class=" my-4">
+      <VRow>
+        <VCol>
+          <b> Hotel Type List</b>
+        </VCol>
+        <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
           
-          :to="{ name: 'createHotelType'}"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          :limit="3"
-          :on-exceed="handleExceed"
-          class="create-btn "
-        >
-          Create  Hotel Type
-        </RouterLink>
-      </div>
+            :to="{ name: 'createHotelType'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+            Create  Hotel Type
+          </RouterLink>
+        </VCol>
+      </VRow>
+    </ElCard>
+
+    <ElCard>
       <div class="mb-5">
         <NewsTable
           :filter-table-data="spotList"

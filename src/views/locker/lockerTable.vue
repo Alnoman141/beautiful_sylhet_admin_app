@@ -22,15 +22,18 @@
 
 
       <!-- Action Buttons Column -->
-      <ElTableColumn align="right">
+      <ElTableColumn
+        align="right"
+        width="180"
+      >
         <template #header>
-          <div class="text-right">
+          <div class="text-left">
             Actions
           </div>
         </template>
         <template #default="scope">
           <ElButton
-            circle
+            size="small"
             type="primary"
           >
             <RouterLink
@@ -44,7 +47,7 @@
             </RouterLink>
           </ElButton>
           <ElButton
-            circle
+            size="small"
             type="danger"
             @click="showAlert(scope.row.locker_parent_id)"
           >

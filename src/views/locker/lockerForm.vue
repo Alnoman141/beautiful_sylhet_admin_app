@@ -1,7 +1,27 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+      <VRow>
+      <VCol>
+         <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
+      </VCol>
+      <VCol class="text-right">
+          <RouterLink
+            type="primary"
+            :underline="false"          
+          
+            :to="{ name: 'lockerList'}"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="3"
+            :on-exceed="handleExceed"
+            class="create-btn "
+          >
+              Locker List
+          </RouterLink>
+        </VCol>
+      </VRow>
     </ElCard>
     <ElCard>
       <ElForm
@@ -229,6 +249,14 @@ onMounted(() => {
 .btn-section:hover  .dlt-btn{
   display: block;
   
+}
+
+.create-btn {
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px; 
 }
 
 
