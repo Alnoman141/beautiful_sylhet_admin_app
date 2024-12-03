@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElCard class="my-4 ">
-      <b> Locker Create </b>
+      <b> Locker {{mode == 'update' ? 'Edit' : 'Create'}} </b>
     </ElCard>
     <ElCard>
       <ElForm
@@ -163,7 +163,7 @@
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
-            Create
+            {{mode}}
           </ElButton>
         
         </div>

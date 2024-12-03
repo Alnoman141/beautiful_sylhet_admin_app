@@ -29,15 +29,25 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton>
-            <RouterLink :to="{ name: 'editCampaign', params: { id: scope.row.parent_id } }">
+          <ElButton
+            circle
+            type="success"
+          >
+            <RouterLink
+              style="color:white"
+              :to="{ name: 'editCampaign', params: { id: scope.row.parent_id } }"
+            >
               <VIcon
                 icon="tabler-edit"
                 size="20"
               />
             </RouterLink>
           </ElButton>
-          <ElButton @click="showAlert(scope.row.parent_id)">
+          <ElButton
+            circle
+            type="danger"
+            @click="showAlert(scope.row.parent_id)"
+          >
             <VIcon
               icon="tabler-trash"
               size="20"
