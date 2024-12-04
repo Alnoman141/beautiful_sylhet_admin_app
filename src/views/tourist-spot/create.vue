@@ -21,7 +21,9 @@ const ruleForm = ref({
   // starts from here
   
   image: '',
-  link: '',
+  link: [{
+    link: '',
+  }],
   images: [],
   data: [
     {

@@ -7,16 +7,21 @@ import { setupGuards } from './guards'
 import { atmRoutes } from './atm'
 import { bankRoutes } from './bank'
 import { campaignRoutes } from './campaign'
-import { emergencyRoutes } from './emergency'
+import { doctorRoutes } from './doctor'
 import { eventsRoutes } from './events'
+import { guardRoutes } from './guard'
 import { hotelRoutes } from './hotel'
 import { hotelCategoryRoutes } from './hotelCategory'
 import { hotelTypeRoutes } from './hotelType'
 import { lockerRoutes } from './locker'
 import { newsRoutes } from './news'
+import { noticeRoutes } from './notice'
+import { policeRoutes } from './police'
+import { redZoneRoutes } from './redZone'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
 import { transportRoutes } from './transport'
+import { volunteerRoutes } from './volunteer'
 
 function recursiveLayouts(route) {
   if (route.children) {
@@ -43,8 +48,7 @@ const router = createRouter({
       ...pages,
       ...routes,
       ...settingRoutes,
-      ...newsRoutes,
-      ...emergencyRoutes,
+      ...newsRoutes,      
       ...spotRoutes,
       ...lockerRoutes,
       ...hotelRoutes,
@@ -55,6 +59,12 @@ const router = createRouter({
       ...campaignRoutes,
       ...bankRoutes,
       ...atmRoutes,
+      ...redZoneRoutes,
+      ...policeRoutes,
+      ...doctorRoutes,
+      ...guardRoutes,
+      ...volunteerRoutes,
+      ...noticeRoutes,
     ].map(route => recursiveLayouts(route)),
   ],
 })

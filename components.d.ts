@@ -51,6 +51,7 @@ declare module 'vue' {
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
+    QuillInput: typeof import('./src/components/quillInput.vue')['default']
     RooTable: typeof import('./src/components/tourism/rooTable.vue')['default']
     RootFormDynamicOne: typeof import('./src/components/tourism/rootFormDynamicOne.vue')['default']
     RootFormDynamicTwo: typeof import('./src/components/tourism/rootFormDynamicTwo.vue')['default']

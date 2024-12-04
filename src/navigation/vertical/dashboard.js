@@ -101,7 +101,7 @@ export default [
   {
     title: 'Banks & ATM',
     to: 'bank',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-building-bank' },
     subject: "Dashboard",
     action: "show menu",
     children: [
@@ -109,7 +109,7 @@ export default [
       {
         title: 'Bank',
         to: 'bankList',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-building-bank' },
         subject: "Dashboard",
         action: "show menu",
       },
@@ -117,11 +117,46 @@ export default [
       {
         title: 'ATM',
         to: 'atmList',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-cash-banknote' },
         subject: "Dashboard",
         action: "show menu",
       },
     ],
+  },
+  {
+    title: 'Red Zone',
+    to: 'redZoneList',
+    icon: { icon: 'tabler-alert-triangle' },
+    subject: "Dashboard",
+    action: "show menu",
+  },
+  {
+    title: 'Police',
+    to: 'policeList',
+    icon: { icon: 'tabler-shield-checkered' },
+    subject: "Dashboard",
+    action: "show menu",
+  },
+  {
+    title: 'Doctor',
+    to: 'doctorList',
+    icon: { icon: 'tabler-stethoscope' },
+    subject: "Dashboard",
+    action: "show menu",
+  },
+  {
+    title: 'Life Guard',
+    to: 'guardList',
+    icon: { icon: 'tabler-lifebuoy' },
+    subject: "Dashboard",
+    action: "show menu",
+  },
+  {
+    title: 'Beach Volunteer',
+    to: 'volunteerList',
+    icon: { icon: 'tabler-empathize' },
+    subject: "Dashboard",
+    action: "show menu",
   },
   {
     title: 'Coxs bazar Info',
@@ -130,58 +165,6 @@ export default [
     subject: "Dashboard",
     action: "show menu",
   },
- 
-  
-
- 
- 
-  {
-    title: 'Emergency',
-    to: 'emergency',
-    icon: { icon: 'tabler-smart-home' },
-    subject: "Dashboard",
-    action: "show menu",
-    children: [
-      
-      {
-        title: 'Tourist Police',
-        to: 'touristPolice',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-      {
-        title: 'Red Zone',
-        to: 'RedZone',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-      {
-        title: 'Doctor',
-        to: 'doctor',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-      {
-        title: 'Life Guard',
-        to: 'lifeGuard',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-      {
-        title: 'Volunteer',
-        to: 'volunteer',
-        icon: { icon: 'tabler-smart-home' },
-        subject: "Dashboard",
-        action: "show menu",
-      },
-      
-    ],
-  },
- 
   {
     title: 'Settings',
     to: 'settings',
@@ -208,7 +191,7 @@ export default [
   },
   {
     title: 'Notice',
-    to: 'notice',
+    to: 'noticeList',
     icon: { icon: 'tabler-smart-home' },
     subject: "Dashboard",
     action: "show menu",

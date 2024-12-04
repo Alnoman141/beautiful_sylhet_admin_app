@@ -119,21 +119,30 @@ export const routes = [
   {
     path: '/info',
     name: 'info',
-    component: () => import('@/views/info/index.vue'),
+    component: () => import('@/views/coxbazar-info/index.vue'),
     meta: {
       subject: "Dashboard",
       action: "show menu",
     },
   },
- 
- 
   {
-    path: '/notice',
-    name: 'notice',
-    component: () => import('@/views/notice/index.vue'),
+    path: '/info-edit',
+    name: 'infoEdit',
+    component: () => import('@/views/coxbazar-info/infoForm.vue'),
     meta: {
       subject: "Dashboard",
       action: "show menu",
     },
   },
+ 
+ 
+  // {
+  //   path: '/notice',
+  //   name: 'notice',
+  //   component: () => import('@/views/notice/index.vue'),
+  //   meta: {
+  //     subject: "Dashboard",
+  //     action: "show menu",
+  //   },
+  // },
 ]
