@@ -40,7 +40,7 @@
         <template #default="scope">
           <ElButton
             size="small"
-            type="primary"
+            type="success"
           >
             <RouterLink
               style="color:white"
