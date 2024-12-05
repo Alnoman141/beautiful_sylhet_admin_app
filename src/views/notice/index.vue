@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
 import { useNoticeStore } from "@/stores/tourism/noticeStore"
-import EventsTable from "./campaignTable.vue"
+import EventsTable from "./noticeTable.vue"
 
 const configStore = useConfigStore()
 
@@ -52,7 +52,7 @@ const spotList = ref([])
 const columns = ref( [
   { label: 'ID', prop: 'parent_id', sortable: true },
   { label: 'Name', prop: 'name', sortable: true },        
-  { label: 'Description', prop: 'description', sortable: true },        
+        
 ])
 
 const getCampaignList = async () => {

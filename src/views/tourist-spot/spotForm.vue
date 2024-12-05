@@ -35,48 +35,6 @@
         status-icon
       >
         <VRow>
-          <VCol cols="12" v-for="(item, index) in ruleForm.link" :key="index">
-            <ElFormItem
-              label="Video Link"
-              :prop="'link.' + index + '.link'"
-              :rules="{
-                required: true,
-                message:
-                  'link can not be empty and should be like https://www.xyz.com',
-                trigger: 'blur',
-              }"
-            >
-              <VRow>
-                <VCol cols="10">
-                  <ElInput
-                    v-model="item.link"
-                    placeholder="https://www.xyz.com"
-                  />
-                </VCol>
-                <VCol>
-                  <ElButton
-                    v-if="index == 0"
-                    size="small"
-                    type="success"
-                    @click="addLink"
-                  >
-                    <VIcon icon="tabler-plus" size="20" />
-                  </ElButton>
-                  <ElButton
-                    v-if="index != 0"
-                    size="small"
-                    type="danger"
-                    @click="removeLink"
-                  >
-                    <VIcon icon="tabler-minus" size="20" />
-                  </ElButton>
-                </VCol>
-              </VRow>
-            </ElFormItem>
-          </VCol>
-        </VRow>
-
-        <VRow>
           <VCol
             v-for="(item, index) in ruleForm && ruleForm.spot
               ? ruleForm.spot
@@ -98,7 +56,7 @@
                     "
                     :rules="{
                       required: true,
-                      message: 'name can not be empty',
+                      message: 'name is required',
                       trigger: 'blur',
                     }"
                   >
@@ -106,88 +64,43 @@
                   </ElFormItem>
                 </VCol>
                 <VCol cols="12" md="6">
-                  <ElFormItem label="Tagline" prop="tagline">
+                  <ElFormItem label="Tagline" :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.tag_line'
+                        : 'data.' + index + '.tag_line'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'tag_line is required',
+                      trigger: 'blur',
+                    }">
                     <ElInput v-model="item.tag_line" />
                   </ElFormItem>
                 </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Distance" prop="distance">
-                    <ElInput v-model="item.distance" />
-                  </ElFormItem>
-                </VCol>
-
-                <VCol cols="12" >
-                  <ElFormItem label="Foods" prop="foods">
-                    <!-- <ElInput v-model="item.foods" /> -->
-                    <el-card>
-                    <QuillEditor
-                      v-model:content="item.foods"
-                      content-type="html"
-                      theme="snow"
-                      toolbar="full"
-                    />
-                    </el-card>
-                  </ElFormItem>
-                </VCol>
-                <!-- visiting_time -->
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Visiting Time" prop="visiting_time">
-                    <el-time-select
-                      v-model="item.visiting_time"
-                      start="00:00"
-                      step="00:60"
-                      end="24:00"
-                      placeholder="Select time"
-                    />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Rides" prop="rides">
-                    <ElInput v-model="item.rides" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Fair" prop="fair">
-                    <ElInput v-model="item.fair" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Details" prop="details">
-                    <ElInput v-model="item.details" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Safety Guideline" prop="safety_guideline">
-                    <ElInput v-model="item.safety_guideline" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Tourist Places" prop="tourist_places">
-                    <ElInput v-model="item.tourist_places" />
-                  </ElFormItem>
-                </VCol>
-
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Hazard Info" prop="hazard_info">
-                    <ElInput v-model="item.hazard_info" />
-                  </ElFormItem>
-                </VCol>
-
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Advice" prop="advice">
-                    <ElInput v-model="item.advice" />
-                  </ElFormItem>
-                </VCol>
-
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Others Info" prop="others_info">
-                    <ElInput v-model="item.others_info" />
-                  </ElFormItem>
-                </VCol>
-
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Risk Factor" prop="risk_factor">
-                    <ElInput v-model="item.risk_factor" />
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Distance"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.distance'
+                        : 'data.' + index + '.distance'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'Distance is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.distance" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="distanceEditorRef"
+                        v-model:content="item.distance"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
                   </ElFormItem>
                 </VCol>
                 <VCol cols="12">
@@ -200,13 +113,315 @@
                     "
                     :rules="{
                       required: true,
-                      message: 'travel_info can not be empty',
+                      message: 'travel info is required',
                       trigger: 'blur',
                     }"
                   >
-                    <ElInput type="textarea" v-model="item.travel_info" />
+                    <!-- <ElInput type="textarea" v-model="item.travel_info" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="travelInfoEditorRef"
+                        v-model:content="item.travel_info"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
                   </ElFormItem>
                 </VCol>
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Fair"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.fair'
+                        : 'data.' + index + '.fair'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'fair is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.fair" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="fairEditorRef"
+                        v-model:content="item.fair"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Foods"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.foods'
+                        : 'data.' + index + '.foods'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'foods is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.foods" /> -->
+                    <el-card>
+                      <QuillEditor
+                        ref="foodsEditorRef"
+                        v-model:content="item.foods"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </el-card>
+                  </ElFormItem>
+                </VCol>
+                <!-- visiting_time -->
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Visiting Time"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.visiting_time'
+                        : 'data.' + index + '.visiting_time'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'visiting time is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <div>
+                      <QuillEditor
+                        ref="visitingTimeEditorRef"
+                        v-model:content="item.visiting_time"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Rides"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.rides'
+                        : 'data.' + index + '.rides'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'rides is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <div>
+                      <QuillEditor
+                        ref="ridesEditorRef"
+                        v-model:content="item.rides"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Details"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.details'
+                        : 'data.' + index + '.details'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'details is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.details" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="detailsEditorRef"
+                        v-model:content="item.details"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Safety Guideline"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.guideline'
+                        : 'data.' + index + '.guideline'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'guideline is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.safety_guideline" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="safetyGuidelineEditorRef"
+                        v-model:content="item.safety_guideline"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Tourist Places"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.tourist_places'
+                        : 'data.' + index + '.tourist_places'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'tourist places is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.tourist_places" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="touristPlacesEditorRef"
+                        v-model:content="item.tourist_places"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Hazard Info"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.hazard_infos'
+                        : 'data.' + index + '.hazard_infos'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'hazard infos is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.hazard_info" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="hazardInfoEditorRef"
+                        v-model:content="item.hazard_info"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Advice"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.advice'
+                        : 'data.' + index + '.advice'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'advice is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.advice" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="adviceEditorRef"
+                        v-model:content="item.advice"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Others Info"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.others_info'
+                        : 'data.' + index + '.others_info'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'others info is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.others_info" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="otherInfoEditorRef"
+                        v-model:content="item.others_info"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Risk Factor"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.risk_factor'
+                        : 'data.' + index + '.risk_factor'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'risk factor is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.risk_factor" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="riskFactorEditorRef"
+                        v-model:content="item.risk_factor"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
+                  </ElFormItem>
+                </VCol>
+
                 <VCol cols="12">
                   <ElFormItem
                     label="Description"
@@ -217,11 +432,20 @@
                     "
                     :rules="{
                       required: true,
-                      message: 'description can not be empty',
+                      message: 'description is required',
                       trigger: 'blur',
                     }"
                   >
-                    <ElInput type="textarea" v-model="item.description" />
+                    <!-- <ElInput type="textarea" v-model="item.description" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="descriptionEditorRef"
+                        v-model:content="item.description"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
                   </ElFormItem>
                 </VCol>
               </VRow>
@@ -231,7 +455,15 @@
 
         <VRow>
           <VCol cols="12" md="6" class="my-2">
-            <ElFormItem label="Single Image" prop="image">
+            <ElFormItem
+              label="Single Image"
+              prop="ruleForm.image"
+              :rules="{
+                required: true,
+                message: 'image required',
+                trigger: 'blur',
+              }"
+            >
               <el-upload
                 class="upload-section"
                 drag
@@ -248,6 +480,7 @@
                     height="60"
                     width="60"
                     class="border mt-2"
+                    v-if="ruleForm.image || previewImage"
                   />
                   <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
                   <br />
@@ -268,6 +501,7 @@
                 drag
                 action="#"
                 multiple
+                :limit="10"
                 :auto-upload="false"
                 :on-change="onFileChangeMultiple"
                 :before-upload="beforeAvatarUpload"
@@ -282,6 +516,60 @@
                   </div>
                 </template>
               </el-upload>
+            </ElFormItem>
+          </VCol>
+        </VRow>
+        <VRow>
+          <VCol cols="12" v-for="(item, index) in ruleForm.link" :key="index">
+            <ElFormItem
+              label="Video Link"
+              :prop="'link.' + index + '.link'"
+              :rules="[
+                {
+                  required: true,
+                  message:
+                    'link required',
+                  trigger: 'blur',
+                },
+                {
+                  type: 'url',
+                  message: 'link is required and should be like https://www.xyz.com',
+                  trigger: ['blur', 'change'],
+                },
+              ]"
+            >
+              <VRow>
+                <VCol cols="10">
+                  <ElInput
+                    v-model="item.link"
+                    placeholder="https://www.xyz.com"
+                  />
+                </VCol>
+                <VCol>
+                  <ElButton
+                    v-if="
+                      (index == 0 && ruleForm.link.length == 1) ||
+                      (index == ruleForm.link.length - 1 && index != 0)
+                    "
+                    size="small"
+                    type="success"
+                    @click="addLink"
+                  >
+                    <VIcon icon="tabler-plus" size="20" />
+                  </ElButton>
+                  <ElButton
+                    v-if="
+                      (index != 0 && index != ruleForm.link.length - 1) ||
+                      (index == 0 && ruleForm.link.length > 1)
+                    "
+                    size="small"
+                    type="danger"
+                    @click="removeLink"
+                  >
+                    <VIcon icon="tabler-minus" size="20" />
+                  </ElButton>
+                </VCol>
+              </VRow>
             </ElFormItem>
           </VCol>
         </VRow>
@@ -315,9 +603,21 @@
             <img height="100" width="100" :src="item" alt="" />
           </VCol>
         </VRow>
-        <div class="py-4 text-center">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+        <div class="py-4 text-start">
+          <ElButton
+            class="submit-btn"
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
             {{ mode }}
+          </ElButton>
+          <ElButton
+            v-if="mode == 'create'"
+            class="submit-btn"
+            type="secondary"
+            @click="resetForm(ruleFormRef)"
+          >
+            Reset
           </ElButton>
         </div>
       </ElForm>
@@ -341,7 +641,7 @@ import {
   type FormInstance,
   type FormRules,
 } from "element-plus";
-import { defineEmits, defineProps, reactive, ref } from "vue";
+import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const emit = defineEmits(["getEmit"]);
@@ -409,7 +709,7 @@ const rules = reactive<FormRules<RuleForm>>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   console.log("multpleTempImg.value ", multpleTempImg.value);
-  // multpleTempImg.value.length == 0 ? props.ruleForm.images = [] : props.ruleForm.images = multpleTempImg.value
+
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     const updatedData =
@@ -418,11 +718,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         : "";
 
     if (valid) {
-      // remove a key value from  array objects using map
-      props.ruleForm.images.map((e) => {
-        console.log("props.ruleForm.images", e.name);
-      });
-
       let form = {
         id: props.ruleForm.id,
         image: tempImg.value ? tempImg.value : "",
@@ -487,6 +782,77 @@ const addLink = () => {
 const removeLink = () => {
   props.ruleForm.link.pop();
 };
+// Function to reset fields
+
+const descriptionEditorRef = ref(null);
+const riskFactorEditorRef = ref(null);
+const otherInfoEditorRef = ref(null);
+const adviceEditorRef = ref(null);
+const hazardInfoEditorRef = ref(null);
+const touristPlacesEditorRef = ref(null);
+const safetyGuidelineEditorRef = ref(null);
+const detailsEditorRef = ref(null);
+const ridesEditorRef = ref(null);
+const visitingTimeEditorRef = ref(null);
+const foodsEditorRef = ref(null);
+const fairEditorRef = ref(null);
+const travelInfoEditorRef = ref(null);
+const distanceEditorRef = ref(null);
+const resetForm = (formEl: FormInstance | undefined) => {
+  // descriptionEditorRef.value.getHTML()
+  descriptionEditorRef.value.map((e) => e.setHTML(""));
+  riskFactorEditorRef.value.map((e) => e.setHTML(""));
+  otherInfoEditorRef.value.map((e) => e.setHTML(""));
+  adviceEditorRef.value.map((e) => e.setHTML(""));
+  hazardInfoEditorRef.value.map((e) => e.setHTML(""));
+  touristPlacesEditorRef.value.map((e) => e.setHTML(""));
+  safetyGuidelineEditorRef.value.map((e) => e.setHTML(""));
+  detailsEditorRef.value.map((e) => e.setHTML(""));
+  ridesEditorRef.value.map((e) => e.setHTML(""));
+  visitingTimeEditorRef.value.map((e) => e.setHTML(""));
+  foodsEditorRef.value.map((e) => e.setHTML(""));
+  fairEditorRef.value.map((e) => e.setHTML(""));
+  travelInfoEditorRef.value.map((e) => e.setHTML(""));
+  distanceEditorRef.value.map((e) => e.setHTML(""));
+
+  if (!formEl) return;
+  formEl.resetFields();
+  props.ruleForm.data.map((e) => {
+    e.description = null;
+    e.description = null;
+    e.tag_line = null;
+    e.distance = null;
+    e.travel_info = null;
+    e.foods = null;
+    e.visiting_time = null;
+    e.rides = null;
+    e.fair = null;
+    e.details = null;
+    e.safety_guideline = null;
+    e.tourist_places = null;
+    e.hazard_info = null;
+    e.advice = null;
+    e.others_info = null;
+    e.risk_factor = null;
+  });
+
+  onMounted(() => {
+    descriptionEditorRef.value.map((e) => e.setHTML(""));
+    riskFactorEditorRef.value.map((e) => e.setHTML(""));
+    otherInfoEditorRef.value.map((e) => e.setHTML(""));
+    adviceEditorRef.value.map((e) => e.setHTML(""));
+    hazardInfoEditorRef.value.map((e) => e.setHTML(""));
+    touristPlacesEditorRef.value.map((e) => e.setHTML(""));
+    safetyGuidelineEditorRef.value.map((e) => e.setHTML(""));
+    detailsEditorRef.value.map((e) => e.setHTML(""));
+    ridesEditorRef.value.map((e) => e.setHTML(""));
+    visitingTimeEditorRef.value.map((e) => e.setHTML(""));
+    foodsEditorRef.value.map((e) => e.setHTML(""));
+    fairEditorRef.value.map((e) => e.setHTML(""));
+    travelInfoEditorRef.value.map((e) => e.setHTML(""));
+    distanceEditorRef.value.map((e) => e.setHTML(""));
+  });
+};
 </script>
 
 <style scoped>
@@ -518,5 +884,9 @@ const removeLink = () => {
   color: #fff;
   padding-block: 6px;
   padding-inline: 10px;
+}
+
+.submit-btn {
+  text-transform: capitalize;
 }
 </style>

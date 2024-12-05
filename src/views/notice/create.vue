@@ -10,7 +10,7 @@
 import { useSpotStore } from "@/stores/tourism/spotStore"
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import NewsForm from './campaignForm.vue'
+import NewsForm from './noticeForm.vue'
 
 const route = useRoute()
 

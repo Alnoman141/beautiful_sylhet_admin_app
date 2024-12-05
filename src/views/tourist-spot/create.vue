@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { useSpotStore } from "@/stores/tourism/spotStore"
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import SpotForm from './spotForm.vue'
 
@@ -16,7 +16,7 @@ const route = useRoute()
 
 const spotStore = useSpotStore()
 
-const ruleForm = ref({
+const ruleForm = reactive({
   
   // starts from here
   

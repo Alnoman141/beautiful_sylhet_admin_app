@@ -13,7 +13,7 @@
 import { useNoticeStore } from "@/stores/tourism/noticeStore"
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import NewsForm from './campaignForm.vue'
+import NewsForm from './noticeForm.vue'
 
 const route = useRoute()
 

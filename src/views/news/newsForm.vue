@@ -43,8 +43,8 @@
       <VRow>
         <VCol cols="12" >
           <ElFormItem
-            label="Link"
-            prop="link"
+            label="News"
+            prop="news"
           >         
             <el-select
                 v-model="ruleForm.news_type_id"
