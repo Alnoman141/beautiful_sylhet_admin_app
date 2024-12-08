@@ -21,6 +21,7 @@ const ruleForm = reactive({
   // starts from here
   
   image: '',
+  map_link: '',
   link: [{
     link: '',
   }],

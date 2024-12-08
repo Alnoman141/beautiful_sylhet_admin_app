@@ -20,6 +20,8 @@ const ruleForm = ref({
 
   spot_parent_id: null,
   image: '',
+  map_link: '',
+  short_description: '',
   data: [
     {
       language_id: 1, 

@@ -44,7 +44,6 @@
                 trigger: 'change',
               }"
             >
-            
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
@@ -64,10 +63,25 @@
               </el-select>
             </ElFormItem>
           </VCol>
-
-        
+          <VCol cols="12" md="6">
+            <ElFormItem
+              label="Map Link"
+              prop="map_link"
+              :rules="[{
+                required: true,
+                message: 'link required',
+                trigger: 'blur',
+              },{
+                  type: 'url',
+                  message: 'link is required and should be like https://www.xyz.com',
+                  trigger: ['blur', 'change'],
+                },]"
+            >
+              <ElInput v-model="ruleForm.map_link" />
+            </ElFormItem>
+          </VCol>
         </VRow>
-       
+
         <VRow>
           <VCol
             v-for="(item, index) in ruleForm && ruleForm.reds
@@ -83,13 +97,47 @@
               </legend>
               <VRow>
                 <VCol cols="12">
-                  <ElFormItem label="Name" prop="name">
+                  <ElFormItem
+                    label="Name"
+                    :prop="
+                      ruleForm.reds
+                        ? 'reds.' + index + '.name'
+                        : 'data.' + index + '.name'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'name is required',
+                      trigger: 'blur',
+                    }"
+                  >
                     <ElInput v-model="item.name" />
                   </ElFormItem>
                 </VCol>
                 <VCol cols="12">
-                  <ElFormItem label="Instruction" prop="instruction">
-                    <ElInput v-model="item.instruction" />
+                  <ElFormItem
+                    label="Instruction"
+                    :prop="
+                      ruleForm.reds
+                        ? 'reds.' + index + '.instruction'
+                        : 'data.' + index + '.instruction'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'instruction is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput v-model="item.instruction" /> -->
+                    <!-- instructionEditorRef -->
+                    <div>
+                      <QuillEditor
+                        v-model:content="item.instruction"
+                        ref="instructionEditorRef"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                      />
+                    </div>
                   </ElFormItem>
                 </VCol>
               </VRow>
@@ -97,34 +145,67 @@
           </VCol>
         </VRow>
         <VRow>
-          <VCol cols="12" md="6" class=" my-2">
-                  <ElFormItem
-                    label="Image"
-                    prop="image">
-                    <el-upload
-                      class="upload-section"
-                      drag
-                      :on-change="onFileChange"
-                      auto-upload="false"
-                                
-                    >
-                      
-                      <div class="el-upload__text" >
-                        <el-icon v-if="!ruleForm.image" class="el-icon--upload"><upload-filled /></el-icon> 
-                        <img :src="previewImage ? previewImage : ruleForm.image" alt="" height="60" width="60" class="border mt-2">                  
-                        <el-icon  class="avatar-uploader-icon"><Plus /></el-icon> <br>
-                        Drop file here or <em>click to upload</em>
-                      </div>
-                      <template #tip>
-                        
-                        <div class="el-upload__tip">
-                          jpg/png files with a size less than 500kb
-                        </div>
-                      </template>
-                    </el-upload>   
-                  </ElFormItem>           
+          <VCol cols="12" md="6" class="my-2">
+            <!-- <ElFormItem label="Image" prop="image"> -->
+            <label for=""> <span style="color: #F89797">*</span> Image </label>
+            <el-upload
+              class="upload-section"
+              drag
+              :on-change="onFileChange"
+              :before-upload="beforeAvatarUpload"
+              auto-upload="false"
+            >
+              <div class="el-upload__text">
+                <el-icon
+                  v-if="!ruleForm.image && !previewImage"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <img
+                  :src="previewImage ? previewImage : ruleForm.image"
+                  alt=""
+                  height="60"
+                  width="60"
+                  class="border mt-2"
+                  v-if="ruleForm.image || previewImage"
+                />
+                <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+                <br />
+                Drop file here or <em>click to upload</em>
+              </div>
+              <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 500kb
+                </div>
+              </template>
+            </el-upload>
+              <span v-if="imgUploadValidation== true" style="color: #F89797 ; font-size: 10px; font-weight: light">
+                image is required and must be valid format
+              </span>
+            <!-- </ElFormItem> -->
           </VCol>
-        </VRow>   
+          <VCol cols="12" md="6">
+            <ElFormItem
+              label="Short Description"
+              prop="short_description"
+              :rules="{
+                required: true,
+                message: 'description is required',
+                trigger: 'blur',
+              }"
+            >
+              <div>
+                <QuillEditor
+                  v-model:content="ruleForm.short_description"
+                  ref="descriptionEditorRef"
+                  content-type="html"
+                  theme="snow"
+                  toolbar="full"
+                />
+              </div>
+            </ElFormItem>
+          </VCol>
+        </VRow>
 
         <div class="py-4 text-center">
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
@@ -141,6 +222,7 @@ import { useBankStore } from "@/stores/tourism/bankStore";
 import { useRedZoneStore } from "@/stores/tourism/redZoneStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
+import { UploadFilled } from "@element-plus/icons-vue";
 import {
   type ComponentSize,
   type FormInstance,
@@ -164,7 +246,6 @@ const props = defineProps({
     default: "create",
   },
 });
-
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
 const locationOptions = ["Home", "Company", "School"];
@@ -174,23 +255,23 @@ const rules = reactive<FormRules<RuleForm>>({
   //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   // ],
 });
-
+const imgUploadValidation = ref(false)
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-    props.ruleForm.image = tempImg.value ? tempImg.value : ''
-      let form = {
+     !props.ruleForm.image ? imgUploadValidation.value = true :imgUploadValidation.value = false;
+    
+    props.ruleForm.image = tempImg.value ? tempImg.value : "";
+    let form = {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
-      spot_parent_id: props.ruleForm.spot_parent_id,     
-      data: props.ruleForm.reds
-    }
-    if (valid) {
-     
-      const { data } =
-        props.ruleForm.id 
-          ? await redZoneStore.updateRedZone(form)
-          : await redZoneStore.createRedZone(props.ruleForm);
+      spot_parent_id: props.ruleForm.spot_parent_id,
+      data: props.ruleForm.reds,
+    };
+    if (valid && !imgUploadValidation.value) {
+      const { data } = props.ruleForm.id
+        ? await redZoneStore.updateRedZone(form)
+        : await redZoneStore.createRedZone(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           emit("tableDataEmit"))
@@ -228,6 +309,22 @@ const onFileChange = (file) => {
   reader.onload = () => {
     previewImage.value = reader.result;
   };
+  file.raw.name ? imgUploadValidation.value = false : imgUploadValidation.value = true
+};
+
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+  console.log("rawFile", rawFile);
+  if (rawFile.type !== "image/jpeg" && rawFile.type !== "image/png" && rawFile.type !== "image/jpg") {
+    ElMessage.error("Avatar picture must be JPG / JPEG / PNG format!");
+    imgUploadValidation.value = true
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error("Avatar picture size can not exceed 2MB!");
+    imgUploadValidation.value = true
+    return false;
+  }
+  imgUploadValidation.value = false
+  return true;
 };
 
 const imgViewModal = ref(false);
@@ -237,9 +334,16 @@ const viewImage = (item) => {
   modalImg.value = item;
 };
 
+// quill editor validation
+const descriptionEditorRef = ref(null);
+const instructionEditorRef = ref(null);
 onMounted(() => {
   getSpotDropdown();
   getBankDropdown();
+  descriptionEditorRef.value.setHTML("");
+  instructionEditorRef.value.map((item) => {
+    item.setHTML("");
+  });
 });
 </script>
 
