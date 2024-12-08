@@ -42,20 +42,21 @@
                   content-type="html"
                   theme="snow"          
                   toolbar="full"
+                  style="min-block-size: 200px;"
                 />
               </div>
             </ElFormItem>
           </ElCard>
         </VCol>
       </VRow>
-      <div class="text-end py-4 ">
+      <ElCard class="mt-4">
         <ElButton
           type="primary"
           @click="updateAwarenessData"
         >
           Submit
         </ElButton>
-      </div>
+      </ElCard>
     </ElForm>
   </div>
 </template>

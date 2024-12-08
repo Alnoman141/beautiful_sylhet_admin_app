@@ -87,25 +87,65 @@
               </legend>
               <VRow>
                 <VCol cols="12" md="6">
-                  <ElFormItem label="Phone" prop="phone">
+                  <ElFormItem
+                    label="Phone"
+                    :prop="
+                      ruleForm.lockers
+                        ? 'lockers.' + index + '.phone'
+                        : 'data.' + index + '.phone'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'phone is required',
+                      trigger: 'blur',
+                    }"
+                  >
                     <ElInput v-model="item.phone" />
                   </ElFormItem>
                 </VCol>
                 <VCol cols="12" md="6">
-                  <ElFormItem label="Address" prop="address">
+                  <ElFormItem
+                    label="Address"
+                    :prop="
+                      ruleForm.lockers
+                        ? 'lockers.' + index + '.address'
+                        : 'data.' + index + '.address'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'address is required',
+                      trigger: 'blur',
+                    }"
+                  >
                     <ElInput v-model="item.address" />
                   </ElFormItem>
                 </VCol>
-                <VCol cols="12" >
-                  <ElFormItem label="Description" prop="description">
+                <VCol cols="12">
+                  <ElFormItem
+                    label="Description"
+                    :prop="
+                      ruleForm.lockers
+                        ? 'lockers.' + index + '.description'
+                        : 'data.' + index + '.description'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'description is required',
+                      trigger: 'blur',
+                    }"
+                  >
                     <!-- <ElInput v-model="item.description" /> -->
+                    
                     <div>
-                    <QuillEditor
-                      v-model:content="item.description"
-                      content-type="html"
-                      theme="snow"
-                      toolbar="full"
-                    />
+                      <QuillEditor
+                        ref="descriptionEditorRef"
+                        v-model:content="item.description"
+                        :blur="checkData()"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                        style="min-block-size: 200;"
+                      />
                     </div>
                   </ElFormItem>
                 </VCol>
@@ -114,10 +154,12 @@
           </VCol>
         </VRow>
 
-        <div class="py-4 text-center">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+        <div class="py-4 ">
+          <ElButton type="primary" @click="submitForm(ruleFormRef)" class="submit">
             {{ mode }}
           </ElButton>
+          <!-- reset button -->
+          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
       </ElForm>
     </ElCard>
@@ -204,9 +246,30 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const typeList = ref([]);
 
+const descriptionEditorRef = ref();
 onMounted(() => {
   getSpotDropdownList();
+  descriptionEditorRef.value?.map((e) => e.setHTML(""));
 });
+
+const checkData = () => {
+
+  descriptionEditorRef.value?.map((e) => {
+    console.log("e",e.getHTML())
+
+    e.getHTML() == '<p><br></p>' ? e.setHTML("") : "";
+    console.log("e",e.getHTML())
+  })
+  props.ruleForm.lockers ? props.ruleForm.lockers?.map((e) => e.description == '<p><br></p>' ? e.description = "" : "") : props.ruleForm.data?.map((e) => e.description == '<p><br></p>' ? e.description = "" : "")
+  
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  checkData()
+}
 </script>
 
 <style scoped>
@@ -238,5 +301,9 @@ onMounted(() => {
   color: #fff;
   padding-block: 6px;
   padding-inline: 10px;
+}
+
+.submit{
+  text-transform: capitalize;
 }
 </style>

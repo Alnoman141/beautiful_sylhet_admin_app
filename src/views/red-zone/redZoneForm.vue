@@ -341,7 +341,7 @@ onMounted(() => {
   getSpotDropdown();
   getBankDropdown();
   descriptionEditorRef.value.setHTML("");
-  instructionEditorRef.value.map((item) => {
+  instructionEditorRef.value?.map((item) => {
     item.setHTML("");
   });
 });

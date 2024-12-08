@@ -12,11 +12,15 @@
         :key="index"
         :label="column.label"
         :prop="column.prop"
-        :sortable="column.sortable"
+        :width="column.prop == 'id' ? '100' : ''"
         :align="column.align"
       >
         <template #default="scope">
-          <div v-html="scope.row[column.prop]" />
+          <div
+            class="px-4"
+            
+            v-html="column.prop == 'name' ? scope.row[column.prop] : index++"
+          />
         </template>
       </ElTableColumn>
 

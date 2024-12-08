@@ -14,6 +14,7 @@
         :prop="column.prop"
         :sortable="column.sortable"
         :align="column.align"
+        :width="column.prop == 'id' ? '100' : ''"
       >
         <template #default="scope">
           <div v-html="column.prop == 'name' ? scope.row[column.prop] : index++" />

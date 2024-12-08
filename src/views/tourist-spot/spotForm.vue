@@ -39,15 +39,19 @@
             <ElFormItem
               label="Map Link"
               prop="map_link"
-              :rules="[{
-                required: true,
-                message: 'map link is required',
-                trigger: 'blur',
-              },{
+              :rules="[
+                {
+                  required: true,
+                  message: 'map link is required',
+                  trigger: 'blur',
+                },
+                {
                   type: 'url',
-                  message: 'map link is required and should be like https://www.xyz.com',
+                  message:
+                    'map link is required and should be like https://www.xyz.com',
                   trigger: ['blur', 'change'],
-                },]"
+                },
+              ]"
             >
               <ElInput v-model="ruleForm.map_link" />
             </ElFormItem>
@@ -115,9 +119,12 @@
                   >
                     <!-- <ElInput v-model="item.distance" /> -->
                     <div>
+                    
                       <QuillEditor
-                        ref="distanceEditorRef"
-                        v-model:content="item.distance"
+                        ref="descriptionEditorRef"
+                        v-model:content="item.distance"                        
+                        
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -144,6 +151,7 @@
                       <QuillEditor
                         ref="travelInfoEditorRef"
                         v-model:content="item.travel_info"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -170,6 +178,7 @@
                       <QuillEditor
                         ref="fairEditorRef"
                         v-model:content="item.fair"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -197,6 +206,7 @@
                       <QuillEditor
                         ref="foodsEditorRef"
                         v-model:content="item.foods"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -223,6 +233,7 @@
                       <QuillEditor
                         ref="visitingTimeEditorRef"
                         v-model:content="item.visiting_time"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -248,6 +259,7 @@
                       <QuillEditor
                         ref="ridesEditorRef"
                         v-model:content="item.rides"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -275,6 +287,7 @@
                       <QuillEditor
                         ref="detailsEditorRef"
                         v-model:content="item.details"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -302,6 +315,7 @@
                       <QuillEditor
                         ref="safetyGuidelineEditorRef"
                         v-model:content="item.safety_guideline"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -328,6 +342,7 @@
                       <QuillEditor
                         ref="touristPlacesEditorRef"
                         v-model:content="item.tourist_places"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -355,6 +370,7 @@
                       <QuillEditor
                         ref="hazardInfoEditorRef"
                         v-model:content="item.hazard_info"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -382,6 +398,7 @@
                       <QuillEditor
                         ref="adviceEditorRef"
                         v-model:content="item.advice"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -409,6 +426,7 @@
                       <QuillEditor
                         ref="otherInfoEditorRef"
                         v-model:content="item.others_info"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -436,6 +454,7 @@
                       <QuillEditor
                         ref="riskFactorEditorRef"
                         v-model:content="item.risk_factor"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -463,6 +482,7 @@
                       <QuillEditor
                         ref="descriptionEditorRef"
                         v-model:content="item.description"
+                        :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
@@ -678,7 +698,7 @@ import {
   type FormInstance,
   type FormRules,
 } from "element-plus";
-import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
+import { defineEmits, defineProps, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from "vue-router";
 
 const emit = defineEmits(["getEmit"]);
@@ -851,24 +871,24 @@ const travelInfoEditorRef = ref(null);
 const distanceEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   // descriptionEditorRef.value.getHTML()
-  descriptionEditorRef.value.map((e) => e.setHTML(""));
-  riskFactorEditorRef.value.map((e) => e.setHTML(""));
-  otherInfoEditorRef.value.map((e) => e.setHTML(""));
-  adviceEditorRef.value.map((e) => e.setHTML(""));
-  hazardInfoEditorRef.value.map((e) => e.setHTML(""));
-  touristPlacesEditorRef.value.map((e) => e.setHTML(""));
-  safetyGuidelineEditorRef.value.map((e) => e.setHTML(""));
-  detailsEditorRef.value.map((e) => e.setHTML(""));
-  ridesEditorRef.value.map((e) => e.setHTML(""));
-  visitingTimeEditorRef.value.map((e) => e.setHTML(""));
-  foodsEditorRef.value.map((e) => e.setHTML(""));
-  fairEditorRef.value.map((e) => e.setHTML(""));
-  travelInfoEditorRef.value.map((e) => e.setHTML(""));
-  distanceEditorRef.value.map((e) => e.setHTML(""));
+  descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  riskFactorEditorRef.value?.map((e) => e.setHTML(""));
+  otherInfoEditorRef.value?.map((e) => e.setHTML(""));
+  adviceEditorRef.value?.map((e) => e.setHTML(""));
+  hazardInfoEditorRef.value?.map((e) => e.setHTML(""));
+  touristPlacesEditorRef.value?.map((e) => e.setHTML(""));
+  safetyGuidelineEditorRef.value?.map((e) => e.setHTML(""));
+  detailsEditorRef.value?.map((e) => e.setHTML(""));
+  ridesEditorRef.value?.map((e) => e.setHTML(""));
+  visitingTimeEditorRef.value?.map((e) => e.setHTML(""));
+  foodsEditorRef.value?.map((e) => e.setHTML(""));
+  fairEditorRef.value?.map((e) => e.setHTML(""));
+  travelInfoEditorRef.value?.map((e) => e.setHTML(""));
+  distanceEditorRef.value?.map((e) => e.setHTML(""));
 
   if (!formEl) return;
   formEl.resetFields();
-  props.ruleForm.data.map((e) => {
+  props.ruleForm.data?.map((e) => {
     e.description = null;
     e.description = null;
     e.tag_line = null;
@@ -887,23 +907,85 @@ const resetForm = (formEl: FormInstance | undefined) => {
     e.risk_factor = null;
   });
 
-  onMounted(() => {
-    descriptionEditorRef.value.map((e) => e.setHTML(""));
-    riskFactorEditorRef.value.map((e) => e.setHTML(""));
-    otherInfoEditorRef.value.map((e) => e.setHTML(""));
-    adviceEditorRef.value.map((e) => e.setHTML(""));
-    hazardInfoEditorRef.value.map((e) => e.setHTML(""));
-    touristPlacesEditorRef.value.map((e) => e.setHTML(""));
-    safetyGuidelineEditorRef.value.map((e) => e.setHTML(""));
-    detailsEditorRef.value.map((e) => e.setHTML(""));
-    ridesEditorRef.value.map((e) => e.setHTML(""));
-    visitingTimeEditorRef.value.map((e) => e.setHTML(""));
-    foodsEditorRef.value.map((e) => e.setHTML(""));
-    fairEditorRef.value.map((e) => e.setHTML(""));
-    travelInfoEditorRef.value.map((e) => e.setHTML(""));
-    distanceEditorRef.value.map((e) => e.setHTML(""));
-  });
 };
+const checkData = () => {
+    descriptionEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    riskFactorEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    otherInfoEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    adviceEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    hazardInfoEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    touristPlacesEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    safetyGuidelineEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    detailsEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    ridesEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    visitingTimeEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    foodsEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    fairEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    travelInfoEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    distanceEditorRef.value?.map((e) => {
+      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    });
+    props.ruleForm.data?.map((e) => {
+      e.description == "<p><br></p>" ? (e.description = "") : "";
+      e.tag_line == "<p><br></p>" ? (e.tag_line = "") : "";
+      e.distance == "<p><br></p>" ? (e.distance = "") : "";
+      e.travel_info == "<p><br></p>" ? (e.travel_info = "") : "";
+      e.foods == "<p><br></p>" ? (e.foods = "") : "";
+      e.visiting_time == "<p><br></p>" ? (e.visiting_time = "") : "";
+      e.rides == "<p><br></p>" ? (e.rides = "") : "";
+      e.fair == "<p><br></p>" ? (e.fair = "") : "";
+      e.details == "<p><br></p>" ? (e.details = "") : "";
+      e.safety_guideline == "<p><br></p>" ? (e.safety_guideline = "") : "";
+      e.tourist_places == "<p><br></p>" ? (e.tourist_places = "") : "";
+      e.hazard_info == "<p><br></p>" ? (e.hazard_info = "") : "";
+      e.advice == "<p><br></p>" ? (e.advice = "") : "";
+      e.other_info == "<p><br></p>" ? (e.other_info = "") : "";
+      e.risk_factor == "<p><br></p>" ? (e.risk_factor = "") : "";
+    });
+  };
+
+   onMounted(() => {
+    descriptionEditorRef.value?.map((e) => e.setHTML(""));
+    riskFactorEditorRef.value?.map((e) => e.setHTML(""));
+    otherInfoEditorRef.value?.map((e) => e.setHTML(""));
+    adviceEditorRef.value?.map((e) => e.setHTML(""));
+    hazardInfoEditorRef.value?.map((e) => e.setHTML(""));
+    touristPlacesEditorRef.value?.map((e) => e.setHTML(""));
+    safetyGuidelineEditorRef.value?.map((e) => e.setHTML(""));
+    detailsEditorRef.value?.map((e) => e.setHTML(""));
+    ridesEditorRef.value?.map((e) => e.setHTML(""));
+    visitingTimeEditorRef.value?.map((e) => e.setHTML(""));
+    foodsEditorRef.value?.map((e) => e.setHTML(""));
+    fairEditorRef.value?.map((e) => e.setHTML(""));
+    travelInfoEditorRef.value?.map((e) => e.setHTML(""));
+    distanceEditorRef.value?.map((e) => e.setHTML(""));
+  });
 </script>
 
 <style scoped>
