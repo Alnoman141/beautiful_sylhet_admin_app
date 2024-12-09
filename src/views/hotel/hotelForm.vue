@@ -157,12 +157,12 @@
                 <VCol cols="12" md="6">
                   <ElFormItem label="Phone"   :prop="
                       ruleForm.hotels
-                        ? 'hotels.' + index + '.name'
-                        : 'data.' + index + '.name'
+                        ? 'hotels.' + index + '.phone'
+                        : 'data.' + index + '.phone'
                     "
                     :rules="{
                       required: true,
-                      message: 'name is required',
+                      message: 'phone number is required',
                       trigger: 'blur',
                     }">
                     <ElInput v-model="item.phone" />

@@ -23,7 +23,7 @@
 
       <!-- Action Buttons Column -->
       <ElTableColumn
-        align="right"
+        align="left"
         width="180"
       >
         <template #header>
@@ -38,7 +38,7 @@
           >
             <RouterLink
               style="color: white"
-              :to="{ name: 'editLocker', params: { id: scope.row.locker_parent_id } }"
+              :to="{ name: 'editLocker', params: { id: scope.row.parent_id } }"
             >
               <VIcon
                 icon="tabler-edit"
@@ -49,7 +49,7 @@
           <ElButton
             size="small"
             type="danger"
-            @click="showAlert(scope.row.locker_parent_id)"
+            @click="showAlert(scope.row.parent_id)"
           >
             <VIcon
               icon="tabler-trash"

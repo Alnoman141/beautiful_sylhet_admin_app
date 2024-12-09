@@ -129,6 +129,7 @@
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
+                searchable
               >
                 <el-option
                   v-for="(item, index) in spotDropdownData"

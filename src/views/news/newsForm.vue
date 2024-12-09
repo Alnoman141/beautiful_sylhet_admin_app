@@ -36,7 +36,11 @@
       <ElCard class="my-4">
         <VRow>
           <VCol cols="12">
-            <ElFormItem label="News Type" prop="news">
+            <ElFormItem label="News Type" prop="news_type_id"  :rules="{
+                      required: true,
+                      message: 'details is required',
+                      trigger: 'blur',
+                    }">
               <el-select
                 v-model="ruleForm.news_type_id"
                 placeholder="Select News Type" 
