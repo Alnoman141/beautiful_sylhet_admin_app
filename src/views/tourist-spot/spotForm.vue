@@ -486,7 +486,7 @@
         <VRow>
           <VCol cols="12" md="6" class="my-2">
             <label for=""
-              ><span style="color: #f89797">*</span> Single Image</label
+              ><span style="color: #fc6767">*</span> Single Image</label
             >
             <br />
             <el-upload
@@ -706,6 +706,7 @@ import {
   type FormInstance,
   type FormRules,
 } from "element-plus";
+
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 

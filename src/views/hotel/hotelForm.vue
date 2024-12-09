@@ -21,17 +21,82 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
-      <ElForm
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        label-position="top"
-        status-icon
-      >
+
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
+    >
+    
+      <VRow>
+        <VCol
+          v-for="(item, index) in ruleForm && ruleForm.hotels
+            ? ruleForm.hotels
+            : ruleForm.data"
+          :key="index"
+          cols="12"
+          md="6"
+        >
+          <ElCard class="rounded py-2  my-4" >
+          
+              <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            
+            <VRow>
+              <VCol cols="12" md="6">
+                <ElFormItem
+                  label="Name"
+                  :prop="
+                    ruleForm.hotels
+                      ? 'hotels.' + index + '.name'
+                      : 'data.' + index + '.name'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'name is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput v-model="item.name" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12" md="6">
+                <ElFormItem
+                  label="Phone"
+                  :prop="
+                    ruleForm.hotels
+                      ? 'hotels.' + index + '.phone'
+                      : 'data.' + index + '.phone'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'phone number is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput v-model="item.phone" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12" md="6">
+                <ElFormItem label="Address" prop="address">
+                  <ElInput v-model="item.address" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12" md="6">
+                <ElFormItem label="Description" prop="description">
+                  <ElInput v-model="item.description" />
+                </ElFormItem>
+              </VCol>
+            </VRow>
+          </ElCard>
+        </VCol>
+      </VRow>
+    
+      <ElCard>
         <VRow>
           <VCol cols="12" md="6">
             <ElFormItem
@@ -97,13 +162,13 @@
               prop="hotel_category_parent_id"
               :rules="{
                 required: true,
-                message: 'Please select hotel type',
+                message: 'Please select hotel Category',
                 trigger: 'change',
               }"
             >
               <el-select
                 v-model="ruleForm.hotel_category_parent_id"
-                placeholder="Select Hotel Type"
+                placeholder="Select Hotel Category"
               >
                 <el-option
                   v-for="(item, index) in hotelCategoryData"
@@ -124,102 +189,67 @@
               <ElInput v-model="ruleForm.map_link" />
             </ElFormItem>
           </VCol>
-        </VRow>
-
-        <VRow>
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.hotels
-              ? ruleForm.hotels
-              : ruleForm.data"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
-              <VRow>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Name"   :prop="
-                      ruleForm.hotels
-                        ? 'hotels.' + index + '.name'
-                        : 'data.' + index + '.name'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'name is required',
-                      trigger: 'blur',
-                    }">
-                    <ElInput v-model="item.name" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Phone"   :prop="
-                      ruleForm.hotels
-                        ? 'hotels.' + index + '.phone'
-                        : 'data.' + index + '.phone'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'phone number is required',
-                      trigger: 'blur',
-                    }">
-                    <ElInput v-model="item.phone" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Address" prop="address">
-                    <ElInput v-model="item.address" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem label="Description" prop="description">
-                    <ElInput v-model="item.description" />
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-            </fieldset>
-          </VCol>
-        </VRow>
-        <VRow>
           <VCol cols="12" md="6" class="my-2">
-            <ElFormItem label="Image" prop="image">
-              <el-upload class="upload-section" drag :on-change="onFileChange">
-                <div class="el-upload__text">
-                  <el-icon v-if="!ruleForm.image" class="el-icon--upload"
-                    ><upload-filled
-                  /></el-icon>
-                  <img
-                    :src="previewImage ? previewImage : ruleForm.image"
-                    alt=""
-                    height="60"
-                    width="60"
-                    class="border mt-2"
-                  />
-                  <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
-                  <br />
-                  Drop file here or <em>click to upload</em>
+            <!-- <ElFormItem label="Image" prop="image"> -->
+            <label for=""
+              ><span style="color: #fc6767">*</span> Hotel Image</label
+            >
+            <br />
+            <el-upload
+              class="upload-section"
+              drag
+              :on-change="onFileChange"
+              :before-upload="beforeAvatarUpload"
+            >
+              <div class="el-upload__text">
+                <el-icon
+                  v-if="!ruleForm.image && !previewImage"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <img
+                  v-if="ruleForm.image || previewImage"
+                  :src="previewImage ? previewImage : ruleForm.image"
+                  alt=""
+                  height="60"
+                  width="60"
+                  class="border mt-2"
+                />
+                <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+                <br />
+                Drop file here or <em>click to upload</em>
+              </div>
+              <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 2MB <br />
+                  <span
+                    v-if="imgUploadValidation == true"
+                    style="color: #fc6767; font-size: 12px; font-weight: light"
+                  >
+                    image is required and must be valid format
+                  </span>
                 </div>
-                <template #tip>
-                  <div class="el-upload__tip">
-                    jpg/png files with a size less than 500kb
-                  </div>
-                </template>
-              </el-upload>
-            </ElFormItem>
+              </template>
+            </el-upload>
+            <!-- </ElFormItem> -->
           </VCol>
         </VRow>
+         <div class="py-4">
+        <ElButton
+          class="submit"
+          type="primary"
+          @click="submitForm(ruleFormRef)"
+        >
+          {{ mode }}
+        </ElButton>
+        <!-- reset button -->
+        <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+      </div>
+      </ElCard>
+      
 
-        <div class="py-4 ">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
-            {{ mode }}
-          </ElButton>
-          <!-- reset button -->
-          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
-        </div>
-      </ElForm>
-    </ElCard>
+     
+    </ElForm>
   </div>
 </template>
 
@@ -229,6 +259,7 @@ import { useHotelStore } from "@/stores/tourism/hotelStore";
 import { useHotelTypeStore } from "@/stores/tourism/hotelTypeStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
+import { UploadFilled } from "@element-plus/icons-vue";
 import {
   type ComponentSize,
   type FormInstance,
@@ -291,8 +322,11 @@ const getTypeDropdownList = async () => {
     console.log(e);
   }
 };
-
+const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  props.mode == "create" && !tempImg.value
+    ? (imgUploadValidation.value = true)
+    : (imgUploadValidation.value = false);
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let data = [];
@@ -350,8 +384,24 @@ const viewImage = (item) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-}
+};
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+  if (
+    rawFile.type !== "image/jpeg" &&
+    rawFile.type !== "image/png" &&
+    rawFile.type !== "image/jpg"
+  ) {
+    ElMessage.error("Avatar picture must be JPG / JPEG / PNG format!");
+    imgUploadValidation.value = true;
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error("Avatar picture size can not exceed 2MB!");
 
+    return false;
+  }
+
+  return true;
+};
 const typeList = ref([]);
 
 onMounted(() => {
@@ -392,7 +442,7 @@ onMounted(() => {
   padding-inline: 10px;
 }
 
-.submit{
+.submit {
   text-transform: capitalize;
 }
 </style>

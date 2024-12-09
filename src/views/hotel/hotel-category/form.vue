@@ -49,12 +49,16 @@
                     <VCol cols="12"   >
                       
                     <ElFormItem
-                      label="Name"
-                      :prop="ruleForm && ruleForm.categories ? `categories.${index}.name` : `data.${index}.name`"
-                      :rules="{
-                        required: true,
-                        message: 'Please input Activity name',
-                        trigger: 'blur'
+                      label="Hotel Category Name"
+                       :prop="
+                      ruleForm.categories
+                        ? 'categories.' + index + '.name'
+                        : 'data.' + index + '.name'
+                    "
+                     :rules="{
+                      required: true,
+                      message: 'Hotel category is required',
+                      trigger: 'blur',
                     }"
 
                     >
