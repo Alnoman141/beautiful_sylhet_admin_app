@@ -22,7 +22,7 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
+    
       <ElForm
         ref="ruleFormRef"
         :model="ruleForm"
@@ -33,7 +33,66 @@
         label-position="top"
         status-icon
       >
+        
+       
         <VRow>
+          <VCol
+            v-for="(item, index) in ruleForm && ruleForm.guards
+              ? ruleForm.guards
+              : ruleForm.data"
+            :key="index"
+            cols="12"
+            md="6"
+          >
+            <ElCard class="rounded py-2 px-2">
+            
+                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+              <hr class="my-2">
+              <VRow>
+                <VCol cols="12">
+                  <ElFormItem label="Name" prop="name"  :prop="
+                    ruleForm.guards
+                      ? 'guards.' + index + '.name'
+                      : 'data.' + index + '.name'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'Beach Guard name  is required',
+                    trigger: 'blur',
+                  }">
+                    <ElInput v-model="item.name" />
+                  </ElFormItem>
+                </VCol>
+                <VCol cols="12">
+                  <ElFormItem label="Phone"  :prop="
+                    ruleForm.guards
+                      ? 'guards.' + index + '.phone'
+                      : 'data.' + index + '.phone'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'Beach guard phone number  is required',
+                    trigger: 'blur',
+                  }">
+                    <ElInput v-model="item.phone" />
+                  </ElFormItem>
+                </VCol>
+                <VCol cols="12">
+                  <ElFormItem label="Instruction"  :prop="
+                    ruleForm.guards
+                      ? 'guards.' + index + '.instruction'
+                      : 'data.' + index + '.instruction'
+                  ">
+                    <ElInput type="textarea" v-model="item.instruction" />
+                  </ElFormItem>
+                </VCol>
+              </VRow>
+            </ElCard>
+          </VCol>
+        </VRow>
+        
+<ElCard class="my-4">
+  <VRow>
           <VCol cols="12" md="6">
             <ElFormItem
               label="Tourist Spot"
@@ -67,49 +126,16 @@
 
         
         </VRow>
-       
-        <VRow>
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.guards
-              ? ruleForm.guards
-              : ruleForm.data"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
-              <VRow>
-                <VCol cols="12">
-                  <ElFormItem label="Name" prop="name">
-                    <ElInput v-model="item.name" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12">
-                  <ElFormItem label="Phone" prop="phone">
-                    <ElInput v-model="item.phone" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12">
-                  <ElFormItem label="Instruction" prop="instruction">
-                    <ElInput v-model="item.instruction" />
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-            </fieldset>
-          </VCol>
-        </VRow>
-        
-
         <div class="py-4 text-center">
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          <!-- reset button -->
+          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
+        </ElCard>
       </ElForm>
-    </ElCard>
+    
   </div>
 </template>
 
@@ -178,6 +204,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+}
 
 const spotDropdown = ref([]);
 const getSpotDropdown = async () => {

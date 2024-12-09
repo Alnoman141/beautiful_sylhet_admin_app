@@ -22,55 +22,56 @@
         </VCol>
       </VRow>
     </ElCard>
-    
 
-      
-      <ElForm
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        label-position="top"
-        status-icon
-      >
-        
-       
-        <VRow>
-          <VCol
-            v-for="(item, index) in 
-               ruleForm"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <ElCard>
-              <p> {{ index == 0 ? "Bangla" : "English" }} </p>
-               <QuillEditor
-                  v-model:content="item.description"
-                  content-type="html"
-                  theme="snow"          
-                  toolbar="full"
-                />
-                
-            </ElCard>            
-          </VCol>
-        </VRow>
-        
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
+    >
+      <VRow>
+        <VCol v-for="(item, index) in ruleForm" :key="index" cols="12" md="6">
+          <ElCard>
+            <p>{{ index == 0 ? "Bangla" : "English" }}</p>
 
-        <div class="py-4 text-center">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
-            Update
-          </ElButton>
-        </div>
-      </ElForm>
-    
+            <ElFormItem
+              label="Cox Bazar Info"
+              :prop="index + '.description'"
+              :rules="{
+                required: true,
+                message: 'Cox bazar info is required',
+                trigger: 'blur',
+              }"
+            >
+            <div>
+              <QuillEditor
+                ref="coxbazarInfoEditorRef"
+                v-model:content="item.description"
+                content-type="html"
+                theme="snow"
+                toolbar="full"
+                :text-change="checkData()"
+              />
+            </div>  
+            </ElFormItem>
+          </ElCard>
+        </VCol>
+      </VRow>
+
+      <div class="py-4 text-center">
+        <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          Update
+        </ElButton>
+      </div>
+    </ElForm>
   </div>
 </template>
 
 <script setup lang="ts">
-
 import { useInfoStore } from "@/stores/tourism/infoStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -88,7 +89,6 @@ const emit = defineEmits(["tableDataEmit"]);
 const route = useRoute();
 const router = useRouter();
 
-
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
 const locationOptions = ["Home", "Company", "School"];
@@ -99,24 +99,19 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 
-
-const validationLock = ref(false)
+const validationLock = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-   ruleForm.value[0].description.length <= 11 || ruleForm.value[1].description.length <= 11 ? validationLock.value = true : validationLock.value = false
+  //  ruleForm.value[0].description.length <= 11 || ruleForm.value[1].description.length <= 11 ? validationLock.value = true : validationLock.value = false
 
-  
-  if (validationLock.value) {
-    notify('Error!', 'Please fill all fields', 'error', 'top-right')
-    
-    return
-  }
+  // if (validationLock.value) {
+  //   notify('Error!', 'Please fill all fields', 'error', 'top-right')
+
+  //   return
+  // }
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-    
     if (valid) {
-     
-      const { data } =
-         await infoStore.createInfo({ data:ruleForm.value});
+      const { data } = await infoStore.createInfo({ data: ruleForm.value });
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           getInfo())
@@ -127,27 +122,29 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-const ruleForm = ref([])
+const ruleForm = ref([]);
 const getInfo = async () => {
   try {
-    const { data } = await infoStore.editInfo()
+    const { data } = await infoStore.editInfo();
 
-    ruleForm.value = data.data
-
-    
+    ruleForm.value = data.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
-
+};
+const coxbazarInfoEditorRef = ref(null);
+const checkData = () => {
+  coxbazarInfoEditorRef.value?.map((e) => {
+    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+  });
+  ruleForm.value?.map((e) => {
+    e.description == "<p><br></p>" ? (e.description = "") : "";
+  });
+};
 onMounted(() => {
-  
-  getInfo()
-})
-
-
-
-
+  coxbazarInfoEditorRef.value?.map((e) => e.setHTML(""));
+  getInfo();
+});
 </script>
 
 <style scoped>

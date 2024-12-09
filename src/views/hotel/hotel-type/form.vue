@@ -22,7 +22,7 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
+    
       <ElForm
         ref="ruleFormRef"
         :model="ruleForm"
@@ -40,10 +40,10 @@
               : ruleForm.data"
             :key="index"
           >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
+            <ElCard class="rounded py-2 px-2">
+              
                 <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
+              
               <VRow>
                 <VCol cols="12">
                   <ElFormItem
@@ -59,21 +59,22 @@
                       trigger: 'blur',
                     }"
                   >
-                    <ElInput v-model="item.name" />
+                    <ElInput placeholder="Hotel Type Name" v-model="item.name" />
                   </ElFormItem>
                 </VCol>
               </VRow>
-            </fieldset>
+            </ElCard>
           </VCol>
         </VRow>
 
-        <div class="py-4 text-center">
+        <ElCard class="my-4 ">
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
-        </div>
+          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+        </ElCard>
       </ElForm>
-    </ElCard>
+    
   </div>
 </template>
 
@@ -138,6 +139,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+}
 
 const typeList = ref([]);
 </script>

@@ -59,9 +59,9 @@ const getCampaignList = async () => {
   try {
     const { data } = await noticeStore.getNotice()
 
-    console.log("data", data)
+    console.log("data", data.data.data)
 
-    spotList.value = data.data.data
+    spotList.value = data.data
 
     console.log(spotList.value)
   } catch (error) {

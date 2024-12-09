@@ -22,17 +22,71 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
-      <ElForm
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        label-position="top"
-        status-icon
-      >
+
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
+    >
+      <VRow>
+        <VCol
+          v-for="(item, index) in ruleForm && ruleForm.atms
+            ? ruleForm.atms
+            : ruleForm.data"
+          :key="index"
+          cols="12"
+          md="6"
+        >
+          <ElCard class="rounded py-2 px-2">
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <hr class="my-2" />
+
+            <VRow>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Name"
+                  :prop="
+                    ruleForm.atms
+                      ? 'atms.' + index + '.name'
+                      : 'data.' + index + '.name'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'ATM both name  is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput v-model="item.name" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Address"
+                  prop="address"
+                  :prop="
+                    ruleForm.atms
+                      ? 'atms.' + index + '.address'
+                      : 'data.' + index + '.address'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'ATM both Address  is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput v-model="item.address" />
+                </ElFormItem>
+              </VCol>
+            </VRow>
+          </ElCard>
+        </VCol>
+      </VRow>
+      <ElCard class="my-2">
         <VRow>
           <VCol cols="12" md="6">
             <ElFormItem
@@ -44,7 +98,6 @@
                 trigger: 'change',
               }"
             >
-            
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
@@ -68,22 +121,21 @@
           <!-- bankDropdown -->
           <VCol cols="12" md="6">
             <ElFormItem
-              label="Tourist Spot"
-              prop="spot_parent_id"
+              label="Bank"
+              prop="bank_parent_id"
               :rules="{
                 required: true,
                 message: 'Please select Tourist Spot',
                 trigger: 'change',
               }"
             >
-            
               <el-select
                 v-model="ruleForm.bank_parent_id"
-                placeholder="Select Tourist Spot"
+                placeholder="Select bank"
                 prop="bank_parent_id"
                 :rules="{
                   required: true,
-                  message: 'Please select Tourist Spot',
+                  message: 'Please select Bank',
                   trigger: 'change',
                 }"
               >
@@ -97,77 +149,74 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            <ElFormItem label="Map Line" prop="map_link">
-              <ElInput v-model="ruleForm.map_link" />
+            <ElFormItem
+              label="Map Link"
+              prop="map_link"
+              :rules="[
+                {
+                  required: true,
+                  message: 'Please input Map Link',
+                  trigger: 'blur',
+                },
+                {
+                  type: 'url',
+                  message: 'Please input correct URL',
+                  trigger: 'blur',
+                },
+              ]"
+            >
+              <ElInput type="url" v-model="ruleForm.map_link" />
             </ElFormItem>
           </VCol>
-        </VRow>
-        
-        <VRow>
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.atms
-              ? ruleForm.atms
-              : ruleForm.data"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
-              <VRow>
-                <VCol cols="12">
-                  <ElFormItem label="Name" prop="name">
-                    <ElInput v-model="item.name" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12">
-                  <ElFormItem label="Address" prop="address">
-                    <ElInput v-model="item.address" />
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-            </fieldset>
+          <VCol cols="12" md="6" class="my-2">
+            
+            <el-upload
+              class="upload-section"
+              drag
+              :on-change="onFileChange"
+              auto-upload="false"
+            >
+              <div class="el-upload__text">
+                <el-icon
+                  v-if="!ruleForm.image || !previewImage"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <img
+                  v-if="ruleForm.image && previewImage"
+                  :src="previewImage ? previewImage : ruleForm.image"
+                  alt=""
+                  height="60"
+                  width="60"
+                  class="border mt-2"
+                />
+                <el-icon class="avatar-uploader-icon"><Plus /></el-icon> <br />
+                Drop file here or <em>click to upload</em>
+              </div>
+              <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 2MB <br />
+                  <span
+                    v-if="imgUploadValidation == true"
+                    style="color: #fc6767; font-size: 12px; font-weight: light"
+                  >
+                    image is required and must be valid format
+                  </span>
+                </div>
+              </template>
+            </el-upload>
           </VCol>
         </VRow>
-        <VRow>
-          <VCol cols="12" md="6" class=" my-2">
-                  <ElFormItem
-                    label="Image"
-                    prop="image">
-                    <el-upload
-                      class="upload-section"
-                      drag
-                      :on-change="onFileChange"
-                      auto-upload="false"
-                                
-                    >
-                      
-                      <div class="el-upload__text" >
-                        <el-icon v-if="!ruleForm.image" class="el-icon--upload"><upload-filled /></el-icon> 
-                        <img :src="previewImage ? previewImage : ruleForm.image" alt="" height="60" width="60" class="border mt-2">                  
-                        <el-icon  class="avatar-uploader-icon"><Plus /></el-icon> <br>
-                        Drop file here or <em>click to upload</em>
-                      </div>
-                      <template #tip>
-                        
-                        <div class="el-upload__tip">
-                          jpg/png files with a size less than 500kb
-                        </div>
-                      </template>
-                    </el-upload>   
-                  </ElFormItem>           
-          </VCol>
-        </VRow>   
 
-        <div class="py-4 text-center">
+        <div class="py-4">
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+
+          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
-      </ElForm>
-    </ElCard>
+      </ElCard>
+    </ElForm>
   </div>
 </template>
 
@@ -176,6 +225,7 @@ import { useAtmStore } from "@/stores/tourism/atmStore";
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
+import { UploadFilled } from "@element-plus/icons-vue";
 import {
   type ComponentSize,
   type FormInstance,
@@ -209,25 +259,26 @@ const rules = reactive<FormRules<RuleForm>>({
   //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   // ],
 });
-
+const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  props.mode == "create" && !tempImg.value
+    ? (imgUploadValidation.value = true)
+    : (imgUploadValidation.value = false);
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-    props.ruleForm.image = tempImg.value ? tempImg.value : ''
-      let form = {
+    props.ruleForm.image = tempImg.value ? tempImg.value : "";
+    let form = {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
       spot_parent_id: props.ruleForm.spot_parent_id,
       bank_parent_id: props.ruleForm.bank_parent_id,
       map_link: props.ruleForm.map_link,
-      data: props.ruleForm.atms
-    }
-    if (valid) {
-     
-      const { data } =
-        props.ruleForm.id 
-          ? await atmStore.updateAtm(form)
-          : await atmStore.createAtm(props.ruleForm);
+      data: props.ruleForm.atms,
+    };
+    if (valid && !imgUploadValidation.value) {
+      const { data } = props.ruleForm.id
+        ? await atmStore.updateAtm(form)
+        : await atmStore.createAtm(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           emit("tableDataEmit"))
@@ -238,7 +289,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+}
 const spotDropdown = ref([]);
 const getSpotDropdown = async () => {
   const { data } = await spotStore.getSpotDropdown();

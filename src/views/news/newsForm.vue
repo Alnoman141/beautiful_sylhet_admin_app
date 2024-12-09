@@ -98,6 +98,7 @@
         <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
           {{ mode }}
         </ElButton>
+        <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
       </ElCard>
     </ElForm>
   </div>
@@ -167,6 +168,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+}
 
 const typeList = ref([]);
 const newsType = async () => {

@@ -50,7 +50,7 @@ const bankStore = useBankStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'parent_id', sortable: true },
+  { label: 'ID', prop: 'id', sortable: true },
   { label: 'Name', prop: 'name', sortable: true },        
         
 ])

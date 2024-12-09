@@ -23,7 +23,7 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
+    
       <ElForm
         ref="ruleFormRef"
         
@@ -43,8 +43,8 @@
             v-for="(item, index) in ruleForm && ruleForm.categories ? ruleForm.categories : ruleForm.data" :key="index"
           
           >
-                <fieldset   class="rounded py-2 px-2">
-                  <legend class='mx-4'> <b>  {{index == 0 ? 'Bangla':'English'}} </b> </legend>
+                <ElCard   class="rounded py-2 px-2">
+                   <b>  {{index == 0 ? 'Bangla':'English'}} </b> 
                   <VRow>
                     <VCol cols="12"   >
                       
@@ -62,29 +62,31 @@
                     }"
 
                     >
-                      <ElInput v-model="item.name"  placeholder="Enter Category name" />
+                      <ElInput v-model="item.name"   placeholder="Enter Category name" />
 
                     </ElFormItem>
                     </VCol>
                     
                   </VRow>
-                </fieldset>
+                </ElCard>
           </VCol>
         </VRow>
 
           
                                 
-        <div class=" py-4 text-center">
+        <ElCard class=" my-4 ">
           <ElButton
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
             {{mode}}
           </ElButton>
+
+          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
         
-        </div>
+        </ElCard>
       </ElForm>
-    </ElCard>    
+    
   </div>
 </template>
 
@@ -144,7 +146,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   })
 }
-
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+}
 const typeList = ref([])
 
 

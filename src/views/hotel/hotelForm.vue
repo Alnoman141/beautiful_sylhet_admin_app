@@ -32,7 +32,6 @@
       label-position="top"
       status-icon
     >
-    
       <VRow>
         <VCol
           v-for="(item, index) in ruleForm && ruleForm.hotels
@@ -42,10 +41,9 @@
           cols="12"
           md="6"
         >
-          <ElCard class="rounded py-2  my-4" >
-          
-              <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-            
+          <ElCard class="rounded py-2 my-4">
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
@@ -61,7 +59,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.name" />
+                  <ElInput placeholder="Hotel Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
@@ -78,24 +76,35 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.phone" />
+                  <ElInput placeholder="Phone No" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
-                <ElFormItem label="Address" prop="address">
-                  <ElInput v-model="item.address" />
+                <ElFormItem label="Address"  :prop="
+                    ruleForm.hotels
+                      ? 'hotels.' + index + '.address'
+                      : 'data.' + index + '.address'
+                  ">
+                  <ElInput placeholder="Address" v-model="item.address" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
-                <ElFormItem label="Description" prop="description">
-                  <ElInput v-model="item.description" />
+                <ElFormItem label="Description"  :prop="
+                    ruleForm.hotels
+                      ? 'hotels.' + index + '.description'
+                      : 'data.' + index + '.description'
+                  ">
+                  <ElInput
+                    placeholder="Description"
+                    v-model="item.description"
+                  />
                 </ElFormItem>
               </VCol>
             </VRow>
           </ElCard>
         </VCol>
       </VRow>
-    
+
       <ElCard>
         <VRow>
           <VCol cols="12" md="6">
@@ -181,12 +190,35 @@
           </VCol>
           <VCol cols="12" md="6">
             <ElFormItem label="Website Link" prop="website_link">
-              <ElInput v-model="ruleForm.website_link" />
+              <ElInput
+                placeholder="Website Link"
+                type="url"
+                v-model="ruleForm.website_link"
+              />
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            <ElFormItem label="Map Link" prop="map_link">
-              <ElInput v-model="ruleForm.map_link" />
+            <ElFormItem
+              label="Map Link"
+              prop="map_link"
+              :rules="[
+                {
+                  required: true,
+                  message: 'Please select Tourist Spot',
+                  trigger: 'change',
+                },
+                {
+                  type: 'url',
+                  message: 'Please input correct url',
+                  trigger: ['blur', 'change'],
+                },
+              ]"
+            >
+              <ElInput
+                placeholder="Map Link"
+                type="url"
+                v-model="ruleForm.map_link"
+              />
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6" class="my-2">
@@ -234,21 +266,18 @@
             <!-- </ElFormItem> -->
           </VCol>
         </VRow>
-         <div class="py-4">
-        <ElButton
-          class="submit"
-          type="primary"
-          @click="submitForm(ruleFormRef)"
-        >
-          {{ mode }}
-        </ElButton>
-        <!-- reset button -->
-        <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
-      </div>
+        <div class="py-4">
+          <ElButton
+            class="submit"
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            {{ mode }}
+          </ElButton>
+          <!-- reset button -->
+          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+        </div>
       </ElCard>
-      
-
-     
     </ElForm>
   </div>
 </template>
@@ -342,7 +371,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     };
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
-    if (valid) {
+    if (valid && !imgUploadValidation.value) {
       const { data } = props.ruleForm.id
         ? await hotelStore.updateHotel(form)
         : await hotelStore.createHotel(props.ruleForm);
