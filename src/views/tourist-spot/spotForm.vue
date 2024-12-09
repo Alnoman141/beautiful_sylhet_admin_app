@@ -491,16 +491,7 @@
         <el-card class="my-4">
         <VRow>
           <VCol cols="12" md="6" class="my-2">
-            <!--  prop="ruleForm.image"
-              :rules="{
-                required: true,
-                message: 'image required',
-                trigger: 'blur',
-              }" -->
-            <!-- <ElFormItem
-             
-             
-            > -->
+            
             <label for=""
               ><span style="color: #f89797">*</span> Single Image</label
             >
@@ -810,6 +801,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         id: props.ruleForm.id,
         image: tempImg.value ? tempImg.value : "",
         link: props.ruleForm.link,
+        map_link:props.ruleForm.map_link,
         images: multpleTempImg.value,
         data: updatedData,
       };
