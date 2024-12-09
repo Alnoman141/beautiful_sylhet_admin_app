@@ -23,7 +23,7 @@
       </VRow>
     </ElCard>
 
-    <ElCard>
+    
       <ElForm
         ref="ruleFormRef"
         :model="ruleForm"
@@ -34,29 +34,7 @@
         label-position="top"
         status-icon
       >
-        <VRow>
-          <VCol>
-            <ElFormItem
-              label="Map Link"
-              prop="map_link"
-              :rules="[
-                {
-                  required: true,
-                  message: 'map link is required',
-                  trigger: 'blur',
-                },
-                {
-                  type: 'url',
-                  message:
-                    'map link is required and should be like https://www.xyz.com',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
-            >
-              <ElInput v-model="ruleForm.map_link" />
-            </ElFormItem>
-          </VCol>
-        </VRow>
+        
         <VRow>
           <VCol
             v-for="(item, index) in ruleForm && ruleForm.spot
@@ -64,10 +42,10 @@
               : ruleForm.data"
             :key="index"
           >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
+            <el-card class="rounded py-2 px-2">
+              <!-- <legend class="mx-4"> -->
                 <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
+              <!-- </legend> -->
               <VRow>
                 <VCol cols="12" md="6">
                   <ElFormItem
@@ -83,7 +61,7 @@
                       trigger: 'blur',
                     }"
                   >
-                    <ElInput v-model="item.name" />
+                    <ElInput placeholder="Name" v-model="item.name" />
                   </ElFormItem>
                 </VCol>
                 <VCol cols="12" md="6">
@@ -100,7 +78,36 @@
                       trigger: 'blur',
                     }"
                   >
-                    <ElInput v-model="item.tag_line" />
+                    <ElInput placeholder="Tagline" v-model="item.tag_line" />
+                  </ElFormItem>
+                </VCol>
+
+                 <VCol cols="12">
+                  <ElFormItem
+                    label="Short Description"
+                    :prop="
+                      ruleForm.spot
+                        ? 'spot.' + index + '.description'
+                        : 'data.' + index + '.description'
+                    "
+                    :rules="{
+                      required: true,
+                      message: 'description is required',
+                      trigger: 'blur',
+                    }"
+                  >
+                    <!-- <ElInput type="textarea" v-model="item.description" /> -->
+                    <div>
+                      <QuillEditor
+                        ref="descriptionEditorRef"
+                        v-model:content="item.description"
+                        :blur="checkData()"
+                        content-type="html"
+                        theme="snow"
+                        toolbar="full"
+                        placeholder="Type description here"
+                      />
+                    </div>
                   </ElFormItem>
                 </VCol>
                 <VCol cols="12">
@@ -121,13 +128,14 @@
                     <div>
                     
                       <QuillEditor
-                        ref="descriptionEditorRef"
+                        ref="distanceEditorRef"
                         v-model:content="item.distance"                        
                         
                         :blur="checkData()"
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type distance here"
                       />
                     </div>
                   </ElFormItem>
@@ -155,11 +163,12 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type travel info here"
                       />
                     </div>
                   </ElFormItem>
                 </VCol>
-                <VCol cols="12">
+                <!-- <VCol cols="12">
                   <ElFormItem
                     label="Fair"
                     :prop="
@@ -173,7 +182,7 @@
                       trigger: 'blur',
                     }"
                   >
-                    <!-- <ElInput v-model="item.fair" /> -->
+                    
                     <div>
                       <QuillEditor
                         ref="fairEditorRef"
@@ -182,10 +191,11 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type fair here"
                       />
                     </div>
                   </ElFormItem>
-                </VCol>
+                </VCol> -->
 
                 <VCol cols="12">
                   <ElFormItem
@@ -202,7 +212,7 @@
                     }"
                   >
                     <!-- <ElInput v-model="item.foods" /> -->
-                    <el-card>
+                    <div>
                       <QuillEditor
                         ref="foodsEditorRef"
                         v-model:content="item.foods"
@@ -210,8 +220,9 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type foods here"
                       />
-                    </el-card>
+                    </div>
                   </ElFormItem>
                 </VCol>
                 <!-- visiting_time -->
@@ -237,6 +248,7 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type visiting time here"
                       />
                     </div>
                   </ElFormItem>
@@ -263,12 +275,13 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type rides here"
                       />
                     </div>
                   </ElFormItem>
                 </VCol>
 
-                <VCol cols="12">
+                <!-- <VCol cols="12">
                   <ElFormItem
                     label="Details"
                     :prop="
@@ -282,7 +295,7 @@
                       trigger: 'blur',
                     }"
                   >
-                    <!-- <ElInput v-model="item.details" /> -->
+                    
                     <div>
                       <QuillEditor
                         ref="detailsEditorRef"
@@ -291,12 +304,13 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type details here"
                       />
                     </div>
                   </ElFormItem>
-                </VCol>
+                </VCol> -->
 
-                <VCol cols="12">
+                <!-- <VCol cols="12">
                   <ElFormItem
                     label="Safety Guideline"
                     :prop="
@@ -310,7 +324,7 @@
                       trigger: 'blur',
                     }"
                   >
-                    <!-- <ElInput v-model="item.safety_guideline" /> -->
+                    
                     <div>
                       <QuillEditor
                         ref="safetyGuidelineEditorRef"
@@ -319,10 +333,11 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type guideline here"
                       />
                     </div>
                   </ElFormItem>
-                </VCol>
+                </VCol> -->
                 <VCol cols="12">
                   <ElFormItem
                     label="Tourist Places"
@@ -346,6 +361,7 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type tourist places here"
                       />
                     </div>
                   </ElFormItem>
@@ -374,6 +390,7 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type hazard info here"
                       />
                     </div>
                   </ElFormItem>
@@ -402,6 +419,7 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type advice here"
                       />
                     </div>
                   </ElFormItem>
@@ -430,6 +448,7 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type others info here"
                       />
                     </div>
                   </ElFormItem>
@@ -458,43 +477,18 @@
                         content-type="html"
                         theme="snow"
                         toolbar="full"
+                        placeholder="Type risk factor here"
                       />
                     </div>
                   </ElFormItem>
                 </VCol>
 
-                <VCol cols="12">
-                  <ElFormItem
-                    label="Description"
-                    :prop="
-                      ruleForm.spot
-                        ? 'spot.' + index + '.description'
-                        : 'data.' + index + '.description'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'description is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    <!-- <ElInput type="textarea" v-model="item.description" /> -->
-                    <div>
-                      <QuillEditor
-                        ref="descriptionEditorRef"
-                        v-model:content="item.description"
-                        :blur="checkData()"
-                        content-type="html"
-                        theme="snow"
-                        toolbar="full"
-                      />
-                    </div>
-                  </ElFormItem>
-                </VCol>
+               
               </VRow>
-            </fieldset>
+            </el-card>
           </VCol>
         </VRow>
-
+        <el-card class="my-4">
         <VRow>
           <VCol cols="12" md="6" class="my-2">
             <!--  prop="ruleForm.image"
@@ -550,6 +544,28 @@
             </span>
             <!-- </ElFormItem> -->
           </VCol>
+          
+          <VCol cols="12" md="6" class="my-2">
+            <ElFormItem
+              label="Map Link"
+              prop="map_link"
+              :rules="[
+                {
+                  required: true,
+                  message: 'map link is required',
+                  trigger: 'blur',
+                },
+                {
+                  type: 'url',
+                  message:
+                    'map link is required and should be like https://www.xyz.com',
+                  trigger: ['blur', 'change'],
+                },
+              ]"
+            >
+              <ElInput type="url" placeholder="https://www.xyz.com" v-model="ruleForm.map_link" />
+            </ElFormItem>
+          </VCol>
           <VCol cols="12" md="6" class="my-2">
             <label for="">Multiple Image </label> <br />
             <!-- <ElFormItem label="Multiple Image" prop="images"> -->
@@ -575,9 +591,7 @@
             </el-upload>
             <!-- </ElFormItem> -->
           </VCol>
-        </VRow>
-        <VRow>
-          <VCol cols="12" v-for="(item, index) in ruleForm.link" :key="index">
+           <VCol cols="12" md="6" v-for="(item, index) in ruleForm.link" :key="index">
             <ElFormItem
               label="Video Link"
               :prop="'link.' + index + '.link'"
@@ -616,12 +630,11 @@
                   </ElButton>
                   <ElButton
                     v-if="
-                      (index != 0 && index != ruleForm.link.length - 1) ||
-                      (index == 0 && ruleForm.link.length > 1)
+                     ruleForm.link.length > 1 
                     "
                     size="small"
                     type="danger"
-                    @click="removeLink"
+                    @click="removeLink(index)"
                   >
                     <VIcon icon="tabler-minus" size="20" />
                   </ElButton>
@@ -630,6 +643,7 @@
             </ElFormItem>
           </VCol>
         </VRow>
+        
         <VRow class="px-4">
           <VCol
             class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
@@ -660,6 +674,7 @@
             <img height="100" width="100" :src="item" alt="" />
           </VCol>
         </VRow>
+
         <div class="py-4 text-start">
           <ElButton
             class="submit-btn"
@@ -677,8 +692,10 @@
             Reset
           </ElButton>
         </div>
+        </el-card>
+        
       </ElForm>
-    </ElCard>
+    
     <el-dialog v-model="imgViewModal" title="Tips" width="500">
       <div class="text-center px-2 py-2">
         <img :src="modalImg" alt="" height="400" width="400" />
@@ -850,8 +867,9 @@ const addLink = () => {
   });
 };
 
-const removeLink = () => {
-  props.ruleForm.link.pop();
+const removeLink = (index) => {
+  // props.ruleForm.link.pop();
+  props.ruleForm.link.splice(index, 1);
 };
 // Function to reset fields
 

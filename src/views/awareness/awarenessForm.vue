@@ -23,22 +23,44 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElForm
+    <!--
+      <ElForm
       label-width="auto"          
       label-position="top"
       class="py-4"
+      > 
+    -->
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
     >
       <VRow>
         <VCol
-          v-for="(item, index) in awarenessData"
+          v-for="(item, index) in ruleForm.data"
           :key="index"
           class="mb-5"
         >
           <ElCard>
-            <ElFormItem :label="index == 0 ? 'Bangla':'English'">
+            <ElFormItem :label="index == 0 ? 'Bangla':'English'" :prop="
+                   'data.' + index + '.name'
+                    " 
+              :rules="{
+                required: true,
+                message: 'Awareness is required',
+                trigger: 'blur',
+              }" >
+
+              
               <div>
                 <QuillEditor
                   v-model:content="item.name"
+                  :text-change="checkData()"
                   content-type="html"
                   theme="snow"          
                   toolbar="full"
@@ -53,7 +75,7 @@
       <ElCard class=" mt-4">
         <ElButton
           type="primary"
-          @click="updateAwarenessData"
+          @click="updateAwarenessData(ruleFormRef)"
         >
           Submit
         </ElButton>
@@ -64,13 +86,13 @@
 
 
 <script setup lang="ts">
-import { useAwarenessStore } from "@/stores/tourism/awarenessStore"
-import { notify } from '@/utils/notification'
-import { onMounted, ref } from "vue"
-import { useRoute } from 'vue-router'
+import { useAwarenessStore } from "@/stores/tourism/awarenessStore";
+import { notify } from '@/utils/notification';
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
-
+const router = useRouter()
 const quillEditor = ref(null) // Ref to the Quill editor instance
 
 const editorOptions = {
@@ -87,7 +109,8 @@ const editData = ref({
 
 const awarenessStore = useAwarenessStore()
 
-const awarenessData = ref({})
+const ruleForm = ref({})
+const ruleFormRef = ref<FormInstance>();
 const htmlContent = ref('')
 
 
@@ -106,43 +129,52 @@ const getAwareness = async () => {
       quillEditor.value ? quillEditor.value.setHTML(data.data.name)   :''  
     }, 1000)
 
-    awarenessData.value = data.data
-    console.log("awareness data", awarenessData.value)
+    ruleForm.value.data = data.data
+    console.log("awareness data", ruleForm.value)
   }catch(error) {
     console.log("error", error)
   }
 }
 
-const validationLock = ref(false)
 
-const updateAwarenessData = async () => {  
-  awarenessData.value[0].name.length <= 11 || awarenessData.value[1].name.length <= 11 ? validationLock.value = true : validationLock.value = false
 
-  
-  if (validationLock.value) {
-    notify('Error!', 'Please fill all fields', 'error', 'top-right')
-    
-    return
-  }
-  try {
-   
+const updateAwarenessData = async (formEl: FormInstance | undefined) => { 
+  if (!formEl) return;
+  await formEl.validate(async (valid, fields) => {
 
-    const { data } = await awarenessStore.updateAwareness({ data: awarenessData.value })
+    if (valid) {
+      try {
+        const { data } = await awarenessStore.updateAwareness(ruleForm.value)
 
-    console.log("data", data)
+        console.log("data", data)
 
-    data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right') : ''
+        data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right') : ''
+        data.status_code == 200 ? router.push({ name: 'awareness' }) : ''
 
-   
-  }catch (error) {
-    
-    notify("error", error?.response?.data?.message)
+      } catch (error) {
 
-    // payload send na krle o success dey
-  }
+        notify("error", error?.response?.data?.message)
+
+        // payload send na krle o success dey
+      }
+    }
+  });
+}
+
+const awarenessEditorRef = ref(null)
+
+const checkData = () => {
+  awarenessEditorRef.value?.map(e => {
+    e.getHTML() == "<p><br></p>" ? e.setHTML("") : ""
+  })
+
+  ruleForm.value.data.map(e => {
+    e.name == "<p><br></p>" ? (e.name = "") : ""
+  })
 }
 
 onMounted(() => {
+
   getAwareness()
   
 })

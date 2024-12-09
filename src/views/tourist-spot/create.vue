@@ -38,9 +38,10 @@ const ruleForm = reactive({
       foods: null,
       visiting_time: null,
       rides: null,
-      fair: null,
-      details: null,
-      safety_guideline: null,
+
+      // fair: null,
+      // details: null,
+      // safety_guideline: null,
       tourist_places: null,
       hazard_info: null,
       advice: null,

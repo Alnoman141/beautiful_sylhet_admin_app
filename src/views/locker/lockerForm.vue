@@ -22,17 +22,97 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
-      <ElForm
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        label-position="top"
-        status-icon
-      >
+
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
+    >
+      <VRow>
+        <VCol
+          v-for="(item, index) in ruleForm && ruleForm.lockers
+            ? ruleForm.lockers
+            : ruleForm.data"
+          :key="index"
+        >
+          <ElCard class="rounded py-2 px-2">
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+
+            <VRow>
+              <VCol cols="12" md="6">
+                <ElFormItem
+                  label="Phone"
+                  :prop="
+                    ruleForm.lockers
+                      ? 'lockers.' + index + '.phone'
+                      : 'data.' + index + '.phone'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'phone is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput placeholder="Phone Number" v-model="item.phone" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12" md="6">
+                <ElFormItem
+                  label="Address"
+                  :prop="
+                    ruleForm.lockers
+                      ? 'lockers.' + index + '.address'
+                      : 'data.' + index + '.address'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'address is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput placeholder="Address" v-model="item.address" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Description"
+                  :prop="
+                    ruleForm.lockers
+                      ? 'lockers.' + index + '.description'
+                      : 'data.' + index + '.description'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'description is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <!-- <ElInput v-model="item.description" /> -->
+
+                  <div>
+                    <QuillEditor
+                      ref="descriptionEditorRef"
+                      v-model:content="item.description"
+                      :blur="checkData()"
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      style="min-block-size: 200"
+                      placeholder="Type description here"
+                    />
+                  </div>
+                </ElFormItem>
+              </VCol>
+            </VRow>
+          </ElCard>
+        </VCol>
+      </VRow>
+      <ElCard class="my-4">
         <VRow>
           <VCol cols="12" md="6">
             <!-- spotDropdownData -->
@@ -61,108 +141,40 @@
           </VCol>
           <VCol cols="12" md="6">
             <ElFormItem
-              label="Link"
+              label="Locker Map Link"
               prop="link"
-              :rules="{
-                required: true,
-                message:
-                  'link can not be empty and should be like https://www.xyz.com',
-                trigger: 'blur',
-              }"
+              :rules="[
+                {
+                  required: true,
+                  message:
+                    'link can not be empty and should be like https://www.xyz.com',
+                  trigger: 'blur',
+                },
+                {
+                  type: 'url',
+                  message:
+                    'link is required and should be like https://www.xyz.com',
+                  trigger: ['blur', 'change'],
+                },
+              ]"
             >
-              <ElInput v-model="ruleForm.link" />
+              <ElInput placeholder="Locker Map Link" v-model="ruleForm.link" />
             </ElFormItem>
           </VCol>
         </VRow>
-        <VRow>
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.lockers
-              ? ruleForm.lockers
-              : ruleForm.data"
-            :key="index"
+        <div class="py-4">
+          <ElButton
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+            class="submit"
           >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
-              <VRow>
-                <VCol cols="12" md="6">
-                  <ElFormItem
-                    label="Phone"
-                    :prop="
-                      ruleForm.lockers
-                        ? 'lockers.' + index + '.phone'
-                        : 'data.' + index + '.phone'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'phone is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    <ElInput v-model="item.phone" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12" md="6">
-                  <ElFormItem
-                    label="Address"
-                    :prop="
-                      ruleForm.lockers
-                        ? 'lockers.' + index + '.address'
-                        : 'data.' + index + '.address'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'address is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    <ElInput v-model="item.address" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12">
-                  <ElFormItem
-                    label="Description"
-                    :prop="
-                      ruleForm.lockers
-                        ? 'lockers.' + index + '.description'
-                        : 'data.' + index + '.description'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'description is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    <!-- <ElInput v-model="item.description" /> -->
-                    
-                    <div>
-                      <QuillEditor
-                        ref="descriptionEditorRef"
-                        v-model:content="item.description"
-                        :blur="checkData()"
-                        content-type="html"
-                        theme="snow"
-                        toolbar="full"
-                        style="min-block-size: 200;"
-                      />
-                    </div>
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-            </fieldset>
-          </VCol>
-        </VRow>
-
-        <div class="py-4 ">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)" class="submit">
             {{ mode }}
           </ElButton>
           <!-- reset button -->
           <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
-      </ElForm>
-    </ElCard>
+      </ElCard>
+    </ElForm>
   </div>
 </template>
 
@@ -253,23 +265,27 @@ onMounted(() => {
 });
 
 const checkData = () => {
-
   descriptionEditorRef.value?.map((e) => {
-    console.log("e",e.getHTML())
+    console.log("e", e.getHTML());
 
-    e.getHTML() == '<p><br></p>' ? e.setHTML("") : "";
-    console.log("e",e.getHTML())
-  })
-  props.ruleForm.lockers ? props.ruleForm.lockers?.map((e) => e.description == '<p><br></p>' ? e.description = "" : "") : props.ruleForm.data?.map((e) => e.description == '<p><br></p>' ? e.description = "" : "")
-  
-}
+    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    console.log("e", e.getHTML());
+  });
+  props.ruleForm.lockers
+    ? props.ruleForm.lockers?.map((e) =>
+        e.description == "<p><br></p>" ? (e.description = "") : ""
+      )
+    : props.ruleForm.data?.map((e) =>
+        e.description == "<p><br></p>" ? (e.description = "") : ""
+      );
+};
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
-  checkData()
-}
+  checkData();
+};
 </script>
 
 <style scoped>
@@ -303,7 +319,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   padding-inline: 10px;
 }
 
-.submit{
+.submit {
   text-transform: capitalize;
 }
 </style>

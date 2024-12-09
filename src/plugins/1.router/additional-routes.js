@@ -43,6 +43,15 @@ export const routes = [
     },
   },
   {
+    path: '/create-guideline',
+    name: 'createGuideline',
+    component: () => import('@/views/guideline/guidelineForm.vue'),
+    meta: {
+      subject: "Dashboard",
+      action: "show menu",
+    },
+  },
+  {
     path: '/edit-guideline/:id',
     name: 'edit-guideline',
     component: () => import('@/views/guideline/guidelineForm.vue'),
@@ -55,6 +64,15 @@ export const routes = [
     path: '/awareness',
     name: 'awareness',
     component: () => import('@/views/awareness/index.vue'),
+    meta: {
+      subject: "Dashboard",
+      action: "show menu",
+    },
+  },
+  {
+    path: '/create-awareness',
+    name: 'createAwareness',
+    component: () => import('@/views/awareness/awarenessForm.vue'),
     meta: {
       subject: "Dashboard",
       action: "show menu",

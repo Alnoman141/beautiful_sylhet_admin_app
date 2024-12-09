@@ -1,4 +1,4 @@
-import { editGuideline, getGuideline, getGuidelineById, updateGuideline } from '@/api/toruism/guideline'
+import { createGuideline, editGuideline, getGuideline, getGuidelineById, updateGuideline } from '@/api/toruism/guideline'
 import { defineStore } from 'pinia'
 
 export const useGuidelineStore = defineStore('guidelineStore', {
@@ -30,6 +30,21 @@ export const useGuidelineStore = defineStore('guidelineStore', {
           })
       })
     },
+
+    // createGuideline
+    createGuideline(query) {
+      return new Promise((resolve, reject) => {
+        createGuideline(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
     updateGuideline(data) {
       return new Promise((resolve, reject) => {
         updateGuideline(data)

@@ -17,6 +17,13 @@ export function editGuideline(query) {
     params: query,
   })
 }
+export function createGuideline(query) {
+  return request({
+    url: "/guideline/store",
+    method: "post",
+    params: query,
+  })
+}
 
 
 // get guideline by id
