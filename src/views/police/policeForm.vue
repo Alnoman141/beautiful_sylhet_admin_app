@@ -49,7 +49,7 @@
               <VCol cols="12">
                 <ElFormItem
                   label="Name"
-                  prop="name"
+                  
                   :prop="
                     ruleForm.police
                       ? 'police.' + index + '.name'
@@ -103,7 +103,7 @@
           <VCol cols="12" md="6">
             <ElFormItem
               label="Tourist Spot"
-              prop="spot_parent_id"
+              prop="police_parent_id"
               :rules="{
                 required: true,
                 message: 'Please select Tourist Spot',
@@ -113,12 +113,7 @@
               <el-select
                 v-model="ruleForm.police_parent_id"
                 placeholder="Select Tourist Spot"
-                prop="spot_parent_id"
-                :rules="{
-                  required: true,
-                  message: 'Please select Tourist Spot',
-                  trigger: 'change',
-                }"
+                
               >
                 <el-option
                   v-for="(item, index) in spotDropdown"
