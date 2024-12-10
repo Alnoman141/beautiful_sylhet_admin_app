@@ -1,8 +1,8 @@
 // Write your overrides
 
 .el-loading-spinner .path {
-  stroke-width: 5px !important;
   stroke: #19ae69 !important;
+  stroke-width: 5px !important;
 }
 
 html.dark .el-card {
@@ -25,4 +25,8 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 
 .masonry-item {
   margin: 5px !important;
+}
+
+#spot .el-upload-list {
+  display:none !important;
 }

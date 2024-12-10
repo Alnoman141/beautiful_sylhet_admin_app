@@ -201,18 +201,7 @@
             <ElFormItem
               label="Map Link"
               prop="map_link"
-              :rules="[
-                {
-                  required: true,
-                  message: 'Please select Tourist Spot',
-                  trigger: 'change',
-                },
-                {
-                  type: 'url',
-                  message: 'Please input correct url',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
+              
             >
               <ElInput
                 placeholder="Map Link"
@@ -276,6 +265,8 @@
           </ElButton>
           <!-- reset button -->
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <!-- back  -->
+          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
         </div>
       </ElCard>
     </ElForm>

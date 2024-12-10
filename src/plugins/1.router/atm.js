@@ -2,7 +2,7 @@ export const atmRoutes = [
   {
     path: '/atm',
     meta: {
-      subject: "Dashboard",
+      subject: "Atm",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const atmRoutes = [
         name: 'atmList',
         component: () => import('@/views/atm/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "Atm",
           action: "show menu",
         },
       },
@@ -21,8 +21,8 @@ export const atmRoutes = [
         name: 'createAtm',
         component: () => import('@/views/atm/create.vue'),
         meta: {
-          subject: "Dashboard",
-          action: "show menu",
+          subject: "Atm",
+          action: "create",
           navActiveLink: 'atm',
         },
       },
@@ -31,8 +31,8 @@ export const atmRoutes = [
         name: 'editAtm',
         component: () => import('@/views/atm/update.vue'),
         meta: {
-          subject: "Dashboard",
-          action: "show menu",
+          subject: "Atm",
+          action: "edit",
           navActiveLink: 'atm',
         },
       },

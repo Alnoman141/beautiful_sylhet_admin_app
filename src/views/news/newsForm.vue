@@ -38,7 +38,7 @@
           <VCol cols="12">
             <ElFormItem label="News Type" prop="news_type_id"  :rules="{
                       required: true,
-                      message: 'details is required',
+                      message: 'News type is required',
                       trigger: 'blur',
                     }">
               <el-select
@@ -75,13 +75,13 @@
               
               <VRow>
                 <VCol cols="12">
-                  <ElFormItem label="News"  :prop="
+                  <ElFormItem label="News Title"  :prop="
                       ruleForm.news
                         ? 'news.' + index + '.name'
                         : 'data.' + index + '.name'
                     "  :rules="{
                       required: true,
-                      message: 'News is required',
+                      message: 'News Title is required',
                       trigger: 'blur',
                     }">
                     <ElInput placeholder="News" v-model="item.name" />
@@ -99,6 +99,7 @@
           {{ mode }}
         </ElButton>
         <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+        <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
       </ElCard>
     </ElForm>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="spot">
     <ElCard class="my-4">
       <VRow>
         <VCol>
@@ -10,11 +10,6 @@
             type="primary"
             :underline="false"
             :to="{ name: 'touristSpot' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
             class="create-btn"
           >
             Tourist Spot List
@@ -41,9 +36,8 @@
           :key="index"
         >
           <el-card class="rounded py-2 px-2">
-            <!-- <legend class="mx-4"> -->
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-            <!-- </legend> -->
+            <hr class="my-2" />
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
@@ -94,7 +88,6 @@
                     trigger: 'blur',
                   }"
                 >
-                  <!-- <ElInput type="textarea" v-model="item.description" /> -->
                   <div>
                     <QuillEditor
                       ref="descriptionEditorRef"
@@ -122,7 +115,6 @@
                     trigger: 'blur',
                   }"
                 >
-                  <!-- <ElInput v-model="item.distance" /> -->
                   <div>
                     <QuillEditor
                       ref="distanceEditorRef"
@@ -150,7 +142,6 @@
                     trigger: 'blur',
                   }"
                 >
-                  <!-- <ElInput type="textarea" v-model="item.travel_info" /> -->
                   <div>
                     <QuillEditor
                       ref="travelInfoEditorRef"
@@ -164,36 +155,7 @@
                   </div>
                 </ElFormItem>
               </VCol>
-              <!-- <VCol cols="12">
-                  <ElFormItem
-                    label="Fair"
-                    :prop="
-                      ruleForm.spot
-                        ? 'spot.' + index + '.fair'
-                        : 'data.' + index + '.fair'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'fair is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    
-                    <div>
-                      <QuillEditor
-                        ref="fairEditorRef"
-                        v-model:content="item.fair"
-                        :blur="checkData()"
-                        content-type="html"
-                        theme="snow"
-                        toolbar="full"
-                        placeholder="Type fair here"
-                      />
-                    </div>
-                  </ElFormItem>
-                </VCol> -->
 
-              <!-- visiting_time -->
               <VCol cols="12">
                 <ElFormItem
                   label="Visiting Time"
@@ -269,63 +231,6 @@
                 </ElFormItem>
               </VCol>
 
-              <!-- <VCol cols="12">
-                  <ElFormItem
-                    label="Details"
-                    :prop="
-                      ruleForm.spot
-                        ? 'spot.' + index + '.details'
-                        : 'data.' + index + '.details'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'details is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    
-                    <div>
-                      <QuillEditor
-                        ref="detailsEditorRef"
-                        v-model:content="item.details"
-                        :blur="checkData()"
-                        content-type="html"
-                        theme="snow"
-                        toolbar="full"
-                        placeholder="Type details here"
-                      />
-                    </div>
-                  </ElFormItem>
-                </VCol> -->
-
-              <!-- <VCol cols="12">
-                  <ElFormItem
-                    label="Safety Guideline"
-                    :prop="
-                      ruleForm.spot
-                        ? 'spot.' + index + '.safety_guideline'
-                        : 'data.' + index + '.safety_guideline'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'guideline is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    
-                    <div>
-                      <QuillEditor
-                        ref="safetyGuidelineEditorRef"
-                        v-model:content="item.safety_guideline"
-                        :blur="checkData()"
-                        content-type="html"
-                        theme="snow"
-                        toolbar="full"
-                        placeholder="Type guideline here"
-                      />
-                    </div>
-                  </ElFormItem>
-                </VCol> -->
               <VCol cols="12">
                 <ElFormItem
                   label="Tourist Places"
@@ -421,35 +326,6 @@
                   </div>
                 </ElFormItem>
               </VCol>
-
-              <!-- <VCol cols="12">
-                <ElFormItem
-                  label="Risk Factor"
-                  :prop="
-                    ruleForm.spot
-                      ? 'spot.' + index + '.risk_factor'
-                      : 'data.' + index + '.risk_factor'
-                  "
-                  :rules="{
-                    required: true,
-                    message: 'risk factor is required',
-                    trigger: 'blur',
-                  }"
-                >
-                  
-                  <div>
-                    <QuillEditor
-                      ref="riskFactorEditorRef"
-                      v-model:content="item.risk_factor"
-                      :blur="checkData()"
-                      content-type="html"
-                      theme="snow"
-                      toolbar="full"
-                      placeholder="Type risk factor here"
-                    />
-                  </div>
-                </ElFormItem>
-              </VCol> -->
             </VRow>
           </el-card>
         </VCol>
@@ -466,7 +342,7 @@
               drag
               :on-change="onFileChange"
               :before-upload="beforeAvatarUpload"
-              auto-upload="false"
+              :auto-upload="false"
             >
               <div class="el-upload__text">
                 <el-icon
@@ -482,7 +358,7 @@
                   class="border mt-2"
                   v-if="ruleForm.image || previewImage"
                 />
-                <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
@@ -513,7 +389,7 @@
           </VCol>
           <VCol cols="12" md="6" class="my-2">
             <label for="">Multiple Image </label> <br />
-            <!-- <ElFormItem label="Multiple Image" prop="images"> -->
+
             <el-upload
               class="upload-demo"
               drag
@@ -536,50 +412,43 @@
             </el-upload>
             <!-- </ElFormItem> -->
           </VCol>
-          <VCol
-            cols="12"
-            md="6"
-           
-          >
-          <template  v-for="(item, index) in ruleForm.link"
-            :key="index">
-            
-            <ElFormItem
-              :label="'Video Link ' + (index > 0 ? index + 1 : '')"
-              :prop="'link.' + index + '.link'"
-            >
-              <VRow>
-                <VCol cols="10">
-                  <ElInput
-                    v-model="item.link"
-                    placeholder="https://www.xyz.com"
-                  />
-                </VCol>
-                <VCol>
-                  <ElButton
-                    v-if="
-                      (index == 0 && ruleForm.link.length == 1) ||
-                      (index == ruleForm.link.length - 1 && index != 0)
-                    "
-                    size="small"
-                    type="success"
-                    @click="addLink"
-                  >
-                    <VIcon icon="tabler-plus" size="20" />
-                  </ElButton>
-                  <ElButton
-                    v-if="ruleForm.link.length > 1"
-                    size="small"
-                    type="danger"
-                    @click="removeLink(index)"
-                  >
-                    <VIcon icon="tabler-minus" size="20" />
-                  </ElButton>
-                </VCol>
-              </VRow>
-            </ElFormItem>
-          </template>
-
+          <VCol cols="12" md="6">
+            <template v-for="(item, index) in ruleForm.link" :key="index">
+              <ElFormItem
+                :label="'Video Link ' + (index > 0 ? index + 1 : '')"
+                :prop="'link.' + index + '.link'"
+              >
+                <VRow>
+                  <VCol cols="10">
+                    <ElInput
+                      v-model="item.link"
+                      placeholder="https://www.xyz.com"
+                    />
+                  </VCol>
+                  <VCol>
+                    <ElButton
+                      v-if="
+                        (index == 0 && ruleForm.link.length == 1) ||
+                        (index == ruleForm.link.length - 1 && index != 0)
+                      "
+                      size="small"
+                      type="success"
+                      @click="addLink"
+                    >
+                      <VIcon icon="tabler-plus" size="20" />
+                    </ElButton>
+                    <ElButton
+                      v-if="ruleForm.link.length > 1"
+                      size="small"
+                      type="danger"
+                      @click="removeLink(index)"
+                    >
+                      <VIcon icon="tabler-minus" size="20" />
+                    </ElButton>
+                  </VCol>
+                </VRow>
+              </ElFormItem>
+            </template>
           </VCol>
         </VRow>
 
@@ -601,21 +470,20 @@
             />
             <button class="dlt-btn" @click.prevent="showAlert(item)">
               <!-- <el-icon><Delete /></el-icon> -->
-              <VIcon
-              icon="tabler-trash"
-              size="20"
-              class="text-danger"
-            />
+              <VIcon icon="tabler-trash" size="20" class="text-danger" />
             </button>
           </VCol>
           <VCol
-            class="text-center mt-2"
+            class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
             cols="12"
             md="1"
             v-for="(item, index) in previewMultipleImage"
             :key="index"
           >
             <img height="100" width="100" :src="item" alt="" />
+            <button class="dlt-btn" @click.prevent="remoeUploadedImage(index)">
+              <VIcon icon="tabler-trash" size="20" class="text-danger" />
+            </button>
           </VCol>
         </VRow>
 
@@ -630,11 +498,11 @@
           <ElButton
             v-if="mode == 'create'"
             class="submit-btn"
-            type="secondary"
             @click="resetForm(ruleFormRef)"
           >
             Reset
           </ElButton>
+          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
         </div>
       </el-card>
     </ElForm>
@@ -680,7 +548,6 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  
   props.ruleForm.image = URL.createObjectURL(uploadFile.raw!);
 };
 const previewImage = ref(null);
@@ -725,6 +592,28 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   }
 
   return true;
+};
+
+const remoeUploadedImage = (index) => {
+  ElMessageBox.alert(
+    "Are you sure that you want to delete this image ?",
+    "Delete",
+    {
+      confirmButtonText: "Delete",
+      confirmButtonClass: "el-button--danger",
+      callback: (action) => {
+        ElMessage({
+          type: "info",
+          message: `action: ${action}`,
+        });
+
+        action == "confirm"
+          ? (previewMultipleImage.value.splice(index, 1),
+            multpleTempImg.value.splice(index, 1))
+          : "";
+      },
+    }
+  );
 };
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -778,30 +667,31 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const imgViewModal = ref(false);
 const modalImg = ref(null);
-const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this image ?', 'Delete', {
-    confirmButtonText: 'Delete',
-    confirmButtonClass: 'el-button--danger',
-    callback: action => {
-      ElMessage({
-        type: 'info',
-        message: `action: ${action}`,
-      })
+const showAlert = (item) => {
+  ElMessageBox.alert(
+    "Are you sure that you want to delete this image ?",
+    "Delete",
+    {
+      confirmButtonText: "Delete",
+      confirmButtonClass: "el-button--danger",
+      callback: (action) => {
+        ElMessage({
+          type: "info",
+          message: `action: ${action}`,
+        });
 
-      
-      action == 'confirm' ? removeImage(item) : ''
-    },
-  })
-}
-
-
+        action == "confirm" ? removeImage(item) : "";
+      },
+    }
+  );
+};
 
 const removeImage = async (item) => {
   let arr = [];
   arr.push(item.id);
   try {
     const { data } = await spotStore.deleteImage({ ids: arr });
-    
+
     data.status_code == 200
       ? notify(
           "Warning!",
@@ -816,8 +706,6 @@ const removeImage = async (item) => {
     console.log("error", error);
   }
 };
-
-
 
 const viewImage = (item) => {
   imgViewModal.value = true;

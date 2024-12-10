@@ -219,6 +219,7 @@
             {{ mode }}
           </ElButton>
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
         </div>
       </ElCard>
     </ElForm>
@@ -236,12 +237,12 @@ import {
   type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
-import { useRoute } from "vue-router";
+import { router, useRoute } from "vue-router";
 
 const spotStore = useSpotStore();
 const emit = defineEmits(["getEmit"]);
 const route = useRoute();
-
+const router = useRouter();
 const props = defineProps({
   ruleForm: {
     type: Object,
@@ -296,14 +297,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? await eventsStore.updateEvents(form)
         : await eventsStore.createEvents(props.ruleForm);
       data.status_code == 200
-        ? notify(
+        ? (notify(
             "Congratulations!",
             data.message,
             "success",
-            "top-right",
-            emit("getEmit")
-          )
+            "top-right"
+          ), router.push({ name: "eventsList" }))
         : "";
+        
     } else {
       console.log("error submit!", fields);
     }

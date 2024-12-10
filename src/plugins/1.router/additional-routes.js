@@ -38,7 +38,7 @@ export const routes = [
     name: 'guide-line',
     component: () => import('@/views/guideline/index.vue'),
     meta: {
-      subject: "Dashboard",
+      subject: "Guideline",
       action: "show menu",
     },
   },
@@ -47,8 +47,8 @@ export const routes = [
     name: 'createGuideline',
     component: () => import('@/views/guideline/guidelineForm.vue'),
     meta: {
-      subject: "Dashboard",
-      action: "show menu",
+      subject: "Guideline",
+      action: "create",
     },
   },
   {
@@ -56,8 +56,8 @@ export const routes = [
     name: 'edit-guideline',
     component: () => import('@/views/guideline/guidelineForm.vue'),
     meta: {
-      subject: "Dashboard",
-      action: "show menu",
+      subject: "Guideline",
+      action: "edit",
     },
   },
   {
@@ -65,7 +65,7 @@ export const routes = [
     name: 'awareness',
     component: () => import('@/views/awareness/index.vue'),
     meta: {
-      subject: "Dashboard",
+      subject: "Awareness",
       action: "show menu",
     },
   },
@@ -74,8 +74,8 @@ export const routes = [
     name: 'createAwareness',
     component: () => import('@/views/awareness/awarenessForm.vue'),
     meta: {
-      subject: "Dashboard",
-      action: "show menu",
+      subject: "Awareness",
+      action: "create",
     },
   },
   {
@@ -83,63 +83,16 @@ export const routes = [
     name: 'edit-awareness',
     component: () => import('@/views/awareness/awarenessForm.vue'),
     meta: {
-      subject: "Dashboard",
-      action: "show menu",
+      subject: "Awareness",
+      action: "edit",
     },
-  },
-
-  
-  {
-    path: '/locker',
-    name: 'locker',
-    component: () => import('@/views/locker/index.vue'),
-    meta: {
-      subject: "Dashboard",
-      action: "show menu",
-    },
-  },
-  {
-    path: '/hotel',
-    name: 'hotel',
-    component: () => import('@/views/hotel/index.vue'),
-    meta: {
-      subject: "Dashboard",
-      action: "show menu",
-    },
-  },
-  {
-    path: '/transport',
-    name: 'transport',
-    component: () => import('@/views/transport/index.vue'),
-    meta: {
-      subject: "Dashboard",
-      action: "show menu",
-    },
-  },
-  {
-    path: '/events',
-    name: 'events',
-    component: () => import('@/views/events/index.vue'),
-    meta: {
-      subject: "Dashboard",
-      action: "show menu",
-    },
-  },
-  {
-    path: '/campaign',
-    name: 'campaign',
-    component: () => import('@/views/campaign/index.vue'),
-    meta: {
-      subject: "Dashboard",
-      action: "show menu",
-    },
-  },
+  }, 
   {
     path: '/info',
     name: 'info',
     component: () => import('@/views/coxbazar-info/index.vue'),
     meta: {
-      subject: "Dashboard",
+      subject: "Info",
       action: "show menu",
     },
   },
@@ -148,19 +101,10 @@ export const routes = [
     name: 'infoEdit',
     component: () => import('@/views/coxbazar-info/infoForm.vue'),
     meta: {
-      subject: "Dashboard",
-      action: "show menu",
+      subject: "Info",
+      action: "edit",
     },
   },
  
  
-  // {
-  //   path: '/notice',
-  //   name: 'notice',
-  //   component: () => import('@/views/notice/index.vue'),
-  //   meta: {
-  //     subject: "Dashboard",
-  //     action: "show menu",
-  //   },
-  // },
 ]

@@ -19,7 +19,7 @@ export default [
     title: 'Awareness',
     to: 'awareness',
     icon: { icon: 'tabler-speakerphone' },
-    subject: "Dashboard",
+    subject: "Awareness",
     action: "show menu",
   },
   {
@@ -86,14 +86,14 @@ export default [
   },
   {
     title: 'Events',
-    to: 'events',
+    to: 'eventsList',
     icon: { icon: 'tabler-ticket' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'Campaign',
-    to: 'campaign',
+    to: 'campaignList',
     icon: { icon: 'tabler-brand-campaignmonitor' },
     subject: "Dashboard",
     action: "show menu",

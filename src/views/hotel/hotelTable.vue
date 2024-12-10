@@ -16,7 +16,8 @@
         :align="column.align"
       >
         <template #default="scope">
-          <div v-html="scope.row[column.prop]" />
+          <!-- <div v-html="scope.row[column.prop]" /> -->
+          <div v-html="column.prop !== 'id' ? scope.row[column.prop] : index++" />
         </template>
       </ElTableColumn>
 

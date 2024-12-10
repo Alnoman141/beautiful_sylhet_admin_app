@@ -46,7 +46,8 @@ const lockerStore = useLockerStore()
 
 const spotList = ref([])
 
-const columns = ref( [
+const columns = ref([
+  { label: 'ID', prop: 'id', sortable: true },
   { label: 'Spot Name', prop: 'spot_name', sortable: true },
   { label: 'Phone', prop: 'phone', sortable: true },
   { label: 'Address', prop: 'address', sortable: true },        

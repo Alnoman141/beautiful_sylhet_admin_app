@@ -75,9 +75,7 @@
           Submit
         </ElButton>
 
-        <!-- <ElButton v-if="router.name != 'edit-guideline'"  type="secondary" @click="resetForm(ruleFormRef)">
-          Reset
-        </ElButton> -->
+     <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
       </ElCard>
     </ElForm>
   </div>

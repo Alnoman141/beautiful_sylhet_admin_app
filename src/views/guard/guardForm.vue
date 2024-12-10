@@ -132,6 +132,7 @@
           </ElButton>
           <!-- reset button -->
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
         </div>
         </ElCard>
       </ElForm>

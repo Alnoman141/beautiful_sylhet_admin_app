@@ -75,6 +75,7 @@
         >
           Submit
         </ElButton>
+        <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
       </ElCard>
     </ElForm>
   </div>
