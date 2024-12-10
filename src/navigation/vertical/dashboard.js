@@ -124,7 +124,7 @@ export default [
     ],
   },
   {
-    title: 'Red Zone',
+    title: 'Danger Zone',
     to: 'redZoneList',
     icon: { icon: 'tabler-alert-triangle' },
     subject: "Dashboard",

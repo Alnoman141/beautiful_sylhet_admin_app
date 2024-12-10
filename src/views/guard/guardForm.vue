@@ -50,7 +50,7 @@
               <hr class="my-2">
               <VRow>
                 <VCol cols="12">
-                  <ElFormItem label="Name" prop="name"  :prop="
+                  <ElFormItem label="Name"   :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.name'
                       : 'data.' + index + '.name'
@@ -126,12 +126,12 @@
 
         
         </VRow>
-        <div class="py-4 text-center">
+        <div class="py-4 ">
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <!-- reset button -->
-          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
         </ElCard>
       </ElForm>

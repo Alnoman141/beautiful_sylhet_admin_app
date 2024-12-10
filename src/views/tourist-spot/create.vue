@@ -46,7 +46,8 @@ const ruleForm = reactive({
       hazard_info: null,
       advice: null,
       others_info: null,
-      risk_factor: null,
+
+      // risk_factor: null,
       
     },
     {
@@ -67,7 +68,8 @@ const ruleForm = reactive({
       hazard_info: null,
       advice: null,
       others_info: null,
-      risk_factor: null,
+
+      // risk_factor: null,
       
     },
     

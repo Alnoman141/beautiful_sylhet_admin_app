@@ -45,6 +45,7 @@
             <ElCard class="rounded py-2 px-2">
               
                 <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+                <hr class="my-2" />
               
               <VRow>
                 <VCol cols="12">
@@ -80,12 +81,13 @@
         </VRow>
         <ElCard class="my-4">
         <VRow>
-          <VCol cols="12" md="6" >
+          <VCol cols="12" >
             
               <el-upload
                 class="upload-section"
                 drag
                 :on-change="onFileChange"
+                :before-upload="beforeAvatarUpload"
                 auto-upload="false"
               >
                 <div class="el-upload__text">
@@ -211,6 +213,24 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log("error submit!", fields);
     }
   });
+};
+
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+  if (
+    rawFile.type !== "image/jpeg" &&
+    rawFile.type !== "image/png" &&
+    rawFile.type !== "image/jpg"
+  ) {
+    ElMessage.error("Avatar picture must be JPG / JPEG / PNG format!");
+    imgUploadValidation.value = true;
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error("Avatar picture size can not exceed 2MB!");
+
+    return false;
+  }
+
+  return true;
 };
 
 

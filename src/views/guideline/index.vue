@@ -30,7 +30,7 @@ const guidelineStore = useGuidelineStore()
 const guidelineList = ref([])
 
 const columns = ref([
-  { label: "ID", prop: "id", sortable: true },
+  
   { label: "Name", prop: "name", sortable: true },
 ])
 

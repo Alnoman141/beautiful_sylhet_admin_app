@@ -45,7 +45,7 @@
           <ElCard class="rounded py-2 px-2">
             
               <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-            
+            <hr class="my-2"/>
             <VRow>
               <VCol cols="12">
                 <ElFormItem label="Name" :prop="
@@ -126,7 +126,7 @@
             {{ mode }}
           </ElButton>
           <!-- reset button -->
-          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
       </ElCard>
     </ElForm>

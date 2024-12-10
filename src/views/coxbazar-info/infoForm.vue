@@ -34,10 +34,11 @@
       status-icon
     >
       <VRow>
+        
         <VCol v-for="(item, index) in ruleForm" :key="index" cols="12" md="6">
-          <ElCard>
+          <el-card>
             <p>{{ index == 0 ? "Bangla" : "English" }}</p>
-
+            <hr class="my-2" />
             <ElFormItem
               label="Cox Bazar Info"
               :prop="index + '.description'"
@@ -55,18 +56,19 @@
                 theme="snow"
                 toolbar="full"
                 :text-change="checkData()"
+                style="block-size: 100dvh;"
               />
-            </div>  
+            </div> 
             </ElFormItem>
-          </ElCard>
+          </el-card>
         </VCol>
       </VRow>
 
-      <div class="py-4 text-center">
+      <ElCard class="my-4 ">
         <ElButton type="primary" @click="submitForm(ruleFormRef)">
           Update
         </ElButton>
-      </div>
+      </ElCard>
     </ElForm>
   </div>
 </template>
@@ -135,10 +137,11 @@ const getInfo = async () => {
 const coxbazarInfoEditorRef = ref(null);
 const checkData = () => {
   coxbazarInfoEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    e.getHTML() == "<p><br></p>" || e.getHTML().length <= 13 ? e.setHTML("") : "";
   });
   ruleForm.value?.map((e) => {
-    e.description == "<p><br></p>" ? (e.description = "") : "";
+    
+    e.description == "<p><br></p>" || e.description.lenght <= 13 ? (e.description = "") : "";
   });
 };
 onMounted(() => {

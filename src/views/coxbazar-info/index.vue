@@ -8,38 +8,28 @@
       >
         <ElTableColumn label="Description">
           <template #default="scope">
-            <div v-html="scope.row.description" />
+            <div class="">
+              <div class="text-end">
+                <ElButton
+                  type="success"
+                  size="small"
+                >
+                  <RouterLink
+                    :to="{ name: 'infoEdit' }"
+                    style=" color:white !important;text-decoration: none !important;"
+                  >
+                    <VIcon
+                      icon="tabler-edit"
+                      size="20"
+                    />
+                  </RouterLink>
+                </ElButton>
+              </div>
+              
+              <div v-html="scope.row.description" />
+            </div>
           </template>
         </ElTableColumn>
-
-        <ElTableColumn
-          label="Actions"
-          align="right"
-          width="80"
-        >
-          <template #default>
-            <ElButton
-              type="success"
-              size="small"
-            >
-              <RouterLink
-                :to="{ name: 'infoEdit' }"
-                style=" color:white !important;text-decoration: none !important;"
-              >
-                <VIcon
-                  icon="tabler-edit"
-                  size="20"
-                />
-              </RouterLink>
-            </ElButton>
-          </template>
-        </ElTableColumn>
-        <!--
-          <ElTableColumn
-          prop="address"
-          label="Address"
-          /> 
-        -->
       </ElTable>
     </div>
   </ElCard>

@@ -12,44 +12,31 @@
         :key="index"
         :label="column.label"
         :prop="column.prop"
-        :width="column.prop == 'id' ? '100' : ''"
+        
         :align="column.align"
       >
         <template #default="scope">
+          <div class="text-end">
+            <ElButton
+              type="success"
+              size="small"
+            >
+              <RouterLink
+                :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"
+                style=" color:white !important;text-decoration: none !important;"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="20"
+                />
+              </RouterLink>
+            </ElButton>
+          </div>
           <div
             class="px-4"
             
-            v-html="column.prop == 'name' ? scope.row[column.prop] : index++"
+            v-html="scope.row[column.prop] "
           />
-        </template>
-      </ElTableColumn>
-
-
-      <!-- Action Buttons Column -->
-      <ElTableColumn
-        align="left"
-        width="100"
-      >
-        <template #header>
-          <div class="text-left">
-            Actions
-          </div>
-        </template>
-        <template #default="scope">
-          <ElButton
-            type="success"
-            size="small"
-          >
-            <RouterLink
-              :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"
-              style=" color:white !important;text-decoration: none !important;"
-            >
-              <VIcon
-                icon="tabler-edit"
-                size="20"
-              />
-            </RouterLink>
-          </ElButton>
         </template>
       </ElTableColumn>
     </ElTable>

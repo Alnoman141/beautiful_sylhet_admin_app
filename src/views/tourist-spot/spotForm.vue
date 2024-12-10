@@ -193,35 +193,7 @@
                   </ElFormItem>
                 </VCol> -->
 
-              <VCol cols="12">
-                <ElFormItem
-                  label="Foods"
-                  :prop="
-                    ruleForm.spot
-                      ? 'spot.' + index + '.foods'
-                      : 'data.' + index + '.foods'
-                  "
-                  :rules="{
-                    required: true,
-                    message: 'foods is required',
-                    trigger: 'blur',
-                  }"
-                >
-                  <!-- <ElInput v-model="item.foods" /> -->
-                  <div>
-                    <QuillEditor
-                      ref="foodsEditorRef"
-                      v-model:content="item.foods"
-                      :blur="checkData()"
-                      content-type="html"
-                      theme="snow"
-                      toolbar="full"
-                      placeholder="Type foods here"
-                    />
-                  </div>
-                </ElFormItem>
-              </VCol>
-              <!-- visiting_time -->
+                 <!-- visiting_time -->
               <VCol cols="12">
                 <ElFormItem
                   label="Visiting Time"
@@ -249,6 +221,32 @@
                   </div>
                 </ElFormItem>
               </VCol>
+
+              <VCol cols="12">
+                <ElFormItem
+                  label="Foods"
+                  :prop="
+                    ruleForm.spot
+                      ? 'spot.' + index + '.foods'
+                      : 'data.' + index + '.foods'
+                  "
+                 
+                >
+                  <!-- <ElInput v-model="item.foods" /> -->
+                  <div>
+                    <QuillEditor
+                      ref="foodsEditorRef"
+                      v-model:content="item.foods"
+                      :blur="checkData()"
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type foods here"
+                    />
+                  </div>
+                </ElFormItem>
+              </VCol>
+             
               <VCol cols="12">
                 <ElFormItem
                   label="Rides"
@@ -257,11 +255,7 @@
                       ? 'spot.' + index + '.rides'
                       : 'data.' + index + '.rides'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'rides is required',
-                    trigger: 'blur',
-                  }"
+                  
                 >
                   <div>
                     <QuillEditor
@@ -342,11 +336,7 @@
                       ? 'spot.' + index + '.tourist_places'
                       : 'data.' + index + '.tourist_places'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'tourist places is required',
-                    trigger: 'blur',
-                  }"
+                 
                 >
                   <!-- <ElInput v-model="item.tourist_places" /> -->
                   <div>
@@ -371,11 +361,7 @@
                       ? 'spot.' + index + '.hazard_info'
                       : 'data.' + index + '.hazard_info'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'hazard info is required',
-                    trigger: 'blur',
-                  }"
+                 
                 >
                   <!-- <ElInput v-model="item.hazard_info" /> -->
                   <div>
@@ -400,11 +386,7 @@
                       ? 'spot.' + index + '.advice'
                       : 'data.' + index + '.advice'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'advice is required',
-                    trigger: 'blur',
-                  }"
+                 
                 >
                   <!-- <ElInput v-model="item.advice" /> -->
                   <div>
@@ -429,11 +411,7 @@
                       ? 'spot.' + index + '.others_info'
                       : 'data.' + index + '.others_info'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'others info is required',
-                    trigger: 'blur',
-                  }"
+                  
                 >
                   <!-- <ElInput v-model="item.others_info" /> -->
                   <div>
@@ -450,7 +428,7 @@
                 </ElFormItem>
               </VCol>
 
-              <VCol cols="12">
+              <!-- <VCol cols="12">
                 <ElFormItem
                   label="Risk Factor"
                   :prop="
@@ -464,7 +442,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <!-- <ElInput v-model="item.risk_factor" /> -->
+                  
                   <div>
                     <QuillEditor
                       ref="riskFactorEditorRef"
@@ -477,7 +455,7 @@
                     />
                   </div>
                 </ElFormItem>
-              </VCol>
+              </VCol> -->
             </VRow>
           </el-card>
         </VCol>
@@ -534,19 +512,7 @@
             <ElFormItem
               label="Map Link"
               prop="map_link"
-              :rules="[
-                {
-                  required: true,
-                  message: 'map link is required',
-                  trigger: 'blur',
-                },
-                {
-                  type: 'url',
-                  message:
-                    'map link is required and should be like https://www.xyz.com',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
+              
             >
               <ElInput
                 type="url"
@@ -587,21 +553,9 @@
             :key="index"
           >
             <ElFormItem
-              label="Video Link"
+              :label="'Video Link ' + (index > 0 ? index +1 :'')"
               :prop="'link.' + index + '.link'"
-              :rules="[
-                {
-                  required: true,
-                  message: 'link required',
-                  trigger: 'blur',
-                },
-                {
-                  type: 'url',
-                  message:
-                    'link is required and should be like https://www.xyz.com',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
+             
             >
               <VRow>
                 <VCol cols="10">
@@ -914,7 +868,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
     e.hazard_info = null;
     e.advice = null;
     e.others_info = null;
-    e.risk_factor = null;
+    // e.risk_factor = null;
   });
 };
 const checkData = () => {
@@ -975,7 +929,7 @@ const checkData = () => {
     e.hazard_info == "<p><br></p>" ? (e.hazard_info = "") : "";
     e.advice == "<p><br></p>" ? (e.advice = "") : "";
     e.other_info == "<p><br></p>" ? (e.other_info = "") : "";
-    e.risk_factor == "<p><br></p>" ? (e.risk_factor = "") : "";
+    // e.risk_factor == "<p><br></p>" ? (e.risk_factor = "") : "";
   });
 };
 
