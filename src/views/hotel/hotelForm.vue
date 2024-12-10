@@ -275,7 +275,7 @@
             {{ mode }}
           </ElButton>
           <!-- reset button -->
-          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
       </ElCard>
     </ElForm>

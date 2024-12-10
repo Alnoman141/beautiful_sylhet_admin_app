@@ -193,7 +193,7 @@
                   </ElFormItem>
                 </VCol> -->
 
-                 <!-- visiting_time -->
+              <!-- visiting_time -->
               <VCol cols="12">
                 <ElFormItem
                   label="Visiting Time"
@@ -230,7 +230,6 @@
                       ? 'spot.' + index + '.foods'
                       : 'data.' + index + '.foods'
                   "
-                 
                 >
                   <!-- <ElInput v-model="item.foods" /> -->
                   <div>
@@ -246,7 +245,7 @@
                   </div>
                 </ElFormItem>
               </VCol>
-             
+
               <VCol cols="12">
                 <ElFormItem
                   label="Rides"
@@ -255,7 +254,6 @@
                       ? 'spot.' + index + '.rides'
                       : 'data.' + index + '.rides'
                   "
-                  
                 >
                   <div>
                     <QuillEditor
@@ -336,7 +334,6 @@
                       ? 'spot.' + index + '.tourist_places'
                       : 'data.' + index + '.tourist_places'
                   "
-                 
                 >
                   <!-- <ElInput v-model="item.tourist_places" /> -->
                   <div>
@@ -361,7 +358,6 @@
                       ? 'spot.' + index + '.hazard_info'
                       : 'data.' + index + '.hazard_info'
                   "
-                 
                 >
                   <!-- <ElInput v-model="item.hazard_info" /> -->
                   <div>
@@ -386,7 +382,6 @@
                       ? 'spot.' + index + '.advice'
                       : 'data.' + index + '.advice'
                   "
-                 
                 >
                   <!-- <ElInput v-model="item.advice" /> -->
                   <div>
@@ -411,7 +406,6 @@
                       ? 'spot.' + index + '.others_info'
                       : 'data.' + index + '.others_info'
                   "
-                  
                 >
                   <!-- <ElInput v-model="item.others_info" /> -->
                   <div>
@@ -494,7 +488,7 @@
               </div>
               <template #tip>
                 <div class="el-upload__tip">
-                  jpg/png files with a size less than 2MB <br>
+                  jpg/png files with a size less than 2MB <br />
                   <span
                     v-if="imgUploadValidation == true"
                     style="color: #fc6767; font-size: 12px; font-weight: light"
@@ -509,11 +503,7 @@
           </VCol>
 
           <VCol cols="12" md="6" class="my-2">
-            <ElFormItem
-              label="Map Link"
-              prop="map_link"
-              
-            >
+            <ElFormItem label="Map Link" prop="map_link">
               <ElInput
                 type="url"
                 placeholder="https://www.xyz.com"
@@ -549,13 +539,14 @@
           <VCol
             cols="12"
             md="6"
-            v-for="(item, index) in ruleForm.link"
-            :key="index"
+           
           >
+          <template  v-for="(item, index) in ruleForm.link"
+            :key="index">
+            
             <ElFormItem
-              :label="'Video Link ' + (index > 0 ? index +1 :'')"
+              :label="'Video Link ' + (index > 0 ? index + 1 : '')"
               :prop="'link.' + index + '.link'"
-             
             >
               <VRow>
                 <VCol cols="10">
@@ -587,6 +578,8 @@
                 </VCol>
               </VRow>
             </ElFormItem>
+          </template>
+
           </VCol>
         </VRow>
 
@@ -594,7 +587,7 @@
           <VCol
             class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
             cols="12"
-            md="3"
+            md="1"
             v-for="(item, index) in ruleForm.images"
             :key="index"
           >
@@ -602,18 +595,23 @@
               @click="viewImage(ruleForm.images[index].name)"
               :src="item.name"
               alt=""
-              height="120"
-              width="120"
+              height="100"
+              width="100"
               class="border m-1"
             />
-            <button class="dlt-btn" @click.prevent="removeImage(item)">
-              <el-icon><Delete /></el-icon>
+            <button class="dlt-btn" @click.prevent="showAlert(item)">
+              <!-- <el-icon><Delete /></el-icon> -->
+              <VIcon
+              icon="tabler-trash"
+              size="20"
+              class="text-danger"
+            />
             </button>
           </VCol>
           <VCol
             class="text-center mt-2"
             cols="12"
-            md="3"
+            md="1"
             v-for="(item, index) in previewMultipleImage"
             :key="index"
           >
@@ -780,6 +778,23 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const imgViewModal = ref(false);
 const modalImg = ref(null);
+const showAlert = item => {
+  ElMessageBox.alert('Are you sure that you want to delete this image ?', 'Delete', {
+    confirmButtonText: 'Delete',
+    confirmButtonClass: 'el-button--danger',
+    callback: action => {
+      ElMessage({
+        type: 'info',
+        message: `action: ${action}`,
+      })
+
+      console.log("action", action)
+      action == 'confirm' ? removeImage(item) : ''
+    },
+  })
+}
+
+
 
 const removeImage = async (item) => {
   let arr = [];
@@ -801,6 +816,8 @@ const removeImage = async (item) => {
     console.log("error", error);
   }
 };
+
+
 
 const viewImage = (item) => {
   imgViewModal.value = true;

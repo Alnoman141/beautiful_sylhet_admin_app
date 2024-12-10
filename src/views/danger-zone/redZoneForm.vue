@@ -176,18 +176,19 @@
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
-              <template #tip>
+               <template #tip>
                 <div class="el-upload__tip">
-                  jpg/png files with a size less than 500kb
+                  jpg/png files with a size less than 2MB <br />
+                  <span
+                    v-if="imgUploadValidation == true"
+                    style="color: #fc6767; font-size: 12px; font-weight: light"
+                  >
+                    image is required and must be valid format
+                  </span>
                 </div>
               </template>
             </el-upload>
-            <span
-              v-if="imgUploadValidation == true"
-              style="color: #f89797; font-size: 10px; font-weight: light"
-            >
-              image is required and must be valid format
-            </span>
+            
             <!-- </ElFormItem> -->
           </VCol>
           <VCol cols="12" md="6">
@@ -270,7 +271,7 @@ const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-    !props.ruleForm.image
+      props.mode == "create" && !tempImg.value
       ? (imgUploadValidation.value = true)
       : (imgUploadValidation.value = false);
 
@@ -325,7 +326,7 @@ const onFileChange = (file) => {
 };
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  console.log("rawFile", rawFile);
+  
   if (
     rawFile.type !== "image/jpeg" &&
     rawFile.type !== "image/png" &&
@@ -336,7 +337,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
     return false;
   } else if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error("Avatar picture size can not exceed 2MB!");
-    imgUploadValidation.value = true;
+    
     return false;
   }
 

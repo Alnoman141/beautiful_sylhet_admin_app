@@ -25,11 +25,13 @@ const ruleForm = ref({
       language_id: 1, 
       name: '',     
       description: '',     
+      date: '',
     },
     {
       language_id: 2, 
       name: '',     
       description: '',     
+      date: '',
     },
    
 

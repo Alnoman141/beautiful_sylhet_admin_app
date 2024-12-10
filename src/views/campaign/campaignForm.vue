@@ -88,6 +88,32 @@
 
                 </ElFormItem>
               </VCol>
+              <VCol cols="12">
+                <ElFormItem label="Date"  :prop="
+                    ruleForm.campaigns
+                      ? 'campaigns.' + index + '.date'
+                      : 'data.' + index + '.date'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'Date  is required',
+                    trigger: 'blur',
+                  }">
+                  <!-- <ElInput type="textarea" v-model="item.description" /> -->
+                  <div>
+                  <QuillEditor
+                      ref="dateEditorRef"
+                      v-model:content="item.date"
+                      :blur="checkData()"
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type Date here"
+                    />
+                    </div>
+
+                </ElFormItem>
+              </VCol>
             </VRow>
           </ElCard>
         </VCol>
@@ -135,7 +161,7 @@
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
-          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
       </ElCard>
     </ElForm>
@@ -238,28 +264,37 @@ const viewImage = (item) => {
   modalImg.value = item;
 };
 const descriptionEditorRef = ref(null);
+const dateEditorRef = ref(null)
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
     e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
     
   })
+  dateEditorRef.value?.map((e) => {
+    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+  })
   props.ruleForm.data?.map((e) => {
     e.description == "<p><br></p>" ? (e.description = "") : "";
+    e.date == "<p><br></p>" ? (e.date = "") : "";
   })
   props.ruleForm.campaigns?.map((e) => {
     e.description == "<p><br></p>" ? (e.description = "") : "";
+    e.date == "<p><br></p>" ? (e.date = "") : "";
   })
 }
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  dateEditorRef.value?.map((e) => e.setHTML(""));
   props.ruleForm.map((e) => {
-   e.description = ""
+    e.description = ""
+   e.date=""
   })
 }
 onMounted(() => {
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  dateEditorRef.value?.map((e) => e.setHTML(""));
 })
 </script>
 

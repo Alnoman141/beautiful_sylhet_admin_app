@@ -67,7 +67,7 @@
               <VCol cols="12">
                 <ElFormItem
                   label="Address"
-                  prop="address"
+                  
                   :prop="
                     ruleForm.atms
                       ? 'atms.' + index + '.address'
@@ -213,7 +213,7 @@
             {{ mode }}
           </ElButton>
 
-          <ElButton @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <ElButton v-if="mode !== 'update'" "@click="resetForm(ruleFormRef)">Reset</ElButton>
         </div>
       </ElCard>
     </ElForm>
