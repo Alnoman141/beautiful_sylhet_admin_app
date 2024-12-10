@@ -58,7 +58,7 @@ const getspotList = async () => {
 
     spotList.value = data.data.data
 
-    console.log(spotList.value)
+    
   } catch (error) {
     console.log(error)
   }

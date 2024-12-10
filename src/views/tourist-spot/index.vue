@@ -11,11 +11,7 @@
             :underline="false"          
           
             :to="{ name: 'createTouristSpot'}"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn "
           >
             Create  Tourist Spot
@@ -57,14 +53,13 @@ const getspotList = async () => {
 
     spotList.value = data.data.data
 
-    console.log(spotList.value)
+    
   } catch (error) {
     console.log(error)
   }
 }
 
-onMounted(() => {
-  
+onMounted(() => {  
   getspotList()
 })
 </script>

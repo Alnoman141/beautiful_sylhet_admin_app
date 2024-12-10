@@ -680,7 +680,7 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log("uploadFile", uploadFile);
+  
   props.ruleForm.image = URL.createObjectURL(uploadFile.raw!);
 };
 const previewImage = ref(null);
@@ -788,7 +788,7 @@ const showAlert = item => {
         message: `action: ${action}`,
       })
 
-      console.log("action", action)
+      
       action == 'confirm' ? removeImage(item) : ''
     },
   })
@@ -801,7 +801,7 @@ const removeImage = async (item) => {
   arr.push(item.id);
   try {
     const { data } = await spotStore.deleteImage({ ids: arr });
-    console.log("response", data);
+    
     data.status_code == 200
       ? notify(
           "Warning!",

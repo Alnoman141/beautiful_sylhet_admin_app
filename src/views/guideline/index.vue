@@ -40,7 +40,7 @@ const getGuidelineList = async () => {
 
     guidelineList.value = data.data
 
-    console.log(guidelineList.value)
+    
   } catch (error) {
     console.log(error)
   }

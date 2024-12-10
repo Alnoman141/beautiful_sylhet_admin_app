@@ -367,7 +367,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       hotel_type_parent_id: props.ruleForm.hotel_type_parent_id,
       hotel_category_parent_id: props.ruleForm.hotel_category_parent_id,
       link: props.ruleForm.link,
+      map_link:props.ruleForm.map_link,
       data: props.ruleForm.hotels,
+
     };
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;

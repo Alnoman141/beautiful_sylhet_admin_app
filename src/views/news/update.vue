@@ -22,11 +22,11 @@ const newsStore = useNewsStore()
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  
 
   const { data } = await newsStore.editNews({ id: route.params.id })
 
-  console.log("data", data)
+  
 
   ruleForm.value = data.data
 }

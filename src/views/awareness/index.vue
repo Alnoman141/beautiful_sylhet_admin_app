@@ -41,7 +41,7 @@ const getAwarenessList = async () => {
 
     awarenessList.value = data.data
 
-    console.log(awarenessList.value)
+    
   } catch (error) {
     console.log(error)
   }

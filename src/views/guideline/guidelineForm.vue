@@ -173,7 +173,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid, fields) => {
     let updateMode = false;
     ruleForm.value.data.map((e) => {
-      console.log(e.id);
+      
       e.id ? (updateMode = true) : "";
     })
     if (valid) {

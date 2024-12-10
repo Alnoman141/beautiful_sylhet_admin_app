@@ -11,11 +11,7 @@
             :underline="false"          
           
             :to="{ name: 'awareness'}"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn "
           >
             Awareness List
@@ -130,7 +126,7 @@ const getAwareness = async () => {
     }, 1000)
 
     ruleForm.value.data = data.data
-    console.log("awareness data", ruleForm.value)
+    
   }catch(error) {
     console.log("error", error)
   }
@@ -146,7 +142,7 @@ const updateAwarenessData = async (formEl: FormInstance | undefined) => {
       try {
         const { data } = await awarenessStore.updateAwareness(ruleForm.value)
 
-        console.log("data", data)
+        
 
         data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right') : ''
         data.status_code == 200 ? router.push({ name: 'awareness' }) : ''

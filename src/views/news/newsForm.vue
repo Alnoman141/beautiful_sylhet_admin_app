@@ -177,7 +177,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const typeList = ref([]);
 const newsType = async () => {
   const { data } = await newsStore.getNewsType();
-  console.log("data", data);
+  
   typeList.value = data.data;
 };
 
