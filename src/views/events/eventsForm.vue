@@ -168,7 +168,7 @@
             <el-upload class="upload-section" drag :on-change="onFileChange">
               <div class="el-upload__text">
                 <el-icon
-                  v-if="!ruleForm.image || !previewImage"
+                  v-if="!ruleForm.image && !previewImage"
                   class="el-icon--upload"
                   ><upload-filled
                 /></el-icon>
