@@ -22,7 +22,7 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
+    
       <ElForm
         ref="ruleFormRef"
         :model="ruleForm"
@@ -42,10 +42,10 @@
             cols="12"
             md="6"
           >
-            <fieldset class="rounded py-2 px-2">
-              <legend class="mx-4">
+            <ElCard class="rounded py-2 px-2">
+              
                 <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              </legend>
+              
               <VRow>
                 <VCol cols="12">
                   <ElFormItem
@@ -75,12 +75,13 @@
                   </ElFormItem>
                 </VCol>
               </VRow>
-            </fieldset>
+            </ElCard>
           </VCol>
         </VRow>
+        <ElCard class="my-4">
         <VRow>
-          <VCol cols="12" md="6" class="my-2">
-            <ElFormItem label="Image" prop="image">
+          <VCol cols="12" md="6" >
+            
               <el-upload
                 class="upload-section"
                 drag
@@ -88,10 +89,11 @@
                 auto-upload="false"
               >
                 <div class="el-upload__text">
-                  <el-icon v-if="!ruleForm.image" class="el-icon--upload"
+                  <el-icon v-if="!ruleForm.image && !previewImage" class="el-icon--upload"
                     ><upload-filled
                   /></el-icon>
                   <img
+                  v-if="ruleForm.image || previewImage"
                     :src="previewImage ? previewImage : ruleForm.image"
                     alt=""
                     height="60"
@@ -103,12 +105,18 @@
                   Drop file here or <em>click to upload</em>
                 </div>
                 <template #tip>
-                  <div class="el-upload__tip">
-                    jpg/png files with a size less than 500kb
-                  </div>
-                </template>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 2MB <br />
+                  <span
+                    v-if="imgUploadValidation == true"
+                    style="color: #fc6767; font-size: 12px; font-weight: light"
+                  >
+                    image is required and must be valid format
+                  </span>
+                </div>
+              </template>
               </el-upload>
-            </ElFormItem>
+            
           </VCol>
         </VRow>
         <div class="py-4">
@@ -124,8 +132,9 @@
             Reset
           </ElButton>
         </div>
+        </ElCard>
       </ElForm>
-    </ElCard>
+    
   </div>
 </template>
 
@@ -133,6 +142,7 @@
 import { useNoticeStore } from "@/stores/tourism/noticeStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
+import { UploadFilled } from "@element-plus/icons-vue";
 import {
   type ComponentSize,
   type FormInstance,
@@ -165,8 +175,11 @@ const rules = reactive<FormRules<RuleForm>>({
   //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   // ],
 });
-
+const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  props.mode == "create" && !tempImg.value
+    ? (imgUploadValidation.value = true)
+    : (imgUploadValidation.value = false);
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let data = [];

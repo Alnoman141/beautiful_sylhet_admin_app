@@ -14,11 +14,18 @@
         :prop="column.prop"
         :sortable="column.sortable"
         :align="column.align"
-        :width="column.prop !== 'parent_id'? column.width : '200'"
+        :width="column.prop !== 'id'? column.width : '100'"
       >
         <template #default="scope">
           <div class="px-4">
-            <div v-html="column.prop !== 'parent_id' ? scope.row[column.prop] : index++" />
+            <div
+              v-if="column.prop !== 'date'"
+              v-html="column.prop !== 'parent_id' ? scope.row[column.prop] : index++"
+            />
+            <div
+              v-else
+              v-html="new Date(scope.row[column.prop]).toISOString().slice(0, 10)"
+            />
           </div>
         </template>
       </ElTableColumn>

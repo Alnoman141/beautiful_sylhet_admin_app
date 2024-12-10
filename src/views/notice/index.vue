@@ -50,18 +50,20 @@ const noticeStore = useNoticeStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'parent_id', sortable: true },
+  { label: 'ID', prop: 'id', sortable: false },
   { label: 'Name', prop: 'name', sortable: true },        
+  { label: 'Date', prop: 'date', sortable: true },        
         
 ])
 
 const getCampaignList = async () => {
+  let params ={ type: 'all' }
   try {
-    const { data } = await noticeStore.getNotice()
+    const { data } = await noticeStore.getNotice(params)
 
-    console.log("data", data.data.data)
+    
 
-    spotList.value = data.data
+    spotList.value = data.data.data
 
     console.log(spotList.value)
   } catch (error) {
