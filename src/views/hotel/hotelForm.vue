@@ -88,16 +88,26 @@
                   <ElInput placeholder="Address" v-model="item.address" />
                 </ElFormItem>
               </VCol>
-              <VCol cols="12" md="6">
+              <VCol cols="12" >
                 <ElFormItem label="Description"  :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.description'
                       : 'data.' + index + '.description'
                   ">
-                  <ElInput
+                  <!-- <ElInput
                     placeholder="Description"
                     v-model="item.description"
-                  />
+                  /> -->
+                  <div>
+                   <QuillEditor
+                      ref="descriptionEditorRef"
+                      v-model:content="item.description"                     
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type Description here"
+                    />
+                    </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -402,10 +412,11 @@ const viewImage = (item) => {
   imgViewModal.value = true;
   modalImg.value = item;
 };
-
+const descritionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+  descriptionEditorRef.value?.map((e) => e.setHTML(""));
 };
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (

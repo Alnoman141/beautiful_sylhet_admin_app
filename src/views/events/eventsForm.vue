@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Locker {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> Event {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
 
         <VCol class="text-right">
@@ -143,6 +143,7 @@
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
+                
                 <ElFormItem
                   label="Description"
                   :prop="
@@ -151,11 +152,21 @@
                       : 'data.' + index + '.description'
                   "
                 >
-                  <ElInput
+                  <!-- <ElInput
                     placeholder="Description"
                     type="textarea"
                     v-model="item.description"
-                  />
+                  /> -->
+                  <div>
+                  <QuillEditor
+                      ref="descriptionEditorRef"
+                      v-model:content="item.description"                     
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type Description here"
+                    />
+                    </div> 
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -199,10 +210,10 @@
           </VCol>
 
           <VCol cols="12" md="6">
-            <ElFormItem label="Transport Type" prop="spot_parent_id">
+            <ElFormItem label="Event Spot" prop="spot_parent_id">
               <el-select
                 v-model="ruleForm.spot_parent_id"
-                placeholder="Select Transport Type"
+                placeholder="Select Spot"
               >
                 <el-option
                   v-for="(item, index) in spotDropdownData"
@@ -332,10 +343,11 @@ const viewImage = (item) => {
   imgViewModal.value = true;
   modalImg.value = item;
 };
-
+const descriptionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+  descriptionEditorRef.value?.map((e) => e.setHTML(""));
 };
 
 onMounted(() => {

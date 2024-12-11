@@ -48,7 +48,7 @@
 
             <VRow>
               <VCol cols="12">
-                <ElFormItem label="Name"  :prop="
+                <ElFormItem label="Campaign Name"  :prop="
                     ruleForm.campaigns
                       ? 'campaigns.' + index + '.name'
                       : 'data.' + index + '.name'
@@ -58,7 +58,7 @@
                     message: 'Campaign name is required',
                     trigger: 'blur',
                   }">
-                  <ElInput v-model="item.name" />
+                  <ElInput placeholder="Enter campaign name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
 

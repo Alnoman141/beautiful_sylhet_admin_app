@@ -81,7 +81,18 @@
                       ? 'volunteer.' + index + '.instruction'
                       : 'data.' + index + '.instruction'
                   ">
-                  <ElInput type="textarea" v-model="item.instruction" />
+                  <!-- <ElInput type="textarea" v-model="item.instruction" /> -->
+                  <div>
+                  <QuillEditor
+                      ref="instructionEditorRef"
+                      v-model:content="item.instruction"                     
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type instruction here"
+                    />
+                    </div>
+                  
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -197,9 +208,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   });
 };
 
+const instructionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+  instructionEditorRef.value?.map((e) => e.setHTML(""));
 }
 const spotDropdown = ref([]);
 const getSpotDropdown = async () => {

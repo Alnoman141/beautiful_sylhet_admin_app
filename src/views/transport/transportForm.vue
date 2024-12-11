@@ -122,7 +122,17 @@
                       ? 'transports.' + index + '.description'
                       : 'data.' + index + '.description'
                   ">
-                  <ElInput placeholder="Description" type="textarea" v-model="item.description" />
+                  <!-- <ElInput placeholder="Description" type="textarea" v-model="item.description" /> -->
+                  <div>
+                  <QuillEditor
+                      ref="descriptionEditorRef"
+                      v-model:content="item.description"                     
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type Description here"
+                    />
+                    </div>  
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -248,10 +258,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
+const descriptionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+ descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  props.ruleForm?.data?.map((e) => {
+    e.description = "";
+  })
+  props.ruleForm?.transports?.map((e) => {
+    e.description = "";
+  })
+
 }
 const typeList = ref([]);
 

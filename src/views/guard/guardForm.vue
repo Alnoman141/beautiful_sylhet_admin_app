@@ -22,35 +22,34 @@
         </VCol>
       </VRow>
     </ElCard>
-    
-      <ElForm
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        label-position="top"
-        status-icon
-      >
-        
-       
-        <VRow>
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.guards
-              ? ruleForm.guards
-              : ruleForm.data"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <ElCard class="rounded py-2 px-2">
-            
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              <hr class="my-2">
-              <VRow>
-                <VCol cols="12">
-                  <ElFormItem label="Name"   :prop="
+
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
+    >
+      <VRow>
+        <VCol
+          v-for="(item, index) in ruleForm && ruleForm.guards
+            ? ruleForm.guards
+            : ruleForm.data"
+          :key="index"
+          cols="12"
+          md="6"
+        >
+          <ElCard class="rounded py-2 px-2">
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <hr class="my-2" />
+            <VRow>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Name"
+                  :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.name'
                       : 'data.' + index + '.name'
@@ -59,12 +58,15 @@
                     required: true,
                     message: 'Beach Guard name  is required',
                     trigger: 'blur',
-                  }">
-                    <ElInput v-model="item.name" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12">
-                  <ElFormItem label="Phone"  :prop="
+                  }"
+                >
+                  <ElInput v-model="item.name" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Phone"
+                  :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.phone'
                       : 'data.' + index + '.phone'
@@ -73,26 +75,40 @@
                     required: true,
                     message: 'Beach guard phone number  is required',
                     trigger: 'blur',
-                  }">
-                    <ElInput v-model="item.phone" />
-                  </ElFormItem>
-                </VCol>
-                <VCol cols="12">
-                  <ElFormItem label="Instruction"  :prop="
+                  }"
+                >
+                  <ElInput v-model="item.phone" />
+                </ElFormItem>
+              </VCol>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Instruction"
+                  :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.instruction'
                       : 'data.' + index + '.instruction'
-                  ">
-                    <ElInput type="textarea" v-model="item.instruction" />
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-            </ElCard>
-          </VCol>
-        </VRow>
-        
-<ElCard class="my-4">
-  <VRow>
+                  "
+                >
+                  <!-- <ElInput type="textarea" v-model="item.instruction" /> -->
+                  <div>
+                  <QuillEditor
+                      ref="instructionEditorRef"
+                      v-model:content="item.instruction"                     
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      placeholder="Type instruction here"
+                    />
+                    </div>
+                </ElFormItem>
+              </VCol>
+            </VRow>
+          </ElCard>
+        </VCol>
+      </VRow>
+
+      <ElCard class="my-4">
+        <VRow>
           <VCol cols="12" md="6">
             <ElFormItem
               label="Tourist Spot"
@@ -103,7 +119,6 @@
                 trigger: 'change',
               }"
             >
-            
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
@@ -123,25 +138,23 @@
               </el-select>
             </ElFormItem>
           </VCol>
-
-        
         </VRow>
-        <div class="py-4 ">
+        <div class="py-4">
           <ElButton type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <!-- reset button -->
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+            >Reset</ElButton
+          >
+          <ElButton @click="router.go(-1)" type="info">Back</ElButton>
         </div>
-        </ElCard>
-      </ElForm>
-    
+      </ElCard>
+    </ElForm>
   </div>
 </template>
 
 <script setup lang="ts">
-
 import { useGuardStore } from "@/stores/tourism/guardStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -182,19 +195,17 @@ const rules = reactive<FormRules<RuleForm>>({
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-    props.ruleForm.image = tempImg.value ? tempImg.value : ''
-      let form = {
+    props.ruleForm.image = tempImg.value ? tempImg.value : "";
+    let form = {
       id: props.ruleForm.id,
       // image: tempImg.value ? tempImg.value : null,
-      spot_parent_id: props.ruleForm.spot_parent_id,     
-      data: props.ruleForm.guards
-    }
+      spot_parent_id: props.ruleForm.spot_parent_id,
+      data: props.ruleForm.guards,
+    };
     if (valid) {
-     
-      const { data } =
-        props.ruleForm.id 
-          ? await guardStore.updateGuard(form)
-          : await guardStore.createGuard(props.ruleForm);
+      const { data } = props.ruleForm.id
+        ? await guardStore.updateGuard(form)
+        : await guardStore.createGuard(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           emit("tableDataEmit"))
@@ -205,11 +216,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
+const instructionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-}
+  instructionEditorRef.value?.map((e) => e.setHTML(""));
+};
 
 const spotDropdown = ref([]);
 const getSpotDropdown = async () => {
@@ -218,7 +230,6 @@ const getSpotDropdown = async () => {
 };
 
 const bankDropdown = ref([]);
-
 
 // image functionality
 const typeList = ref([]);
@@ -244,7 +255,7 @@ const viewImage = (item) => {
 };
 
 onMounted(() => {
-  getSpotDropdown();  
+  getSpotDropdown();
 });
 </script>
 
