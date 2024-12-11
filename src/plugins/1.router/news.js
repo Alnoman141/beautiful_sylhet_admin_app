@@ -23,7 +23,7 @@ export const newsRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'news',
+          navActiveLink: 'newsList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const newsRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'news',
+          navActiveLink: 'newsList',
         },
       },
       

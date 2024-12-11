@@ -23,7 +23,7 @@ export const redZoneRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'red-zone',
+          navActiveLink: 'redZoneList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const redZoneRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'red-zone',
+          navActiveLink: 'redZoneList',
         },
       },
       

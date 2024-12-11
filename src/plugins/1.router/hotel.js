@@ -23,7 +23,7 @@ export const hotelRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'hotel',
+          navActiveLink: 'hotelList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const hotelRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'hotel',
+          navActiveLink: 'hotelList',
         },
       },
       

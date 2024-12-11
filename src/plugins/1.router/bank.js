@@ -23,7 +23,7 @@ export const bankRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'bank',
+          navActiveLink: 'bankList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const bankRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'bank',
+          navActiveLink: 'bankList',
         },
       },
       

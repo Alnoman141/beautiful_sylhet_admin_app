@@ -23,7 +23,7 @@ export const lockerRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'locker',
+          navActiveLink: 'lockerList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const lockerRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'locker',
+          navActiveLink: 'lockerList',
         },
       },
       

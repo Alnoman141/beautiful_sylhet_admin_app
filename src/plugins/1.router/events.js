@@ -23,7 +23,7 @@ export const eventsRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'events',
+          navActiveLink: 'eventsList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const eventsRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'events',
+          navActiveLink: 'eventsList',
         },
       },
       

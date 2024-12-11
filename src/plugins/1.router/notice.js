@@ -23,7 +23,7 @@ export const noticeRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'notice',
+          navActiveLink: 'noticeList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const noticeRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'notice',
+          navActiveLink: 'noticeList',
         },
       },
       

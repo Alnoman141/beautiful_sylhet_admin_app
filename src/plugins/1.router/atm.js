@@ -23,7 +23,7 @@ export const atmRoutes = [
         meta: {
           subject: "Atm",
           action: "create",
-          navActiveLink: 'atm',
+          navActiveLink: 'atmList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const atmRoutes = [
         meta: {
           subject: "Atm",
           action: "edit",
-          navActiveLink: 'atm',
+          navActiveLink: 'atmList',
         },
       },
       

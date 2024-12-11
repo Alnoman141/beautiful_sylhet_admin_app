@@ -23,7 +23,7 @@ export const guardRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'guard',
+          navActiveLink: 'guardList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const guardRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'guard',
+          navActiveLink: 'guardList',
         },
       },
       

@@ -23,7 +23,7 @@ export const campaignRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'campaign',
+          navActiveLink: 'campaignList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const campaignRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'campaign',
+          navActiveLink: 'campaignList',
         },
       },
       

@@ -23,7 +23,7 @@ export const transportRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'transport',
+          navActiveLink: 'transportList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const transportRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'transport',
+          navActiveLink: 'transportList',
         },
       },
       

@@ -2,7 +2,7 @@ export default [
   {
     title: 'Dashboards',
     to: 'dashboards',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-layout-dashboard' },
     subject: "Dashboard",
     action: "show menu",
   },
@@ -161,14 +161,14 @@ export default [
   {
     title: 'Coxs bazar Info',
     to: 'info',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-beach' },
     subject: "Dashboard",
     action: "show menu",
   },
   {
     title: 'Settings',
     to: 'settings',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-settings' },
     subject: "Dashboard",
     action: "show menu",
     children: [
@@ -176,14 +176,14 @@ export default [
       {
         title: 'User List',
         to: 'userList',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-users' },
         subject: "Dashboard",
         action: "show menu",
       },
       {
         title: 'Role & Permissions',
         to: 'rolePermissions',
-        icon: { icon: 'tabler-smart-home' },
+        icon: { icon: 'tabler-ban' },
         subject: "Dashboard",
         action: "show menu",
       },
@@ -192,7 +192,7 @@ export default [
   {
     title: 'Notice',
     to: 'noticeList',
-    icon: { icon: 'tabler-smart-home' },
+    icon: { icon: 'tabler-pinned' },
     subject: "Dashboard",
     action: "show menu",
   },

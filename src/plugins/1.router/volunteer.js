@@ -23,7 +23,7 @@ export const volunteerRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'volunteer',
+          navActiveLink: 'volunteerList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const volunteerRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'volunteer',
+          navActiveLink: 'volunteerList',
         },
       },
       

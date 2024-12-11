@@ -40,6 +40,7 @@ export const routes = [
     meta: {
       subject: "Guideline",
       action: "show menu",
+      
     },
   },
   {
@@ -58,6 +59,7 @@ export const routes = [
     meta: {
       subject: "Guideline",
       action: "edit",
+      navActiveLink: 'guide-line',
     },
   },
   {
@@ -85,6 +87,8 @@ export const routes = [
     meta: {
       subject: "Awareness",
       action: "edit",
+      navActiveLink: 'awareness',
+      
     },
   }, 
   {
@@ -103,6 +107,7 @@ export const routes = [
     meta: {
       subject: "Info",
       action: "edit",
+      navActiveLink: 'info',
     },
   },
  

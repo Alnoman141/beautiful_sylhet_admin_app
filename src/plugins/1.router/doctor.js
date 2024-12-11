@@ -23,7 +23,7 @@ export const doctorRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'doctor',
+          navActiveLink: 'doctorList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const doctorRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'doctor',
+          navActiveLink: 'doctorList',
         },
       },      
     ],

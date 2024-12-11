@@ -23,7 +23,7 @@ export const policeRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'police',
+          navActiveLink: 'policeList',
         },
       },
       {
@@ -33,7 +33,7 @@ export const policeRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'police',
+          navActiveLink: 'policeList',
         },
       },
       

@@ -23,7 +23,7 @@ export const spotRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'spot',
+          navActiveLink: 'touristSpot',
         },
       },
       {
@@ -33,7 +33,7 @@ export const spotRoutes = [
         meta: {
           subject: "Dashboard",
           action: "show menu",
-          navActiveLink: 'spot',
+          navActiveLink: 'touristSpot',
         },
       },
       
