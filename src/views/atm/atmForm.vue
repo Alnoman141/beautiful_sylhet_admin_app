@@ -49,7 +49,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Name"
+                  label="ATM Both Name"
                   :prop="
                     ruleForm.atms
                       ? 'atms.' + index + '.name'
@@ -61,7 +61,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.name" />
+                  <ElInput placeholder="ATM Both Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
@@ -79,7 +79,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.address" />
+                  <ElInput placeholder="Address" v-model="item.address" />
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -165,7 +165,7 @@
                 },
               ]"
             >
-              <ElInput type="url" v-model="ruleForm.map_link" />
+              <ElInput placeholder="Map Link" type="url" v-model="ruleForm.map_link" />
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6" class="my-2">
@@ -209,7 +209,7 @@
         </VRow>
 
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
 
@@ -336,6 +336,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .create-btn {
   border-radius: 5px;
   background-color: rgb(var(--v-theme-primary));

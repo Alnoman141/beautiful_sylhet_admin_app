@@ -45,6 +45,7 @@
         >
           <ElCard class="rounded py-2 px-2">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <hr class="my-2" />
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
@@ -226,7 +227,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
@@ -356,6 +357,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .upload-section {
   display: block;
   text-align: center;

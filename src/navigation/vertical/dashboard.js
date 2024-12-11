@@ -11,7 +11,7 @@ export default [
     to: 'guide-line',
 
     // need an icon for guideline
-    icon: { icon: 'tabler-arrow-bear-right' },
+    icon: { icon: 'tabler-building-lighthouse' },
     subject: "Dashboard",
     action: "show menu",
   },

@@ -43,11 +43,12 @@
         >
           <ElCard class="rounded py-2 my-4">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <hr class="my-2">
 
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Name"
+                  label="Hotel Name"
                   :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.name'
@@ -64,7 +65,7 @@
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Phone"
+                  label="Phone No"
                   :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.phone'

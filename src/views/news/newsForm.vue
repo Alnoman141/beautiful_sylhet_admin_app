@@ -72,7 +72,7 @@
              <ElCard class="my-4">
               
                 <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              
+                <hr class="my-2">
               <VRow>
                 <VCol cols="12">
                   <ElFormItem label="News Title"  :prop="
@@ -84,7 +84,7 @@
                       message: 'News Title is required',
                       trigger: 'blur',
                     }">
-                    <ElInput placeholder="News" v-model="item.name" />
+                    <ElInput placeholder="News Title " v-model="item.name" />
                   </ElFormItem>
                 </VCol>
               </VRow>

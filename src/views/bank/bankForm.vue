@@ -62,7 +62,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.name" />
+                  <ElInput placeholder="Bank Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -71,7 +71,7 @@
       </VRow>
 
       <ElCard class="my-4 ">
-        <ElButton type="primary" @click="submitForm(ruleFormRef)">
+        <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
           {{ mode }}
         </ElButton>
 
@@ -164,6 +164,10 @@ const viewImage = (item) => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .create-btn {
   border-radius: 5px;
   background-color: rgb(var(--v-theme-primary));

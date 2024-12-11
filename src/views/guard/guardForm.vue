@@ -60,7 +60,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.name" />
+                  <ElInput placeholder="Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
@@ -77,7 +77,7 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.phone" />
+                  <ElInput placeholder="Phone" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
@@ -140,7 +140,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <!-- reset button -->
@@ -260,6 +260,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .create-btn {
   border-radius: 5px;
   background-color: rgb(var(--v-theme-primary));

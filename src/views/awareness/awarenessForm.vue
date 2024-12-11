@@ -43,15 +43,15 @@
           class="mb-5"
         >
           <ElCard>
-            <ElFormItem :label="index == 0 ? 'Bangla':'English'" :prop="
-                   'data.' + index + '.name'
-                    " 
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+              <hr class="my-2" />
+            <ElFormItem 
               :rules="{
                 required: true,
                 message: 'Awareness is required',
                 trigger: 'blur',
               }" >
-
+              
               
               <div>
                 <QuillEditor
@@ -61,6 +61,7 @@
                   theme="snow"          
                   toolbar="full"
                   style="min-block-size: 200px;"
+                  placeholder="Type Awareness here"
                 />
               </div>
             </ElFormItem>

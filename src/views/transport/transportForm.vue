@@ -172,7 +172,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
 
@@ -279,6 +279,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .upload-section {
   display: block;
   text-align: center;

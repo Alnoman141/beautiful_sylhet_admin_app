@@ -45,6 +45,7 @@
           >
                 <ElCard   class="rounded py-2 px-2">
                    <b>  {{index == 0 ? 'Bangla':'English'}} </b> 
+                   <hr class="my-2">
                   <VRow>
                     <VCol cols="12"   >
                       
@@ -76,6 +77,7 @@
                                 
         <ElCard class=" my-4 ">
           <ElButton
+          class="submit"
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
@@ -163,6 +165,10 @@ const typeList = ref([])
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .upload-section{
   display: block;
   text-align: center;

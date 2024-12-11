@@ -48,7 +48,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Name"
+                  label="Zone Name"
                   :prop="
                     ruleForm.reds
                       ? 'reds.' + index + '.name'
@@ -56,11 +56,11 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'name is required',
+                    message: 'Zone name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput v-model="item.name" />
+                  <ElInput placeholder="Zone Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
@@ -87,6 +87,7 @@
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
+                      placeholder="Instruction"
                     />
                   </div>
                 </ElFormItem>
@@ -145,7 +146,7 @@
                 },
               ]"
             >
-              <ElInput v-model="ruleForm.map_link" />
+              <ElInput placeholder="Map Link" v-model="ruleForm.map_link" />
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6" class="my-2">
@@ -217,7 +218,7 @@
         </VRow>
 
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
@@ -389,6 +390,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .create-btn {
   border-radius: 5px;
   background-color: rgb(var(--v-theme-primary));

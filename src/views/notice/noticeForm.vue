@@ -71,6 +71,7 @@
                         theme="snow"
                         toolbar="full"
                         :text-change="checkData()"
+                        placeholder="Type notice here"
                       />
                     </div>
                   </ElFormItem>
@@ -122,7 +123,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <ElButton
@@ -288,6 +289,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .create-btn {
   border-radius: 5px;
   background-color: rgb(var(--v-theme-primary));

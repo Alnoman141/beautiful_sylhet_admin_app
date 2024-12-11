@@ -45,7 +45,7 @@
         >
           <ElCard class="py-2 px-2">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-
+            <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem label="Campaign Name"  :prop="
@@ -158,7 +158,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
@@ -300,6 +300,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.submit{
+  text-transform: capitalize;
+}
+
 .create-btn {
   border-radius: 5px;
   background-color: rgb(var(--v-theme-primary));

@@ -63,6 +63,7 @@
                   theme="snow"
                   toolbar="full"
                   style="min-block-size: 200px"
+                  placeholder="Type Guideline here"
                 />
               </div>
             </ElFormItem>

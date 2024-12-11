@@ -57,6 +57,7 @@
                 toolbar="full"
                 :text-change="checkData()"
                 style="block-size: 100dvh;"
+                placeholder="Type Cox's Bazar Info here"
               />
             </div> 
             </ElFormItem>
