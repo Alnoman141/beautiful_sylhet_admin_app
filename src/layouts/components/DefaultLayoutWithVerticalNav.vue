@@ -28,18 +28,21 @@ watch([
   <VerticalNavLayout :nav-items="navItems">
     <!-- 👉 navbar -->
     <template #navbar="{ toggleVerticalOverlayNavActive }">
-      <div class=" h-100  d-flex justify-end align-center">
-        <!--
+      <VRow class=" h-100  d-flex justify-between align-center">
+        <VCol>
           <IconBtn
-          id="vertical-nav-toggle-btn"
-          class="ms-n3 d-lg-none"
-          @click="toggleVerticalOverlayNavActive(true)"
+            id="vertical-nav-toggle-btn"
+            class="ms-n3 d-lg-none"
+            @click="toggleVerticalOverlayNavActive(true)"
           >
-          <VIcon
-          size="26"
-          icon="tabler-menu-2"
-          />
+            <VIcon
+              size="26"
+              icon="tabler-menu-2"
+            />
           </IconBtn>
+        </VCol>
+        <!--
+          
 
           <NavSearchBar class="ms-lg-n3" />
 
@@ -53,8 +56,10 @@ watch([
           <NavbarShortcuts />
           <NavBarNotifications class="me-2" /> 
         -->
-        <UserProfile />
-      </div>
+        <VCol class="text-end">
+          <UserProfile />
+        </VCol>
+      </VRow>
     </template>
 
     <AppLoadingIndicator ref="refLoadingIndicator" />
