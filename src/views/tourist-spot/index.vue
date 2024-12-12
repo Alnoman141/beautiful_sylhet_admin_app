@@ -26,6 +26,10 @@
           :columns="columns"
           @table-data-emit="getspotList"
         />
+        <PaginationSection
+          :total-data="totalData"
+          @get-emit="getspotList"
+        />
       </div>
     </ElCard>
   </div>
@@ -33,6 +37,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
 import { useSpotStore } from "@/stores/tourism/spotStore"
 import SpotTable from "./spotTable.vue"
 
@@ -43,24 +48,32 @@ const spotStore = useSpotStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'id', sortable: true },
-  { label: 'Name', prop: 'name', sortable: true },        
+  { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Name', prop: 'name', sortable: false },        
 ])
 
-const getspotList = async () => {
+const totalData = ref(0)
+
+const getspotList = async (pageSize, pageNo) => {
+  console.log(pageSize, pageNo)
+  let parameter = {
+    current_page: pageNo,
+    per_page: pageSize,
+  }
   try {
-    const { data } = await spotStore.getSpot()
+    const { data } = await spotStore.getSpot(parameter)
 
     spotList.value = data.data.data
-
-    
+    console.log("data", data)
+    totalData.value= data.data.total
+    console.log("totalData.value", spotList.value)
   } catch (error) {
     console.log(error)
   }
 }
 
 onMounted(() => {  
-  getspotList()
+  getspotList(10, 1)
 })
 </script>
 

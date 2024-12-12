@@ -33,9 +33,46 @@
       label-position="top"
       status-icon
     >
-      <ElCard class="my-4">
-        <VRow>
-          <VCol cols="12">
+      <VRow>
+        <VCol
+          v-for="(item, index) in ruleForm && ruleForm.news
+            ? ruleForm.news
+            : ruleForm.data"
+          :key="index"
+          cols="12"
+          md="6"
+        >
+          <!-- <fieldset class="rounded py-2 px-2"> -->
+          <ElCard class="my-4">
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <hr class="my-2" />
+            <VRow>
+              <VCol cols="12">
+                <ElFormItem
+                  label="News Title"
+                  :prop="
+                    ruleForm.news
+                      ? 'news.' + index + '.name'
+                      : 'data.' + index + '.name'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'News Title is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <ElInput placeholder="News Title " v-model="item.name" />
+                </ElFormItem>
+              </VCol>
+            </VRow>
+          </ElCard>
+          <!-- </fieldset> -->
+        </VCol>
+      </VRow>
+
+      <ElCard>
+         <VRow>
+          <VCol cols="12" md="6">
             <ElFormItem label="News Type" prop="news_type_id"  :rules="{
                       required: true,
                       message: 'News type is required',
@@ -56,50 +93,17 @@
             </ElFormItem>
           </VCol>
         </VRow>
-      </ElCard>
-
-      <VRow>
-       
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.news
-              ? ruleForm.news
-              : ruleForm.data"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <!-- <fieldset class="rounded py-2 px-2"> -->
-             <ElCard class="my-4">
-              
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-                <hr class="my-2">
-              <VRow>
-                <VCol cols="12">
-                  <ElFormItem label="News Title"  :prop="
-                      ruleForm.news
-                        ? 'news.' + index + '.name'
-                        : 'data.' + index + '.name'
-                    "  :rules="{
-                      required: true,
-                      message: 'News Title is required',
-                      trigger: 'blur',
-                    }">
-                    <ElInput placeholder="News Title " v-model="item.name" />
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-              </ElCard>
-            <!-- </fieldset> -->
-          </VCol>
-        
-      </VRow>
-
-      <ElCard>
-        <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
+        <ElButton
+          class="submit"
+          type="primary"
+          @click="submitForm(ruleFormRef)"
+        >
           {{ mode }}
         </ElButton>
-        <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
-        <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+        <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+          >Reset</ElButton
+        >
+        <ElButton @click="router.go(-1)" type="info">Back</ElButton>
       </ElCard>
     </ElForm>
   </div>
@@ -173,12 +177,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-}
+};
 
 const typeList = ref([]);
 const newsType = async () => {
   const { data } = await newsStore.getNewsType();
-  
+
   typeList.value = data.data;
 };
 
@@ -218,7 +222,7 @@ onMounted(() => {
   padding-inline: 10px;
 }
 
-.submit{
+.submit {
   text-transform: capitalize;
 }
 </style>

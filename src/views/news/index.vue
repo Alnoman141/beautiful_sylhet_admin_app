@@ -47,7 +47,7 @@ const newsStore = useNewsStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'id', sortable: true },
+  { label: 'ID', prop: 'id', sortable: false },
   { label: 'Type', prop: 'type', sortable: true },
   { label: 'Name', prop: 'name', sortable: true },        
 ])

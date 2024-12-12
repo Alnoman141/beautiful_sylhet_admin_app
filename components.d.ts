@@ -49,6 +49,7 @@ declare module 'vue' {
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
+    Pagination: typeof import('./src/components/tourism/pagination.vue')['default']
     QuillInput: typeof import('./src/components/quillInput.vue')['default']
     RooTable: typeof import('./src/components/tourism/rooTable.vue')['default']
     RootFormDynamicOne: typeof import('./src/components/tourism/rootFormDynamicOne.vue')['default']
@@ -59,7 +60,6 @@ declare module 'vue' {
     Shortcuts: typeof import('./src/@core/components/Shortcuts.vue')['default']
     ThemeSwitcher: typeof import('./src/@core/components/ThemeSwitcher.vue')['default']
     TiptapEditor: typeof import('./src/@core/components/TiptapEditor.vue')['default']
-    VueApexCharts: typeof import('vue3-apexcharts')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

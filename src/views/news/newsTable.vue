@@ -14,14 +14,14 @@
         :prop="column.prop"
         :sortable="column.sortable"
         :align="column.align"
-        :width="column.prop == 'id' || column.prop == 'type' ? '100' : ''"
+        :width="column.prop == 'id' ? '100' : column.prop == 'type' ? '150' : ''"
       >
         <template #default="scope">
           <div v-if="column.prop == 'id'">
             {{ index++ }}
           </div>
           <div v-else>
-            {{ scope.row[column.prop].type ? scope.row[column.prop].type : scope.row[column.prop] }}
+            {{ scope.row[column.prop].type ? scope.row[column.prop].type[0].toUpperCase() + scope.row[column.prop].type.slice(1) + ' ' + 'News' : scope.row[column.prop] }}
           </div>
         </template>
       </ElTableColumn>

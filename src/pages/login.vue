@@ -115,10 +115,12 @@ const onSubmit = () => {
           />
         </div>
 
-        <VImg
+        <!--
+          <VImg
           :src="authThemeMask"
           class="auth-footer-mask"
-        />
+          /> 
+        -->
       </div>
     </VCol>
 
