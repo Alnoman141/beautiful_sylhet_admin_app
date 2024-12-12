@@ -57,16 +57,15 @@ const totalData = ref(0)
 const getspotList = async (pageSize, pageNo) => {
   console.log(pageSize, pageNo)
   let parameter = {
-    current_page: pageNo,
+    page: pageNo,
     per_page: pageSize,
   }
   try {
     const { data } = await spotStore.getSpot(parameter)
 
-    spotList.value = data.data.data
-    console.log("data", data)
+    spotList.value = data.data.data    
     totalData.value= data.data.total
-    console.log("totalData.value", spotList.value)
+    
   } catch (error) {
     console.log(error)
   }
