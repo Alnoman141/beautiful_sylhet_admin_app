@@ -55,7 +55,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'description is required',
+                    message: 'Name is required',
                     trigger: 'blur',
                   }">
                   <ElInput placeholder="Transport Name" v-model="item.name" />
@@ -69,7 +69,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'description is required',
+                    message: 'Phone number is required',
                     trigger: 'blur',
                   }">
                   <ElInput placeholder="Phone" v-model="item.phone" />
@@ -83,7 +83,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'description is required',
+                    message: 'Address is required',
                     trigger: 'blur',
                   }">
                   <ElInput placeholder="Address" v-model="item.address" />
@@ -121,14 +121,16 @@
                     ruleForm.transports
                       ? 'transports.' + index + '.description'
                       : 'data.' + index + '.description'
-                  ">
+                  " :rules="{  max: 100, message: '100 characters max', trigger: 'blur' }">
                   <!-- <ElInput placeholder="Description" type="textarea" v-model="item.description" /> -->
                   <div>
+                    {{item.description}}
                   <QuillEditor
                       ref="descriptionEditorRef"
                       v-model:content="item.description"                     
                       content-type="html"
                       theme="snow"
+                      :text-change="checkData()"
                       toolbar="full"
                       placeholder="Type Description here"
                     />
@@ -148,7 +150,7 @@
               prop="transport_type_parent_id"
               :rules="{
                 required: true,
-                message: 'transport type is required',
+                message: 'Transport type is required',
                 trigger: 'change',
               }"
             >
@@ -270,6 +272,18 @@ const resetForm = (formEl: FormInstance | undefined) => {
     e.description = "";
   })
 
+}
+const checkData = () => {
+  descriptionEditorRef.value?.map((item) => {
+    item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
+
+  })
+  props.ruleForm?.transports?.map((e) => {
+    e.description === "<p><br></p>" ? e.description = "" : "";
+  })
+  props.ruleForm?.data?.map((e) => {
+    e.description ==="<p><br></p>" ? e.description = "" : "";
+  })
 }
 const typeList = ref([]);
 

@@ -73,7 +73,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'instruction is required',
+                    message: 'Instruction is required',
                     trigger: 'blur',
                   }"
                 >
@@ -132,21 +132,9 @@
             <ElFormItem
               label="Map Link"
               prop="map_link"
-              :rules="[
-                {
-                  required: true,
-                  message: 'link required',
-                  trigger: 'blur',
-                },
-                {
-                  type: 'url',
-                  message:
-                    'link is required and should be like https://www.xyz.com',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
+             
             >
-              <ElInput placeholder="Map Link" v-model="ruleForm.map_link" />
+              <ElInput type="url" placeholder="Map Link" v-model="ruleForm.map_link" />
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6" class="my-2">
@@ -184,7 +172,7 @@
                     v-if="imgUploadValidation == true"
                     style="color: #fc6767; font-size: 12px; font-weight: light"
                   >
-                    image is required and must be valid format
+                    Image is required and must be valid format
                   </span>
                 </div>
               </template>
@@ -198,7 +186,7 @@
               prop="short_description"
               :rules="{
                 required: true,
-                message: 'description is required',
+                message: 'Description is required',
                 trigger: 'blur',
               }"
             >

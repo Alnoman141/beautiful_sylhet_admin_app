@@ -10,20 +10,20 @@
           <template #default="scope">
             <div class="">
               <div class="text-end">
-                <ElButton
-                  type="success"
-                  size="small"
+                <RouterLink
+                  :to="{ name: 'infoEdit' }"
+                  style=" color:white !important;text-decoration: none !important;"
                 >
-                  <RouterLink
-                    :to="{ name: 'infoEdit' }"
-                    style=" color:white !important;text-decoration: none !important;"
+                  <ElButton
+                    type="primary"
+                    size="small"
                   >
                     <VIcon
                       icon="tabler-edit"
-                      size="20"
+                      size="15"
                     />
-                  </RouterLink>
-                </ElButton>
+                  </ElButton>
+                </RouterLink>
               </div>
               
               <div v-html="scope.row.description" />
@@ -46,8 +46,8 @@ const infoStore = useInfoStore()
 const info = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'id', sortable: true },
-  { label: 'Description', prop: 'description', sortable: true },        
+  { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Description', prop: 'description', sortable: false },        
 ])
 
 const getInfo = async () => {

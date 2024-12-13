@@ -41,7 +41,7 @@
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Name"
+                  label="Tourist Spot Name"
                   :prop="
                     ruleForm.spot
                       ? 'spot.' + index + '.name'
@@ -49,7 +49,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'name is required',
+                    message: 'Tourist spot name is required',
                     trigger: 'blur',
                   }"
                 >
@@ -66,7 +66,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'tag_line is required',
+                    message: 'Tagline is required',
                     trigger: 'blur',
                   }"
                 >
@@ -84,7 +84,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'description is required',
+                    message: 'Description is required',
                     trigger: 'blur',
                   }"
                 >
@@ -138,7 +138,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'travel info is required',
+                    message: 'Travel info is required',
                     trigger: 'blur',
                   }"
                 >
@@ -166,7 +166,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'visiting time is required',
+                    message: 'Visiting time is required',
                     trigger: 'blur',
                   }"
                 >
@@ -369,7 +369,7 @@
                     v-if="imgUploadValidation == true"
                     style="color: #fc6767; font-size: 12px; font-weight: light"
                   >
-                    image is required and must be valid format
+                    Image is required and must be valid format
                   </span>
                 </div>
               </template>

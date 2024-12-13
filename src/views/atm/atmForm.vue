@@ -200,7 +200,7 @@
                     v-if="imgUploadValidation == true"
                     style="color: #fc6767; font-size: 12px; font-weight: light"
                   >
-                    image is required and must be valid format
+                    Image is required and must be valid format
                   </span>
                 </div>
               </template>

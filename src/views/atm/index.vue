@@ -31,15 +31,20 @@
         <BankTable
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getBankList"
+          @table-data-emit="getspotList(10,1)"
         />
       </div>
+      <PaginationSection
+        :total-data="totalData"
+        @get-emit="getspotList"
+      />
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
 import { useAtmStore } from "@/stores/tourism/atmStore"
 import { onMounted, ref } from "vue"
 import BankTable from "./atmTable.vue"
@@ -51,21 +56,27 @@ const atmStore = useAtmStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'id', sortable: true },
-  { label: 'Name', prop: 'name', sortable: true },        
-  { label: 'Spot Name', prop: 'spot_name', sortable: true },        
+  { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Name', prop: 'name', sortable: false },        
+  { label: 'Spot Name', prop: 'spot_name', sortable: false },        
         
 ])
 
-const getBankList = async () => {
-  try {
-    const { data } = await atmStore.getAtm()
+const totalData = ref(0)
 
-    console.log("data", data)
+const getspotList = async (pageSize, pageNo) => {
+  let parameter = {
+    page: pageNo,
+    per_page: pageSize,
+  }
+  try {
+    const { data } = await atmStore.getAtm(parameter)
+
+  
 
     spotList.value = data.data.data
-
-    console.log(spotList.value)
+    totalData.value = data.data.total
+    
   } catch (error) {
     console.log(error)
   }
@@ -73,7 +84,7 @@ const getBankList = async () => {
 
 onMounted(() => {
   
-  getBankList()
+  getspotList(10, 1)
 })
 </script>
 

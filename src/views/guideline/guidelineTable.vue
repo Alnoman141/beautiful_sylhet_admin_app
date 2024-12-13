@@ -17,20 +17,20 @@
       >
         <template #default="scope">
           <div class="text-end">
-            <ElButton
-              type="success"
-              size="small"
+            <RouterLink
+              :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"
+              style=" color:white !important;text-decoration: none !important;"
             >
-              <RouterLink
-                :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"
-                style=" color:white !important;text-decoration: none !important;"
+              <ElButton
+                type="primary"
+                size="small"
               >
                 <VIcon
                   icon="tabler-edit"
-                  size="20"
+                  size="15"
                 />
-              </RouterLink>
-            </ElButton>
+              </ElButton>
+            </RouterLink>
           </div>
           <div
             class="px-4"

@@ -31,12 +31,18 @@
           @table-data-emit="getspotList"
         />
       </div>
+      <PaginationSection
+        :total-data="totalData"
+        @get-emit="getspotList"
+      />
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
+
 import { useHotelStore } from "@/stores/tourism/hotelStore"
 import HotelTable from "./hotelTable.vue"
 
@@ -47,30 +53,37 @@ const hotelStore = useHotelStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'id', sortable: true },
-  { label: 'Name', prop: 'name', sortable: true },
+  { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Name', prop: 'name', sortable: false },
   
-  { label: 'Phone', prop: 'phone', sortable: true },
-  { label: 'Address', prop: 'address', sortable: true },   
+  { label: 'Phone', prop: 'phone', sortable: false },
+  { label: 'Address', prop: 'address', sortable: false },   
 
   
-  { label: 'Spot Name', prop: 'spot_name', sortable: true },
-  { label: 'Category ', prop: 'category_name', sortable: true },
+  { label: 'Spot Name', prop: 'spot_name', sortable: false },
+  { label: 'Category ', prop: 'category_name', sortable: false },
 
   
-  { label: 'Type', prop: 'type_name', sortable: true },
-  { label: 'Description', prop: 'description', sortable: true },        
+  { label: 'Type', prop: 'type_name', sortable: false },
+
+  // { label: 'Description', prop: 'description', sortable: false },        
 ])
 
-const getspotList = async () => {
-  try {
-    const { data } = await hotelStore.getHotel()
+const totalData = ref(0)
 
-    console.log("data", data)
+const getspotList = async (pageSize, pageNo) => {
+  let parameter = {
+    page: pageNo,
+    per_page: pageSize,
+  }
+  try {
+    const { data } = await hotelStore.getHotel(parameter)
+
+    
 
     spotList.value = data.data.data
-
-    console.log(spotList.value)
+    totalData.value= data.data.total
+    
   } catch (error) {
     console.log(error)
   }
@@ -78,7 +91,7 @@ const getspotList = async () => {
 
 onMounted(() => {
   
-  getspotList()
+  getspotList(10, 1)
 })
 </script>
 

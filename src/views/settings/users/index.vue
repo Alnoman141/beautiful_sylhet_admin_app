@@ -63,14 +63,14 @@ const filterTableData = computed(() =>
 )
 
 const columns = ref( [
-        { label: 'ID', prop: 'id', sortable: true },
-        { label: 'Name', prop: 'name', sortable: true },
-        { label: 'Email', prop: 'email', sortable: true },
-        { label: 'Phone', prop: 'phone', sortable: true },
+        { label: 'S.L', prop: 'id', sortable: false },
+        { label: 'Name', prop: 'name', sortable: false },
+        { label: 'Email', prop: 'email', sortable: false },
+        { label: 'Phone', prop: 'phone', sortable: false },
         {
           label: 'Avatar',
           prop: 'avatar',
-          sortable: true,
+          sortable: false,
           align: 'center',
           slot: 'ElImage',
           slotProps: (scope) => ({

@@ -50,12 +50,13 @@ const spotList = ref([])
 const columns = ref( [
   { label: 'S.L', prop: 'id', sortable: false },
   { label: 'Name', prop: 'name', sortable: false },        
+  { label: 'Image', prop: 'image', sortable: false },        
 ])
 
 const totalData = ref(0)
 
 const getspotList = async (pageSize, pageNo) => {
-  console.log(pageSize, pageNo)
+  
   let parameter = {
     page: pageNo,
     per_page: pageSize,

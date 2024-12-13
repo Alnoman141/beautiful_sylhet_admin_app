@@ -38,20 +38,23 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton
-            size="small"
-            type="primary"
+          <RouterLink
+            class="mx-2"
+            style="color:white"
+            :to="{ name: 'editNews', params: { id: scope.row.parent_id } }"
           >
-            <RouterLink
-              style="color:white"
-              :to="{ name: 'editNews', params: { id: scope.row.parent_id } }"
+            <ElButton
+              size="small"
+              type="primary"
             >
               <VIcon
                 icon="tabler-edit"
-                size="20"
+                size="15"
               />
-            </RouterLink>
-          </ElButton>
+            </ElButton>
+          </RouterLink>
+
+          
           <ElButton
             type="danger"
             size="small"
@@ -59,7 +62,7 @@
           >
             <VIcon
               icon="tabler-trash"
-              size="20"
+              size="15"
             />
             <!--  v-if="scope.row.status == 0" -->
           </ElButton>
@@ -68,11 +71,11 @@
           <ElButton
             size="small"
             :type="scope.row.status == 1 ? 'success':''"
-            @click="publishNews(scope.row.parent_id,scope.row.status)"
+            @click="showPublishAlert(scope.row.parent_id,scope.row.status)"
           >
             <VIcon
               :icon="scope.row.status == 1 ? 'tabler-check':'tabler-eye-off'"
-              size="20"
+              size="15"
             />
           </ElButton>
         </template>
@@ -130,7 +133,7 @@ const deleteNews = async item => {
   try{
     const { data } = await newsStore.deleteNews({ ids: arr })
 
-    data.status_code == 200 ? notify('Deleted!', data.message, 'warning', 'top-right') : notify('Error', data.message, 'error', 'top-right')
+    data.status_code == 200 ? notify('Deleted!', data.message, 'error', 'top-right') : notify('Error', data.message, 'error', 'top-right')
 
     emit('tableDataEmit')}
   catch(err){
@@ -146,7 +149,7 @@ const publishNews = async (item, sts) => {
   try{
     const { data } = await newsStore.publishNews({ ids: arr, status: status })
 
-    data.status_code == 200 ? notify('Deleted!', data.message, 'warning', 'top-right') : notify('Error', data.message, 'error', 'top-right')
+    data.status_code == 200 ? notify('Published!', data.message, 'success', 'top-right') : notify('Success', data.message, 'success', 'top-right')
 
     emit('tableDataEmit')
     arr = []
@@ -171,6 +174,22 @@ const showAlert = item => {
 
       
       action == 'confirm' ? deleteNews(item) : ''
+    },
+  })
+}
+
+const showPublishAlert = (parent_id, status) => {
+  ElMessageBox.alert(`Are you sure that you want to ${status == 1 ? 'unpublish' : 'publish'}  this news ?`, `${status == 1 ? 'Unpublish' : 'Publish'}`, {
+    confirmButtonText: `${status == 1 ? 'Unpublish' : 'Publish'}`,
+    confirmButtonClass: 'el-button--primary',
+    callback: action => {
+      ElMessage({
+        type: 'info',
+        message: `action: ${action}`,
+      })
+
+      
+      action == 'confirm' ? publishNews(parent_id, status) : ''
     },
   })
 }

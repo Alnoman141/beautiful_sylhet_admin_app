@@ -31,12 +31,17 @@
           @table-data-emit="getspotList"
         />
       </div>
+      <PaginationSection
+        :total-data="totalData"
+        @get-emit="getspotList"
+      />
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
 import { useNewsStore } from "@/stores/tourism/newsStore"
 import NewsTable from "./newsTable.vue"
 
@@ -47,17 +52,23 @@ const newsStore = useNewsStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'id', sortable: false },
-  { label: 'Type', prop: 'type', sortable: true },
-  { label: 'Name', prop: 'name', sortable: true },        
+  { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Type', prop: 'type', sortable: false },
+  { label: 'Headline', prop: 'name', sortable: false },        
 ])
 
-const getspotList = async () => {
+const totalData = ref(0)
+
+const getspotList = async (pageSize, pageNo) => {
+  let parameter = {
+    page: pageNo,
+    per_page: pageSize,
+  }
   try {
-    const { data } = await newsStore.getNews()
+    const { data } = await newsStore.getNews(parameter)
 
     spotList.value = data.data.data
-
+    totalData.value= data.data.total
     
   } catch (error) {
     console.log(error)
@@ -66,7 +77,7 @@ const getspotList = async () => {
 
 onMounted(() => {
   
-  getspotList()
+  getspotList(10, 1)
 })
 </script>
 

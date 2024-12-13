@@ -28,7 +28,11 @@
         <NewsTable
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getLockerList"
+          @table-data-emit="getspotList"
+        />
+        <PaginationSection
+          :total-data="totalData"
+          @get-emit="getspotList"
         />
       </div>
     </ElCard>
@@ -37,6 +41,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
 import { useLockerStore } from "@/stores/tourism/lockerStore"
 import NewsTable from "./lockerTable.vue"
 
@@ -47,22 +52,29 @@ const lockerStore = useLockerStore()
 const spotList = ref([])
 
 const columns = ref([
-  { label: 'ID', prop: 'id', sortable: true },
-  { label: 'Spot Name', prop: 'spot_name', sortable: true },
-  { label: 'Phone', prop: 'phone', sortable: true },
-  { label: 'Address', prop: 'address', sortable: true },        
-  { label: 'Description', prop: 'description', sortable: true },        
+  { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Spot Name', prop: 'spot_name', sortable: false },
+  { label: 'Phone', prop: 'phone', sortable: false },
+  { label: 'Address', prop: 'address', sortable: false },        
+
+  // { label: 'Description', prop: 'description', sortable: false },        
 ])
 
-const getLockerList = async () => {
-  try {
-    const { data } = await lockerStore.getLocker()
+const totalData = ref(0)
 
-    console.log("data", data)
+const getspotList = async (pageSize, pageNo) => {
+  let parameter = {
+    page: pageNo,
+    per_page: pageSize,
+  }
+  try {
+    const { data } = await lockerStore.getLocker(parameter)
+
+    
 
     spotList.value = data.data
 
-    console.log(spotList.value)
+    totalData.value= data.data.total
   } catch (error) {
     console.log(error)
   }
@@ -70,7 +82,7 @@ const getLockerList = async () => {
 
 onMounted(() => {
   
-  getLockerList()
+  getspotList(10, 1)
 })
 </script>
 

@@ -17,10 +17,21 @@
         :width="column.prop == 'id' ? '100' : ''"
       >
         <template #default="scope">
-          <div v-html="column.prop == 'name' ? scope.row[column.prop] : index++" />
+          <div
+            v-if="column.prop !== 'image'"
+            v-html="column.prop == 'name' ? scope.row[column.prop] : index++"
+          />
+          <div class="text-center">
+            <img
+              v-if="column.prop == 'image'"
+              :src="scope.row[column.prop]"
+              alt="tourist spot image"
+              height="150"
+              width="300"
+            >
+          </div>
         </template>
       </ElTableColumn>
-
 
       <!-- Action Buttons Column -->
       <ElTableColumn
@@ -33,28 +44,33 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton
-            size="small"
-            type="success"
+          <RouterLink
+            style="color: white"
+            :to="{
+              name: 'editTouristSpot',
+              params: { id: scope.row.parent_id },
+            }"
           >
-            <RouterLink
-              style="color: white"
-              :to="{ name: 'editTouristSpot', params: { id: scope.row.parent_id } }"
+            <ElButton
+              size="small"
+              type="primary"
             >
               <VIcon
                 icon="tabler-edit"
-                size="20"
+                size="15"
               />
-            </RouterLink>
-          </ElButton>
+            </ElButton>
+          </RouterLink>
+
           <ElButton
+            class="mx-2"
             type="danger"
             size="small"
             @click="showAlert(scope.row.parent_id)"
           >
             <VIcon
               icon="tabler-trash"
-              size="20"
+              size="15"
             />
             <!--  v-if="scope.row.status == 0" -->
           </ElButton>
@@ -72,68 +88,64 @@ import { defineEmits, defineProps, ref } from "vue"
 const props = defineProps({
   filterTableData: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   columns: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
-  
-}) 
+})
 
 const emit = defineEmits(["tableDataEmit"])
-const editorContent = ref('') // Reactive variable to store the editor content
-
-
-
-
+const editorContent = ref("") // Reactive variable to store the editor content
 
 const spotStore = useSpotStore()
 
 const configStore = useConfigStore()
-const search = ref('')
-
+const search = ref("")
 
 const filterTableData = computed(() =>
   props.filterTableData.filter(
     data =>
       !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase()), 
+      data.name.toLowerCase().includes(search.value.toLowerCase()),
   ),
 )
 
 const deleteSpot = async item => {
-
   // el message
-  
 
-  
-  try{
+  try {
     const { data } = await spotStore.deleteSpot({ id: item })
 
-    data.status_code == 200 ? notify('Deleted!', data.message, 'warning', 'top-right') : notify('Error', data.message, 'error', 'top-right')
+    data.status_code == 200
+      ? notify("Deleted!", data.message, "error", "top-right")
+      : notify("Error", data.message, "error", "top-right")
 
-    emit('tableDataEmit')}
-  catch(err){
+    emit("tableDataEmit")
+  } catch (err) {
     console.log(err)
   }
 }
 
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from "element-plus"
 
 const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this Tourist Spot ?', 'Delete', {
-    confirmButtonText: 'Delete',
-    confirmButtonClass: 'el-button--danger',
-    callback: action => {
-      ElMessage({
-        type: 'info',
-        message: `action: ${action}`,
-      })
+  ElMessageBox.alert(
+    "Are you sure that you want to delete this Tourist Spot ?",
+    "Delete",
+    {
+      confirmButtonText: "Delete",
+      confirmButtonClass: "el-button--danger",
+      callback: action => {
+        ElMessage({
+          type: "info",
+          message: `action: ${action}`,
+        })
 
-      
-      action == 'confirm' ? deleteSpot(item) : ''
+        action == "confirm" ? deleteSpot(item) : ""
+      },
     },
-  })
+  )
 }
 </script>

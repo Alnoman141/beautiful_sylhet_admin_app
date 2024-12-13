@@ -55,7 +55,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'phone is required',
+                    message: 'Phone is required',
                     trigger: 'blur',
                   }"
                 >
@@ -72,7 +72,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'address is required',
+                    message: 'Address is required',
                     trigger: 'blur',
                   }"
                 >
@@ -87,13 +87,14 @@
                       ? 'lockers.' + index + '.description'
                       : 'data.' + index + '.description'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'description is required',
-                    trigger: 'blur',
-                  }"
+                 
                 >
-                  <!-- <ElInput v-model="item.description" /> -->
+                <!--  :rules="{
+                    required: true,
+                    message: 'Description is required',
+                    trigger: 'blur',
+                  }" -->
+                  
 
                   <div>
                     <QuillEditor
@@ -149,13 +150,13 @@
                 {
                   required: true,
                   message:
-                    'link can not be empty and should be like https://www.xyz.com',
+                    'Link can not be empty and should be like https://www.xyz.com',
                   trigger: 'blur',
                 },
                 {
                   type: 'url',
                   message:
-                    'link is required and should be like https://www.xyz.com',
+                    'Link is required and should be like https://www.xyz.com',
                   trigger: ['blur', 'change'],
                 },
               ]"

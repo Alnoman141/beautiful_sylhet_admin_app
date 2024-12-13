@@ -58,7 +58,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Bank Name  is required',
+                    message: 'Bank name  is required',
                     trigger: 'blur',
                   }"
                 >

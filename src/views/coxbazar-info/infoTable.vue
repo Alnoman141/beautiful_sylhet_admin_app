@@ -32,20 +32,20 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton
-            type="success"
-            size="small"
+          <RouterLink
+            :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
+            style=" color:white !important;text-decoration: none !important;"
           >
-            <RouterLink
-              :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
-              style=" color:white !important;text-decoration: none !important;"
+            <ElButton
+              type="primary"
+              size="small"
             >
               <VIcon
                 icon="tabler-edit"
-                size="20"
+                size="15"
               />
-            </RouterLink>
-          </ElButton>
+            </ElButton>
+          </RouterLink>
         </template>
       </ElTableColumn>
     </ElTable>

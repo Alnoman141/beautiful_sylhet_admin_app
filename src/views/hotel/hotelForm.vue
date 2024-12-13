@@ -56,7 +56,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'name is required',
+                    message: 'Hotel name is required',
                     trigger: 'blur',
                   }"
                 >
@@ -73,20 +73,32 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'phone number is required',
+                    message: 'Phone number is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput placeholder="Phone No" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
-              <VCol cols="12" md="6">
+              <VCol cols="12" >
                 <ElFormItem label="Address"  :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.address'
                       : 'data.' + index + '.address'
-                  ">
-                  <ElInput placeholder="Address" v-model="item.address" />
+                  " >
+                  <!-- :rules="[{ required: true, message: 'address is required', trigger: 'blur' }]" -->
+                  <!-- <ElInput placeholder="Address" v-model="item.address" /> -->
+                   <div>
+                   <QuillEditor
+                      ref="addressEditorRef"
+                      v-model:content="item.address"                     
+                      content-type="html"
+                      theme="snow"
+                      :text-change="checkData()"
+                      toolbar="full"
+                      placeholder="Type address here"
+                    />
+                    </div>
                 </ElFormItem>
               </VCol>
               <VCol cols="12" >
@@ -258,7 +270,7 @@
                     v-if="imgUploadValidation == true"
                     style="color: #fc6767; font-size: 12px; font-weight: light"
                   >
-                    image is required and must be valid format
+                    Image is required and must be valid format
                   </span>
                 </div>
               </template>
@@ -414,11 +426,24 @@ const viewImage = (item) => {
   modalImg.value = item;
 };
 const descritionEditorRef = ref(null);
+const addressEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  addressEditorRef.value?.map((e) => e.setHTML(""));
 };
+const checkData = () => {
+  addressEditorRef.value?.map((e) => {
+    e.getHTML == "<p><br></p>" ? e.setHTML("") : "";
+  });
+  props.ruleForm?.hotels?.map((e) => {
+    e.address === "<p><br></p>" ? (e.address = "") : "";
+  })
+  props.ruleForm?.data?.map((e) => {
+    e.address ==="<p><br></p>" ? (e.address = "") : "";
+  })
+}
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (
     rawFile.type !== "image/jpeg" &&
@@ -442,6 +467,8 @@ onMounted(() => {
   getSpotDropdownList();
   getCategoryDropdownList();
   getTypeDropdownList();
+  addressEditorRef.value?.map((e) => e.setHTML(""));
+
 });
 </script>
 

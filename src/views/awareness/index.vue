@@ -32,7 +32,7 @@ const awarenessList = ref([])
 
 const columns = ref( [
   
-  { label: 'Name', prop: 'name', sortable: true },        
+  { label: 'Awareness', prop: 'name', sortable: false },        
 ])
 
 const getAwarenessList = async () => {

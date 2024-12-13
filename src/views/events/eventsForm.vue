@@ -152,6 +152,7 @@
                       ? 'events.' + index + '.description'
                       : 'data.' + index + '.description'
                   "
+                  :rules="{  max: 100, message: '100 characters max', trigger: 'blur' }"
                 >
                   <!-- <ElInput
                     placeholder="Description"
@@ -203,7 +204,7 @@
                     v-if="imgUploadValidation == true"
                     style="color: #fc6767; font-size: 12px; font-weight: light"
                   >
-                    image is required and must be valid format
+                    Image is required and must be valid format
                   </span>
                 </div>
               </template>
@@ -211,7 +212,7 @@
           </VCol>
 
           <VCol cols="12" md="6">
-            <ElFormItem label="Event Spot" prop="spot_parent_id">
+            <ElFormItem label="Event Spot" prop="spot_parent_id" :rules="[{ required: true, message: 'Please select Spot', trigger: 'change' }]">
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Spot"
@@ -350,6 +351,18 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
 };
+const checkData = () => {
+  descriptionEditorRef.value?.map((item) => {
+    item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
+
+  })
+  props.ruleForm?.events?.map((e) => {
+    e.description === "<p><br></p>" ? e.description = "" : "";
+  })
+  props.ruleForm?.data?.map((e) => {
+    e.description ==="<p><br></p>" ? e.description = "" : "";
+  })
+}
 
 onMounted(() => {
   getSpotDropdownList();

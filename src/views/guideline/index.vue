@@ -31,7 +31,7 @@ const guidelineList = ref([])
 
 const columns = ref([
   
-  { label: "Name", prop: "name", sortable: true },
+  { label: "Guideline", prop: "name", sortable: false },
 ])
 
 const getGuidelineList = async () => {

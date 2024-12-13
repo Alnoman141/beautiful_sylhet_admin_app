@@ -48,8 +48,8 @@ const hotelTypeStore = useHotelTypeStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'parent_id', sortable: true },
-  { label: 'Name', prop: 'name', sortable: true },    
+  { label: 'S.L', prop: 'parent_id', sortable: false },
+  { label: 'Name', prop: 'name', sortable: false },    
 ])
 
 const getspotList = async () => {
@@ -58,7 +58,7 @@ const getspotList = async () => {
 
     spotList.value = data.data
 
-    console.log(spotList.value)
+    
   } catch (error) {
     console.log(error)
   }

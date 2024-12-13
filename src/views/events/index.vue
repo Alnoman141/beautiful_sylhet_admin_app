@@ -24,15 +24,20 @@
         <EventsTable
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getspotList"
+          @table-data-emit="getspotList(10,1)"
         />
       </div>
+      <PaginationSection
+        :total-data="totalData"
+        @get-emit="getspotList"
+      />
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
 import { useEventsStore } from "@/stores/tourism/eventsStore"
 import EventsTable from "./eventsTable.vue"
 
@@ -43,22 +48,29 @@ const eventsStore = useEventsStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'parent_id', sortable: true },
-  { label: 'Name', prop: 'name', sortable: true },
-  { label: 'Location', prop: 'location', sortable: true },
-  { label: 'Time', prop: 'time', sortable: true },        
-  { label: 'Description', prop: 'description', sortable: true },        
+  { label: 'S.L', prop: 'parent_id', sortable: false },
+  { label: 'Name', prop: 'name', sortable: false },
+  { label: 'Location', prop: 'location', sortable: false },
+  { label: 'Time', prop: 'time', sortable: false },        
+
+  // { label: 'Description', prop: 'description', sortable: false },        
 ])
 
-const getspotList = async () => {
-  try {
-    const { data } = await eventsStore.getEvents()
+const totalData = ref(0)
 
-    console.log("data", data)
+const getspotList = async (pageSize, pageNo) => {
+  let parameter = {
+    page: pageNo,
+    per_page: pageSize,
+  }
+  try {
+    const { data } = await eventsStore.getEvents(parameter)
+
+    
 
     spotList.value = data.data.data
 
-    console.log(spotList.value)
+    totalData.value = data.data.total
   } catch (error) {
     console.log(error)
   }
@@ -66,7 +78,7 @@ const getspotList = async () => {
 
 onMounted(() => {
   
-  getspotList()
+  getspotList(10, 1)
 })
 </script>
 

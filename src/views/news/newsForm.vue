@@ -57,7 +57,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'News Title is required',
+                    message: 'News title is required',
                     trigger: 'blur',
                   }"
                 >

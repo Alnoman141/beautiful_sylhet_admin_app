@@ -34,12 +34,17 @@
           @table-data-emit="getCampaignList"
         />
       </div>
+      <PaginationSection
+        :total-data="totalData"
+        @get-emit="getCampaignList"
+      />
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import PaginationSection from "@/components/tourism/pagination.vue"
 import { useNoticeStore } from "@/stores/tourism/noticeStore"
 import EventsTable from "./noticeTable.vue"
 
@@ -51,13 +56,18 @@ const spotList = ref([])
 
 const columns = ref( [
   { label: 'ID', prop: 'id', sortable: false },
-  { label: 'Name', prop: 'name', sortable: true },        
-  { label: 'Date', prop: 'date', sortable: true },        
+  { label: 'Name', prop: 'name', sortable: false },        
+  { label: 'Date', prop: 'date', sortable: false },        
         
 ])
 
-const getCampaignList = async () => {
-  let params ={ type: 'all' }
+const totalData = ref(0)
+
+const getCampaignList = async (pageSize, pageNo) => {
+  let params = {
+    type: 'all',
+    page: pageNo,
+    per_page: pageSize }
   try {
     const { data } = await noticeStore.getNotice(params)
 
@@ -65,7 +75,7 @@ const getCampaignList = async () => {
 
     spotList.value = data.data.data
 
-    console.log(spotList.value)
+    totalData.value = data.data.total
   } catch (error) {
     console.log(error)
   }
@@ -73,7 +83,7 @@ const getCampaignList = async () => {
 
 onMounted(() => {
   
-  getCampaignList()
+  getCampaignList(10, 1)
 })
 </script>
 

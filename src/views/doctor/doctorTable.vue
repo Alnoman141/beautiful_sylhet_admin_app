@@ -32,20 +32,22 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton
-            size="small"
-            type="primary"
+          <RouterLink
+            class="mx-2"
+            style="color:white"
+            :to="{ name: 'editDoctor', params: { id: scope.row.parent_id } }"
           >
-            <RouterLink
-              style="color:white"
-              :to="{ name: 'editDoctor', params: { id: scope.row.parent_id } }"
+            <ElButton
+              size="small"
+              type="primary"
             >
               <VIcon
                 icon="tabler-edit"
-                size="20"
+                size="15"
               />
-            </RouterLink>
-          </ElButton>
+            </ElButton>
+          </RouterLink>
+          
           <ElButton
             size="small"
             type="danger"
@@ -53,7 +55,7 @@
           >
             <VIcon
               icon="tabler-trash"
-              size="20"
+              size="15"
             />
             <!--  v-if="scope.row.status == 0" -->
           </ElButton>
@@ -114,7 +116,7 @@ const deleteTransport = async item => {
   try{
     const { data } = await doctorStore.deleteDoctor({ id: item })
 
-    data.status_code == 200 ? notify('Deleted!', data.message, 'warning', 'top-right') : notify('Error', data.message, 'error', 'top-right')
+    data.status_code == 200 ? notify('Deleted!', data.message, 'error', 'top-right') : notify('Error', data.message, 'error', 'top-right')
 
     emit('tableDataEmit')}
   catch(err){
