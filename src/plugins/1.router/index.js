@@ -21,6 +21,7 @@ import { policeRoutes } from './police'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
 import { transportRoutes } from './transport'
+import { userRoutes } from './user'
 import { volunteerRoutes } from './volunteer'
 
 function recursiveLayouts(route) {
@@ -65,6 +66,7 @@ const router = createRouter({
       ...guardRoutes,
       ...volunteerRoutes,
       ...noticeRoutes,
+      ...userRoutes,
     ].map(route => recursiveLayouts(route)),
   ],
 })

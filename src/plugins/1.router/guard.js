@@ -2,7 +2,7 @@ export const guardRoutes = [
   {
     path: '/guard',
     meta: {
-      subject: "Dashboard",
+      subject: "guard",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const guardRoutes = [
         name: 'guardList',
         component: () => import('@/views/guard/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "guard",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const guardRoutes = [
         name: 'createGuard',
         component: () => import('@/views/guard/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "guard",
           action: "show menu",
           navActiveLink: 'guardList',
         },
@@ -31,7 +31,7 @@ export const guardRoutes = [
         name: 'editGuard',
         component: () => import('@/views/guard/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "guard",
           action: "show menu",
           navActiveLink: 'guardList',
         },

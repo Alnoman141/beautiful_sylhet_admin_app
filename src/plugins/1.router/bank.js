@@ -2,7 +2,7 @@ export const bankRoutes = [
   {
     path: '/bank',
     meta: {
-      subject: "Dashboard",
+      subject: "bank",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const bankRoutes = [
         name: 'bankList',
         component: () => import('@/views/bank/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "bank",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const bankRoutes = [
         name: 'createBank',
         component: () => import('@/views/bank/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "bank",
           action: "show menu",
           navActiveLink: 'bankList',
         },
@@ -31,7 +31,7 @@ export const bankRoutes = [
         name: 'editBank',
         component: () => import('@/views/bank/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "bank",
           action: "show menu",
           navActiveLink: 'bankList',
         },

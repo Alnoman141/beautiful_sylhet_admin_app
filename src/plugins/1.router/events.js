@@ -2,7 +2,7 @@ export const eventsRoutes = [
   {
     path: '/events',
     meta: {
-      subject: "Dashboard",
+      subject: "event",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const eventsRoutes = [
         name: 'eventsList',
         component: () => import('@/views/events/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "event",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const eventsRoutes = [
         name: 'createEvents',
         component: () => import('@/views/events/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "event",
           action: "show menu",
           navActiveLink: 'eventsList',
         },
@@ -31,7 +31,7 @@ export const eventsRoutes = [
         name: 'editEvents',
         component: () => import('@/views/events/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "event",
           action: "show menu",
           navActiveLink: 'eventsList',
         },

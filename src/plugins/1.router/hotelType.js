@@ -2,7 +2,7 @@ export const hotelTypeRoutes = [
   {
     path: '/hotel-type',
     meta: {
-      subject: "Dashboard",
+      subject: "hoteltype",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const hotelTypeRoutes = [
         name: 'hotelTypeList',
         component: () => import('@/views/hotel/hotel-type/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "hoteltype",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const hotelTypeRoutes = [
         name: 'createHotelType',
         component: () => import('@/views/hotel/hotel-type/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "hoteltype",
           action: "show menu",
           navActiveLink: 'hotelTypeList',
         },
@@ -31,7 +31,7 @@ export const hotelTypeRoutes = [
         name: 'editHotelType',
         component: () => import('@/views/hotel/hotel-type/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "hoteltype",
           action: "show menu",
           navActiveLink: 'hotelTypeList',
         },

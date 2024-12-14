@@ -2,7 +2,7 @@ export const policeRoutes = [
   {
     path: '/police',
     meta: {
-      subject: "Dashboard",
+      subject: "police",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const policeRoutes = [
         name: 'policeList',
         component: () => import('@/views/police/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "police",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const policeRoutes = [
         name: 'createPolice',
         component: () => import('@/views/police/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "police",
           action: "show menu",
           navActiveLink: 'policeList',
         },
@@ -31,7 +31,7 @@ export const policeRoutes = [
         name: 'editPolice',
         component: () => import('@/views/police/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "police",
           action: "show menu",
           navActiveLink: 'policeList',
         },

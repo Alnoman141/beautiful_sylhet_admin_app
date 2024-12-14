@@ -2,7 +2,7 @@ export const campaignRoutes = [
   {
     path: '/campaign',
     meta: {
-      subject: "Dashboard",
+      subject: "campaign",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const campaignRoutes = [
         name: 'campaignList',
         component: () => import('@/views/campaign/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "campaign",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const campaignRoutes = [
         name: 'createCampaign',
         component: () => import('@/views/campaign/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "campaign",
           action: "show menu",
           navActiveLink: 'campaignList',
         },
@@ -31,7 +31,7 @@ export const campaignRoutes = [
         name: 'editCampaign',
         component: () => import('@/views/campaign/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "campaign",
           action: "show menu",
           navActiveLink: 'campaignList',
         },

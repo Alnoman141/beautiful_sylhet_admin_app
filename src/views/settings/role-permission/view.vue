@@ -7,6 +7,12 @@
       <h3>
         Permissions List of <span class="text-capitalize">{{ role.name }}</span>
       </h3>
+      <RouterLink
+        class="create-btn"
+        :to="{ name: 'rolePermissions' }"
+      >
+        Role Permission List
+      </RouterLink>
     </div>
   </ElCard>
 
@@ -14,14 +20,14 @@
     <ElForm
       :model="role"
       label-width="auto"
-      style="max-width: 600px"
+      style="max-inline-size: 600px"
     >
       <ElFormItem label="Role Name">
         <ElSelect
           v-model="role.name"
           placeholder="Filter permissions by role"
           size="large"
-          style="width: 240px"
+          style="inline-size: 240px"
           class="text-capitalize"
           @change="getPermissions($event)"
         >
@@ -181,9 +187,9 @@ const assignPermission = () => {
 
   const data = {
     // eslint-disable-next-line camelcase
-    role_id: role.value.id,
+    id: role.value.id,
     // eslint-disable-next-line camelcase
-    permission_name: permissionIds,
+    permissions: permissionIds,
   }
 
   roleStore.assignPermission(data).then(res => {
@@ -218,5 +224,11 @@ onMounted(() => {
 
 <style scoped>
 /* Main CSS */
-
+.create-btn{
+  border-radius: 5px;
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
+  padding-block: 6px;
+  padding-inline: 10px;
+}
 </style>

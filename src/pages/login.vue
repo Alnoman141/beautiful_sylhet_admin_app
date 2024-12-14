@@ -1,6 +1,5 @@
 <!-- ❗Errors in the form are set on line 60 -->
 <script setup>
-import { getDummyPermissions } from '@/api/toruism/dummy'
 import { useAuthStore } from '@/stores/AuthStore'
 import { setToken, setUserData } from '@/utils/auth'
 import { notify } from '@/utils/notification'
@@ -55,10 +54,13 @@ const login = async () => {
     // eslint-disable-next-line camelcase
     const { data } = res
 
+    // console.log(data)
+
     // this will use later    
-    // const abilityData = data.permissions
-    const { dummyData } = await getDummyPermissions()
-    const abilityData = dummyData
+    const abilityData = data.permissions
+
+    // const { dummyData } = await getDummyPermissions()
+    // const abilityData = dummyData
 
  
     const userAbilityRules = JSON.stringify(abilityData)

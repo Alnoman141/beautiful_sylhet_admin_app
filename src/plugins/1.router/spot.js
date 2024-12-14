@@ -2,7 +2,7 @@ export const spotRoutes = [
   {
     path: '/spot',
     meta: {
-      subject: "Dashboard",
+      subject: "spot",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const spotRoutes = [
         name: 'touristSpot',
         component: () => import('@/views/tourist-spot/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "spot",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const spotRoutes = [
         name: 'createTouristSpot',
         component: () => import('@/views/tourist-spot/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "spot",
           action: "show menu",
           navActiveLink: 'touristSpot',
         },
@@ -31,7 +31,7 @@ export const spotRoutes = [
         name: 'editTouristSpot',
         component: () => import('@/views/tourist-spot/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "spot",
           action: "show menu",
           navActiveLink: 'touristSpot',
         },

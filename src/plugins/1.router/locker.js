@@ -2,7 +2,7 @@ export const lockerRoutes = [
   {
     path: '/locker',
     meta: {
-      subject: "Dashboard",
+      subject: "locker",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const lockerRoutes = [
         name: 'lockerList',
         component: () => import('@/views/locker/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "locker",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const lockerRoutes = [
         name: 'createLocker',
         component: () => import('@/views/locker/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "locker",
           action: "show menu",
           navActiveLink: 'lockerList',
         },
@@ -31,7 +31,7 @@ export const lockerRoutes = [
         name: 'editLocker',
         component: () => import('@/views/locker/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "locker",
           action: "show menu",
           navActiveLink: 'lockerList',
         },

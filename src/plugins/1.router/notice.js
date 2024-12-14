@@ -2,7 +2,7 @@ export const noticeRoutes = [
   {
     path: '/notice',
     meta: {
-      subject: "Dashboard",
+      subject: "notice",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const noticeRoutes = [
         name: 'noticeList',
         component: () => import('@/views/notice/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "notice",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const noticeRoutes = [
         name: 'createNotice',
         component: () => import('@/views/notice/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "notice",
           action: "show menu",
           navActiveLink: 'noticeList',
         },
@@ -31,7 +31,7 @@ export const noticeRoutes = [
         name: 'editNotice',
         component: () => import('@/views/notice/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "notice",
           action: "show menu",
           navActiveLink: 'noticeList',
         },

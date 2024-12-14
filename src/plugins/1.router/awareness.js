@@ -5,7 +5,7 @@ const childrenRoutes = [
     path: 'awareness',
     redirects: '/awareness/list',
     meta: {
-      subject: "Awareness",
+      subject: "awareness",
       action: "show menu",
     },
     children: [
@@ -14,7 +14,7 @@ const childrenRoutes = [
         name: 'list',
         component: () => import('@/views/awareness/index.vue'),
         meta: {
-          subject: "Awareness",
+          subject: "awareness",
           action: "show menu",
         },
       },
@@ -23,7 +23,7 @@ const childrenRoutes = [
         name: 'edit/:id',
         component: () => import('@/views/awareness/awarenessForm.vue'),
         meta: {
-          subject: "Awareness",
+          subject: "awareness",
           action: "edit",
         },
       },
@@ -40,7 +40,7 @@ export const awarenessRoutes = [
     name: 'awareness',
     redirects: '/list',
     meta: {
-      subject: "Awareness",
+      subject: "awareness",
       action: "show menu",
     },
     children: [

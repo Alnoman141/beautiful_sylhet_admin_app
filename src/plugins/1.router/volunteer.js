@@ -2,7 +2,7 @@ export const volunteerRoutes = [
   {
     path: '/volunteer',
     meta: {
-      subject: "Dashboard",
+      subject: "volunteer",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const volunteerRoutes = [
         name: 'volunteerList',
         component: () => import('@/views/volunteer/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "volunteer",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const volunteerRoutes = [
         name: 'createVolunteer',
         component: () => import('@/views/volunteer/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "volunteer",
           action: "show menu",
           navActiveLink: 'volunteerList',
         },
@@ -31,7 +31,7 @@ export const volunteerRoutes = [
         name: 'editVolunteer',
         component: () => import('@/views/volunteer/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "volunteer",
           action: "show menu",
           navActiveLink: 'volunteerList',
         },

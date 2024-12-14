@@ -2,7 +2,7 @@ export const transportRoutes = [
   {
     path: '/transport',
     meta: {
-      subject: "Dashboard",
+      subject: "transport",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const transportRoutes = [
         name: 'transportList',
         component: () => import('@/views/transport/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "transport",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const transportRoutes = [
         name: 'createTransport',
         component: () => import('@/views/transport/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "transport",
           action: "show menu",
           navActiveLink: 'transportList',
         },
@@ -31,7 +31,7 @@ export const transportRoutes = [
         name: 'editTransport',
         component: () => import('@/views/transport/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "transport",
           action: "show menu",
           navActiveLink: 'transportList',
         },

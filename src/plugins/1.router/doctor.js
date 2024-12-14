@@ -2,7 +2,7 @@ export const doctorRoutes = [
   {
     path: '/doctor',
     meta: {
-      subject: "Dashboard",
+      subject: "doctor",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const doctorRoutes = [
         name: 'doctorList',
         component: () => import('@/views/doctor/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "doctor",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const doctorRoutes = [
         name: 'createDoctor',
         component: () => import('@/views/doctor/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "doctor",
           action: "show menu",
           navActiveLink: 'doctorList',
         },
@@ -31,7 +31,7 @@ export const doctorRoutes = [
         name: 'editDoctor',
         component: () => import('@/views/doctor/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "doctor",
           action: "show menu",
           navActiveLink: 'doctorList',
         },

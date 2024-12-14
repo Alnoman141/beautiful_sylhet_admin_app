@@ -29,7 +29,7 @@ export const routes = [
     name: 'dashboards',
     component: () => import('@/views/dashboards/admin/index.vue'),
     meta: {
-      subject: "Dashboard",
+      subject: "dashboard",
       action: "show menu",
     },
   },
@@ -38,7 +38,7 @@ export const routes = [
     name: 'guide-line',
     component: () => import('@/views/guideline/index.vue'),
     meta: {
-      subject: "Guideline",
+      subject: "guideline",
       action: "show menu",
       
     },
@@ -48,7 +48,7 @@ export const routes = [
     name: 'createGuideline',
     component: () => import('@/views/guideline/guidelineForm.vue'),
     meta: {
-      subject: "Guideline",
+      subject: "guideline",
       action: "create",
     },
   },
@@ -57,7 +57,7 @@ export const routes = [
     name: 'edit-guideline',
     component: () => import('@/views/guideline/guidelineForm.vue'),
     meta: {
-      subject: "Guideline",
+      subject: "guideline",
       action: "edit",
       navActiveLink: 'guide-line',
     },
@@ -67,7 +67,7 @@ export const routes = [
     name: 'awareness',
     component: () => import('@/views/awareness/index.vue'),
     meta: {
-      subject: "Awareness",
+      subject: "awareness",
       action: "show menu",
     },
   },
@@ -76,7 +76,7 @@ export const routes = [
     name: 'createAwareness',
     component: () => import('@/views/awareness/awarenessForm.vue'),
     meta: {
-      subject: "Awareness",
+      subject: "awareness",
       action: "create",
     },
   },
@@ -96,7 +96,7 @@ export const routes = [
     name: 'info',
     component: () => import('@/views/coxbazar-info/index.vue'),
     meta: {
-      subject: "Info",
+      subject: "info",
       action: "show menu",
     },
   },
@@ -105,7 +105,7 @@ export const routes = [
     name: 'infoEdit',
     component: () => import('@/views/coxbazar-info/infoForm.vue'),
     meta: {
-      subject: "Info",
+      subject: "info",
       action: "edit",
       navActiveLink: 'info',
     },

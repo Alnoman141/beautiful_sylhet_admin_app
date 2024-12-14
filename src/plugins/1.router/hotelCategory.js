@@ -2,7 +2,7 @@ export const hotelCategoryRoutes = [
   {
     path: '/hotel-category',
     meta: {
-      subject: "Dashboard",
+      subject: "hotelcategory",
       action: "show menu",
     },
     children: [
@@ -11,7 +11,7 @@ export const hotelCategoryRoutes = [
         name: 'hotelCategoryList',
         component: () => import('@/views/hotel/hotel-category/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "hotelcategory",
           action: "show menu",
         },
       },
@@ -21,7 +21,7 @@ export const hotelCategoryRoutes = [
         name: 'createHotelCategory',
         component: () => import('@/views/hotel/hotel-category/create.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "hotelcategory",
           action: "show menu",
           navActiveLink: 'hotelCategoryList',
         },
@@ -31,7 +31,7 @@ export const hotelCategoryRoutes = [
         name: 'editHotelCategory',
         component: () => import('@/views/hotel/hotel-category/update.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "hotelcategory",
           action: "show menu",
           navActiveLink: 'hotelCategoryList',
         },

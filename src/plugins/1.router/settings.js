@@ -4,7 +4,7 @@ const childrenRoutes = [
     path: 'role-permissions',
     redirects: '/settings/role-permissions',
     meta: {
-      subject: "Dashboard",
+      subject: "user",
       action: "show menu",
     },
     children: [
@@ -13,7 +13,7 @@ const childrenRoutes = [
         name: 'rolePermissions',
         component: () => import('@/views/settings/role-permission/index.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "user",
           action: "show menu",
         },
       },
@@ -22,22 +22,23 @@ const childrenRoutes = [
         name: 'rolePermissionView',
         component: () => import('@/views/settings/role-permission/view.vue'),
         meta: {
-          subject: "Dashboard",
+          subject: "user",
           action: "show menu",
+          navActiveLink: 'rolePermissions',
         },
       },
     ],
   },
 
-  {
-    path: 'user-list',
-    name: 'userList',
-    component: () => import('@/views/settings/users/index.vue'),
-    meta: {
-      subject: "Dashboard",
-      action: "show menu",
-    },
-  },
+  // {
+  //   path: 'user-list',
+  //   name: 'userList',
+  //   component: () => import('@/views/settings/users/index.vue'),
+  //   meta: {
+  //     subject: "user",
+  //     action: "show menu",
+  //   },
+  // },
 ]
 
 export const settingRoutes = [
@@ -46,7 +47,7 @@ export const settingRoutes = [
     name: 'settings',
     redirects: '/categories',
     meta: {
-      subject: "Dashboard",
+      subject: "user",
       action: "show menu",
     },
     children: [
