@@ -1,5 +1,5 @@
+import { assignPermission, getRole, getRoles, syncPermission } from '@/api/role'
 import { defineStore } from 'pinia'
-import { getRoles, getRole, assignPermission } from '@/api/role'
 
 export const useRoleStore = defineStore('roleStore', {
   state: () => ({
@@ -12,6 +12,18 @@ export const useRoleStore = defineStore('roleStore', {
     getRoles(query) {
       return new Promise((resolve, reject) => {
         getRoles(query)
+          .then(response => {
+            this.roles = response.data.data
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    syncPermission(query) {
+      return new Promise((resolve, reject) => {
+        syncPermission(query)
           .then(response => {
             this.roles = response.data.data
             resolve(response)

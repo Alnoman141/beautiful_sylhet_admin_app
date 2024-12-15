@@ -18,8 +18,8 @@
       >
         <template #default="scope">
           <div
-            v-if="column.prop !== 'image'"
-            v-html="column.prop == 'name' ? scope.row[column.prop] : index++"
+            v-if="column.prop !== 'image' "
+            v-html="column.prop !== 'id' ? scope.row[column.prop] : index++"
           />
           <div class="text-center">
             <img

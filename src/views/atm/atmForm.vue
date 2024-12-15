@@ -277,14 +277,20 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.atms,
     };
     if (valid && !imgUploadValidation.value) {
-      const { data } = props.ruleForm.id
-        ? await atmStore.updateAtm(form)
-        : await atmStore.createAtm(props.ruleForm);
-      data.status_code == 200
-        ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
-        : "";
-      data.status_code == 200 ? router.push({ name: "atmList" }) : "";
+      try {
+        const { data } = props.ruleForm.id
+          ? await atmStore.updateAtm(form)
+          : await atmStore.createAtm(props.ruleForm);
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            emit("tableDataEmit"))
+          : "";
+        data.status_code == 200 ? router.push({ name: "atmList" }) : "";
+
+      } catch (error) {
+        console.log(error);
+        notify("Error", "Something went wrong", "error", "top-right");
+      }
     } else {
       console.log("error submit!", fields);
     }

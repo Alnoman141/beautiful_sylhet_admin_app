@@ -84,50 +84,41 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
     ]"
   >
     <!-- 👉 Header -->
-    <div class="nav-header">
+    <!--
+      <div class="d-flex align-center justify-end py-2 px-2">
       <slot name="nav-header">
-        <RouterLink
-          to="/"
-          class="app-logo app-title-wrapper"
-        >
-          <VNodeRenderer :nodes="layoutConfig.app.logo" />
-
-          <!--
-            <Transition name="vertical-nav-app-title">
-            <h1
-            v-show="!hideTitleAndIcon"
-            class="app-logo-title leading-normal"
-            >
-            {{ layoutConfig.app.title }}
-            </h1>
-            </Transition> 
-          -->
-        </RouterLink>
-        <!-- 👉 Vertical nav actions -->
-        <!-- Show toggle collapsible in >md and close button in <md -->
-        <Component
-          :is="layoutConfig.app.iconRenderer || 'div'"
-          v-show="configStore.isVerticalNavCollapsed"
-          class="header-action d-none nav-unpin"
-          :class="configStore.isVerticalNavCollapsed && 'd-lg-block'"
-          v-bind="layoutConfig.icons.verticalNavUnPinned"
-          @click="configStore.isVerticalNavCollapsed = !configStore.isVerticalNavCollapsed"
-        />
-        <Component
-          :is="layoutConfig.app.iconRenderer || 'div'"
-          v-show="!configStore.isVerticalNavCollapsed"
-          class="header-action d-none nav-pin"
-          :class="!configStore.isVerticalNavCollapsed && 'd-lg-block'"
-          v-bind="layoutConfig.icons.verticalNavPinned"
-          @click="configStore.isVerticalNavCollapsed = !configStore.isVerticalNavCollapsed"
-        />
-        <Component
-          :is="layoutConfig.app.iconRenderer || 'div'"
-          class="header-action d-lg-none"
-          v-bind="layoutConfig.icons.close"
-          @click="toggleIsOverlayNavActive(false)"
-        />
+      <Component
+      :is="layoutConfig.app.iconRenderer || 'div'"
+      v-show="configStore.isVerticalNavCollapsed"
+      class="header-action d-none nav-unpin"
+      :class="configStore.isVerticalNavCollapsed && 'd-lg-block'"
+      v-bind="layoutConfig.icons.verticalNavUnPinned"
+      @click="configStore.isVerticalNavCollapsed = !configStore.isVerticalNavCollapsed"
+      />
+      <Component
+      :is="layoutConfig.app.iconRenderer || 'div'"
+      v-show="!configStore.isVerticalNavCollapsed"
+      class="header-action d-none nav-pin"
+      :class="!configStore.isVerticalNavCollapsed && 'd-lg-block'"
+      v-bind="layoutConfig.icons.verticalNavPinned"
+      @click="configStore.isVerticalNavCollapsed = !configStore.isVerticalNavCollapsed"
+      />
+      <Component
+      :is="layoutConfig.app.iconRenderer || 'div'"
+      class="header-action d-lg-none"
+      v-bind="layoutConfig.icons.close"
+      @click="toggleIsOverlayNavActive(false)"
+      />
       </slot>
+      </div> 
+    -->
+    <div class="text-center my-4">
+      <RouterLink
+        to="/"
+        class="sidebar-logo app-title-wrapper"
+      >
+        <VNodeRenderer :nodes="layoutConfig.app.logo" />
+      </RouterLink>
     </div>
     <slot name="before-nav-items">
       <div class="vertical-nav-items-shadow" />

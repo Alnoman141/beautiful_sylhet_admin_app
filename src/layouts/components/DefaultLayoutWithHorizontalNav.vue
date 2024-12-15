@@ -6,7 +6,6 @@ import { themeConfig } from '@themeConfig'
 import Footer from '@/layouts/components/Footer.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 import { HorizontalNavLayout } from '@layouts'
-import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 
 // SECTION: Loading Indicator
 const isFallbackStateActive = ref(false)
@@ -40,20 +39,7 @@ watch([
       </RouterLink>
       <VSpacer />
 
-      <!-- <NavSearchBar trigger-btn-class="ms-lg-n3" /> -->
 
-      <!--
-        <NavBarI18n
-        v-if="themeConfig.app.i18n.enable && themeConfig.app.i18n.langConfig?.length"
-        :languages="themeConfig.app.i18n.langConfig"
-        /> 
-      -->
-
-      <!--
-        <NavbarThemeSwitcher />
-        <NavbarShortcuts />
-        <NavBarNotifications class="me-2" /> 
-      -->
       <UserProfile />
     </template>
 

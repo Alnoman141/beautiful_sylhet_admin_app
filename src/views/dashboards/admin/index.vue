@@ -25,7 +25,37 @@
             At glance the most important information about app
           </div>
         </ElCard>
-        
+        <div class="d-flex align-center justify-space-between gap-x-4 my-2">
+          <VCard
+            v-for="(data, index) in transportData"
+            :key="index"
+            class="logistics-card-statistics cursor-pointer w-100"
+            :style="data.isHover ? { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}))` } : { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}), var(--v-disabled-opacity))` }"
+            @mouseenter="data.isHover = true"
+            @mouseleave="data.isHover = false"
+          >
+            <VCardText>
+              <div class="d-flex align-center gap-x-4 mb-2">
+                <VAvatar
+                  variant="tonal"
+                  :color="data.color"
+                  rounded
+                >
+                  <VIcon
+                    :icon="data.icon"
+                    size="28"
+                  />
+                </VAvatar>
+                <h5 class="text-h5 font-weight-medium">
+                  {{ data.value }}
+                </h5>
+              </div>
+              <div class="text-body-1">
+                {{ data.title }}
+              </div>
+            </VCardText>
+          </VCard>
+        </div>
         
         <VRow>
           <VCol
@@ -66,40 +96,106 @@
             </div>
           </VCol>
         </VRow>
-        
-        <!-- <VRow> -->
-        <div class="d-flex align-center justify-space-between gap-x-4 my-2">
-          <VCard
-            v-for="(data, index) in transportData"
-            :key="index"
-            class="logistics-card-statistics cursor-pointer"
-            :style="data.isHover ? { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}))` } : { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}), var(--v-disabled-opacity))` }"
-            @mouseenter="data.isHover = true"
-            @mouseleave="data.isHover = false"
-          >
-            <VCardText>
-              <div class="d-flex align-center gap-x-4 mb-2">
-                <VAvatar
-                  variant="tonal"
-                  :color="data.color"
-                  rounded
-                >
-                  <VIcon
-                    :icon="data.icon"
-                    size="28"
-                  />
-                </VAvatar>
-                <h5 class="text-h5 font-weight-medium">
-                  {{ data.value }}
-                </h5>
-              </div>
-              <div class="text-body-1">
-                {{ data.title }}
-              </div>
-            </VCardText>
-          </VCard>
-        </div>
-        <!-- </VRow> -->
+        <VRow>
+          <VCol>
+            <ElCard>
+              <VWindow>
+                <h3 class="my-2 mx-4">
+                  Events
+                </h3>
+                <hr class="my-2">
+                <VWindowItem class="event">
+                  <div>
+                    <VTimeline
+                      v-for="(item, index) in eventList"
+                      align="start"
+                      truncate-line="both"
+                      side="end"
+                      density="compact"
+                      line-thickness="1"
+                    >
+                      <VTimelineItem
+                        icon="tabler-circle-check"
+                        dot-color="rgba(var(--v-theme-surface))"
+                        icon-color="primary"
+                        fill-dot
+                        size="22"
+                        :elevation="0"
+                      >
+                        <div class="text-caption text-uppercase ">
+                          <h5
+                            class="text-h5"
+                            v-html="item.name"
+                          />
+                          <p
+                            class="app-timeline-title m-0 p-0"
+                            v-html="item.date"
+                          />
+                          <p
+                            class="app-timeline-text"
+                            v-html="item.location"
+                          />
+                        </div>
+                      </VTimelineItem>
+                      <VDivider
+                        v-if="index + 1 < eventList.length"
+                        class="my-5"
+                        style="border-style: dashed"
+                      />
+                    </VTimeline>
+                  </div>
+                </VWindowItem>
+              </VWindow>
+            </ElCard>
+          </VCol>
+          <VCol>
+            <ElCard>
+              <VWindow>
+                <h3 class="my-2 mx-4">
+                  Campaign
+                </h3>
+                <hr class="my-2">
+                <VWindowItem class="event">
+                  <div>
+                    <VTimeline
+                      v-for="(item, index) in campaignList"
+                      align="start"
+                      truncate-line="both"
+                      side="end"
+                      density="compact"
+                      line-thickness="1"
+                    >
+                      <VTimelineItem
+                        icon="tabler-circle-check"
+                        dot-color="rgba(var(--v-theme-surface))"
+                        icon-color="info"
+                        fill-dot
+                        size="22"
+                        :elevation="0"
+                      >
+                        <div class="text-caption text-uppercase ">
+                          <h5
+                            class="text-h5"
+                            v-html="item.name"
+                          />
+                          <p
+                            class="app-timeline-title"
+                            v-html="item.date"
+                          />
+                        </div>
+                      </VTimelineItem>
+                      <VDivider
+                        v-if="index + 1 < eventList.length"
+                        class="my-5"
+                        style="border-style: dashed"
+                      />
+                    </VTimeline>
+                  </div>
+                </VWindowItem>
+              </VWindow> 
+            </ElCard>
+          </VCol>
+        </VRow>
       </VCol>
       <VCol
         cols="12"
@@ -112,9 +208,42 @@
 </template>
 
 <script lang="ts" setup>
+import { useCampaignStore } from "@/stores/tourism/campaignStore"
 import { useDashboardStore } from '@/stores/tourism/dashboardStore'
+import { useEventsStore } from "@/stores/tourism/eventsStore"
 import RightPanel from "./rightPanel.vue"
 import TopCard from "./topCard.vue"
+
+const eventsStore = useEventsStore()
+
+// getCampaign
+const eventList = ref([])
+
+const getEventList = async () => {
+  try {
+    const { data } = await eventsStore.getEvents()
+
+    eventList.value = data.data.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const campaignList = ref([])
+
+const getCampaignList = async () => {
+  try {
+    const { data } = await campaignStore.getCampaign()
+
+    campaignList.value = data.data.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+// getEvents
+const campaignStore = useCampaignStore()
 
 const logisticData = ref([
 
@@ -253,9 +382,14 @@ const getDashboadData = async() => {
 
 onMounted(() => {
   getDashboadData()
+  getEventList()
+  getCampaignList()
 })
 </script>
 
 <style scoped>
-
+.event {
+  block-size: 30dvh;
+  overflow-y: auto;
+}
 </style>

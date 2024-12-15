@@ -56,7 +56,7 @@ const doctorStore = useDoctorStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'ID', prop: 'parent_id', sortable: false },
+  { label: 'ID', prop: 'id', sortable: false },
   { label: 'Name', prop: 'name', sortable: false },        
   { label: 'Spot Name', prop: 'spot_name', sortable: false },        
         

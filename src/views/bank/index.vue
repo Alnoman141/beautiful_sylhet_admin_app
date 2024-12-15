@@ -56,6 +56,8 @@ const spotList = ref([])
 const columns = ref([
   { label: "S.L", prop: "id", sortable: false },
   { label: "Bank Name", prop: "name", sortable: false },
+  { label: "Bank Name English", prop: "name_en", sortable: false },
+  
 ])
 
 const totalData = ref(0)

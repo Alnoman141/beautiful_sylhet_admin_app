@@ -134,14 +134,14 @@ export default [
     title: 'Police',
     to: 'policeList',
     icon: { icon: 'tabler-shield-checkered' },
-    subject: "Dashboard",
+    subject: "police",
     action: "show menu",
   },
   {
     title: 'Doctor',
     to: 'doctorList',
     icon: { icon: 'tabler-stethoscope' },
-    subject: "Dashboard",
+    subject: "doctor",
     action: "show menu",
   },
   {
@@ -155,7 +155,7 @@ export default [
     title: 'Beach Volunteer',
     to: 'volunteerList',
     icon: { icon: 'tabler-empathize' },
-    subject: "Dashboard",
+    subject: "volunteer",
     action: "show menu",
   },
   {

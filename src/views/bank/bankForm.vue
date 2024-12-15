@@ -121,15 +121,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const { data } =
-        props.mode == "update"
-          ? await bankStore.updateBank({ data: props.ruleForm })
-          : await bankStore.createBank(props.ruleForm);
-      data.status_code == 200
-        ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
-        : "";
-      data.status_code == 200 ? router.push({ name: "bankList" }) : "";
+      try {
+        const { data } =
+          props.mode == "update"
+            ? await bankStore.updateBank({ data: props.ruleForm })
+            : await bankStore.createBank(props.ruleForm);
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            emit("tableDataEmit"))
+          : "";
+        data.status_code == 200 ? router.push({ name: "bankList" }) : "";
+
+      } catch (error) {
+        console.log(error);
+        notify("Error", "Something went wrong", "error", "top-right");
+      }
     } else {
       console.log("error submit!", fields);
     }

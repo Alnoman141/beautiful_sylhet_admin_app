@@ -646,6 +646,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         images: multpleTempImg.value,
         data: updatedData,
       };
+      try{
       const { data } = props.ruleForm.id
         ? await spotStore.updateSpot(form)
         : await spotStore.createSpot(props.ruleForm);
@@ -657,8 +658,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             "top-right",
             emit("getEmit")
           )
-        : "";
-      router.push({ name: "touristSpot" });
+        : '';
+        router.push({ name: "touristSpot" });
+      }
+      catch (error) {
+        console.log(error);
+        notify("Warning!", 'Something went wrong', "warning", "top-right");
+      }
     } else {
       console.log("error submit!", fields);
     }

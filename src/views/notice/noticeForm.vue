@@ -198,6 +198,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid) {
+      try{
       const { data } = props.ruleForm.id
         ? await noticeStore.updateNotice(form)
         : await noticeStore.createNotice(props.ruleForm);
@@ -210,7 +211,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             emit("getEmit")
           )
         : "";
-      data.status_code == 200 ? router.push({ name: "noticeList" }) : "";
+        data.status_code == 200 ? router.push({ name: "noticeList" }) : "";
+      } catch (error) {
+        
+        notify("Error", "Something went wrong", "error", "top-right");
+      }
     } else {
       console.log("error submit!", fields);
     }

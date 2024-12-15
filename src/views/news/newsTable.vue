@@ -20,8 +20,11 @@
           <div v-if="column.prop == 'id'">
             {{ index++ }}
           </div>
-          <div v-else>
-            {{ scope.row[column.prop].type ? scope.row[column.prop].type[0].toUpperCase() + scope.row[column.prop].type.slice(1) + ' ' + 'News' : scope.row[column.prop] }}
+          <div
+            v-else
+            class="news-type"
+          >
+            {{ scope.row[column.prop].type == 'breaking' ? scope.row[column.prop].type + ' ' +'News' : scope.row[column.prop].type }}
           </div>
         </template>
       </ElTableColumn>
@@ -194,3 +197,9 @@ const showPublishAlert = (parent_id, status) => {
   })
 }
 </script>
+
+<style scoped>
+.news-type{
+  text-transform: capitalize;
+}
+</style>

@@ -26,3 +26,11 @@ export function assignPermission(data) {
     data,
   })
 }
+
+export function syncPermission(query) {
+  return request({
+    url: "/self-permissions",
+    method: "post",
+    params: query,
+  })
+}

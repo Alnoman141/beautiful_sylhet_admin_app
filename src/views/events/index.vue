@@ -48,7 +48,7 @@ const eventsStore = useEventsStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'S.L', prop: 'parent_id', sortable: false },
+  { label: 'S.L', prop: 'id', sortable: false },
   { label: 'Name', prop: 'name', sortable: false },
   { label: 'Location', prop: 'location', sortable: false },
   { label: 'Time', prop: 'time', sortable: false },        

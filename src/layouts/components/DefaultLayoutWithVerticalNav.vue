@@ -21,7 +21,25 @@ watch([
   if (!isFallbackStateActive.value && refLoadingIndicator.value)
     refLoadingIndicator.value.resolveHandle()
 }, { immediate: true })
-// !SECTION
+
+import { useRoleStore } from '@/stores/roleStore'
+
+const roleStore = useRoleStore()
+const ability = useAbility()
+
+const syncPermission =  async() =>{
+  const { data } = await roleStore.syncPermission()
+
+
+
+  // this will use later    
+  const abilityData = data.data
+  const userAbilityRules = JSON.stringify(data.data)
+
+  data.status_code == 200 ? notify('Successfull!', 'Permission has been synced.', 'success', 'top-right') : notify('Error!', 'something went wrong', 'error', 'top-right')
+
+  ability.update(abilityData)
+}
 </script>
 
 <template>
@@ -56,7 +74,24 @@ watch([
           <NavbarShortcuts />
           <NavBarNotifications class="me-2" /> 
         -->
-        <VCol class="text-end">
+       
+        <VCol class="d-flex align-center justify-end">
+          <IconBtn
+            id="vertical-nav-toggle-btn"
+            class=""
+            @click="syncPermission"
+          >
+            <ElTooltip
+              content="Sync Permission"
+              raw-content
+            >
+              <VIcon
+                size="15"
+                icon="tabler-refresh"
+              />
+            </ElTooltip>
+          </IconBtn>
+          
           <UserProfile />
         </VCol>
       </VRow>

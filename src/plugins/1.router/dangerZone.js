@@ -11,7 +11,7 @@ export const redZoneRoutes = [
         name: 'redZoneList',
         component: () => import('@/views/danger-zone/index.vue'),
         meta: {
-          subject: "dangerZone",
+          subject: "dangerzone",
           action: "show menu",
         },
       },

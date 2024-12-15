@@ -4,13 +4,13 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { setToken, setUserData } from '@/utils/auth'
 import { notify } from '@/utils/notification'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
+import logo from '@images/logo.svg'
 import authV2LoginIllustrationBorderedDark from '@images/pages/auth-v2-login-illustration-bordered-dark.png'
 import authV2LoginIllustrationBorderedLight from '@images/pages/auth-v2-login-illustration-bordered-light.png'
 import authV2LoginIllustrationDark from '@images/pages/auth-v2-login-illustration-dark.png'
 import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustration-light.png'
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
-import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 import { VForm } from 'vuetify/components/VForm'
 
@@ -110,11 +110,12 @@ const onSubmit = () => {
     >
       <div class="position-relative bg-background rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
-          <VImg
-            max-width="505"
-            :src="authThemeImg"
-            class="auth-illustration mt-16 mb-2"
-          />
+          <img
+           
+            
+            :src="logo"
+            class="auth-img "
+          >
         </div>
 
         <!--
@@ -137,10 +138,12 @@ const onSubmit = () => {
         class="mt-12 mt-sm-0 pa-4"
       >
         <VCardText>
-          <VNodeRenderer
+          <!--
+            <VNodeRenderer
             :nodes="themeConfig.app.logo"
             class="mb-6"
-          />
+            /> 
+          -->
 
           <h4 class="text-h4 mb-1">
             Welcome to <span class="text-capitalize"> {{ themeConfig.app.title }} </span>! 👋🏻
@@ -214,4 +217,11 @@ const onSubmit = () => {
 
 <style lang="scss">
 @use "@core/scss/template/pages/page-auth.scss";
+</style>
+
+<style scoped>
+.auth-img{
+  block-size:80dvh;
+  inline-size: 100dvw;
+}
 </style>
