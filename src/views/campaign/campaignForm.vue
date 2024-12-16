@@ -224,6 +224,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
+      try{
       const { data } = props.ruleForm.id
         ? await campaignStore.updateCampaign(form)
         : await campaignStore.createCampaign(props.ruleForm);
@@ -236,7 +237,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             emit("getEmit")
           )
         : "";
-      data.status_code == 200 ? router.push({ name: "campaignList" }) : "";
+        data.status_code == 200 ? router.push({ name: "campaignList" }) : "";
+      }catch (error) {
+        console.log(error);
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

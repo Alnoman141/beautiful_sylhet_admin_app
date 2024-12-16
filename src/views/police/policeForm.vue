@@ -189,6 +189,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
+    props.ruleForm.spot_parent_id = props.ruleForm.police_parent_id;
     let form = {
       id: props.ruleForm.id,
       // image: tempImg.value ? tempImg.value : null,
@@ -196,6 +197,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.police,
     };
     if (valid) {
+      try{
       const { data } = props.ruleForm.id
         ? await policeStore.updatePolice(form)
         : await policeStore.createPolice(props.ruleForm);
@@ -203,7 +205,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           emit("tableDataEmit"))
         : "";
-      data.status_code == 200 ? router.push({ name: "policeList" }) : "";
+        data.status_code == 200 ? router.push({ name: "policeList" }) : "";
+      } catch (error) {
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

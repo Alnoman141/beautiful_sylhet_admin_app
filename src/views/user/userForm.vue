@@ -246,6 +246,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.avatar = tempImg.value ? tempImg.value : "";
 
     if (valid && !imgUploadValidation.value) {
+      try{
       const { data } = props.ruleForm.id
         ? await userStore.updateUser(props.ruleForm)
         : await userStore.createUser(props.ruleForm);
@@ -253,7 +254,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           emit("tableDataEmit"))
         : "";
-      data.status_code == 200 ? router.push({ name: "userList" }) : "";
+        data.status_code == 200 ? router.push({ name: "userList" }) : "";
+      } catch (error) {
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

@@ -214,7 +214,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         data.status_code == 200 ? router.push({ name: "noticeList" }) : "";
       } catch (error) {
         
-        notify("Error", "Something went wrong", "error", "top-right");
+        // notify("Error", "Something went wrong", "error", "top-right");
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
       }
     } else {
       console.log("error submit!", fields);

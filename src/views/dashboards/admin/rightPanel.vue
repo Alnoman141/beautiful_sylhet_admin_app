@@ -127,7 +127,7 @@ onMounted(() => {
 
 <style scoped>
 .right-bar {
-  block-size: 80dvh;
+  block-size: 100dvh;
 }
 
 .notice {

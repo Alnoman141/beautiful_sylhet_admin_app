@@ -115,12 +115,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      try{
       const { data } = await infoStore.createInfo({ data: ruleForm.value });
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           getInfo())
         : "";
-      data.status_code == 200 ? router.push({ name: "info" }) : "";
+        data.status_code == 200 ? router.push({ name: "info" }) : "";
+      } catch (error) {
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

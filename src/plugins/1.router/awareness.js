@@ -20,7 +20,7 @@ const childrenRoutes = [
       },
       {
         path: '/edit/:id',
-        name: 'edit/:id',
+        name: 'edit-awareness',
         component: () => import('@/views/awareness/awarenessForm.vue'),
         meta: {
           subject: "awareness",

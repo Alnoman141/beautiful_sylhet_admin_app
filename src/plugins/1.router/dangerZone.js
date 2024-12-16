@@ -2,7 +2,7 @@ export const redZoneRoutes = [
   {
     path: '/red-zone',
     meta: {
-      subject: "dangerZone",
+      subject: "dangerzone",
       action: "show menu",
     },
     children: [
@@ -21,7 +21,7 @@ export const redZoneRoutes = [
         name: 'createRedZone',
         component: () => import('@/views/danger-zone/create.vue'),
         meta: {
-          subject: "dangerZone",
+          subject: "dangerzone",
           action: "show menu",
           navActiveLink: 'redZoneList',
         },
@@ -31,7 +31,7 @@ export const redZoneRoutes = [
         name: 'editRedZone',
         component: () => import('@/views/danger-zone/update.vue'),
         meta: {
-          subject: "dangerZone",
+          subject: "dangerzone",
           action: "show menu",
           navActiveLink: 'redZoneList',
         },

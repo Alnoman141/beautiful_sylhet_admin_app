@@ -86,7 +86,8 @@ const login = async () => {
 
     loading.value = false
   } catch (err) {
-    notify(err?.response?.data?.message, err?.response?.data?.error, 'error', 'top-right')
+    
+    notify(err?.response?.data?.message,  err?.response?.data?.errors ? err?.response?.data?.errors : err?.response?.data?.error, 'error', 'top-right')
     loading.value = false
   }
 }
@@ -155,9 +156,7 @@ const onSubmit = () => {
         
         <VCardText>
           <VForm
-            ref="refVForm"
-            v-loading="loading"
-            element-loading-background="rgba(122, 122, 122, 0.8)"
+            ref="refVForm"            
             @submit.prevent="onSubmit"
           >
             <VRow>
@@ -204,7 +203,13 @@ const onSubmit = () => {
                   block
                   type="submit"
                 >
-                  Login
+                  <p
+                    v-loading="loading"
+                    class="mx-0 my-0 px-0 py-0"
+                    element-loading-background="rgba(122, 122, 122, 0.8)"
+                  >
+                    Login
+                  </p>  
                 </VBtn>
               </VCol>
             </VRow>
@@ -220,8 +225,8 @@ const onSubmit = () => {
 </style>
 
 <style scoped>
-.auth-img{
+/* .auth-img{
   block-size:80dvh;
   inline-size: 100dvw;
-}
+} */
 </style>

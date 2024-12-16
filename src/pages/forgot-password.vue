@@ -6,8 +6,6 @@ import authV2ForgotPasswordIllustrationDark from '@images/pages/auth-v2-forgot-p
 import authV2ForgotPasswordIllustrationLight from '@images/pages/auth-v2-forgot-password-illustration-light.png'
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
-import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
-import { themeConfig } from '@themeConfig'
 
 const email = ref('')
 const authThemeImg = useGenerateImageVariant(authV2ForgotPasswordIllustrationLight, authV2ForgotPasswordIllustrationDark)
@@ -88,10 +86,12 @@ const resetPassword = () => {
         class="mt-12 mt-sm-0 pa-4"
       >
         <VCardText>
-          <VNodeRenderer
+          <!--
+            <VNodeRenderer
             :nodes="themeConfig.app.logo"
             class="mb-6"
-          />
+            /> 
+          -->
           <h4 class="text-h4 mb-1">
             Forgot Password? 🔒
           </h4>

@@ -388,6 +388,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
+      try{
       const { data } = props.ruleForm.id
         ? await hotelStore.updateHotel(form)
         : await hotelStore.createHotel(props.ruleForm);
@@ -400,7 +401,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             emit("getEmit")
           )
         : "";
-      router.push({ name: "hotelList" });
+        router.push({ name: "hotelList" });
+      } catch (error) {
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

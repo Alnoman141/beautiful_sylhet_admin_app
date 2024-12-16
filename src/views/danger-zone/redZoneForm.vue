@@ -273,6 +273,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.reds,
     };
     if (valid && !imgUploadValidation.value) {
+      try{
       const { data } = props.ruleForm.id
         ? await redZoneStore.updateRedZone(form)
         : await redZoneStore.createRedZone(props.ruleForm);
@@ -280,7 +281,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? (notify("Congratulations!", data.message, "success", "top-right"),
           emit("tableDataEmit"))
         : "";
-      data.status_code == 200 ? router.push({ name: "redZoneList" }) : "";
+        data.status_code == 200 ? router.push({ name: "redZoneList" }) : "";
+      }catch(error){
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

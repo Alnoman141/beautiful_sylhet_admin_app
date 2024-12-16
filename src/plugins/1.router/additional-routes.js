@@ -85,7 +85,7 @@ export const routes = [
     name: 'edit-awareness',
     component: () => import('@/views/awareness/awarenessForm.vue'),
     meta: {
-      subject: "Awareness",
+      subject: "awareness",
       action: "edit",
       navActiveLink: 'awareness',
       

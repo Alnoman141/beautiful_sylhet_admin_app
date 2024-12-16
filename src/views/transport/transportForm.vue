@@ -243,6 +243,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     };
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid) {
+      try{
       const { data } = props.ruleForm.id
         ? await transportStore.updateTransport(form)
         : await transportStore.createTransport(props.ruleForm);
@@ -254,7 +255,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             "top-right"
             
           ), router.push({ name: "transportList" }))
-        : "";
+          : "";
+      } catch (error) {
+            notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        }
     } else {
       console.log("error submit!", fields);
     }

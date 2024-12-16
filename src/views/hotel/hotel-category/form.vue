@@ -138,11 +138,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.categories
     }   
     if (valid) {
+      try{
       const { data } = props.ruleForm.id ?  await hotelCategoryStore.updateHotelCategory( form ) : await hotelCategoryStore.createHotelCategory( props.ruleForm )
       data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
         emit('getEmit')
       ) : ''
-      router.push({name:'hotelCategoryList'})
+        router.push({ name: 'hotelCategoryList' })
+      }catch(error){
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log('error submit!', fields)
     }

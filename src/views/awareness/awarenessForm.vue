@@ -151,7 +151,8 @@ const updateAwarenessData = async (formEl: FormInstance | undefined) => {
 
       } catch (error) {
 
-        notify("error", error?.response?.data?.message)
+        // notify("error", error?.response?.data?.message)
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
 
         // payload send na krle o success dey
       }

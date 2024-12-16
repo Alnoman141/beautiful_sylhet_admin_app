@@ -176,11 +176,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       e.id ? (updateMode = true) : "";
     })
     if (valid) {
-      const { data } =updateMode ? await guidelineStore.updateGuideline(ruleForm.value) :  await guidelineStore.createGuideline(ruleForm.value);
-      data.status_code == 200
-        ? notify("Congratulations!", data.message, "success", "top-right")
-        : "";
-      router.push({ name: "guide-line" });
+      try {
+        const { data } = updateMode ? await guidelineStore.updateGuideline(ruleForm.value) : await guidelineStore.createGuideline(ruleForm.value);
+        data.status_code == 200
+          ? notify("Congratulations!", data.message, "success", "top-right")
+          : "";
+        router.push({ name: "guide-line" });
+      } catch (error) { 
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }

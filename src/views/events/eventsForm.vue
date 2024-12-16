@@ -306,6 +306,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
+      try{
       const { data } = props.ruleForm.id
         ? await eventsStore.updateEvents(form)
         : await eventsStore.createEvents(props.ruleForm);
@@ -317,6 +318,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             "top-right"
           ), router.push({ name: "eventsList" }))
         : "";
+      }catch (error) {
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
         
     } else {
       console.log("error submit!", fields);

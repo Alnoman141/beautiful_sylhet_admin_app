@@ -155,6 +155,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.news,
     };
     if (valid) {
+      try{
       const { data } = props.ruleForm.id
         ? await newsStore.updateNews(form)
         : await newsStore.createNews(props.ruleForm);
@@ -167,7 +168,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             emit("getEmit")
           )
         : "";
-      router.push({ name: "newsList" });
+        router.push({ name: "newsList" });
+      } catch (error) {
+          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      }
     } else {
       console.log("error submit!", fields);
     }
