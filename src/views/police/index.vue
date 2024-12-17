@@ -28,6 +28,7 @@
     <ElCard>
       <div class="mb-5">
         <BankTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"
@@ -61,8 +62,10 @@ const columns = ref([
 ])
 
 const totalData = ref(0)
+const loading = ref(false)
 
 const getspotList = async (pageSize, pageNo) => {
+  loading.value = true
   let parameter = {
     page: pageNo,
     per_page: pageSize,
@@ -73,6 +76,7 @@ const getspotList = async (pageSize, pageNo) => {
     spotList.value = data.data.data
 
     totalData.value = data.data.total
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

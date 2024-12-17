@@ -26,6 +26,7 @@
     <ElCard>
       <div class="mb-5">
         <HotelTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"
@@ -46,6 +47,7 @@ import PaginationSection from "@/components/tourism/pagination.vue"
 import { useHotelStore } from "@/stores/tourism/hotelStore"
 import HotelTable from "./hotelTable.vue"
 
+const loading = ref(false)
 const configStore = useConfigStore()
 
 const hotelStore = useHotelStore()
@@ -72,6 +74,7 @@ const columns = ref( [
 const totalData = ref(0)
 
 const getspotList = async (pageSize, pageNo) => {
+  loading.value = true
   let parameter = {
     page: pageNo,
     per_page: pageSize,
@@ -82,7 +85,9 @@ const getspotList = async (pageSize, pageNo) => {
     
 
     spotList.value = data.data.data
-    totalData.value= data.data.total
+    totalData.value = data.data.total
+
+    loading.value = false
     
   } catch (error) {
     console.log(error)

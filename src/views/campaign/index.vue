@@ -29,6 +29,7 @@
     <ElCard>
       <div class="mb-5">
         <EventsTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"
@@ -48,6 +49,7 @@ import PaginationSection from "@/components/tourism/pagination.vue"
 import { useCampaignStore } from "@/stores/tourism/campaignStore"
 import EventsTable from "./campaignTable.vue"
 
+const loading = ref(true)
 const configStore = useConfigStore()
 
 const campaignStore = useCampaignStore()
@@ -64,6 +66,7 @@ const columns = ref( [
 const totalData = ref(0)
 
 const getspotList = async (pageSize, pageNo) => {
+  loading.value = true
   let parameter = {
     page: pageNo,
     per_page: pageSize,
@@ -76,6 +79,8 @@ const getspotList = async (pageSize, pageNo) => {
     spotList.value = data.data.data
 
     totalData.value = data.data.total
+
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

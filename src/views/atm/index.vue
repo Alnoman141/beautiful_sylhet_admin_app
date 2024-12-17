@@ -29,6 +29,7 @@
     <ElCard>
       <div class="mb-5">
         <BankTable
+          v-loading="loading"          
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList(10,1)"
@@ -49,6 +50,7 @@ import { useAtmStore } from "@/stores/tourism/atmStore"
 import { onMounted, ref } from "vue"
 import BankTable from "./atmTable.vue"
 
+const loading = ref(false)
 const configStore = useConfigStore()
 
 const atmStore = useAtmStore()
@@ -67,6 +69,7 @@ const columns = ref( [
 const totalData = ref(0)
 
 const getspotList = async (pageSize, pageNo) => {
+  loading.value = true
   let parameter = {
     page: pageNo,
     per_page: pageSize,
@@ -74,10 +77,9 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await atmStore.getAtm(parameter)
 
-  
-
     spotList.value = data.data.data
     totalData.value = data.data.total
+    loading.value = false
     
   } catch (error) {
     console.log(error)

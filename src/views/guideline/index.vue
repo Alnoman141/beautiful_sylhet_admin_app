@@ -10,6 +10,7 @@
     <ElCard>
       <div class="mb-5">
         <GuidelineTable
+          v-loading="loading"
           :filter-table-data="guidelineList"
           :columns="columns"
         />
@@ -23,6 +24,7 @@ import { useConfigStore } from "@/@core/stores/config"
 import { useGuidelineStore } from "@/stores/tourism/guidelineStore"
 import GuidelineTable from "./guidelineTable.vue"
 
+const loading = ref(true)
 const configStore = useConfigStore()
 
 const guidelineStore = useGuidelineStore()
@@ -35,12 +37,13 @@ const columns = ref([
 ])
 
 const getGuidelineList = async () => {
+  loading.value = true
   try {
     const { data } = await guidelineStore.getGuideline()
 
     guidelineList.value = data.data
 
-    
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

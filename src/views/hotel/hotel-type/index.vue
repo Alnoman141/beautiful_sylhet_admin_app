@@ -27,6 +27,7 @@
     <ElCard>
       <div class="mb-5">
         <NewsTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"
@@ -53,12 +54,15 @@ const columns = ref( [
   { label: 'Type English', prop: 'name_en', sortable: false },    
 ])
 
+const loading = ref(false)
+
 const getspotList = async () => {
+  loading.value = true
   try {
     const { data } = await hotelTypeStore.getHotelType()
 
     spotList.value = data.data
-
+    loading.value = false
     
   } catch (error) {
     console.log(error)

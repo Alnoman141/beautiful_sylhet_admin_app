@@ -29,6 +29,7 @@
     <ElCard>
       <div class="mb-5">
         <BankTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"
@@ -49,6 +50,7 @@ import { useRedZoneStore } from "@/stores/tourism/redZoneStore"
 import { onMounted, ref } from "vue"
 import BankTable from "./redZoneTable.vue"
 
+const loading = ref(true)
 const configStore = useConfigStore()
 
 const redZoneStore = useRedZoneStore()
@@ -66,6 +68,7 @@ const columns = ref( [
 const totalData = ref(0)
 
 const getspotList = async (pageSize, pageNo) => {
+  loading.value = true
   let parameter = {
     page: pageNo,
     per_page: pageSize,
@@ -78,6 +81,7 @@ const getspotList = async (pageSize, pageNo) => {
     spotList.value = data.data.data
 
     totalData.value = data.data.total
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

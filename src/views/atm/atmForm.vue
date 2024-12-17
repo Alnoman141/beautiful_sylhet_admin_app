@@ -178,12 +178,13 @@
             >
               <div class="el-upload__text">
                 <el-icon
-                  v-if="!ruleForm.image || !previewImage"
+                  v-if="!ruleForm.image && !previewImage"
                   class="el-icon--upload"
                   ><upload-filled
                 /></el-icon>
+                
                 <img
-                  v-if="ruleForm.image && previewImage"
+                  v-if="ruleForm.image || previewImage"
                   :src="previewImage ? previewImage : ruleForm.image"
                   alt=""
                   height="60"

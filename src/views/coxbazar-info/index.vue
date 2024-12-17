@@ -2,6 +2,7 @@
   <ElCard>
     <div class="">
       <ElTable
+        v-loading="loading"
         :data="info"
         style="inline-size: 100%"
         border
@@ -39,6 +40,7 @@
 import { useConfigStore } from "@/@core/stores/config"
 import { useInfoStore } from "@/stores/tourism/infoStore"
 
+const loading = ref(true)
 const configStore = useConfigStore()
 
 const infoStore = useInfoStore()
@@ -51,12 +53,13 @@ const columns = ref( [
 ])
 
 const getInfo = async () => {
+  loading.value = true
   try {
     const { data } = await infoStore.getInfoDetail()
 
     info.value.push(data.data)
 
-    console.log(info.value)
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

@@ -23,8 +23,6 @@
       <div class="mb-5">
         <SpotTable
           v-loading="loading"
-          
-          
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"

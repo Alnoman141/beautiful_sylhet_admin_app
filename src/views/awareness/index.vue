@@ -11,6 +11,7 @@
       <div class="mb-5">
         <!-- {{ awarenessList }} -->
         <AwarenessTable
+          v-loading="loading"
           :filter-table-data="awarenessList"
           :columns="columns"
         />
@@ -24,6 +25,7 @@ import { useConfigStore } from "@/@core/stores/config"
 import { useAwarenessStore } from "@/stores/tourism/awarenessStore"
 import AwarenessTable from "./awarenessTable.vue"
 
+const loading = ref(true)
 const configStore = useConfigStore()
 
 const awarenessStore = useAwarenessStore()
@@ -36,11 +38,12 @@ const columns = ref( [
 ])
 
 const getAwarenessList = async () => {
+  loading.value = true
   try {
     const { data } = await awarenessStore.getAwareness()
 
     awarenessList.value = data.data
-
+    loading.value = false
     
   } catch (error) {
     console.log(error)

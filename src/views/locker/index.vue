@@ -26,6 +26,7 @@
     <ElCard>
       <div class="mb-5">
         <NewsTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getspotList"
@@ -45,6 +46,7 @@ import PaginationSection from "@/components/tourism/pagination.vue"
 import { useLockerStore } from "@/stores/tourism/lockerStore"
 import NewsTable from "./lockerTable.vue"
 
+const loading   = ref(true)
 const configStore = useConfigStore()
 
 const lockerStore = useLockerStore()
@@ -63,6 +65,7 @@ const columns = ref([
 const totalData = ref(0)
 
 const getspotList = async (pageSize, pageNo) => {
+  loading.value = true
   let parameter = {
     page: pageNo,
     per_page: pageSize,
@@ -74,7 +77,9 @@ const getspotList = async (pageSize, pageNo) => {
 
     spotList.value = data.data
 
-    totalData.value= data.data.total
+    totalData.value = data.data.total
+
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

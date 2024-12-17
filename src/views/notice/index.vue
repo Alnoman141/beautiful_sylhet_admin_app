@@ -29,6 +29,7 @@
     <ElCard>
       <div class="mb-5">
         <EventsTable
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
           @table-data-emit="getCampaignList"
@@ -64,8 +65,10 @@ const columns = ref( [
 ])
 
 const totalData = ref(0)
+const loading = ref(false)
 
 const getCampaignList = async (pageSize, pageNo) => {
+  loading.value = true
   let params = {
     type: 'all',
     page: pageNo,
@@ -78,6 +81,8 @@ const getCampaignList = async (pageSize, pageNo) => {
     spotList.value = data.data.data
 
     totalData.value = data.data.total
+
+    loading.value = false
   } catch (error) {
     console.log(error)
   }

@@ -8,6 +8,7 @@
     </div>
   </ElCard>
   <ElCard>
+    <!-- element-loading-background="rgba(122, 122, 122, 0.8)" -->
     <ElTable
       v-loading="loading"
       :data="roles"
@@ -15,7 +16,6 @@
       style="inline-size: 100%"
       :row-style="configStore.getRowStyle"
       :header-cell-style="configStore.getHeaderRowStyle"
-      element-loading-background="rgba(122, 122, 122, 0.8)"
     >
       <ElTableColumn
         prop="id"

@@ -1,7 +1,7 @@
 
 
 <template>
-  <div>
+  <div v-loading="loading">
     <ElCard class="my-2">
       <p class="my-0 py-0">
         Welcome to Admin Dashboard
@@ -214,6 +214,7 @@ import { useEventsStore } from "@/stores/tourism/eventsStore"
 import RightPanel from "./rightPanel.vue"
 import TopCard from "./topCard.vue"
 
+const loading = ref(true)
 const eventsStore = useEventsStore()
 
 // getCampaign
@@ -352,7 +353,9 @@ const transportData = ref([
 const dashboardStore = useDashboardStore()
 const dashbordData = ref({})
 
-const getDashboadData = async() => {
+const getDashboadData = async () => {
+  loading.value = true
+
   const { data } = await dashboardStore.getDashboard()
 
   dashbordData.value = data.data
@@ -375,7 +378,7 @@ const getDashboadData = async() => {
   transportData.value[4].title = "Jeep"
   transportData.value[4].value = dashbordData.value.transports[4].count
 
-
+  loading.value = false
 }
 
 
