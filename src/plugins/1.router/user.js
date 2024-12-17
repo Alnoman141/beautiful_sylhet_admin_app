@@ -15,6 +15,15 @@ export const userRoutes = [
           action: "show menu",
         },
       },
+      {
+        path: '/user-activity',
+        name: 'userActivity',
+        component: () => import('@/views/user/activity.vue'),
+        meta: {
+          subject: "user",
+          action: "show menu",
+        },
+      },
     
       {
         path: 'create-user',

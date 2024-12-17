@@ -1,4 +1,3 @@
-import { useAuthStore } from '@/stores/AuthStore'
 import { getToken, getUserData } from '@/utils/auth'
 import { canNavigate } from '@layouts/plugins/casl'
 
@@ -24,7 +23,7 @@ export const setupGuards = router => {
           If user is logged in and is trying to access login like page, redirect to home
           else allow visiting the page
           (WARN: Don't allow executing further by return statement because next code will check for permissions)
-         */
+    */
     if (to.meta.unauthenticatedOnly) {
       if (isLoggedIn)
         return '/'

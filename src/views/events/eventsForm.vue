@@ -152,7 +152,7 @@
                       ? 'events.' + index + '.description'
                       : 'data.' + index + '.description'
                   "
-                  :rules="{  max: 100, message: '100 characters max', trigger: 'blur' }"
+                  
                 >
                   <!-- <ElInput
                     placeholder="Description"

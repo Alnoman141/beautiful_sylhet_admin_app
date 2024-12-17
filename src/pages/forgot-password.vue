@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/stores/AuthStore'
 import { notify } from '@/utils/notification'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
+import logo from '@images/logo.svg'
 import authV2ForgotPasswordIllustrationDark from '@images/pages/auth-v2-forgot-password-illustration-dark.png'
 import authV2ForgotPasswordIllustrationLight from '@images/pages/auth-v2-forgot-password-illustration-light.png'
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
@@ -59,19 +60,38 @@ const resetPassword = () => {
       lg="8"
       class="d-none d-lg-flex"
     >
-      <div class="position-relative bg-background rounded-lg w-100 ma-8 me-0">
+      <!--
+        <div class="position-relative bg-background rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
-          <VImg
-            max-width="368"
-            :src="authThemeImg"
-            class="auth-illustration mt-16 mb-2"
-          />
+        <VImg
+        max-width="368"
+        :src="authThemeImg"
+        class="auth-illustration mt-16 mb-2"
+        />
         </div>
 
         <VImg
-          class="auth-footer-mask"
-          :src="authThemeMask"
+        class="auth-footer-mask"
+        :src="authThemeMask"
         />
+        </div> 
+      -->
+      <div class="position-relative bg-background rounded-lg w-100 ma-8 me-0">
+        <div class="d-flex align-center justify-center w-100 h-100">
+          <img
+           
+            
+            :src="logo"
+            class="auth-img "
+          >
+        </div>
+
+        <!--
+          <VImg
+          :src="authThemeMask"
+          class="auth-footer-mask"
+          /> 
+        -->
       </div>
     </VCol>
 

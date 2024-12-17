@@ -18,7 +18,10 @@
       >
         <template #default="scope">
           <!-- <div v-html="scope.row[column.prop]" /> -->
-          <div v-html="column.prop !== 'id' ? scope.row[column.prop] : index++" />
+          <div
+            class="text-limit"
+            v-html="column.prop !== 'id' ? scope.row[column.prop] : index++"
+          />
         </template>
       </ElTableColumn>
 
@@ -142,3 +145,14 @@ const showAlert = item => {
   })
 }
 </script>
+
+<style scoped>
+.text-limit{
+  display: -webkit-box;
+  overflow: hidden; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5; /* number of lines to show */
+  line-clamp: 1;
+  text-overflow: ellipsis;
+}
+</style>

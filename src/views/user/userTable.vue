@@ -18,19 +18,26 @@
       >
         <template #default="scope">
           <!-- <div v-html="scope.row[column.prop]" /> -->
-          <div v-html="column.prop == 'name' || column.prop == 'email' || column.prop == 'phone' ? scope.row[column.prop] : index++" />
+          <div
+            v-if="column.prop !== 'content'"
+            v-html="column.prop !== 'id' ? scope.row[column.prop] : index++"
+          />
+          <div v-else>
+            {{ scope.row[column.prop].data.title }}
+          </div>
         </template>
       </ElTableColumn>
 
 
       <!-- Action Buttons Column -->
       <ElTableColumn
+        v-if="route.name !== 'userActivity'"
         align="left"
         width="180"
       >
         <template #header>
           <div class="text-start">
-            Actions
+            Actions {{ route.name }}
           </div>
         </template>
         <template #default="scope">
@@ -75,7 +82,7 @@ import { useConfigStore } from "@/@core/stores/config"
 import { useUserStore } from "@/stores/tourism/userStore"
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { defineEmits, defineProps, ref } from "vue"
-
+import { useRoute } from "vue-router"
 
 const props = defineProps({
   filterTableData: {
@@ -89,8 +96,8 @@ const props = defineProps({
   
 })
 
-const emit = defineEmits(["tableDataEmit"]) 
-
+const emit = defineEmits(["tableDataEmit"])
+const route = useRoute()
 const userStore = useUserStore()
 
 const editorContent = ref('') // Reactive variable to store the editor content

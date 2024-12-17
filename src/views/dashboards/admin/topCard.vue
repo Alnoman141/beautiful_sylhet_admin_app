@@ -14,7 +14,7 @@ const props = defineProps({
       v-for="(data, index) in logisticData"
       :key="index"
       cols="12"
-      md="3"
+      md="4"
       sm="6"
     >
       <div>
@@ -33,15 +33,15 @@ const props = defineProps({
               >
                 <VIcon
                   :icon="data.icon"
-                  size="28"
+                  size="42"
                 />
               </VAvatar>
               <div>
-                <h5 class="text-h5 font-weight-medium">
+                <h3 class="text-h3 font-weight-medium">
                   {{ data.value }}
-                </h5>
+                </h3>
               </div>
-              <p class="text-body-3 my-0">
+              <p class="text-body-1 my-0">
                 {{ data.title }}
               </p>
             </div>

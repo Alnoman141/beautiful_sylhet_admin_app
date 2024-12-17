@@ -188,6 +188,15 @@ export default [
         subject: "user",
         action: "show menu",
       },
+
+      
+      {
+        title: 'User Activity',
+        to: 'userActivity',
+        icon: { icon: 'tabler-activity' },
+        subject: "user",
+        action: "show menu",
+      },
       {
         title: 'Role & Permissions',
         to: 'rolePermissions',

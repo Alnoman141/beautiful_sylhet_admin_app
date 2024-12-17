@@ -1,10 +1,17 @@
 import request from "@/utils/request"
 
 // get all awareness
-export
-function getUser(query) {
+export function getUser(query) {
   return request({
     url: "/user/list",
+    method: "post",
+    params: query,
+  })
+}
+
+export function getUserActivity(query) {
+  return request({
+    url: "/user/activity",
     method: "post",
     params: query,
   })
@@ -40,7 +47,6 @@ export function updateUser(data) {
     data,
   })
 }
-
 
 // createNews
 

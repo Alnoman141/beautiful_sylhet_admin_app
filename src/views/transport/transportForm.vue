@@ -121,10 +121,10 @@
                     ruleForm.transports
                       ? 'transports.' + index + '.description'
                       : 'data.' + index + '.description'
-                  " :rules="{  max: 100, message: '100 characters max', trigger: 'blur' }">
+                  " >
                   <!-- <ElInput placeholder="Description" type="textarea" v-model="item.description" /> -->
                   <div>
-                    {{item.description}}
+                    
                   <QuillEditor
                       ref="descriptionEditorRef"
                       v-model:content="item.description"                     

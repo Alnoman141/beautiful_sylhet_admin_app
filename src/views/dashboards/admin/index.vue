@@ -272,14 +272,15 @@ const logisticData = ref([
    
     isHover: false,
   },
-  {
-    icon: 'tabler-user',
-    color: 'info',
-    title: 'Vistors',
-    value: 27,
+
+  // {
+  //   icon: 'tabler-user',
+  //   color: 'info',
+  //   title: 'Vistors',
+  //   value: 27,
    
-    isHover: false,
-  },
+  //   isHover: false,
+  // },
   
 ])
 
@@ -362,10 +363,11 @@ const getDashboadData = async () => {
   logisticData.value[0].value = dashbordData.value.spot
   logisticData.value[1].value = dashbordData.value.hotel
   logisticData.value[2].value = dashbordData.value.locker
-  logisticData.value[3].value = dashbordData.value.locker
+
+  // logisticData.value[3].value = dashbordData.value.locker
   cardData.value[0].value = dashbordData.value.visitor_today
   cardData.value[1].value = dashbordData.value.visitor_all
-
+  
 
   transportData.value[0].title = 'Filght'
   transportData.value[0].value = dashbordData.value.transports[0].count
