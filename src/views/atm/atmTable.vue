@@ -37,7 +37,7 @@
           <RouterLink
             class="mx-2"
             style="color:white"
-            :to="{ name: 'editAtm', params: { id: scope.row.parent_id } }"
+            :to="{ name: 'editAtm', params: { id: scope.row.atm_parent_id } }"
           >
             <ElButton
               size="small"
