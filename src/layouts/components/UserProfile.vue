@@ -1,11 +1,11 @@
 <script setup>
 import { useAuthStore } from '@/stores/AuthStore'
-import { getUserData, removeApiDomain, removeToken, removeUserAbilityRules, removeUserData } from '@/utils/auth'
+import { getToken, getUserData, removeApiDomain, removeToken, removeUserAbilityRules, removeUserData } from '@/utils/auth'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 
 const router = useRouter()
 const ability = useAbility()
-
+const token = getToken()
 const userAuthStore = useAuthStore()
 
 // TODO: Get type from backend
@@ -57,6 +57,9 @@ const userProfileList = [
     onClick: logout,
   },
 ]
+
+
+token  == undefined || !token ? router.push({ name: "login" }) : null
 </script>
 
 <template>

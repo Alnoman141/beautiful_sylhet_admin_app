@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Red Zone List</b>
+          <b> Danger Zone List</b>
         </VCol>
         <VCol
           cols="6"
@@ -21,7 +21,7 @@
             :on-exceed="handleExceed"
             class="create-btn "
           >
-            Create Red Zone
+            Create Danger Zone
           </RouterLink>
         </VCol>
       </VRow>
