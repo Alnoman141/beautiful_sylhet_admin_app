@@ -18,6 +18,7 @@ import { lockerRoutes } from './locker'
 import { newsRoutes } from './news'
 import { noticeRoutes } from './notice'
 import { policeRoutes } from './police'
+import { servicesRoutes } from './service'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
 import { transportRoutes } from './transport'
@@ -67,6 +68,7 @@ const router = createRouter({
       ...volunteerRoutes,
       ...noticeRoutes,
       ...userRoutes,
+      ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),
   ],
 })

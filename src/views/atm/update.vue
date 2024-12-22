@@ -21,6 +21,8 @@ const atmStore = useAtmStore()
 
 const ruleForm = ref({})
 
+
+
 const getNewsDetails = async () => {
   console.log(route.params.id)
 

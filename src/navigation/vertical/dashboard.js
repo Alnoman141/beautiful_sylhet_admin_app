@@ -174,6 +174,35 @@ export default [
     action: "show menu",
   },
   {
+    title: 'Tourism Helpline',
+    to: 'tourismHelpline',
+    icon: { icon: 'tabler-first-aid-kit' },
+    subject: "notice",
+    action: "show menu",
+  },
+  {
+    title: 'DC Helpline',
+    to: 'dcHelpline',
+    icon: { icon: 'tabler-first-aid-kit' },
+    subject: "notice",
+    action: "show menu",
+  },
+  {
+    title: 'Bus Service',
+    to: 'busService',
+    icon: { icon: 'tabler-bus' },
+    subject: "notice",
+    action: "show menu",
+  },
+  {
+    title: 'Kitkat Chair',
+    to: 'kitkatChair',
+    icon: { icon: 'tabler-sailboat' },
+    subject: "notice",
+    action: "show menu",
+  },
+  
+  {
     title: 'Settings',
     to: 'settings',
     icon: { icon: 'tabler-settings' },
