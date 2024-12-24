@@ -97,7 +97,7 @@
             </VRow>
           </ElCard>
         </VCol>
-        <template v-if="ruleForm.type != 1 && ruleForm.type != 2">
+        <template v-if="ruleForm.type != 1 && ruleForm.type != 2 && ruleForm.type != 4">
         <VCol
           cols="12"
           v-for="(supervisor, index) in ruleForm.supervisor_numbers"

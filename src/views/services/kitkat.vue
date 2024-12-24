@@ -48,18 +48,17 @@ const descriptions = ref({})
 
 // const totalData = ref(0)
 
-const getspotList = async (pageSize, pageNo) => {
+const getspotList = async () => {
   loading.value = true
   let parameter = {
-    page: pageNo,
-    per_page: pageSize,
+    
     type: 4,
   }
   try {
     const { data } = await serviceStore.getService(parameter)
 
     
-
+    
     spotList.value = data.data?.services
     descriptions.value = data.data
 
@@ -73,7 +72,7 @@ const getspotList = async (pageSize, pageNo) => {
 
 onMounted(() => {
   
-  getspotList(10, 1)
+  getspotList()
 })
 </script>
 

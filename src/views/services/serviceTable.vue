@@ -27,7 +27,7 @@
                   Name : {{ item.name }}
                 </VCol>
                 <VCol>
-                  <p class="my-0 ">
+                  <p class="my-0">
                     Phone No
                   </p>
                   <div
@@ -46,7 +46,11 @@
         </ElTableColumn>
 
         <ElTableColumn
-          v-if="route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'"
+          v-if="
+            route.name !== 'tourismHelpline' &&
+              route.name !== 'dcHelpline' &&
+              route.name !== 'kitkatChair'
+          "
           label="Supervisor Name & Numbers"
         >
           <template #default="scope">
@@ -59,7 +63,7 @@
                   Name : {{ item.name }}
                 </VCol>
                 <VCol>
-                  <p class="my-0 ">
+                  <p class="my-0">
                     Phone No
                   </p>
                   <div
@@ -128,58 +132,65 @@
       </ElTable>
     </ElCard>
     <ElCard class="my-4">
-      <div class="text-end my-4">
-        <RouterLink
-          type="primary"
-          :underline="false"
-          :to="
-            route.name == 'tourismHelpline'
-              ? { name: 'editTourismDescription', params: { type: 1 } }
-              : route.name == 'dcHelpline'
-                ? { name: 'editDcDescription', params: { type: 2 } }
-                : route.name == 'busService'
-                  ? { name: 'editBusDescription', params: { type: 3 } }
-                  : { name: 'editKitkatDescription', params: { type: 4 } }
-          "
-          class="create-btn"
-        >
-          <VIcon
-            icon="tabler-edit"
-            size="15"
-          />
-          <span class="mx-2">Edit Description</span>
-        </RouterLink>
-      </div>
-      
       <VRow>
         <VCol>
-          <div class="border py-2 h-100">
-            <b class="px-2 py-2"> Description</b>
-            <hr>
-            <p
-              class="px-2 py-2"
-              v-html="descriptions?.descriptions?.name"
-            />
-          </div>
-        </VCol>
-        <VCol v-if="route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'">
-          <div class="border py-2 h-100">
-            <b class="px-2 py-2"> Fare</b>
-            <hr>
-            <p class="px-2 py-2">
-              {{ descriptions?.descriptions?.fare }}
-            </p>
-          </div>
-        </VCol>
-        <VCol>
-          <div class="border py-2 h-100">
-            <b class="px-2 py-2"> Link</b>
-            <hr>
-            <p
-              class="px-2 py-2"
-              v-html="descriptions.link"
-            />
-          </div>
+          <ElTable
+            :data="filterTableData"
+            style="inline-size: 100%"
+            border
+          >
+            <ElTableColumn label="Description">
+              <p
+                class="px-2 py-2"
+                v-html="descriptions?.descriptions?.name"
+              />
+            </ElTableColumn>
+            <ElTableColumn
+              v-if="
+                route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'
+              "
+              label="Fare"
+            >
+              <p class="px-2 py-2">
+                {{ descriptions?.descriptions?.fare }}
+              </p>
+            </ElTableColumn>
+            <ElTableColumn label="Website Link">
+              <p
+                class="px-2 py-2"
+                v-html="descriptions.link"
+              />
+            </ElTableColumn>
+            <ElTableColumn
+              label="Action"
+              width="100"
+            >
+              <RouterLink
+                class="mx-2"
+                style="color: white"
+                :underline="false"
+                :to="
+                  route.name == 'tourismHelpline'
+                    ? { name: 'editTourismDescription', params: { type: 1 } }
+                    : route.name == 'dcHelpline'
+                      ? { name: 'editDcDescription', params: { type: 2 } }
+                      : route.name == 'busService'
+                        ? { name: 'editBusDescription', params: { type: 3 } }
+                        : { name: 'editKitkatDescription', params: { type: 4 } }
+                "
+              >
+                <ElButton
+                  size="small"
+                  type="primary"
+                >
+                  <VIcon
+                    icon="tabler-edit"
+                    size="15"
+                  /> 
+                </ElButton>
+              </RouterLink>
+            </ElTableColumn>
+          </ElTable>
         </VCol>
       </VRow>
     </ElCard>

@@ -49,11 +49,10 @@ const descriptions = ref({})
 
 // const totalData = ref(0)
 
-const getspotList = async (pageSize, pageNo) => {
+const getspotList = async () => {
   loading.value = true
   let parameter = {
-    page: pageNo,
-    per_page: pageSize,
+   
     type: 1,
   }
   try {
@@ -74,7 +73,7 @@ const getspotList = async (pageSize, pageNo) => {
 
 onMounted(() => {
   
-  getspotList(10, 1)
+  getspotList()
 })
 </script>
 

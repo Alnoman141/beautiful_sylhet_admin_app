@@ -1,10 +1,9 @@
 <template>
   <div>
     <ElCard class="my-4">
-    
       <VRow>
         <VCol>
-          <b> Description Edit </b>          
+          <b> Description Edit </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -14,12 +13,12 @@
             to="#"
             class="create-btn"
           >
-             List
+            List
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
-    
+
     <ElForm
       ref="ruleFormRef"
       :model="ruleForm"
@@ -31,8 +30,12 @@
       status-icon
     >
       <VRow>
-        <VCol cols="12" md="6" v-for="(item, index) in ruleForm.descriptions" :key="index">
-          
+        <VCol
+          cols="12"
+          md="6"
+          v-for="(item, index) in ruleForm.descriptions"
+          :key="index"
+        >
           <ElCard class="rounded py-2 px-2">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
             <hr class="my-2" />
@@ -66,8 +69,10 @@
                   </div>
                 </ElFormItem>
               </VCol>
-              <VCol cols="12" v-if="route.params.type !== '1' && route.params.type !== '2'">
-               
+              <VCol
+                cols="12"
+                v-if="route.params.type !== '1' && route.params.type !== '2'"
+              >
                 <ElFormItem
                   label="Fare"
                   :prop="
@@ -76,22 +81,22 @@
                       : 'descriptions.' + index + '.fare'
                   "
                 >
-                  <ElInput placeholder="Address" v-model="item.fare" />
+                  <ElInput placeholder="Fare" v-model="item.fare" />
                 </ElFormItem>
               </VCol>
             </VRow>
           </ElCard>
         </VCol>
-        <VCol cols="12"  md="6">
-            
+      </VRow>
+      <ElCard class="my-4">
+        <VRow>
+          <VCol cols="12" md="6">
             <ElFormItem label="Website Link" prop="link">
               <ElInput placeholder="Website Link" v-model="ruleForm.link" />
             </ElFormItem>
           </VCol>
-        
-      </VRow>
-      <ElCard class="my-4">
-        
+        </VRow>
+
         <div class="py-4">
           <ElButton
             type="primary"
@@ -100,7 +105,7 @@
           >
             Update
           </ElButton>
-         
+
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
         </div>
       </ElCard>
@@ -123,13 +128,12 @@ const route = useRoute();
 const router = useRouter();
 const ruleForm = ref({
   type: route.params.type,
-  link:'',
+  link: "",
   descriptions: [
-    { name: '', language_id: 1, fare: null },
-    { name: '', language_id: 2, fare: null },
+    { name: "", language_id: 1, fare: null },
+    { name: "", language_id: 2, fare: null },
   ],
-  
-})
+});
 const serviceStore = useServiceStore();
 const spotStore = useSpotStore();
 const formSize = ref<ComponentSize>("default");
@@ -152,11 +156,11 @@ const getSpotDropdownList = async () => {
   }
 };
 const getDescriptonData = async () => {
- 
   try {
-    const { data } = await serviceStore.getDescription({type:route.params.type});
+    const { data } = await serviceStore.getDescription({
+      type: route.params.type,
+    });
     ruleForm.value = data.data;
-    
   } catch (error) {
     console.log(error);
   }
@@ -177,7 +181,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               emit("getEmit")
             )
           : "";
-       
+
         route.params.type == 1
           ? router.push({ name: "tourismHelpline" })
           : route.params.type == 2
@@ -185,8 +189,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : route.params.type == 3
           ? router.push({ name: "busService" })
           : router.push({ name: "kitkatChair" });
-
-          
       } catch (error) {
         notify(
           error?.response?.data?.message,
@@ -211,13 +213,9 @@ const descriptionEditorRef = ref();
 onMounted(() => {
   getSpotDropdownList();
   getDescriptonData();
-  
-  
 });
 
-
 // add supervisor number
-
 
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
