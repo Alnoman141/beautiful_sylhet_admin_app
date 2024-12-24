@@ -27,7 +27,7 @@
                   Name : {{ item.name }}
                 </VCol>
                 <VCol>
-                  <p class="my-0 px-2">
+                  <p class="my-0 ">
                     Phone No
                   </p>
                   <div
@@ -59,7 +59,7 @@
                   Name : {{ item.name }}
                 </VCol>
                 <VCol>
-                  <p class="my-0 px-2">
+                  <p class="my-0 ">
                     Phone No
                   </p>
                   <div

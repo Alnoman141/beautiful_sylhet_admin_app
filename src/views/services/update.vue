@@ -31,8 +31,8 @@ const ruleForm = ref({
     { name: '', number: [] },
   ],
   descriptions: [
-    { name: '', language_id: 0, fare: null },
     { name: '', language_id: 1, fare: null },
+    { name: '', language_id: 2, fare: null },
   ],
   
 })

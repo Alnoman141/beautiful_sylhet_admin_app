@@ -41,7 +41,7 @@
           <ElCard>
             <VRow>
               <VCol cols="12" md="6">
-                <ElFormItem label="Booking Officer Name">
+                <ElFormItem :label="ruleForm.type != 1 && ruleForm.type != 2 ? 'Booking Officer Name' : ' Officer Name'">
                   <ElInput
                     placeholder="Booking Officer Name"
                     v-model="booking.name"
@@ -54,16 +54,16 @@
                     v-for="(num, index) in booking.numbers"
                     :key="index"
                   >
-                <ElFormItem label="Booking Phone Numbers">
+                <ElFormItem :label="ruleForm.type != 1 && ruleForm.type != 2 ? 'Booking Phone Numbers' : ' Phone Numbers'">
                  
                     <VRow>
-                      <VCol cols="10">
+                      <VCol :cols="ruleForm.type != 1 && ruleForm.type != 2 ? '10' : '12'">
                         <ElInput
                           placeholder="Booking Phone Numbers"
                           v-model="num.phone"
                         />
                       </VCol>
-                      <VCol cols="2">
+                      <VCol cols="2" v-if="ruleForm.type != 1 && ruleForm.type != 2">
                         
                         <ElButton
                           v-if="
