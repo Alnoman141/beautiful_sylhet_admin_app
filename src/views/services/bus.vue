@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Locker List</b>
+          <b> Bus List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -14,21 +14,20 @@
            
             class="create-btn "
           >
-            Create  Service
+            Create Bus  Service
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
-      <div class="mb-5">
-        <NewsTable
-          v-loading="loading"
-          :filter-table-data="spotList"
-          :descriptions="descriptions"
-          @table-data-emit="getspotList"
-        />
-      </div>
-    </ElCard>
+   
+    <div class="mb-5">
+      <NewsTable
+        v-loading="loading"
+        :filter-table-data="spotList"
+        :descriptions="descriptions"
+        @table-data-emit="getspotList"
+      />
+    </div>
   </div>
 </template>
 

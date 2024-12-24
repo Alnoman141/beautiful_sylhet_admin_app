@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Locker List</b>
+          <b> Kitkat Chair List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -14,29 +14,28 @@
            
             class="create-btn "
           >
-            Create  Service
+            Create  Kitkat Chair
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
-      <div class="mb-5">
-        <NewsTable
-          v-loading="loading"
-          :filter-table-data="spotList"
-          :descriptions="descriptions"
-          @table-data-emit="getspotList"
-        />
-      </div>
-    </ElCard>
+    
+    <div class="mb-5">
+      <NewsTable
+        v-loading="loading"
+        :filter-table-data="spotList"
+        :descriptions="descriptions"
+        @table-data-emit="getspotList"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useConfigStore } from "@/@core/stores/config";
-import { useServiceStore } from "@/stores/tourism/serviceStore";
-import { useRoute } from "vue-router";
-import NewsTable from "./serviceTable.vue";
+import { useConfigStore } from "@/@core/stores/config"
+import { useServiceStore } from "@/stores/tourism/serviceStore"
+import { useRoute } from "vue-router"
+import NewsTable from "./serviceTable.vue"
 
 const loading   = ref(true)
 const configStore = useConfigStore()

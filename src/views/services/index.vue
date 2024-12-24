@@ -20,16 +20,15 @@
         </VCol>
       </VRow>
     </ElCard>
-    <ElCard>
-      <div class="mb-5">
-        <NewsTable
-          v-loading="loading"
-          :filter-table-data="spotList"
-          :descriptions="descriptions"
-          @table-data-emit="getspotList"
-        />
-      </div>
-    </ElCard>
+    
+    <div class="mb-5">
+      <NewsTable
+        v-loading="loading"
+        :filter-table-data="spotList"
+        :descriptions="descriptions"
+        @table-data-emit="getspotList"
+      />
+    </div>
   </div>
 </template>
 

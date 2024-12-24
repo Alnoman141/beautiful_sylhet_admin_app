@@ -9,6 +9,13 @@ function getService(query) {
     params: query,
   })
 }
+export function getDescription(query) {
+  return request({
+    url: "/service/get-service",
+    method: "post",
+    params: query,
+  })
+}
 export function createService(data) {
   return request({
     url: "/service/store",
@@ -32,6 +39,13 @@ export function editService(query) {
 export function updateService(data) {
   return request({
     url: "/service/update",
+    method: "post",
+    data,
+  })
+}
+export function updateDescription(data) {
+  return request({
+    url: "/service/update-service",
     method: "post",
     data,
   })

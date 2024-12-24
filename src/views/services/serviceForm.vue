@@ -30,56 +30,9 @@
       label-position="top"
       status-icon
     >
+    
       <VRow>
-        <VCol v-for="(item, index) in ruleForm.descriptions" :key="index">
-          <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-            <hr class="my-2" />
-
-            <VRow>
-              <VCol cols="12">
-                <ElFormItem
-                  label="Description"
-                  :prop="
-                    ruleForm.descriptions
-                      ? 'descriptions.' + index + '.name'
-                      : 'descriptions.' + index + '.name'
-                  "
-                  :rules="{
-                    required: true,
-                    message: 'Description is required',
-                    trigger: 'blur',
-                  }"
-                >
-                  <div>
-                    <QuillEditor
-                      ref="descriptionEditorRef"
-                      v-model:content="item.name"
-                      :blur="checkData()"
-                      content-type="html"
-                      theme="snow"
-                      toolbar="full"
-                      style="min-block-size: 200"
-                      placeholder="Type description here"
-                    />
-                  </div>
-                </ElFormItem>
-              </VCol>
-              <VCol cols="12">
-                <ElFormItem
-                  label="Fare"
-                  :prop="
-                    ruleForm.descriptions
-                      ? 'descriptions.' + index + '.fare'
-                      : 'descriptions.' + index + '.fare'
-                  "
-                >
-                  <ElInput placeholder="Address" v-model="item.fare" />
-                </ElFormItem>
-              </VCol>
-            </VRow>
-          </ElCard>
-        </VCol>
+       
         <VCol
           cols="12"
           v-for="(booking, index) in ruleForm.booking_numbers"
@@ -144,11 +97,14 @@
             </VRow>
           </ElCard>
         </VCol>
+        <template v-if="ruleForm.type != 1 && ruleForm.type != 2">
         <VCol
           cols="12"
           v-for="(supervisor, index) in ruleForm.supervisor_numbers"
           :key="index"
         >
+       
+        
           <ElCard>
             <VRow>
               <VCol cols="12" md="6">
@@ -210,6 +166,7 @@
             </VRow>
           </ElCard>
         </VCol>
+        </template> 
       </VRow>
       <ElCard class="my-4">
         <VRow>
@@ -357,11 +314,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             )
           : "";
        
-        route.params.type == 1
+        props.ruleForm.type == '1'
           ? router.push({ name: "tourismHelpline" })
-          : route.params.type == 2
+          : props.ruleForm.type == '2'
           ? router.push({ name: "dcHelpline" })
-          : route.params.type == 3
+          : props.ruleForm.type == '3'
           ? router.push({ name: "busService" })
           : router.push({ name: "kitkatChair" });
       } catch (error) {

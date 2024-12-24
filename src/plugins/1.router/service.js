@@ -124,6 +124,46 @@ export const servicesRoutes = [
           navActiveLink: 'kitkatChair',
         },
       },
+      {
+        path: 'edit-tourism-description/:type',
+        name: 'editTourismDescription',
+        component: () => import('@/views/services/descriptionForm.vue'),
+        meta: {
+          subject: "transport",
+          action: "show menu",
+          navActiveLink: 'tourismHelpline',
+        },
+      },
+      {
+        path: 'edit-dc-description/:type',
+        name: 'editDcDescription',
+        component: () => import('@/views/services/descriptionForm.vue'),
+        meta: {
+          subject: "transport",
+          action: "show menu",
+          navActiveLink: 'dcHelpline',
+        },
+      },
+      {
+        path: 'edit-bus-description/:type',
+        name: 'editBusDescription',
+        component: () => import('@/views/services/descriptionForm.vue'),
+        meta: {
+          subject: "transport",
+          action: "show menu",
+          navActiveLink: 'busService',
+        },
+      },
+      {
+        path: 'edit-kitkat-description/:type',
+        name: 'editKitkatDescription',
+        component: () => import('@/views/services/descriptionForm.vue'),
+        meta: {
+          subject: "transport",
+          action: "show menu",
+          navActiveLink: 'kitkatChair',
+        },
+      },
 
     ],
   },
