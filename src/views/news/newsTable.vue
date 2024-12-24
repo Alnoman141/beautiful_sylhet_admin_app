@@ -21,7 +21,7 @@
             {{ index++ }}
           </div>
           <div
-            v--if="column.prop == 'type'"
+            v-if="column.prop == 'type'"
             class="news-type"
           >
             {{ scope.row[column.prop].type == 'breaking' ? scope.row[column.prop].type + ' ' +'News' : scope.row[column.prop].type }}

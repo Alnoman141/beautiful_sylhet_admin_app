@@ -11,11 +11,7 @@
             :underline="false"          
           
             :to="{ name: 'createHotel'}"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn "
           >
             Create  Hotel

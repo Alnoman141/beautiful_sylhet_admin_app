@@ -10,11 +10,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'campaignList' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             Campaign List
@@ -175,9 +171,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

@@ -10,10 +10,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'hotelList' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
+            
             class="create-btn"
           >
             Hotel List</RouterLink

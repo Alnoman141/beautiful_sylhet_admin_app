@@ -11,11 +11,7 @@
             :underline="false"          
           
             :to="{ name: 'createLocker'}"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn "
           >
             Create  Locker
@@ -31,10 +27,6 @@
           :columns="columns"
           @table-data-emit="getspotList"
         />
-        <PaginationSection
-          :total-data="totalData"
-          @get-emit="getspotList"
-        />
       </div>
     </ElCard>
   </div>
@@ -42,7 +34,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
-import PaginationSection from "@/components/tourism/pagination.vue"
+
 import { useLockerStore } from "@/stores/tourism/lockerStore"
 import NewsTable from "./lockerTable.vue"
 
@@ -71,7 +63,7 @@ const getspotList = async (pageSize, pageNo) => {
     per_page: pageSize,
   }
   try {
-    const { data } = await lockerStore.getLocker(parameter)
+    const { data } = await lockerStore.getLocker()
 
     
 

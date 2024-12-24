@@ -10,11 +10,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'info' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             Cox's Bazar Info
@@ -80,9 +76,9 @@ import { useInfoStore } from "@/stores/tourism/infoStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

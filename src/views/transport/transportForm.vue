@@ -11,11 +11,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'transportList' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             Transport List

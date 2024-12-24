@@ -10,11 +10,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'bankList' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             Bank List
@@ -86,9 +82,9 @@
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { notify } from "@/utils/notification";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

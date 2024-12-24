@@ -10,11 +10,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'lockerList' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+           
             class="create-btn"
           >
             Locker List

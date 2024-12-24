@@ -1,6 +1,73 @@
 <template>
   <div>
+    <ElCard class="my-4">
+      <h4 class="text-h4">
+        Description
+      </h4>
+      <hr class="mb-4">
+      <ElTable
+        :data="filterTableData"
+        style="inline-size: 100%"
+        border
+      >
+        <ElTableColumn label="Description">
+          <p
+            class="px-2 py-2"
+            v-html="descriptions?.descriptions?.name"
+          />
+        </ElTableColumn>
+        <ElTableColumn
+          v-if="
+            route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'
+          "
+          label="Fare"
+        >
+          <p class="px-2 py-2">
+            {{ descriptions?.descriptions?.fare }}
+          </p>
+        </ElTableColumn>
+        <ElTableColumn label="Website Link">
+          <p
+            class="px-2 py-2"
+            v-html="descriptions.link"
+          />
+        </ElTableColumn>
+        <ElTableColumn
+          label="Action"
+          width="100"
+        >
+          <RouterLink
+            class="mx-2"
+            style="color: white"
+            :underline="false"
+            :to="
+              route.name == 'tourismHelpline'
+                ? { name: 'editTourismDescription', params: { type: 1 } }
+                : route.name == 'dcHelpline'
+                  ? { name: 'editDcDescription', params: { type: 2 } }
+                  : route.name == 'busService'
+                    ? { name: 'editBusDescription', params: { type: 3 } }
+                    : { name: 'editKitkatDescription', params: { type: 4 } }
+            "
+          >
+            <ElButton
+              size="small"
+              type="primary"
+            >
+              <VIcon
+                icon="tabler-edit"
+                size="15"
+              /> 
+            </ElButton>
+          </RouterLink>
+        </ElTableColumn>
+      </ElTable>
+    </ElCard>
     <ElCard>
+      <h4 class="text-h4">
+        Spot Wise Contact Information
+      </h4>
+      <hr class="mb-4">
       <ElTable
         :data="filterTableData"
         style="inline-size: 100%"
@@ -15,8 +82,16 @@
             {{ scope.$index + 1 }}
           </template>
         </ElTableColumn>
+        <ElTableColumn label="Spot Name">
+          <template #default="scope">
+            {{ scope.row.spots.name }}
+          </template>
+        </ElTableColumn>
 
-        <ElTableColumn label="Booking Person Name & Numbers">
+        <ElTableColumn
+          :label="route.name !== 'tourismHelpline' &&
+            route.name !== 'dcHelpline' ? 'Booking Person Information' : 'Officer Informations'"
+        >
           <template #default="scope">
             <div
               v-for="(item, index) in scope.row.booking_numbers"
@@ -51,7 +126,7 @@
               route.name !== 'dcHelpline' &&
               route.name !== 'kitkatChair'
           "
-          label="Supervisor Name & Numbers"
+          label="Supervisor Informations"
         >
           <template #default="scope">
             <div
@@ -130,69 +205,6 @@
           </template>
         </ElTableColumn>
       </ElTable>
-    </ElCard>
-    <ElCard class="my-4">
-      <VRow>
-        <VCol>
-          <ElTable
-            :data="filterTableData"
-            style="inline-size: 100%"
-            border
-          >
-            <ElTableColumn label="Description">
-              <p
-                class="px-2 py-2"
-                v-html="descriptions?.descriptions?.name"
-              />
-            </ElTableColumn>
-            <ElTableColumn
-              v-if="
-                route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'
-              "
-              label="Fare"
-            >
-              <p class="px-2 py-2">
-                {{ descriptions?.descriptions?.fare }}
-              </p>
-            </ElTableColumn>
-            <ElTableColumn label="Website Link">
-              <p
-                class="px-2 py-2"
-                v-html="descriptions.link"
-              />
-            </ElTableColumn>
-            <ElTableColumn
-              label="Action"
-              width="100"
-            >
-              <RouterLink
-                class="mx-2"
-                style="color: white"
-                :underline="false"
-                :to="
-                  route.name == 'tourismHelpline'
-                    ? { name: 'editTourismDescription', params: { type: 1 } }
-                    : route.name == 'dcHelpline'
-                      ? { name: 'editDcDescription', params: { type: 2 } }
-                      : route.name == 'busService'
-                        ? { name: 'editBusDescription', params: { type: 3 } }
-                        : { name: 'editKitkatDescription', params: { type: 4 } }
-                "
-              >
-                <ElButton
-                  size="small"
-                  type="primary"
-                >
-                  <VIcon
-                    icon="tabler-edit"
-                    size="15"
-                  /> 
-                </ElButton>
-              </RouterLink>
-            </ElTableColumn>
-          </ElTable>
-        </VCol>
-      </VRow>
     </ElCard>
   </div>
 </template>

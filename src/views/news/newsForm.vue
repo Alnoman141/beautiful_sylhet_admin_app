@@ -10,11 +10,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'newsList' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             News List

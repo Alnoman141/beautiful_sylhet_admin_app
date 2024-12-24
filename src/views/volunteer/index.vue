@@ -13,11 +13,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'createVolunteer' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             Create Beach Volunteer

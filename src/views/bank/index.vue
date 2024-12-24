@@ -13,11 +13,7 @@
             type="primary"
             :underline="false"
             :to="{ name: 'createBank' }"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :limit="3"
-            :on-exceed="handleExceed"
+            
             class="create-btn"
           >
             Create Bank
@@ -34,17 +30,12 @@
           @table-data-emit="getspotList"
         />
       </div>
-      <PaginationSection
-        :total-data="totalData"
-        @get-emit="getspotList"
-      />
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
-import PaginationSection from "@/components/tourism/pagination.vue"
 import { useBankStore } from "@/stores/tourism/bankStore"
 import BankTable from "./bankTable.vue"
 
@@ -71,7 +62,7 @@ const getspotList = async (pageSize, pageNo) => {
     per_page: pageSize,
   }
   try {
-    const { data } = await bankStore.getBank(parameter)
+    const { data } = await bankStore.getBank()
 
     spotList.value = data.data
 
