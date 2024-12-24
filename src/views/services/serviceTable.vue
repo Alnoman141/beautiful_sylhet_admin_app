@@ -2,66 +2,87 @@
   <div>
     <ElCard class="my-4">
       <h4 class="text-h4">
-        Description
+        Description 
       </h4>
       <hr class="mb-4">
-      <ElTable
-        :data="filterTableData"
-        style="inline-size: 100%"
-        border
-      >
-        <ElTableColumn label="Description">
+
+      <div class=" my-2 d-flex">
+        <div
+          style="inline-size:30% !important"
+          class="border"
+        > 
+          <p class="px-2 my-2">
+            Description
+          </p>
+          <hr class="text-muted">
           <p
             class="px-2 py-2"
             v-html="descriptions?.descriptions?.name"
           />
-        </ElTableColumn>
-        <ElTableColumn
+        </div>
+        <div
           v-if="
             route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'
           "
-          label="Fare"
-        >
+          style="inline-size:30% !important"
+          class="border"
+        > 
+          <p class="px-2 my-2">
+            Fare
+          </p>
+          <hr class="border-muted">
           <p class="px-2 py-2">
             {{ descriptions?.descriptions?.fare }}
           </p>
-        </ElTableColumn>
-        <ElTableColumn label="Website Link">
-          <p
-            class="px-2 py-2"
-            v-html="descriptions.link"
-          />
-        </ElTableColumn>
-        <ElTableColumn
-          label="Action"
-          width="100"
-        >
-          <RouterLink
-            class="mx-2"
-            style="color: white"
-            :underline="false"
-            :to="
-              route.name == 'tourismHelpline'
-                ? { name: 'editTourismDescription', params: { type: 1 } }
-                : route.name == 'dcHelpline'
-                  ? { name: 'editDcDescription', params: { type: 2 } }
-                  : route.name == 'busService'
-                    ? { name: 'editBusDescription', params: { type: 3 } }
-                    : { name: 'editKitkatDescription', params: { type: 4 } }
-            "
-          >
-            <ElButton
-              size="small"
-              type="primary"
+        </div>
+        <div
+          style="inline-size:30% !important"
+          class="border"
+        > 
+          <p class="px-2 my-2">
+            Website Link
+          </p>
+          <hr class="text-muted">
+          <p class="px-2 py-2">
+            {{ descriptions.link }}
+          </p>
+        </div>
+        <div
+          style="inline-size:10% !important"
+          class="border"
+        > 
+          <p class="px-2 my-2">
+            Action
+          </p>
+          <hr class="text-muted">
+          <div class="my-4">
+            <RouterLink
+              class="mx-2 "
+              style="color: white"
+              :underline="false"
+              :to="
+                route.name == 'tourismHelpline'
+                  ? { name: 'editTourismDescription', params: { type: 1 } }
+                  : route.name == 'dcHelpline'
+                    ? { name: 'editDcDescription', params: { type: 2 } }
+                    : route.name == 'busService'
+                      ? { name: 'editBusDescription', params: { type: 3 } }
+                      : { name: 'editKitkatDescription', params: { type: 4 } }
+              "
             >
-              <VIcon
-                icon="tabler-edit"
-                size="15"
-              /> 
-            </ElButton>
-          </RouterLink>
-        </ElTableColumn>
-      </ElTable>
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                /> 
+              </ElButton>
+            </RouterLink>
+          </div>
+        </div>
+      </div>
     </ElCard>
     <ElCard>
       <h4 class="text-h4">

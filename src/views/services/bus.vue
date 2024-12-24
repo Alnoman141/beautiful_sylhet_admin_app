@@ -58,9 +58,9 @@ const getspotList = async () => {
     const { data } = await serviceStore.getService(parameter)
 
     
-
-    spotList.value = data.data?.services
     descriptions.value = data.data
+    spotList.value = data.data?.services
+   
 
    
 
