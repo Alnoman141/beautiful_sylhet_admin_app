@@ -169,10 +169,10 @@
         </template> 
       </VRow>
       <ElCard class="my-4">
-        <VRow>
+        
+        <VRow v-if="ruleForm.type != 1 && ruleForm.type != 2">
           <VCol cols="12" md="6">
-            <!-- spotDropdownData -->
-            <!-- <label for=""> Tourist Spot </label> -->
+           
             <ElFormItem
               label="Tourist Spot"
               prop="spot_parent_id"
@@ -263,6 +263,7 @@ const getSpotDropdownList = async () => {
 };
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+props.ruleForm.type == 1 || props.ruleForm.type == 2 ? props.ruleForm.spot_parent_id = spotDropdownData.value[0].id : '';
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let bookingNumber = [];

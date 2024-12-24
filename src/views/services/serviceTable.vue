@@ -106,7 +106,10 @@
             {{ scope.$index + 1 }}
           </template>
         </ElTableColumn>
-        <ElTableColumn label="Spot Name">
+        <ElTableColumn
+          v-if="route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'"
+          label="Spot Name"
+        >
           <template #default="scope">
             {{ scope.row.spots.name }}
           </template>
