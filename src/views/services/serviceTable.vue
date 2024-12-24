@@ -45,13 +45,9 @@
           </p>
           <hr class="text-muted">
           <div class="px-4 py-4">
-            <a
-              class="px-2 py-2  link-wrap"
-              :href="descriptions?.descriptions?.link"
-              target="_blank"
-            >
+            <p class="px-2 py-2  link-wrap">
               {{ descriptions.link }}
-            </a>
+            </p>
           </div>
         </div>
         <div
@@ -322,8 +318,7 @@ const showAlert = item => {
 }
 
 .link-wrap{
-  overflow: hidden !important; 
-  cursor: pointer;
+  overflow: hidden !important;   
   text-overflow: ellipsis !important;
   word-wrap: break-word !important;
 }

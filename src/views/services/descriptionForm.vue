@@ -89,7 +89,7 @@
         </VCol>
       </VRow>
       <ElCard class="my-4">
-        <VRow>
+        <VRow v-if="route.params.type == '1' || route.params.type == '2'">
           <VCol cols="12" md="6">
             <ElFormItem label="Website Link" prop="link">
               <ElInput placeholder="Website Link" v-model="ruleForm.link" />
