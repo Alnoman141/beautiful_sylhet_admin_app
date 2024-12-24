@@ -8,7 +8,7 @@
 
       <div class=" my-2 d-flex">
         <div
-          style="inline-size:30% !important"
+          :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:30% !important'"
           class="border"
         > 
           <p class="px-2 my-2">
@@ -36,7 +36,7 @@
           </p>
         </div>
         <div
-          style="inline-size:30% !important"
+          :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:30% !important'"
           class="border"
         > 
           <p class="px-2 my-2">
