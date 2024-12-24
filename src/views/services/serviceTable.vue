@@ -8,7 +8,7 @@
 
       <div class=" my-2 d-flex">
         <div
-          :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:30% !important'"
+          :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:50% !important'"
           class="border"
         > 
           <p class="px-2 my-2">
@@ -24,7 +24,7 @@
           v-if="
             route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'
           "
-          style="inline-size:30% !important"
+          style="inline-size:40% !important"
           class="border"
         > 
           <p class="px-2 my-2">
@@ -36,6 +36,7 @@
           </p>
         </div>
         <div
+          v-if="route.name == 'tourismHelpline' || route.name == 'dcHelpline'"
           :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:30% !important'"
           class="border"
         > 
@@ -43,9 +44,15 @@
             Website Link
           </p>
           <hr class="text-muted">
-          <p class="px-2 py-2">
-            {{ descriptions.link }}
-          </p>
+          <div class="px-4 py-4">
+            <a
+              class="px-2 py-2  link-wrap"
+              :href="descriptions?.descriptions?.link"
+              target="_blank"
+            >
+              {{ descriptions.link }}
+            </a>
+          </div>
         </div>
         <div
           style="inline-size:10% !important"
@@ -312,5 +319,12 @@ const showAlert = item => {
   color: #fff;
   padding-block: 6px;
   padding-inline: 10px;
+}
+
+.link-wrap{
+  overflow: hidden !important; 
+  cursor: pointer;
+  text-overflow: ellipsis !important;
+  word-wrap: break-word !important;
 }
 </style>
