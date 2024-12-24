@@ -24,21 +24,23 @@ const ruleForm = ref({
     {
       language_id: 1, 
       name: '',
-      time: '',
-      destination: '',
-      fare: '',
-      phone: '',
-      address: '',
+
+      // time: '',
+      // destination: '',
+      // fare: '',
+      // phone: '',
+      // address: '',
       description: '',
     },
     {
       language_id: 2, 
       name: '',
-      time: '',
-      destination: '',
-      fare: '',
-      phone: '',
-      address: '',
+
+      // time: '',
+      // destination: '',
+      // fare: '',
+      // phone: '',
+      // address: '',
       description: '',
     },
     

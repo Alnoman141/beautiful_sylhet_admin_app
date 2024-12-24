@@ -1,61 +1,5 @@
 <template>
   <div>
-    <ElCard class="my-4">
-      <div class="text-end my-2">
-        <RouterLink
-          type="primary"
-          :underline="false"
-          :to="
-            route.name == 'tourismHelpline'
-              ? {name: 'editTourismDescription', params: { type: 1 } }
-              : route.name == 'dcHelpline'
-                ? {name: 'editDcDescription', params: { type: 2 } }
-                : route.name == 'busService'
-                  ? {name: 'editBusDescription', params: { type: 3 } }
-                  : {name: 'editKitkatDescription', params: { type: 4 } }
-          "
-          class="create-btn"
-        >
-          <VIcon
-            icon="tabler-edit"
-            size="15"
-          />
-          <span class="mx-2">Edit Description</span>
-        </RouterLink>
-      </div>
-      <VRow>
-        <VCol>
-          <div class="border py-2 h-100">
-            <b class="px-2 py-2"> Description</b>
-            <hr>
-            <p
-              class="px-2 py-2"
-              v-html="descriptions.name"
-            />
-          </div>
-        </VCol>
-        <VCol>
-          <!--
-            <RouterLink
-            type="primary"
-            :underline="false"          
-            :to="{ name: 'createService', params: { type: 4 } }"
-            class="create-btn "
-            >
-            Create  Service
-            </RouterLink> 
-          -->
-          <div class="border py-2 h-100">
-            <b class="px-2 py-2"> Fare</b>
-            <hr>
-            <p class="px-2 py-2">
-              {{ descriptions.fare }}
-            </p>
-          </div>
-        </VCol>
-      </VRow>
-    </ElCard>
-
     <ElCard>
       <ElTable
         :data="filterTableData"
@@ -71,7 +15,6 @@
             {{ scope.$index + 1 }}
           </template>
         </ElTableColumn>
-      
 
         <ElTableColumn label="Booking Person Name & Numbers">
           <template #default="scope">
@@ -183,6 +126,62 @@
           </template>
         </ElTableColumn>
       </ElTable>
+    </ElCard>
+    <ElCard class="my-4">
+      <div class="text-end my-4">
+        <RouterLink
+          type="primary"
+          :underline="false"
+          :to="
+            route.name == 'tourismHelpline'
+              ? { name: 'editTourismDescription', params: { type: 1 } }
+              : route.name == 'dcHelpline'
+                ? { name: 'editDcDescription', params: { type: 2 } }
+                : route.name == 'busService'
+                  ? { name: 'editBusDescription', params: { type: 3 } }
+                  : { name: 'editKitkatDescription', params: { type: 4 } }
+          "
+          class="create-btn"
+        >
+          <VIcon
+            icon="tabler-edit"
+            size="15"
+          />
+          <span class="mx-2">Edit Description</span>
+        </RouterLink>
+      </div>
+      
+      <VRow>
+        <VCol>
+          <div class="border py-2 h-100">
+            <b class="px-2 py-2"> Description</b>
+            <hr>
+            <p
+              class="px-2 py-2"
+              v-html="descriptions?.descriptions?.name"
+            />
+          </div>
+        </VCol>
+        <VCol v-if="route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'">
+          <div class="border py-2 h-100">
+            <b class="px-2 py-2"> Fare</b>
+            <hr>
+            <p class="px-2 py-2">
+              {{ descriptions?.descriptions?.fare }}
+            </p>
+          </div>
+        </VCol>
+        <VCol>
+          <div class="border py-2 h-100">
+            <b class="px-2 py-2"> Link</b>
+            <hr>
+            <p
+              class="px-2 py-2"
+              v-html="descriptions.link"
+            />
+          </div>
+        </VCol>
+      </VRow>
     </ElCard>
   </div>
 </template>

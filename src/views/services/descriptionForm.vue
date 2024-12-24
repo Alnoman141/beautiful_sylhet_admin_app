@@ -31,7 +31,7 @@
       status-icon
     >
       <VRow>
-        <VCol v-for="(item, index) in ruleForm.descriptions" :key="index">
+        <VCol cols="12" md="6" v-for="(item, index) in ruleForm.descriptions" :key="index">
           
           <ElCard class="rounded py-2 px-2">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
@@ -66,7 +66,8 @@
                   </div>
                 </ElFormItem>
               </VCol>
-              <VCol cols="12">
+              <VCol cols="12" v-if="route.params.type !== '1' && route.params.type !== '2'">
+               
                 <ElFormItem
                   label="Fare"
                   :prop="
@@ -81,136 +82,13 @@
             </VRow>
           </ElCard>
         </VCol>
-        <VCol
-          cols="12"
-          v-for="(booking, index) in ruleForm.booking_numbers"
-          :key="index"
-        >
-          <ElCard>
-            <VRow>
-              <VCol cols="12" md="6">
-                <ElFormItem label="Booking Officer Name">
-                  <ElInput
-                    placeholder="Booking Officer Name"
-                    v-model="booking.name"
-                  />
-                </ElFormItem>
-              </VCol>
-
-              <VCol cols="12" md="6">
-                 <div
-                    v-for="(num, index) in booking.numbers"
-                    :key="index"
-                  >
-                <ElFormItem label="Booking Phone Numbers">
-                 
-                    <VRow>
-                      <VCol cols="10">
-                        <ElInput
-                          placeholder="Booking Phone Numbers"
-                          v-model="num.phone"
-                        />
-                      </VCol>
-                      <VCol cols="2">
-                        
-                        <ElButton
-                          v-if="
-                            (index == 0 &&
-                              ruleForm.booking_numbers[0].numbers.length ==
-                                1) ||
-                            (index ==
-                              ruleForm.booking_numbers[0].numbers.length - 1 &&
-                              index != 0)
-                          "
-                          size="small"
-                          type="success"
-                          @click="addBookingNumber"
-                        >
-                          <VIcon icon="tabler-plus" size="15" />
-                        </ElButton>
-                        <ElButton
-                          v-if="ruleForm.booking_numbers[0].numbers.length > 1"
-                          size="small"
-                          type="danger"
-                          @click="removeBookingNumber(index)"
-                        >
-                          <VIcon icon="tabler-minus" size="15" />
-                        </ElButton>
-                      </VCol>
-                    </VRow>
-                  
-                </ElFormItem>
-                </div>
-              </VCol>
-            </VRow>
-          </ElCard>
-        </VCol>
-        <VCol
-          cols="12"
-          v-for="(supervisor, index) in ruleForm.supervisor_numbers"
-          :key="index"
-        >
-          <ElCard>
-            <VRow>
-              <VCol cols="12" md="6">
-                <ElFormItem label="Supervisor Name">
-                  <ElInput
-                    placeholder="Supervisor Name"
-                    v-model="supervisor.name"
-                  />
-                </ElFormItem>
-              </VCol>
-
-              <VCol cols="12" md="6">
-                <div
-                    v-for="(num, index) in supervisor.numbers"
-                    :key="index"
-                  >
-                <ElFormItem label="Supervisor Phone Numbers">
-                  
-                    <VRow>
-                      <VCol cols="9">
-                        <ElInput
-                          placeholder="Supervisor Phone Numbers"
-                          v-model="num.phone"
-                        />
-                      </VCol>
-                      <VCol>
-                        <ElButton
-                          v-if="
-                            (index == 0 &&
-                              ruleForm.supervisor_numbers[0].numbers.length ==
-                                1) ||
-                            (index ==
-                              ruleForm.supervisor_numbers[0].numbers.length -
-                                1 &&
-                              index != 0)
-                          "
-                          size="small"
-                          type="success"
-                          @click="addSupervisorNumber"
-                        >
-                          <VIcon icon="tabler-plus" size="15" />
-                        </ElButton>
-                        <ElButton
-                          v-if="
-                            ruleForm.supervisor_numbers[0].numbers.length > 1
-                          "
-                          size="small"
-                          type="danger"
-                          @click="removeSupervisorNumber(index)"
-                        >
-                          <VIcon icon="tabler-minus" size="15" />
-                        </ElButton>
-                      </VCol>
-                    </VRow>
-                  
-                </ElFormItem>
-                </div>
-              </VCol>
-            </VRow>
-          </ElCard>
-        </VCol>
+        <VCol cols="12"  md="6">
+            
+            <ElFormItem label="Website Link" prop="link">
+              <ElInput placeholder="Website Link" v-model="ruleForm.link" />
+            </ElFormItem>
+          </VCol>
+        
       </VRow>
       <ElCard class="my-4">
         
@@ -245,6 +123,7 @@ const route = useRoute();
 const router = useRouter();
 const ruleForm = ref({
   type: route.params.type,
+  link:'',
   descriptions: [
     { name: '', language_id: 1, fare: null },
     { name: '', language_id: 2, fare: null },

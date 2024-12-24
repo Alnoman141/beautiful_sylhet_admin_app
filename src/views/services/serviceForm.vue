@@ -196,11 +196,7 @@
               </el-select>
             </ElFormItem>
           </VCol>
-          <VCol cols="12" md="6">
-            <ElFormItem label="Website Link" prop="link">
-              <ElInput placeholder="Website Link" v-model="ruleForm.link" />
-            </ElFormItem>
-          </VCol>
+          
         </VRow>
         <div class="py-4">
           <ElButton
@@ -270,11 +266,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let bookingNumber = [];
-    props.ruleForm.booking_numbers[0].numbers.map((e) => {
+    props.ruleForm.booking_numbers[0].numbers?.map((e) => {
       bookingNumber.push(e.phone);
     });
     let supervisorNumber = [];
-    props.ruleForm.supervisor_numbers[0].numbers.map((e) => {
+    props.ruleForm.supervisor_numbers[0].numbers?.map((e) => {
       supervisorNumber.push(e.phone);
     });
     let form = {

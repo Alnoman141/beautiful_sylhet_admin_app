@@ -61,35 +61,27 @@
                   <ElInput placeholder="Transport Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
-              <VCol cols="12" md="6">
+              <!-- <VCol cols="12" md="6">
                 <ElFormItem label="Phone"  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.phone'
                       : 'data.' + index + '.phone'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'Phone number is required',
-                    trigger: 'blur',
-                  }">
+                  >
                   <ElInput placeholder="Phone" v-model="item.phone" />
                 </ElFormItem>
-              </VCol>
-              <VCol cols="12" md="6">
+              </VCol> -->
+              <!-- <VCol cols="12" md="6">
                 <ElFormItem label="Address"  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.address'
                       : 'data.' + index + '.address'
                   "
-                  :rules="{
-                    required: true,
-                    message: 'Address is required',
-                    trigger: 'blur',
-                  }">
+                 >
                   <ElInput placeholder="Address" v-model="item.address" />
                 </ElFormItem>
-              </VCol>
-              <VCol cols="12" md="6">
+              </VCol> -->
+              <!-- <VCol cols="12" md="6">
                 <ElFormItem label="Time"  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.time'
@@ -97,8 +89,8 @@
                   ">
                   <ElInput placeholder="Time" v-model="item.time" />
                 </ElFormItem>
-              </VCol>
-              <VCol cols="12" md="6">
+              </VCol> -->
+              <!-- <VCol cols="12" md="6">
                 <ElFormItem label="Fare"  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.fare'
@@ -106,8 +98,8 @@
                   ">
                   <ElInput placeholder="Fare" v-model="item.fare" />
                 </ElFormItem>
-              </VCol>
-              <VCol cols="12" md="6">
+              </VCol> -->
+              <!-- <VCol cols="12" md="6">
                 <ElFormItem label="Destination"  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.destination'
@@ -115,7 +107,7 @@
                   ">
                   <ElInput placeholder="Destination" v-model="item.destination" />
                 </ElFormItem>
-              </VCol>
+              </VCol> -->
               <VCol cols="12">
                 <ElFormItem label="Description"  :prop="
                     ruleForm.transports
@@ -168,7 +160,11 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            <ElFormItem label="Website Link" prop="map_link">
+            <ElFormItem label="Website Link" prop="map_link" :rules="{
+                    required: true,
+                    message: 'Website Link is required',
+                    trigger: 'blur',
+                  }" >
               <ElInput type="url" placeholder="Website Link" v-model="ruleForm.map_link" />
             </ElFormItem>
           </VCol>

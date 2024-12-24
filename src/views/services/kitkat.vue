@@ -61,7 +61,7 @@ const getspotList = async (pageSize, pageNo) => {
     
 
     spotList.value = data.data?.services
-    descriptions.value = data.data?.descriptions
+    descriptions.value = data.data
 
    
 
