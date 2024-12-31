@@ -14,7 +14,14 @@
             
             class="create-btn "
           >
-            Create  Tourist Spot
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Create Tourist Spot"
+              placement="top-start"
+            >
+              Create  Tourist Spot
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

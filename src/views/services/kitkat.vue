@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Kitkat Chair List</b>
+          <b> Kitkot Chair List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -14,7 +14,7 @@
            
             class="create-btn "
           >
-            Create  Kitkat Chair
+            Create  Kitkot Chair
           </RouterLink>
         </VCol>
       </VRow>

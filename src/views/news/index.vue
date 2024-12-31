@@ -14,7 +14,14 @@
             
             class="create-btn "
           >
-            Create  News
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Create News"
+              placement="top-start"
+            >
+              Create  News
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>
@@ -62,6 +69,7 @@ const getspotList = async (pageSize, pageNo) => {
   let parameter = {
     page: pageNo,
     per_page: pageSize,
+    web: 1,
   }
   try {
     const { data } = await newsStore.getNews(parameter)

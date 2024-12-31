@@ -10,7 +10,6 @@
             type="primary"
             :underline="false"
             :to="{ name: 'noticeList' }"
-            
             class="create-btn"
           >
             Notice List
@@ -18,92 +17,92 @@
         </VCol>
       </VRow>
     </ElCard>
-    
-      <ElForm
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        label-position="top"
-        status-icon
-      >
+
+    <ElForm
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="auto"
+      class="demo-ruleForm"
+      :size="formSize"
+      label-position="top"
+      status-icon
+    >
+      <VRow>
+        <VCol
+          v-for="(item, index) in ruleForm && ruleForm.notice
+            ? ruleForm.notice
+            : ruleForm.data"
+          :key="index"
+          cols="12"
+          md="6"
+        >
+          <ElCard class="rounded py-2 px-2">
+            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <hr class="my-2" />
+
+            <VRow>
+              <VCol cols="12">
+                <ElFormItem
+                  label="Notice"
+                  :prop="
+                    ruleForm.notice
+                      ? 'notice.' + index + '.name'
+                      : 'data.' + index + '.name'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'Notice is required',
+                    trigger: 'blur',
+                  }"
+                >
+                  <!-- <ElInput v-model="item.name"  /> -->
+                  <div>
+                    <QuillEditor
+                      ref="noticeEditorRef"
+                      v-model:content="item.name"
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      :text-change="checkData()"
+                      placeholder="Type notice here"
+                    />
+                  </div>
+                </ElFormItem>
+              </VCol>
+            </VRow>
+          </ElCard>
+        </VCol>
+      </VRow>
+      <ElCard class="my-4">
         <VRow>
-          <VCol
-            v-for="(item, index) in ruleForm && ruleForm.notice
-              ? ruleForm.notice
-              : ruleForm.data"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <ElCard class="rounded py-2 px-2">
-              
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-                <hr class="my-2" />
-              
-              <VRow>
-                <VCol cols="12">
-                  <ElFormItem
-                    label="Notice"
-                    :prop="
-                      ruleForm.notice
-                        ? 'notice.' + index + '.name'
-                        : 'data.' + index + '.name'
-                    "
-                    :rules="{
-                      required: true,
-                      message: 'Notice is required',
-                      trigger: 'blur',
-                    }"
-                  >
-                    <!-- <ElInput v-model="item.name"  /> -->
-                    <div>
-                      <QuillEditor
-                        ref="noticeEditorRef"
-                        v-model:content="item.name"
-                        content-type="html"
-                        theme="snow"
-                        toolbar="full"
-                        :text-change="checkData()"
-                        placeholder="Type notice here"
-                      />
-                    </div>
-                  </ElFormItem>
-                </VCol>
-              </VRow>
-            </ElCard>
-          </VCol>
-        </VRow>
-        <ElCard class="my-4">
-        <VRow>
-          <VCol cols="12" >
-            
-              <el-upload
-                class="upload-section"
-                drag
-                :on-change="onFileChange"
-                :before-upload="beforeAvatarUpload"
-                auto-upload="false"
-              >
-                <div class="el-upload__text">
-                  <el-icon v-if="!ruleForm.image && !previewImage" class="el-icon--upload"
-                    ><upload-filled
-                  /></el-icon>
-                  <img
+          <VCol cols="12" md="6">
+            <el-upload
+              class="upload-section"
+              drag
+              :on-change="onFileChange"
+              :before-upload="beforeAvatarUpload"
+              :auto-upload="false"
+            >
+              <div class="el-upload__text">
+                <el-icon
+                  v-if="!ruleForm.image && !previewImage"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <img
                   v-if="ruleForm.image || previewImage"
-                    :src="previewImage ? previewImage : ruleForm.image"
-                    alt=""
-                    height="60"
-                    width="60"
-                    class="border mt-2"
-                  />
-                  <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
-                  <br />
-                  Drop file here or <em>click to upload</em>
-                </div>
-                <template #tip>
+                  :src="previewImage ? previewImage : ruleForm.image"
+                  alt=""
+                  height="60"
+                  width="60"
+                  class="border mt-2"
+                />
+                <!-- <el-icon class="avatar-uploader-icon"><Plus /></el-icon> -->
+                <br />
+                Drop file here or <em>click to upload</em>
+              </div>
+              <template #tip>
                 <div class="el-upload__tip">
                   jpg/png files with a size less than 2MB <br />
                   <span
@@ -114,12 +113,31 @@
                   </span>
                 </div>
               </template>
-              </el-upload>
+            </el-upload>
+          </VCol>
+          <!-- expires at expiry -->
+
+          <VCol cols="12" md="6">
             
+            <ElFormItem label="Expire at" :prop="'expiry'">              
+              <el-date-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.expiry"
+                type="datetime"
+                placeholder="Pick a Date"
+                format="DD/MM/YYYY hh:mm:ss a"
+                value-format="DD-MM-YYYY h:m:s a"
+                
+              />
+            </ElFormItem>
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
+          <ElButton
+            class="submit"
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
             {{ mode }}
           </ElButton>
           <ElButton
@@ -132,9 +150,8 @@
           </ElButton>
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
         </div>
-        </ElCard>
-      </ElForm>
-    
+      </ElCard>
+    </ElForm>
   </div>
 </template>
 
@@ -143,10 +160,11 @@ import { useNoticeStore } from "@/stores/tourism/noticeStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
+
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -176,7 +194,24 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 const imgUploadValidation = ref(false);
+
+const formattedDate = ref("");
 const submitForm = async (formEl: FormInstance | undefined) => {
+
+  // convert date to 24h format from am pm
+  const [datePart, timePart, period] = props.ruleForm.expiry.split(' ');
+  let [hours, minutes, seconds] = timePart.split(':');
+  if (period.toLowerCase() === 'pm' && hours !== '12') {
+    hours = String(Number(hours) + 12);
+  } else if (period.toLowerCase() === 'am' && hours === '12') {
+    hours = '00';
+  }
+  formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+
+
+  
+  props.ruleForm.expiry = formattedDate.value
+  console.log("props.ruleForm.expiry", props.ruleForm.expiry)
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
@@ -188,30 +223,38 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
       spot_parent_id: props.ruleForm.spot_parent_id,
-
+      expiry: formattedDate.value,
       data: props.ruleForm.notice,
     };
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid) {
-      try{
-      const { data } = props.ruleForm.id
-        ? await noticeStore.updateNotice(form)
-        : await noticeStore.createNotice(props.ruleForm);
-      data.status_code == 200
-        ? notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right",
-            emit("getEmit")
-          )
-        : "";
+      try {
+        const { data } = props.ruleForm.id
+          ? await noticeStore.updateNotice(form)
+          : await noticeStore.createNotice(props.ruleForm);
+        data.status_code == 200
+          ? notify(
+              "Congratulations!",
+              data.message,
+              "success",
+              "top-right",
+              emit("getEmit")
+            )
+          : "";
         data.status_code == 200 ? router.push({ name: "noticeList" }) : "";
       } catch (error) {
-        
         // notify("Error", "Something went wrong", "error", "top-right");
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);
@@ -237,19 +280,18 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   return true;
 };
 
-
 const checkData = () => {
-   noticeEditorRef.value?.map((e) => {
-      e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-    });
+  noticeEditorRef.value?.map((e) => {
+    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+  });
   props.ruleForm?.data?.map((e) => {
-      console.log("clear",e)
-      e.name == "<p><br></p>" ? (e.name = "") : "";
-    });
-    props.ruleForm?.notice?.map((e) => {
-      e.name == "<p><br></p>" ? (e.name = "") : "";
-    })
-}
+    console.log("clear", e);
+    e.name == "<p><br></p>" ? (e.name = "") : "";
+  });
+  props.ruleForm?.notice?.map((e) => {
+    e.name == "<p><br></p>" ? (e.name = "") : "";
+  });
+};
 
 const typeList = ref([]);
 
@@ -288,10 +330,35 @@ const resetForm = (formEl: FormInstance | undefined) => {
     noticeEditorRef.value.map((e) => e.setHTML(""));
   });
 };
+
+const formatExpiryDate = (date) => {
+  console.log("data", date);
+  // convert date to 24h format from am pm
+  // const [datePart, timePart, period] = date.split(' ');
+  // let [hours, minutes, seconds] = timePart.split(':');
+  // if (period.toLowerCase() === 'pm' && hours !== '12') {
+  //   hours = String(Number(hours) + 12);
+  // } else if (period.toLowerCase() === 'am' && hours === '12') {
+  //   hours = '00';
+  // }
+  // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+  console.log("formattedDate.value 24H",formattedDate.value)
+
+  // Convert date back to am/pm format
+  // const [datePart24, timePart24] = formattedDate.value.split(' ');
+  // let [hours24, minutes24, seconds24] = timePart24.split(':');
+  // const period24 = Number(hours24) >= 12 ? 'PM' : 'AM';
+  // hours24 = Number(hours24) % 12 || 12;
+  // formattedDate.value = `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`;
+  // console.log("formattedDate.value AM/PM",formattedDate.value)
+  
+
+  
+}
 </script>
 
 <style scoped>
-.submit{
+.submit {
   text-transform: capitalize;
 }
 

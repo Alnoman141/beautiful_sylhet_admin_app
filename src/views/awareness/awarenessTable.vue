@@ -20,15 +20,22 @@
               :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
               style=" color:white !important;text-decoration: none !important;"
             >
-              <ElButton
-                type="primary"
-                size="small"
+              <ElTooltip
+                class="box-item"
+                effect="dark"
+                content="Edit Awareness"
+                placement="top-start"
               >
-                <VIcon
-                  icon="tabler-edit"
-                  size="15"
-                />
-              </ElButton>
+                <ElButton
+                  type="primary"
+                  size="small"
+                >
+                  <VIcon
+                    icon="tabler-edit"
+                    size="15"
+                  />
+                </ElButton>
+              </ElTooltip>
             </RouterLink>
           </div>
           <div

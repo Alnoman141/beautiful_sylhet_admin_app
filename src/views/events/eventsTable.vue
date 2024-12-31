@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div>
     <ElTable
@@ -17,7 +18,7 @@
         :width="column.prop == 'id' ? '100' : column.prop == 'type' ? '150' : ''"
       >
         <template #default="scope">
-          <div v-html="scope.row[column.prop]" />
+          <div v-html="column.prop != 'id' ? scope.row[column.prop] : index++" />
         </template>
       </ElTableColumn>
 

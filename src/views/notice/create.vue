@@ -18,7 +18,7 @@ const spotStore = useSpotStore()
 
 const ruleForm = ref({
 
-
+  expiry: '',
   image: '',
   data: [
     {

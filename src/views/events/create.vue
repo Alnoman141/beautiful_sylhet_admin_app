@@ -17,7 +17,7 @@ const route = useRoute()
 const spotStore = useSpotStore()
 
 const ruleForm = ref({
-
+  expiry: '',
   spot_parent_id: null,
   image: '',
   data: [

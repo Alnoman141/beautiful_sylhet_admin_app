@@ -20,6 +20,7 @@
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -276,6 +277,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
+          <el-tooltip class="box-item" effect="dark" content="Save" placement="top">
           <ElButton
             class="submit"
             type="primary"
@@ -283,10 +285,15 @@
           >
             {{ mode }}
           </ElButton>
+          </el-tooltip>
           <!-- reset button -->
+          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip> 
           <!-- back  -->
+          <el-tooltip class="box-item" effect="dark" content="Back" placement="top">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -307,6 +314,7 @@ import {
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+const loading = ref(false)
 const emit = defineEmits(["getEmit"]);
 const route = useRoute();
 const router = useRouter();
@@ -364,6 +372,7 @@ const getTypeDropdownList = async () => {
 };
 const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  loading.value = true
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
@@ -390,13 +399,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? await hotelStore.updateHotel(form)
         : await hotelStore.createHotel(props.ruleForm);
       data.status_code == 200
-        ? notify(
+        ? (notify(
             "Congratulations!",
             data.message,
             "success",
             "top-right",
             emit("getEmit")
-          )
+          ), loading.value = false)
         : "";
         router.push({ name: "hotelList" });
       } catch (error) {

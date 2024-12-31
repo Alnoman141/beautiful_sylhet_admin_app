@@ -26,9 +26,23 @@ const getNewsDetails = async () => {
 
   const { data } = await noticeStore.editNotice({ id: route.params.id })
 
-  console.log("data", data)
+ 
+
+  
+
+  
 
   ruleForm.value = data.data
+
+
+  // Convert date back to am/pm format
+  const [datePart24, timePart24] = data.data.expiry.split(' ')
+  let [hours24, minutes24, seconds24] = timePart24.split(':')
+  const period24 = Number(hours24) >= 12 ? 'PM' : 'AM'
+
+  hours24 = Number(hours24) % 12 || 12
+  ruleForm.value.expiry = `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
+
 }
 
 onMounted(() => {

@@ -195,7 +195,7 @@ export default [
     action: "show menu",
   },
   {
-    title: 'Kitkat Chair',
+    title: 'Kitkot Chair',
     to: 'kitkatChair',
     icon: { icon: 'tabler-sailboat' },
     subject: "notice",

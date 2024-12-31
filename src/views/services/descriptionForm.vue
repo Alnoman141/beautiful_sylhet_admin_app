@@ -89,11 +89,54 @@
         </VCol>
       </VRow>
       <ElCard class="my-4">
-        <VRow v-if="route.params.type == '1' || route.params.type == '2'">
-          <VCol cols="12" md="6">
+        <VRow >
+          <VCol cols="12" md="6" v-if="route.params.type == '1' || route.params.type == '2'">
             <ElFormItem label="Website Link" prop="link">
               <ElInput placeholder="Website Link" v-model="ruleForm.link" />
             </ElFormItem>
+          </VCol>
+           <VCol cols="12" md="6" class="my-2" v-if="route.params.type == '3' ">
+           
+            <label for=""> <span style="color: #f89797">*</span> Image </label>
+            <el-upload
+              class="upload-section"
+              drag
+              :on-change="onFileChange"
+              :before-upload="beforeAvatarUpload"
+              auto-upload="false"
+            >
+              <div class="el-upload__text">
+                <el-icon
+                  v-if="!ruleForm.image && !previewImage"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <img
+                  :src="previewImage ? previewImage : ruleForm.image"
+                  alt=""
+                  height="60"
+                  width="60"
+                  class="border mt-2"
+                  v-if="ruleForm.image || previewImage"
+                />
+                <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+                <br />
+                Drop file here or <em>click to upload</em>
+              </div>
+               <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 2MB <br />
+                  <span
+                    v-if="imgUploadValidation == true"
+                    style="color: #fc6767; font-size: 12px; font-weight: light"
+                  >
+                    Image is required and must be valid format
+                  </span>
+                </div>
+              </template>
+            </el-upload>
+            
+            <!-- </ElFormItem> -->
           </VCol>
         </VRow>
 
@@ -116,6 +159,8 @@
 <script setup lang="ts">
 import { useServiceStore } from "@/stores/tourism/serviceStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
+import { UploadFilled } from "@element-plus/icons-vue";
+
 import {
   type ComponentSize,
   type FormInstance,
@@ -129,6 +174,7 @@ const router = useRouter();
 const ruleForm = ref({
   type: route.params.type,
   link: "",
+  image:'',
   descriptions: [
     { name: "", language_id: 1, fare: null },
     { name: "", language_id: 2, fare: null },
@@ -170,6 +216,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      console.log("ruleForm.value", ruleForm.value);
+      ruleForm.value.image = tempImg.value ? tempImg.value :''
       try {
         const { data } = await serviceStore.updateDescription(ruleForm.value);
         data.status_code == 200
@@ -238,6 +286,41 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
   checkData();
+};
+
+// image functionality
+
+
+const previewImage = ref(null);
+const tempImg = ref("");
+const onFileChange = (file) => {
+  tempImg.value = file.raw;
+
+  const reader = new FileReader();
+
+  reader.readAsDataURL(file.raw);
+  reader.onload = () => {
+    previewImage.value = reader.result;
+  };
+};
+
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+  
+  if (
+    rawFile.type !== "image/jpeg" &&
+    rawFile.type !== "image/png" &&
+    rawFile.type !== "image/jpg"
+  ) {
+    ElMessage.error("Avatar picture must be JPG / JPEG / PNG format!");
+    imgUploadValidation.value = true;
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error("Avatar picture size can not exceed 2MB!");
+    
+    return false;
+  }
+
+  return true;
 };
 </script>
 

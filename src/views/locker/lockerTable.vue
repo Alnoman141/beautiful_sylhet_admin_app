@@ -44,28 +44,37 @@
             :to="{ name: 'editLocker', params: { id: scope.row.parent_id } }"
             class="mx-2"
           >
+            <ElTooltip
+              content="Edit Locker"
+              placement="top"
+            >
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
+          </RouterLink>
+          <ElTooltip
+            content="Delete Locker"
+            placement="top"
+          >
             <ElButton
               size="small"
-              type="primary"
+              type="danger"
+              @click="showAlert(scope.row.parent_id)"
             >
               <VIcon
-                icon="tabler-edit"
+                icon="tabler-trash"
                 size="15"
               />
-            </ElButton>
-          </RouterLink>
-          
-          <ElButton
-            size="small"
-            type="danger"
-            @click="showAlert(scope.row.parent_id)"
-          >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
             <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
+            </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

@@ -14,7 +14,14 @@
             
             class="create-btn "
           >
-            Create  Locker
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Create Locker"
+              placement="top-start"
+            >
+              Create  Locker
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

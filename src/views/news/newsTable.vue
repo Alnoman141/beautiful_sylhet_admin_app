@@ -49,41 +49,60 @@
             style="color:white"
             :to="{ name: 'editNews', params: { id: scope.row.parent_id } }"
           >
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Edit"
+              placement="top-start"
+            >
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
+          </RouterLink>
+
+          <ElTooltip
+            class="box-item"
+            effect="dark"
+            content="Delete"
+            placement="top-start"
+          >
             <ElButton
+              type="danger"
               size="small"
-              type="primary"
+              @click="showAlert(scope.row.parent_id)"
             >
               <VIcon
-                icon="tabler-edit"
+                icon="tabler-trash"
+                size="15"
+              />
+            <!--  v-if="scope.row.status == 0" -->
+            </ElButton>
+          </ElTooltip>
+          <!-- publish button  -->
+          <ElTooltip
+            class="box-item"
+            effect="dark"
+            :content="scope.row.status == 1 ? 'Unpublish':'Publish'"
+            placement="top-start"
+          >
+            <ElButton
+              size="small"
+              :type="scope.row.status == 1 ? 'success':''"
+              @click="showPublishAlert(scope.row.parent_id,scope.row.status)"
+            >
+              <VIcon
+                :icon="scope.row.status == 1 ? 'tabler-check':'tabler-eye-off'"
                 size="15"
               />
             </ElButton>
-          </RouterLink>
-
-          
-          <ElButton
-            type="danger"
-            size="small"
-            @click="showAlert(scope.row.parent_id)"
-          >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
-            <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
-          <!-- publish button  -->
-          
-          <ElButton
-            size="small"
-            :type="scope.row.status == 1 ? 'success':''"
-            @click="showPublishAlert(scope.row.parent_id,scope.row.status)"
-          >
-            <VIcon
-              :icon="scope.row.status == 1 ? 'tabler-check':'tabler-eye-off'"
-              size="15"
-            />
-          </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

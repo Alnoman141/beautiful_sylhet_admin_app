@@ -222,6 +222,20 @@
               </el-select>
             </ElFormItem>
           </VCol>
+           <VCol cols="12" md="6">
+            
+            <ElFormItem label="Expire at" :prop="'expiry'">              
+              <el-date-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.expiry"
+                type="datetime"
+                placeholder="Pick a Date"
+                format="DD/MM/YYYY hh:mm:ss a"
+                value-format="DD-MM-YYYY h:m:s a"
+                
+              />
+            </ElFormItem>
+          </VCol>
         </VRow>
         <div class="py-4">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
@@ -241,9 +255,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { router, useRoute } from "vue-router";
@@ -282,9 +296,24 @@ const getSpotDropdownList = async () => {
     console.log(e);
   }
 };
+const formattedDate = ref("");
 
 const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  // convert date to 24h format from am pm
+  const [datePart, timePart, period] = props.ruleForm.expiry.split(' ');
+  let [hours, minutes, seconds] = timePart.split(':');
+  if (period.toLowerCase() === 'pm' && hours !== '12') {
+    hours = String(Number(hours) + 12);
+  } else if (period.toLowerCase() === 'am' && hours === '12') {
+    hours = '00';
+  }
+  formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+
+
+  
+  props.ruleForm.expiry = formattedDate.value
+
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
@@ -296,7 +325,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
       spot_parent_id: props.ruleForm.spot_parent_id,
-
+      expiry: formattedDate.value,
       data: props.ruleForm.events,
     };
     props.ruleForm.image = tempImg.value ? tempImg.value : "";

@@ -14,7 +14,15 @@
             
             class="create-btn "
           >
-            Create  Hotel Type
+            <ElTooltip 
+              class="box-item"
+              effect="dark"
+              content="Create Hotel Type"
+            >
+              Create
+              Hotel
+              Type
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

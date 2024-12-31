@@ -12,13 +12,16 @@
             :to="{ name: 'touristSpot' }"
             class="create-btn"
           >
+          <el-tooltip class="box-item" effect="dark" content="Tourist Spot List" placement="top-start">
             Tourist Spot List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -413,7 +416,7 @@
             <!-- </ElFormItem> -->
           </VCol>
           <VCol cols="12" md="6">
-            <template v-for="(item, index) in ruleForm.link" :key="index">
+            <div v-for="(item, index) in ruleForm.link" :key="index">
               <ElFormItem
                 :label="'Video Link ' + (index > 0 ? index + 1 : '')"
                 :prop="'link.' + index + '.link'"
@@ -426,6 +429,7 @@
                     />
                   </VCol>
                   <VCol>
+                    <el-tooltip effect="dark" content="Add More" placement="top">
                     <ElButton
                       v-if="
                         (index == 0 && ruleForm.link.length == 1) ||
@@ -437,6 +441,8 @@
                     >
                       <VIcon icon="tabler-plus" size="20" />
                     </ElButton>
+                    </el-tooltip>
+                    <el-tooltip effect="dark" content="Remove" placement="top">
                     <ElButton
                       v-if="ruleForm.link.length > 1"
                       size="small"
@@ -445,10 +451,11 @@
                     >
                       <VIcon icon="tabler-minus" size="20" />
                     </ElButton>
+                    </el-tooltip>
                   </VCol>
                 </VRow>
               </ElFormItem>
-            </template>
+            </div>
           </VCol>
         </VRow>
 
@@ -481,28 +488,38 @@
             :key="index"
           >
             <img height="100" width="100" :src="item" alt="" />
+            <el-tooltip class="box-item" effect="dark" content="Delete" placement="top-start">
             <button class="dlt-btn" @click.prevent="remoeUploadedImage(index)">
               <VIcon icon="tabler-trash" size="20" class="text-danger" />
             </button>
+            </el-tooltip>
           </VCol>
         </VRow>
 
         <div class="py-4 text-start">
+          <el-tooltip class="box-item" effect="dark" content="Submit" placement="top-start">
           <ElButton
             class="submit-btn"
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
+          
             {{ mode }}
+           
           </ElButton>
+
+          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top-start"></el-tooltip>
           <ElButton
             v-if="mode == 'create'"
             class="submit-btn"
             @click="resetForm(ruleFormRef)"
           >
+          
             Reset
-          </ElButton>
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+           
+          </ElButton> </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Back" placement="top-start">
+          <ElButton @click="router.go(-1)" type="info" >  Back </ElButton></el-tooltip>
         </div>
       </el-card>
     </ElForm>
@@ -530,6 +547,7 @@ import {
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
+const loading = ref(false);
 const emit = defineEmits(["getEmit"]);
 const route = useRoute();
 const router = useRouter();
@@ -626,6 +644,7 @@ const rules = reactive<FormRules<RuleForm>>({
 });
 const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.mode == "create" && !tempImg.value
@@ -651,13 +670,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? await spotStore.updateSpot(form)
         : await spotStore.createSpot(props.ruleForm);
       data.status_code == 200
-        ? notify(
+        ? (notify(
             "Congratulations!",
             data.message,
             "success",
             "top-right",
             emit("getEmit")
-          )
+          ),loading.value = false)
         : '';
         router.push({ name: "touristSpot" });
       }

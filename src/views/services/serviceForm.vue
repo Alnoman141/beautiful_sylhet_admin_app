@@ -1,10 +1,20 @@
 <template>
   <div>
     <ElCard class="my-4">
-    
       <VRow>
         <VCol>
-          <b> Service {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b>
+            {{
+              route.params.type == 1
+                ? "Tourism Helpline"
+                : route.params.type == 2
+                ? "Dc Helpline"
+                : route.params.type == 3
+                ? "Bus Service"
+                : "Kitkat Chair"
+            }}
+            {{ mode == "update" ? "Edit" : "Create" }}
+          </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -14,12 +24,21 @@
             to="#"
             class="create-btn"
           >
-             List
+            {{
+              route.params.type == 1
+                ? "Tourism Helpline"
+                : route.params.type == 2
+                ? "Dc Helpline"
+                : route.params.type == 3
+                ? "Bus Service"
+                : "Kitkat Chair"
+            }}
+            List
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
-    
+
     <ElForm
       ref="ruleFormRef"
       :model="ruleForm"
@@ -30,9 +49,7 @@
       label-position="top"
       status-icon
     >
-    
       <VRow>
-       
         <VCol
           cols="12"
           v-for="(booking, index) in ruleForm.booking_numbers"
@@ -41,30 +58,45 @@
           <ElCard>
             <VRow>
               <VCol cols="12" md="6">
-                <ElFormItem :label="ruleForm.type != 1 && ruleForm.type != 2 ? 'Booking Officer Name' : ' Officer Name'">
+                <ElFormItem
+                  :label="
+                    ruleForm.type != 1 && ruleForm.type != 2
+                      ? 'Booking Person Name'
+                      : ' Officer Name'
+                  "
+                >
                   <ElInput
-                    placeholder="Booking Officer Name"
+                    :placeholder="
+                      ruleForm.type != 1 && ruleForm.type != 2
+                        ? 'Booking Person Name'
+                        : ' Officer Name'
+                    "
                     v-model="booking.name"
                   />
                 </ElFormItem>
               </VCol>
 
               <VCol cols="12" md="6">
-                 <div
-                    v-for="(num, index) in booking.numbers"
-                    :key="index"
+                <div v-for="(num, index) in booking.numbers" :key="index">
+                  <ElFormItem
+                    :label="
+                      ruleForm.type != 1 && ruleForm.type != 2
+                        ? 'Booking Phone Numbers'
+                        : ' Phone Numbers'
+                    "
                   >
-                <ElFormItem :label="ruleForm.type != 1 && ruleForm.type != 2 ? 'Booking Phone Numbers' : ' Phone Numbers'">
-                 
                     <VRow>
-                      <VCol :cols="ruleForm.type != 1 && ruleForm.type != 2 ? '10' : '12'">
+                      <VCol
+                        cols="
+                          12
+                        "
+                      >
                         <ElInput
                           placeholder="Booking Phone Numbers"
                           v-model="num.phone"
                         />
                       </VCol>
-                      <VCol cols="2" v-if="ruleForm.type != 1 && ruleForm.type != 2">
-                        
+                      <VCol cols="2">
                         <ElButton
                           v-if="
                             (index == 0 &&
@@ -90,89 +122,97 @@
                         </ElButton>
                       </VCol>
                     </VRow>
-                  
-                </ElFormItem>
+                  </ElFormItem>
                 </div>
               </VCol>
             </VRow>
           </ElCard>
         </VCol>
-        <template v-if="ruleForm.type != 1 && ruleForm.type != 2 && ruleForm.type != 4">
-        <VCol
-          cols="12"
-          v-for="(supervisor, index) in ruleForm.supervisor_numbers"
-          :key="index"
+        <template
+          v-if="ruleForm.type != 1 && ruleForm.type != 2 && ruleForm.type != 4"
         >
-       
-        
-          <ElCard>
-            <VRow>
-              <VCol cols="12" md="6">
-                <ElFormItem label="Supervisor Name">
-                  <ElInput
-                    placeholder="Supervisor Name"
-                    v-model="supervisor.name"
-                  />
-                </ElFormItem>
-              </VCol>
+          <VCol
+            cols="12"
+            v-for="(supervisor, index) in ruleForm.supervisor_numbers"
+            :key="index"
+          >
+            <ElCard>
+              <VRow>
+                <VCol cols="12" md="6">
+                  <ElFormItem label="Supervisor Name">
+                    <ElInput
+                      placeholder="Supervisor Name"
+                      v-model="supervisor.name"
+                    />
+                  </ElFormItem>
+                </VCol>
 
-              <VCol cols="12" md="6">
-                <div
-                    v-for="(num, index) in supervisor.numbers"
-                    :key="index"
-                  >
-                <ElFormItem label="Supervisor Phone Numbers">
-                  
-                    <VRow>
-                      <VCol cols="9">
-                        <ElInput
-                          placeholder="Supervisor Phone Numbers"
-                          v-model="num.phone"
-                        />
-                      </VCol>
-                      <VCol>
-                        <ElButton
-                          v-if="
-                            (index == 0 &&
-                              ruleForm.supervisor_numbers[0].numbers.length ==
-                                1) ||
-                            (index ==
-                              ruleForm.supervisor_numbers[0].numbers.length -
-                                1 &&
-                              index != 0)
-                          "
-                          size="small"
-                          type="success"
-                          @click="addSupervisorNumber"
-                        >
-                          <VIcon icon="tabler-plus" size="15" />
-                        </ElButton>
-                        <ElButton
-                          v-if="
-                            ruleForm.supervisor_numbers[0].numbers.length > 1
-                          "
-                          size="small"
-                          type="danger"
-                          @click="removeSupervisorNumber(index)"
-                        >
-                          <VIcon icon="tabler-minus" size="15" />
-                        </ElButton>
-                      </VCol>
-                    </VRow>
-                  
-                </ElFormItem>
-                </div>
-              </VCol>
-            </VRow>
-          </ElCard>
-        </VCol>
-        </template> 
+                <VCol cols="12" md="6">
+                  <div v-for="(num, index) in supervisor.numbers" :key="index">
+                    <ElFormItem label="Supervisor Phone Numbers">
+                      <VRow>
+                        <VCol cols="9">
+                          <ElInput
+                            placeholder="Supervisor Phone Numbers"
+                            v-model="num.phone"
+                          />
+                        </VCol>
+                        <VCol>
+                          <ElButton
+                            v-if="
+                              (index == 0 &&
+                                ruleForm.supervisor_numbers[0].numbers.length ==
+                                  1) ||
+                              (index ==
+                                ruleForm.supervisor_numbers[0].numbers.length -
+                                  1 &&
+                                index != 0)
+                            "
+                            size="small"
+                            type="success"
+                            @click="addSupervisorNumber"
+                          >
+                            <VIcon icon="tabler-plus" size="15" />
+                          </ElButton>
+                          <ElButton
+                            v-if="
+                              ruleForm.supervisor_numbers[0].numbers.length > 1
+                            "
+                            size="small"
+                            type="danger"
+                            @click="removeSupervisorNumber(index)"
+                          >
+                            <VIcon icon="tabler-minus" size="15" />
+                          </ElButton>
+                        </VCol>
+                      </VRow>
+                    </ElFormItem>
+                  </div>
+                </VCol>
+              </VRow>
+            </ElCard>
+          </VCol>
+        </template>
       </VRow>
       <ElCard class="my-4">
-        
         <VRow v-if="ruleForm.type != 1 && ruleForm.type != 2">
+          <VCol cols="12" md="6" v-if="ruleForm.type == 4">
+            <ElFormItem label="Owner Information" :prop="'owner_information'">
+              <div>
+                <QuillEditor
+                  v-model:content="ruleForm.owner_information"
+                  ref="ownerInformationEditorRef"
+                  content-type="html"
+                  theme="snow"
+                  toolbar="full"
+                  :text-change="checkData()"
+                  placeholder="Owner Information"
+                />
+              </div>
+            </ElFormItem>
+          </VCol>
+
           <VCol cols="12" md="6">
-           
             <ElFormItem
               label="Tourist Spot"
               prop="spot_parent_id"
@@ -196,7 +236,6 @@
               </el-select>
             </ElFormItem>
           </VCol>
-          
         </VRow>
         <div class="py-4">
           <ElButton
@@ -263,7 +302,9 @@ const getSpotDropdownList = async () => {
 };
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-props.ruleForm.type == 1 || props.ruleForm.type == 2 ? props.ruleForm.spot_parent_id = spotDropdownData.value[0].id : '';
+  props.ruleForm.type == 1 || props.ruleForm.type == 2
+    ? (props.ruleForm.spot_parent_id = spotDropdownData.value[0].id)
+    : "";
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let bookingNumber = [];
@@ -279,6 +320,8 @@ props.ruleForm.type == 1 || props.ruleForm.type == 2 ? props.ruleForm.spot_paren
       type: props.ruleForm.type,
       spot_parent_id: props.ruleForm.spot_parent_id,
       link: props.ruleForm.link,
+      owner_information: props.ruleForm.owner_information,
+      
       booking_numbers: [
         {
           name: props.ruleForm.booking_numbers[0].name,
@@ -293,9 +336,7 @@ props.ruleForm.type == 1 || props.ruleForm.type == 2 ? props.ruleForm.spot_paren
       ],
       descriptions: props.ruleForm.descriptions,
     };
-    
 
-    
     if (valid) {
       try {
         const { data } = props.ruleForm.id
@@ -310,12 +351,12 @@ props.ruleForm.type == 1 || props.ruleForm.type == 2 ? props.ruleForm.spot_paren
               emit("getEmit")
             )
           : "";
-       
-        props.ruleForm.type == '1'
+
+        props.ruleForm.type == "1"
           ? router.push({ name: "tourismHelpline" })
-          : props.ruleForm.type == '2'
+          : props.ruleForm.type == "2"
           ? router.push({ name: "dcHelpline" })
-          : props.ruleForm.type == '3'
+          : props.ruleForm.type == "3"
           ? router.push({ name: "busService" })
           : router.push({ name: "kitkatChair" });
       } catch (error) {
@@ -364,14 +405,16 @@ const addSupervisorNumber = () => {
 const removeSupervisorNumber = (index: number) => {
   props.ruleForm.supervisor_numbers[0].numbers.splice(index, 1);
 };
-
+const ownerInformationEditorRef = ref(null);
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
-    console.log("e", e.getHTML());
-
     e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-    console.log("e", e.getHTML());
   });
+  props.ruleForm.owner_information
+    ? props.ruleForm.owner_information == "<p><br></p>"
+      ? (props.ruleForm.owner_information = "")
+      : ""
+    : "";
   props.ruleForm.descriptions
     ? props.ruleForm.descriptions?.map((e) =>
         e.name == "<p><br></p>" ? (e.name = "") : ""
@@ -379,12 +422,34 @@ const checkData = () => {
     : props.ruleForm.descriptions?.map((e) =>
         e.name == "<p><br></p>" ? (e.name = "") : ""
       );
+  descriptionEditorRef.value?.getHTML() == "<p><br></p>"
+    ? descriptionEditorRef.value?.setHTML("")
+    : "";
+
+  ownerInformationEditorRef.value?.getHTML() == "<p><br></p>"
+    ? ownerInformationEditorRef.value?.setHTML("")
+    : "";
+  props.ruleForm.reds
+    ? props.ruleForm.reds?.map((e) => {
+        e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+      })
+    : "";
+  props.ruleForm.data?.map((e) => {
+    e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+  });
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
+
+  ownerInformationEditorRef.value.setHTML("");
+  props.ruleForm.booking_numbers[0].numbers = [{ phone: "" }];
+
+  props.ruleForm.booking_numbers[0].name = "";
+  props.ruleForm.supervisor_numbers[0].numbers = [{ phone: "" }];
+  props.ruleForm.supervisor_numbers[0].name = "";
   checkData();
 };
 </script>

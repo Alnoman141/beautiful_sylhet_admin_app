@@ -2,6 +2,7 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
@@ -20,13 +21,15 @@ const route = useRoute()
 const hotelCategoryStore = useHotelCategoryStore()
 
 const ruleForm = ref({})
+const loading = ref(false)
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  loading.value = true
 
   const { data } = await hotelCategoryStore.editHotelCategory({ id: route.params.id })
 
   ruleForm.value = data.data
+  loading.value= false
 }
 
 onMounted(() => {

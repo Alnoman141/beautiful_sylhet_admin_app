@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip class="box-item" effect="dark" content="News List" placement="top-start">
             News List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -88,7 +91,22 @@
               </el-select>
             </ElFormItem>
           </VCol>
+          <VCol cols="12" md="6">
+            
+            <ElFormItem label="Expire at" :prop="'expiry'">              
+              <el-date-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.expiry"
+                type="datetime"
+                placeholder="Pick a Date"
+                format="DD/MM/YYYY hh:mm:ss a"
+                value-format="DD-MM-YYYY h:m:s a"
+                
+              />
+            </ElFormItem>
+          </VCol>
         </VRow>
+        <el-tooltip class="box-item" effect="dark" content="News Type" placement="top-start">
         <ElButton
           class="submit"
           type="primary"
@@ -96,10 +114,15 @@
         >
           {{ mode }}
         </ElButton>
+        </el-tooltip>
+        <el-tooltip class="box-item" effect="dark" content="Reset" placement="top-start">
         <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
           >Reset</ElButton
         >
+        </el-tooltip>
+        <el-tooltip class="box-item" effect="dark" content="Back" placement="top-start">
         <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+        </el-tooltip> 
       </ElCard>
     </ElForm>
   </div>
@@ -129,7 +152,7 @@ const props = defineProps({
   },
 });
 const newsStore = useNewsStore();
-
+const loading = ref(false);
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
 const locationOptions = ["Home", "Company", "School"];
@@ -139,8 +162,24 @@ const rules = reactive<FormRules<RuleForm>>({
   //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   // ],
 });
+const imgUploadValidation = ref(false);
+const formattedDate = ref("");
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+   // convert date to 24h format from am pm
+  const [datePart, timePart, period] = props.ruleForm.expiry.split(' ');
+  let [hours, minutes, seconds] = timePart.split(':');
+  if (period.toLowerCase() === 'pm' && hours !== '12') {
+    hours = String(Number(hours) + 12);
+  } else if (period.toLowerCase() === 'am' && hours === '12') {
+    hours = '00';
+  }
+  formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+
+
+  
+  props.ruleForm.expiry = formattedDate.value
+  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let data = [];
@@ -149,6 +188,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       id: props.ruleForm.id,
       news_type_id: props.ruleForm.news_type_id,
       data: props.ruleForm.news,
+      expiry: formattedDate.value,
     };
     if (valid) {
       try{
@@ -156,13 +196,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? await newsStore.updateNews(form)
         : await newsStore.createNews(props.ruleForm);
       data.status_code == 200
-        ? notify(
+        ?( notify(
             "Congratulations!",
             data.message,
             "success",
             "top-right",
             emit("getEmit")
-          )
+          ), loading.value = false)
         : "";
         router.push({ name: "newsList" });
       } catch (error) {

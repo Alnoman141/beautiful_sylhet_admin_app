@@ -10,16 +10,23 @@
             type="primary"
             :underline="false"
             :to="{ name: 'lockerList' }"
-           
             class="create-btn"
           >
-            Locker List
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Locker List"
+              placement="top"
+            >
+              Locker List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -83,14 +90,12 @@
                       ? 'lockers.' + index + '.description'
                       : 'data.' + index + '.description'
                   "
-                 
                 >
-                <!--  :rules="{
+                  <!--  :rules="{
                     required: true,
                     message: 'Description is required',
                     trigger: 'blur',
                   }" -->
-                  
 
                   <div>
                     <QuillEditor
@@ -162,6 +167,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
+          <el-tooltip class="box-item" effect="dark" content="Save" placement="top">
           <ElButton
             type="primary"
             @click="submitForm(ruleFormRef)"
@@ -169,11 +175,16 @@
           >
             {{ mode }}
           </ElButton>
+          </el-tooltip> 
           <!-- reset button -->
+          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
             >Reset</ElButton
           >
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Back" placement="top">
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -204,6 +215,7 @@ const props = defineProps({
     default: "create",
   },
 });
+const loading = ref(false);
 const lockerStore = useLockerStore();
 const spotStore = useSpotStore();
 const formSize = ref<ComponentSize>("default");
@@ -227,6 +239,7 @@ const getSpotDropdownList = async () => {
 };
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let data = [];
@@ -239,22 +252,32 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     };
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid) {
-      try{
-      const { data } = props.ruleForm.id
-        ? await lockerStore.updateLocker(form)
-        : await lockerStore.createLocker(props.ruleForm);
-      data.status_code == 200
-        ? notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right",
-            emit("getEmit")
-          )
-        : "";
+      try {
+        const { data } = props.ruleForm.id
+          ? await lockerStore.updateLocker(form)
+          : await lockerStore.createLocker(props.ruleForm);
+        data.status_code == 200
+          ? (notify(
+              "Congratulations!",
+              data.message,
+              "success",
+              "top-right",
+              emit("getEmit")
+            ),
+            (loading.value = false))
+          : "";
         router.push({ name: "lockerList" });
       } catch (error) {
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);

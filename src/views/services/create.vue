@@ -20,6 +20,12 @@ const ruleForm = ref({
   type: route.params.type,
   spot_parent_id: null, 
   link: '',
+
+  // feedback change request
+  owner_information: '',  
+  image: '',
+
+  // feedback change request
   booking_numbers: [
     { name: '', numbers: [{ phone: '' }] },
   ],

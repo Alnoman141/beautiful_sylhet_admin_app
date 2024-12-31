@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ElCard class="my-4 ">
+    <ElCard class="my-4">
       <VRow>
         <VCol>
           <b> Awareness Edit </b>
@@ -8,13 +8,18 @@
         <VCol class="text-right">
           <RouterLink
             type="primary"
-            :underline="false"          
-          
-            :to="{ name: 'awareness'}"
-            
-            class="create-btn "
+            :underline="false"
+            :to="{ name: 'awareness' }"
+            class="create-btn"
           >
-            Awareness List
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Awareness List"
+              placement="top-start"
+            >
+              Awareness List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
@@ -27,6 +32,7 @@
       > 
     -->
     <ElForm
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -37,30 +43,25 @@
       status-icon
     >
       <VRow>
-        <VCol
-          v-for="(item, index) in ruleForm.data"
-          :key="index"
-          class="mb-5"
-        >
+        <VCol v-for="(item, index) in ruleForm.data" :key="index" class="mb-5">
           <ElCard>
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-              <hr class="my-2" />
-            <ElFormItem 
+            <hr class="my-2" />
+            <ElFormItem
               :rules="{
                 required: true,
                 message: 'Awareness is required',
                 trigger: 'blur',
-              }" >
-              
-              
+              }"
+            >
               <div>
                 <QuillEditor
                   v-model:content="item.name"
                   :text-change="checkData()"
                   content-type="html"
-                  theme="snow"          
+                  theme="snow"
                   toolbar="full"
-                  style="min-block-size: 200px;"
+                  style="min-block-size: 200px"
                   placeholder="Type Awareness here"
                 />
               </div>
@@ -68,115 +69,114 @@
           </ElCard>
         </VCol>
       </VRow>
-      
-      <ElCard class=" mt-4">
-        <ElButton
-          type="primary"
-          @click="updateAwarenessData(ruleFormRef)"
-        >
+
+      <ElCard class="mt-4">
+        <ElButton type="primary" @click="updateAwarenessData(ruleFormRef)">
           Submit
         </ElButton>
-        <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+        <ElButton @click="router.go(-1)" type="info">Back</ElButton>
       </ElCard>
     </ElForm>
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { useAwarenessStore } from "@/stores/tourism/awarenessStore";
-import { notify } from '@/utils/notification';
+import { notify } from "@/utils/notification";
 import { onMounted, ref } from "vue";
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter } from "vue-router";
 
-const route = useRoute()
-const router = useRouter()
-const quillEditor = ref(null) // Ref to the Quill editor instance
+const loading = ref(false);
+const route = useRoute();
+const router = useRouter();
+const quillEditor = ref(null); // Ref to the Quill editor instance
 
 const editorOptions = {
-  placeholder: 'Type here...',
-  theme: 'snow', // Change to 'bubble' or other supported themes if needed
-}
+  placeholder: "Type here...",
+  theme: "snow", // Change to 'bubble' or other supported themes if needed
+};
 
-const editorDialog = ref(false)
+const editorDialog = ref(false);
 
 const editData = ref({
   id: null,
   name: null,
-})
+});
 
-const awarenessStore = useAwarenessStore()
+const awarenessStore = useAwarenessStore();
 
-const ruleForm = ref({})
+const ruleForm = ref({});
 const ruleFormRef = ref<FormInstance>();
-const htmlContent = ref('')
-
-
+const htmlContent = ref("");
 
 const getAwareness = async () => {
+  loading.value = true;
   try {
-    
     let parameter = {
       id: route.params.id,
-    }
+    };
 
-    const { data } = await awarenessStore.editAwareness()
+    const { data } = await awarenessStore.editAwareness();
 
-    editData.value = data
+    editData.value = data;
     setTimeout(() => {
-      quillEditor.value ? quillEditor.value.setHTML(data.data.name)   :''  
-    }, 1000)
+      quillEditor.value ? quillEditor.value.setHTML(data.data.name) : "";
+    }, 1000);
 
-    ruleForm.value.data = data.data
-    
-  }catch(error) {
-    console.log("error", error)
+    ruleForm.value.data = data.data;
+    loading.value = false;
+  } catch (error) {
+    console.log("error", error);
   }
-}
+};
 
-
-
-const updateAwarenessData = async (formEl: FormInstance | undefined) => { 
+const updateAwarenessData = async (formEl: FormInstance | undefined) => {
+  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-
     if (valid) {
       try {
-        const { data } = await awarenessStore.updateAwareness(ruleForm.value)
+        const { data } = await awarenessStore.updateAwareness(ruleForm.value);
 
-        
-
-        data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right') : ''
-        data.status_code == 200 ? router.push({ name: 'awareness' }) : ''
-
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            (loading.value = false))
+          : "";
+        data.status_code == 200 ? router.push({ name: "awareness" }) : "";
       } catch (error) {
-
         // notify("error", error?.response?.data?.message)
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
 
         // payload send na krle o success dey
       }
     }
   });
-}
+};
 
-const awarenessEditorRef = ref(null)
+const awarenessEditorRef = ref(null);
 
 const checkData = () => {
-  awarenessEditorRef.value?.map(e => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : ""
-  })
+  awarenessEditorRef.value?.map((e) => {
+    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+  });
 
-  ruleForm.value.data.map(e => {
-    e.name == "<p><br></p>" ? (e.name = "") : ""
-  })
-}
+  ruleForm.value.data.map((e) => {
+    e.name == "<p><br></p>" ? (e.name = "") : "";
+  });
+};
 
 onMounted(() => {
-
-  getAwareness()
-  
-})
+  getAwareness();
+});
 </script>
 
 <style scoped>
@@ -185,6 +185,6 @@ onMounted(() => {
   background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding-block: 6px;
-  padding-inline: 10px; 
+  padding-inline: 10px;
 }
 </style>

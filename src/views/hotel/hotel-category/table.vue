@@ -39,28 +39,37 @@
             style="color:white"
             :to="{ name: 'editHotelCategory', params: { id: scope.row.parent_id } }"
           >
+            <ElTooltip
+              content="Edit"
+              placement="top"
+            >
+              <ElButton
+                type="primary"
+                size="small"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
+          </RouterLink>
+          <ElTooltip
+            content="Delete"
+            placement="top"
+          >
             <ElButton
-              type="primary"
+              type="danger"
               size="small"
+              @click="showAlert(scope.row.parent_id)"
             >
               <VIcon
-                icon="tabler-edit"
+                icon="tabler-trash"
                 size="15"
               />
-            </ElButton>
-          </RouterLink>
-          
-          <ElButton
-            type="danger"
-            size="small"
-            @click="showAlert(scope.row.parent_id)"
-          >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
             <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
+            </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

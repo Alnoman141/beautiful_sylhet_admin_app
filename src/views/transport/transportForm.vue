@@ -215,8 +215,13 @@ const transportDropdownData = ref([]);
 const getTransportTypeDropdownList = async () => {
   try {
     const { data } = await transportStore.getTransportType();
+    console.log("transport data",data)
 
-    transportDropdownData.value = data.data;
+    data.data.map((e) => {
+      
+        e.id != 0 ?  transportDropdownData.value.push(e):''
+      
+    });
   } catch (e) {
     console.log(e);
   }

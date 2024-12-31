@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip content="Hotel Type List" placement="top">
             Hotel Type List
+          </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
     
       <ElForm
+      v-loading="loading"
         ref="ruleFormRef"
         :model="ruleForm"
         :rules="rules"
@@ -65,11 +68,17 @@
         </VRow>
 
         <ElCard class="my-4 ">
+          <el-tooltip class="box-item" effect="dark" content="Submit" placement="top">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Back" placement="top">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </ElCard>
       </ElForm>
     
@@ -100,6 +109,7 @@ const props = defineProps({
   },
 });
 
+const loading= ref(false)
 const hotelTypeStore = useHotelTypeStore();
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -112,6 +122,7 @@ const rules = reactive<FormRules<RuleForm>>({
 });
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+  loading.value = true
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let form = {
@@ -124,13 +135,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ? await hotelTypeStore.updateHotelType(form)
         : await hotelTypeStore.createHotelType(props.ruleForm);
       data.status_code == 200
-        ? notify(
+        ? (notify(
             "Congratulations!",
             data.message,
             "success",
             "top-right",
             emit("getEmit")
-          )
+          ), loading.value = false)
         : "";
         router.push({ name: "hotelTypeList" });
       }catch(error){

@@ -17,7 +17,7 @@ const route = useRoute()
 const spotStore = useSpotStore()
 
 const ruleForm = ref({
-
+  expiry: '',
   news_type_id: null, 
   data: [
     {

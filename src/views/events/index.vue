@@ -65,6 +65,7 @@ const getspotList = async (pageSize, pageNo) => {
   let parameter = {
     page: pageNo,
     per_page: pageSize,
+    web: 1,
   }
   try {
     const { data } = await eventsStore.getEvents(parameter)

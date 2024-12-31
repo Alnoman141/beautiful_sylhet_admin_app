@@ -14,7 +14,9 @@
             
             class="create-btn "
           >
+          <el-tooltip class="item" effect="dark" content="Hotel Category List" placement="top-start">
             Hotel Category List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
@@ -22,7 +24,7 @@
     
       <ElForm
         ref="ruleFormRef"
-        
+        v-loading="loading"
         :model="ruleForm"
         :rules="rules"
         label-width="auto"
@@ -72,6 +74,7 @@
           
                                 
         <ElCard class=" my-4 ">
+          <el-tooltip class="item" effect="dark" content="Hotel Category List" placement="top-start">
           <ElButton
           class="submit"
             type="primary"
@@ -79,9 +82,13 @@
           >
             {{mode}}
           </ElButton>
-
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </ElCard>
       </ElForm>
     
@@ -122,9 +129,9 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],  
 })
 
-
+const loading = ref(false)  
 const submitForm = async (formEl: FormInstance | undefined) => {
-  
+  loading.value = false
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     
@@ -136,9 +143,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       try{
       const { data } = props.ruleForm.id ?  await hotelCategoryStore.updateHotelCategory( form ) : await hotelCategoryStore.createHotelCategory( props.ruleForm )
-      data.status_code == 200 ? notify('Congratulations!', data.message, 'success', 'top-right',
-        emit('getEmit')
-      ) : ''
+      data.status_code == 200 ?( notify('Congratulations!', data.message, 'success', 'top-right',
+      3000
+      ), loading.value = false ): ''
         router.push({ name: 'hotelCategoryList' })
       }catch(error){
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
