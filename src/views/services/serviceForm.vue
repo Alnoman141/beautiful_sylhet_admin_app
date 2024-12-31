@@ -5,13 +5,13 @@
         <VCol>
           <b>
             {{
-              route.params.type == 1
-                ? "Tourism Helpline"
-                : route.params.type == 2
-                ? "Dc Helpline"
-                : route.params.type == 3
-                ? "Bus Service"
-                : "Kitkat Chair"
+              ruleForm.type == 1
+                ? "Tourism Corporation Helpline"
+                : ruleForm.type == 2
+                ? "Dc Activities"
+                : ruleForm.type == 3
+                ? "Tourist Bus"
+                : "Kitkot Chair"
             }}
             {{ mode == "update" ? "Edit" : "Create" }}
           </b>
@@ -26,13 +26,13 @@
           > 
           <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
             {{
-              route.params.type == 1
-                ? "Tourism Helpline"
-                : route.params.type == 2
-                ? "Dc Helpline"
-                : route.params.type == 3
-                ? "Bus Service"
-                : "Kitkat Chair"
+              ruleForm.type == 1
+                ? "Tourism Corporation Helpline"
+                : ruleForm.type == 2
+                ? "DC Activities"
+                : ruleForm.type == 3
+                ? "Tourist Bus"
+                : "Kitkot Chair"
             }}
             List
             </el-tooltip> 

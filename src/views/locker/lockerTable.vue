@@ -95,6 +95,10 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
+  pageNo: {
+    type: Number,
+    default: () => (1),
+  },
   
 })
 

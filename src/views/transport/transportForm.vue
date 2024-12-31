@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Transport {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> Transport Counter {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
 
         <VCol class="text-right">
@@ -19,7 +19,7 @@
               content="Transport List"
               placement="top-start"
             >
-              Transport List
+              Transport Counter List
             </el-tooltip>
           </RouterLink>
         </VCol>

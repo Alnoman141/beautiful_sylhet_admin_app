@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Tourist Spot List</b />
+          <b> Tourist Places List</b />
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -17,10 +17,10 @@
             <ElTooltip
               class="box-item"
               effect="dark"
-              content="Create Tourist Spot"
+              content="Create Tourist Place"
               placement="top-start"
             >
-              Create  Tourist Spot
+              Create  Tourist Place
             </ElTooltip>
           </RouterLink>
         </VCol>

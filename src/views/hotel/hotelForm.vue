@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Hotel {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> Hotel/Motel/Resort {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -13,7 +13,7 @@
             
             class="create-btn"
           >
-            Hotel List</RouterLink
+            Hotel/Motel/Resort List</RouterLink
           >
         </VCol>
       </VRow>
@@ -46,7 +46,7 @@
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Hotel Name"
+                  label="Hotel/Motel/Resort Name"
                   :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.name'
@@ -159,7 +159,7 @@
           </VCol>
           <VCol cols="12" md="6">
             <ElFormItem
-              label="Hotel Type"
+              label="Type"
               prop="hotel_type_parent_id"
               :rules="{
                 required: true,
@@ -188,7 +188,7 @@
           </VCol>
           <VCol cols="12" md="6">
             <ElFormItem
-              label="Hotel Category"
+              label="Category"
               prop="hotel_category_parent_id"
               :rules="{
                 required: true,

@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Bus List</b>
+          <b> Tourist Bus List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -20,7 +20,7 @@
               content="Create Bus Service"
               placement="top-start"
             >
-              Create Bus  Service
+              Create Tourist Bus
             </ElTooltip>
           </RouterLink>
         </VCol>

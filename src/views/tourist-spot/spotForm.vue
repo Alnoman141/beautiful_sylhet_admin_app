@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Tourist Spot {{ mode == "update" ? "Edit" : "Create" }}</b>
+          <b> Tourist Place {{ mode == "update" ? "Edit" : "Create" }}</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -12,8 +12,8 @@
             :to="{ name: 'touristSpot' }"
             class="create-btn"
           >
-          <el-tooltip class="box-item" effect="dark" content="Tourist Spot List" placement="top-start">
-            Tourist Spot List
+          <el-tooltip class="box-item" effect="dark" content="Tourist Places List" placement="top-start">
+            Tourist Places List
             </el-tooltip>
           </RouterLink>
         </VCol>

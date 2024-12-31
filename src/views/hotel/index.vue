@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Hotel List</b>
+          <b> Hotel/Motel/Resort List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -20,7 +20,7 @@
               content="Create Hotel"
               placement="top-start"
             >
-              Create  Hotel
+              Create  Hotel/Motel/Resort
             </ElTooltip>
           </RouterLink>
         </VCol>

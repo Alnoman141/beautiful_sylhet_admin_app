@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Guideline</b>
+          <b> Instructions</b>
         </VCol>
       </VRow>
     </ElCard>

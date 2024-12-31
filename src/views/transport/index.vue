@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Transport List</b>
+          <b> Transport Counter List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -19,7 +19,7 @@
               content="Create Transport"
               placement="top-start"
             >
-              Create Transport
+              Create Transport Counter
             </ElTooltip>
           </RouterLink>
         </VCol>

@@ -96,7 +96,7 @@
     </ElCard>
     <ElCard>
       <h4 class="text-h4">
-        Spot Wise Contact Information
+        {{ route.name !== 'tourismHelpline' && route.name !== 'dcHelpline' ? 'Spot Wise Contact Information' : 'Officer Contact Information' }}
       </h4>
       <hr class="mb-4">
       <ElTable

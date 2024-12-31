@@ -18,7 +18,7 @@
       >
         <template #default="scope">
           <!-- <div v-html="scope.row[column.prop]" /> -->
-          <div v-html="column.prop == 'name' || column.prop == 'spot_name' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo-1) * 10 + index++" />
+          <div v-html="column.prop == 'name' || column.prop == 'spot_name' ? scope.row[column.prop] : pageNo == 1 ? index++ : pageNo * 10 + index++" />
         </template>
       </ElTableColumn>
 

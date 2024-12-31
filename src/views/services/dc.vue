@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> DC Helpline List</b>
+          <b> DC Activities List</b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -21,7 +21,7 @@
               content="Create DC Helpline"
               placement="top-start"
             >
-              Create  DC Helpline
+              Create  DC Activity
             </ElTooltip>
           </RouterLink>
         </VCol>

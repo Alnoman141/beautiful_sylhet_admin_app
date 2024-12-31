@@ -7,7 +7,7 @@ export default [
     action: "show menu",
   },
   {
-    title: 'Guide Line',
+    title: 'Instructions',
     to: 'guide-line',
 
     // need an icon for guideline
@@ -23,7 +23,7 @@ export default [
     action: "show menu",
   },
   {
-    title: 'Tourist Spot',
+    title: 'Tourist Places',
     to: 'touristSpot',
     icon: { icon: 'tabler-map' },
     subject: "spot",
@@ -38,7 +38,7 @@ export default [
   },
   
   {
-    title: 'Locker',
+    title: 'Locker Service',
     to: 'lockerList',
     icon: { icon: 'tabler-lock-square-rounded' },
     subject: "locker",
@@ -47,14 +47,14 @@ export default [
 
   
   {
-    title: 'Hotel',
+    title: 'Hotel/Motel/Resort',
     to: 'hotelList',
     icon: { icon: 'tabler-building-skyscraper' },
     subject: "hotel",
     action: "show menu",
     children: [
       {
-        title: 'Hotels',
+        title: 'Hotel/Motel/Resort',
         to: 'hotelList',
         icon: { icon: 'tabler-building-skyscraper' },
         subject: "hotel",
@@ -78,14 +78,14 @@ export default [
     ],
   },
   {
-    title: 'Transport',
+    title: 'Transport Counter',
     to: 'transportList',
     icon: { icon: 'tabler-bus' },
     subject: "transport",
     action: "show menu",
   },
   {
-    title: 'Events',
+    title: 'Event Information',
     to: 'eventsList',
     icon: { icon: 'tabler-ticket' },
     subject: "event",
@@ -99,7 +99,7 @@ export default [
     action: "show menu",
   },
   {
-    title: 'Banks & ATM',
+    title: 'Bank/ATM',
     to: 'bank',
     icon: { icon: 'tabler-building-bank' },
     subject: "bank",
@@ -131,7 +131,7 @@ export default [
     action: "show menu",
   },
   {
-    title: 'Police',
+    title: 'Tourist Police',
     to: 'policeList',
     icon: { icon: 'tabler-shield-checkered' },
     subject: "police",
@@ -159,7 +159,7 @@ export default [
     action: "show menu",
   },
   {
-    title: 'Coxs bazar Info',
+    title: `About Cox's Bazar`,
     to: 'info',
     icon: { icon: 'tabler-beach' },
     subject: "info",
@@ -167,28 +167,28 @@ export default [
   },
  
   {
-    title: 'Notice',
+    title: 'Announcement',
     to: 'noticeList',
     icon: { icon: 'tabler-pinned' },
     subject: "notice",
     action: "show menu",
   },
   {
-    title: 'Tourism Helpline',
+    title: 'Tourism Corporation',
     to: 'tourismHelpline',
     icon: { icon: 'tabler-first-aid-kit' },
     subject: "notice",
     action: "show menu",
   },
   {
-    title: 'DC Helpline',
+    title: 'DC Activities',
     to: 'dcHelpline',
     icon: { icon: 'tabler-first-aid-kit' },
     subject: "notice",
     action: "show menu",
   },
   {
-    title: 'Bus Service',
+    title: 'Tourist Bus',
     to: 'busService',
     icon: { icon: 'tabler-bus' },
     subject: "notice",

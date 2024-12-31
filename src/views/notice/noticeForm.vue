@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Notice {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> Announcement {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
         <VCol cols="6" class="text-right">
           <RouterLink
@@ -13,7 +13,7 @@
             class="create-btn"
           >
           <el-tooltip class="item" effect="dark" content="Notice List" placement="top-start">
-            Notice List
+            Announcement List
             </el-tooltip>
           </RouterLink>
         </VCol>

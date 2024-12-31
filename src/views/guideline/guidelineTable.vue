@@ -24,7 +24,7 @@
               <ElTooltip
                 class="box-item"
                 effect="dark"
-                content="Edit Guideline"
+                content="Edit Instructions"
                 placement="top-start"
               >
                 <ElButton

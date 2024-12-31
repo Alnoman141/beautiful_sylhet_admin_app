@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol>
-          <b> Guideline Edit </b>
+          <b> Instructions Edit </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
@@ -13,7 +13,7 @@
             class="create-btn"
           >
           <el-tooltip class="box-item" effect="dark" content="Guideline List" placement="top-start">
-            Guideline List
+             Instructions List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -64,7 +64,7 @@
         <el-tooltip
           class="box-item"
           effect="dark"
-          content="Update Guideline"
+          content="Update Instructions"
           placement="top-start"
         >
           <ElButton type="primary" @click="submitForm(ruleFormRef)">

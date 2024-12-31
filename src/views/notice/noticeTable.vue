@@ -21,7 +21,7 @@
             <div
               v-if="column.prop !== 'date'"
               class="text-limit"
-              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo-1) * 10 + index++"
+              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : pageNo * 10 + index++"
             />
             <div
               v-else

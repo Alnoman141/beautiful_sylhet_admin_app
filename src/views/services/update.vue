@@ -81,8 +81,8 @@ const getNewsDetails = async () => {
   ruleForm.value.spot_parent_id = data.data.spot_parent_id
   ruleForm.value.booking_numbers[0].name = data.data.booking_numbers[0].name
   ruleForm.value.booking_numbers[0].numbers = bookNumber
-  ruleForm.value.supervisor_numbers[0].name = data.data.supervisor_numbers[0].name
-  ruleForm.value.supervisor_numbers[0].numbers = supNumber
+  ruleForm.value.type != 1 && ruleForm.value.type != 2 ? ruleForm.value.supervisor_numbers[0].name = data.data.supervisor_numbers[0].name :''
+  ruleForm.value.type != 1 && ruleForm.value.type != 2 ? ruleForm.value.supervisor_numbers[0].numbers = supNumber :''
 
   // ruleForm.value = data.data
   ruleForm.value.link = data.data.parent.link

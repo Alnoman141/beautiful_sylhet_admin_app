@@ -16,11 +16,11 @@
           <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
              {{
               route.params.type == 1
-                ? "Tourism Helpline"
+                ? "Tourism Corporation"
                 : route.params.type == 2
-                ? "Dc Helpline"
+                ? "DC Activities"
                 : route.params.type == 3
-                ? "Bus Service"
+                ? "Tourist Bus Service"
                 : "Kitkat Chair"
             }} List 
           </el-tooltip>

@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Cox's Bazar Info </b>
+          <b>About Cox's Bazar Edit</b>
         </VCol>
         <VCol cols="6" class="text-right">
           <RouterLink
@@ -14,7 +14,7 @@
             class="create-btn"
           >
           <el-tooltip class="item" effect="dark" content="Cox's Bazar Info" placement="top-start">
-            Cox's Bazar Info
+           About Cox's Bazar 
             </el-tooltip>
           </RouterLink>
         </VCol>

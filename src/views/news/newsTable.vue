@@ -18,7 +18,7 @@
       >
         <template #default="scope">
           <div v-if="column.prop == 'id'">
-            {{ pageNo == 1 ? index++ : (pageNo -1) * 10 + index++ }}
+            {{ pageNo == 1 ? index++ : pageNo * 10 + index++ }}
           </div>
           <div
             v-if="column.prop == 'type'"

@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Tourism Helpline List</b>
+          <b> Tourism Corporation Helpline </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink

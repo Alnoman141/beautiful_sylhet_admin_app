@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Notice List</b>
+          <b> Announcement List</b>
         </VCol>
         <VCol
           cols="6"
@@ -23,7 +23,7 @@
               content="Create Notice"
               placement="top-start"
             >
-              Create  Notice
+              Create  Announcement
             </ElTooltip>
           </RouterLink>
         </VCol>
