@@ -13,7 +13,14 @@
             
             class="create-btn"
           >
-            Create Transport
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Create Transport"
+              placement="top-start"
+            >
+              Create Transport
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

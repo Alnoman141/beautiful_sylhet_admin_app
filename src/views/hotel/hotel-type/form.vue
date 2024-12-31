@@ -122,7 +122,6 @@ const rules = reactive<FormRules<RuleForm>>({
 });
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  loading.value = true
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let form = {
@@ -130,6 +129,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.types,
     };
     if (valid) {
+  loading.value = true
+
       try{
       const { data } = props.ruleForm.id
         ? await hotelTypeStore.updateHotelType(form)

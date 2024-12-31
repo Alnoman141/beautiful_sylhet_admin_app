@@ -644,7 +644,6 @@ const rules = reactive<FormRules<RuleForm>>({
 });
 const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.mode == "create" && !tempImg.value
@@ -657,6 +656,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         : "";
 
     if (valid && !imgUploadValidation.value) {
+  loading.value = true;
+
       let form = {
         id: props.ruleForm.id,
         image: tempImg.value ? tempImg.value : "",

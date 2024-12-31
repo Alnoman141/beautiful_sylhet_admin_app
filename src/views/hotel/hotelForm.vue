@@ -372,7 +372,6 @@ const getTypeDropdownList = async () => {
 };
 const imgUploadValidation = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-  loading.value = true
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
@@ -394,6 +393,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
+  loading.value = true
+
       try{
       const { data } = props.ruleForm.id
         ? await hotelStore.updateHotel(form)

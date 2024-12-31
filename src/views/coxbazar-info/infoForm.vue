@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Cox's Bazar Info" placement="top-start">
             Cox's Bazar Info
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -62,10 +65,14 @@
       </VRow>
 
       <ElCard class="my-4 ">
+        <el-tooltip class="item" effect="dark" content="Update" placement="top-start">
         <ElButton type="primary" @click="submitForm(ruleFormRef)">
           Update
         </ElButton>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
         <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+        </el-tooltip>
       </ElCard>
     </ElForm>
   </div>
@@ -76,9 +83,9 @@ import { useInfoStore } from "@/stores/tourism/infoStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -100,6 +107,7 @@ const rules = reactive<FormRules<RuleForm>>({
 });
 
 const validationLock = ref(false);
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   //  ruleForm.value[0].description.length <= 11 || ruleForm.value[1].description.length <= 11 ? validationLock.value = true : validationLock.value = false
 
@@ -111,11 +119,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      loading.value = true
       try{
       const { data } = await infoStore.createInfo({ data: ruleForm.value });
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
-          getInfo())
+          getInfo(), loading.value = false)
         : "";
         data.status_code == 200 ? router.push({ name: "info" }) : "";
       } catch (error) {
@@ -128,10 +137,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 const ruleForm = ref([]);
 const getInfo = async () => {
+  loading.value = true
   try {
     const { data } = await infoStore.editInfo();
 
     ruleForm.value = data.data;
+    loading.value = false
   } catch (error) {
     console.log(error);
   }

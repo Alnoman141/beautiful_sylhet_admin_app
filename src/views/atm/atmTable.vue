@@ -39,29 +39,41 @@
             style="color:white"
             :to="{ name: 'editAtm', params: { id: scope.row.atm_parent_id } }"
           >
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Edit"
+              placement="top-start"
+            >
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
+          </RouterLink>
+            
+          <ElTooltip
+            class="box-item"
+            effect="dark"
+            content="Delete"
+            placement="top-start"
+          >
             <ElButton
               size="small"
-              type="primary"
+              type="danger"
+              @click="showAlert(scope.row.parent_id)"
             >
               <VIcon
-                icon="tabler-edit"
+                icon="tabler-trash"
                 size="15"
               />
             </ElButton>
-          </RouterLink>
-            
-          
-          <ElButton
-            size="small"
-            type="danger"
-            @click="showAlert(scope.row.parent_id)"
-          >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
-            <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

@@ -2,18 +2,18 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { usePoliceStore } from "@/stores/tourism/policeStore"
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import NewsForm from './policeForm.vue'
+import { onMounted, ref } from "vue"
+import { useRoute } from "vue-router"
+import NewsForm from "./policeForm.vue"
 
 const route = useRoute()
 
@@ -21,14 +21,15 @@ const policeStore = usePoliceStore()
 
 const ruleForm = ref({})
 
+const loading = ref(false)
+
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  loading.value = true
 
   const { data } = await policeStore.editPolice({ id: route.params.id })
 
-  console.log("data", data)
-
   ruleForm.value = data.data
+  loading.value = false
 }
 
 onMounted(() => {

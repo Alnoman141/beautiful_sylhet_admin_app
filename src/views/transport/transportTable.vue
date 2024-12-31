@@ -43,28 +43,41 @@
             color:white"
             :to="{ name: 'editTransport', params: { id: scope.row.parent_id } }"
           >
-            <ElButton
-              size="small"
-              type="primary"
+            <ElTooltip 
+              class="box-item"
+              effect="dark"
+              content="Edit"
             >
-              <VIcon
-                icon="tabler-edit"
-                size="15"
-              />
-            </ElButton>
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
           </RouterLink>
           
-          <ElButton
-            size="small"
-            type="danger"
-            @click="showAlert(scope.row.parent_id)"
+          <ElTooltip
+            class="box-item"
+            effect="dark"
+            content="Delete"
+            placement="top-start"
           >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
+            <ElButton
+              size="small"
+              type="danger"
+              @click="showAlert(scope.row.parent_id)"
+            >
+              <VIcon
+                icon="tabler-trash"
+                size="15"
+              />
             <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
+            </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

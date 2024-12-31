@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Danger Zone List" placement="top-start">
             Danger Zone List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -202,13 +205,19 @@
         </VRow>
 
         <div class="py-4">
+          <el-tooltip class="item" effect="dark" content="Submit" placement="top-start">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
             >Reset</ElButton
           >
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -222,9 +231,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -254,6 +263,7 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 const imgUploadValidation = ref(false);
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
@@ -269,13 +279,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.reds,
     };
     if (valid && !imgUploadValidation.value) {
+  loading.value = true;
+
       try{
       const { data } = props.ruleForm.id
         ? await redZoneStore.updateRedZone(form)
         : await redZoneStore.createRedZone(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
+          emit("tableDataEmit"),
+          loading.value = false)
         : "";
         data.status_code == 200 ? router.push({ name: "redZoneList" }) : "";
       }catch(error){

@@ -15,15 +15,22 @@
                   :to="{ name: 'infoEdit' }"
                   style=" color:white !important;text-decoration: none !important;"
                 >
-                  <ElButton
-                    type="primary"
-                    size="small"
+                  <ElTooltip
+                    class="item"
+                    effect="dark"
+                    content="Edit"
+                    placement="top-start"
                   >
-                    <VIcon
-                      icon="tabler-edit"
-                      size="15"
-                    />
-                  </ElButton>
+                    <ElButton
+                      type="primary"
+                      size="small"
+                    >
+                      <VIcon
+                        icon="tabler-edit"
+                        size="15"
+                      />
+                    </ElButton>
+                  </ElTooltip>
                 </RouterLink>
               </div>
               

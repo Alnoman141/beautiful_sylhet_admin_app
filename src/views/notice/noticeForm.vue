@@ -12,13 +12,16 @@
             :to="{ name: 'noticeList' }"
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Notice List" placement="top-start">
             Notice List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -133,6 +136,7 @@
           </VCol>
         </VRow>
         <div class="py-4">
+          <el-tooltip class="item" effect="dark" content="Submit" placement="top-start">
           <ElButton
             class="submit"
             type="primary"
@@ -140,6 +144,9 @@
           >
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+
+          <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
           <ElButton
             v-if="mode == 'create'"
             class="submit-btn"
@@ -148,7 +155,10 @@
           >
             Reset
           </ElButton>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -196,11 +206,12 @@ const rules = reactive<FormRules<RuleForm>>({
 const imgUploadValidation = ref(false);
 
 const formattedDate = ref("");
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
 
   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry.split(' ');
-  let [hours, minutes, seconds] = timePart.split(':');
+  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :'';
+  let [hours, minutes, seconds] = timePart ? timePart.split(':') :'';
   if (period.toLowerCase() === 'pm' && hours !== '12') {
     hours = String(Number(hours) + 12);
   } else if (period.toLowerCase() === 'am' && hours === '12') {
@@ -211,7 +222,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
   
   props.ruleForm.expiry = formattedDate.value
-  console.log("props.ruleForm.expiry", props.ruleForm.expiry)
+  
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
@@ -229,18 +240,20 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid) {
+      loading.value = true;
       try {
         const { data } = props.ruleForm.id
           ? await noticeStore.updateNotice(form)
           : await noticeStore.createNotice(props.ruleForm);
         data.status_code == 200
-          ? notify(
+          ? (notify(
               "Congratulations!",
               data.message,
               "success",
               "top-right",
-              emit("getEmit")
-            )
+              3000
+            ), emit("getEmit"),
+              loading.value = false)
           : "";
         data.status_code == 200 ? router.push({ name: "noticeList" }) : "";
       } catch (error) {

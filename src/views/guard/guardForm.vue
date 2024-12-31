@@ -10,16 +10,23 @@
             type="primary"
             :underline="false"
             :to="{ name: 'guardList' }"
-            
             class="create-btn"
           >
-            Guard List
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Guard List"
+              placement="top-start"
+            >
+              Guard List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -87,15 +94,15 @@
                 >
                   <!-- <ElInput type="textarea" v-model="item.instruction" /> -->
                   <div>
-                  <QuillEditor
+                    <QuillEditor
                       ref="instructionEditorRef"
-                      v-model:content="item.instruction"                     
+                      v-model:content="item.instruction"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
                       placeholder="Type instruction here"
                     />
-                    </div>
+                  </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -136,14 +143,39 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
-            {{ mode }}
-          </ElButton>
-          <!-- reset button -->
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-            >Reset</ElButton
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Submit"
+            placement="top-start"
           >
-          <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
+          </el-tooltip>
+          <!-- reset button -->
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Reset"
+            placement="top-start"
+          >
+            <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+              >Reset</ElButton
+            >
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -155,9 +187,9 @@ import { useGuardStore } from "@/stores/tourism/guardStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -188,7 +220,10 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 
+
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
@@ -199,17 +234,26 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.guards,
     };
     if (valid) {
-      try{
-      const { data } = props.ruleForm.id
-        ? await guardStore.updateGuard(form)
-        : await guardStore.createGuard(props.ruleForm);
-      data.status_code == 200
-        ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
-        : "";
+      try {
+        const { data } = props.ruleForm.id
+          ? await guardStore.updateGuard(form)
+          : await guardStore.createGuard(props.ruleForm);
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            emit("tableDataEmit"), loading.value = false)
+          : "";
         data.status_code == 200 ? router.push({ name: "guardList" }) : "";
-      }catch(error) {
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+      } catch (error) {
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);
@@ -260,7 +304,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.submit{
+.submit {
   text-transform: capitalize;
 }
 

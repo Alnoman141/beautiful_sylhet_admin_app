@@ -17,7 +17,14 @@
             
             class="create-btn "
           >
-            Create User
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create User"
+              placement="top-start"
+            >
+              Create User
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

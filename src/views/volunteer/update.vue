@@ -2,6 +2,7 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
@@ -17,18 +18,20 @@ import NewsForm from './volunteerForm.vue'
 
 const route = useRoute()
 
+const loading = ref(false)
+
 const volunteerStore = useVolunteerStore()
 
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  loading.value = true
 
   const { data } = await volunteerStore.editVolunteer({ id: route.params.id })
 
-  console.log("data", data)
-
   ruleForm.value = data.data
+
+  loading.value = false
 }
 
 onMounted(() => {

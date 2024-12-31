@@ -17,7 +17,14 @@
             
             class="create-btn "
           >
-            Create Life Guard
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Life Guard"
+              placement="top-start"
+            >                         
+              Create Life Guard
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

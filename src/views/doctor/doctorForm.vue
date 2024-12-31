@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Doctor List" placement="top-start">
             Doctor List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    V-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -128,12 +131,19 @@
           </VCol>
         </VRow>
         <div class="py-4">
+          <el-tooltip class="item" effect="dark" content="Save" placement="top-start">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+
+          <el-tooltip class="item" effect="dark" content="Update" placement="top-start">
 
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Cancel" placement="top-start">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton> 
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -145,9 +155,9 @@ import { useDoctorStore } from "@/stores/tourism/doctorStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -178,7 +188,9 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
@@ -195,7 +207,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         : await doctorStore.createDoctor(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
+          emit("tableDataEmit"), loading.value = false)
         : "";
         data.status_code == 200 ? router.push({ name: "doctorList" }) : "";
       }catch (error) {

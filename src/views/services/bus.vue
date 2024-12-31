@@ -14,7 +14,14 @@
            
             class="create-btn "
           >
-            Create Bus  Service
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Bus Service"
+              placement="top-start"
+            >
+              Create Bus  Service
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

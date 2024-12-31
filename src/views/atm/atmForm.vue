@@ -10,16 +10,23 @@
             type="primary"
             :underline="false"
             :to="{ name: 'bankList' }"
-            
             class="create-btn"
           >
-            Bank List
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Bank List"
+              placement="top-start"
+            >
+              Bank List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -63,7 +70,6 @@
               <VCol cols="12">
                 <ElFormItem
                   label="Address"
-                  
                   :prop="
                     ruleForm.atms
                       ? 'atms.' + index + '.address'
@@ -161,11 +167,14 @@
                 },
               ]"
             >
-              <ElInput placeholder="Map Link" type="url" v-model="ruleForm.map_link" />
+              <ElInput
+                placeholder="Map Link"
+                type="url"
+                v-model="ruleForm.map_link"
+              />
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6" class="my-2">
-            
             <el-upload
               class="upload-section"
               drag
@@ -178,7 +187,7 @@
                   class="el-icon--upload"
                   ><upload-filled
                 /></el-icon>
-                
+
                 <img
                   v-if="ruleForm.image || previewImage"
                   :src="previewImage ? previewImage : ruleForm.image"
@@ -206,12 +215,38 @@
         </VRow>
 
         <div class="py-4">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
-            {{ mode }}
-          </ElButton>
-
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Submit"
+            placement="top-start"
+          >
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Reset"
+            placement="top-start"
+          >
+            <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+              >Reset</ElButton
+            >
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -258,6 +293,7 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 const imgUploadValidation = ref(false);
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
@@ -274,20 +310,30 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.atms,
     };
     if (valid && !imgUploadValidation.value) {
+      loading.value = true;
       try {
         const { data } = props.ruleForm.id
           ? await atmStore.updateAtm(form)
           : await atmStore.createAtm(props.ruleForm);
         data.status_code == 200
           ? (notify("Congratulations!", data.message, "success", "top-right"),
-            emit("tableDataEmit"))
+            emit("tableDataEmit"),
+            (loading.value = false))
           : "";
         data.status_code == 200 ? router.push({ name: "atmList" }) : "";
-
       } catch (error) {
         console.log(error);
         // notify("Error", "Something went wrong", "error", "top-right");
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);
@@ -297,7 +343,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-}
+};
 const spotDropdown = ref([]);
 const getSpotDropdown = async () => {
   const { data } = await spotStore.getSpotDropdown();
@@ -340,7 +386,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.submit{
+.submit {
   text-transform: capitalize;
 }
 

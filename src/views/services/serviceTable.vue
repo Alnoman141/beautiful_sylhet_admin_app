@@ -73,15 +73,22 @@
                       : { name: 'editKitkatDescription', params: { type: 4 } }
               "
             >
-              <ElButton
-                size="small"
-                type="primary"
+              <ElTooltip
+                class="item"
+                effect="dark"
+                content="Edit"
+                placement="top-start"
               >
-                <VIcon
-                  icon="tabler-edit"
-                  size="15"
-                /> 
-              </ElButton>
+                <ElButton
+                  size="small"
+                  type="primary"
+                >
+                  <VIcon
+                    icon="tabler-edit"
+                    size="15"
+                  /> 
+                </ElButton>
+              </ElTooltip>
             </RouterLink>
           </div>
         </div>

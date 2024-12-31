@@ -12,13 +12,16 @@
             :to="{ name: 'userList' }"
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
             Bank List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -177,6 +180,7 @@
         </VRow>
 
         <div class="py-4">
+          <el-tooltip class="item" effect="dark" content="Save" placement="top-start">
           <ElButton
             class="submit"
             type="primary"
@@ -184,11 +188,17 @@
           >
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+
+          <el-tooltip class="item" effect="dark" content="Update" placement="top-start">
 
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
             >Reset</ElButton
           >
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -236,6 +246,8 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 const imgUploadValidation = ref(false);
+
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   props.ruleForm.role = selectedRole.value
   props.mode == "create" && !tempImg.value
@@ -246,13 +258,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.avatar = tempImg.value ? tempImg.value : "";
 
     if (valid && !imgUploadValidation.value) {
+      loading.value = true;
       try{
       const { data } = props.ruleForm.id
         ? await userStore.updateUser(props.ruleForm)
         : await userStore.createUser(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
+          emit("tableDataEmit"),
+          loading.value = false)
         : "";
         data.status_code == 200 ? router.push({ name: "userList" }) : "";
       } catch (error) {

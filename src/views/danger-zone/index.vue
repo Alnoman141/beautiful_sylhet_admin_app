@@ -17,7 +17,14 @@
             
             class="create-btn "
           >
-            Create Danger Zone
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Danger Zone"
+              placement="top-start"
+            >
+              Create Danger Zone
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

@@ -10,16 +10,23 @@
             type="primary"
             :underline="false"
             :to="{ name: 'campaignList' }"
-            
             class="create-btn"
           >
-            Campaign List
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Campaign List"
+              placement="top-start"
+            >
+              Campaign List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -29,7 +36,6 @@
       label-position="top"
       status-icon
     >
-    
       <VRow>
         <VCol
           v-for="(item, index) in ruleForm && ruleForm.campaigns
@@ -44,7 +50,9 @@
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
-                <ElFormItem label="Campaign Name"  :prop="
+                <ElFormItem
+                  label="Campaign Name"
+                  :prop="
                     ruleForm.campaigns
                       ? 'campaigns.' + index + '.name'
                       : 'data.' + index + '.name'
@@ -53,13 +61,19 @@
                     required: true,
                     message: 'Campaign name is required',
                     trigger: 'blur',
-                  }">
-                  <ElInput placeholder="Enter campaign name" v-model="item.name" />
+                  }"
+                >
+                  <ElInput
+                    placeholder="Enter campaign name"
+                    v-model="item.name"
+                  />
                 </ElFormItem>
               </VCol>
 
               <VCol cols="12">
-                <ElFormItem label="Description"  :prop="
+                <ElFormItem
+                  label="Description"
+                  :prop="
                     ruleForm.campaigns
                       ? 'campaigns.' + index + '.description'
                       : 'data.' + index + '.description'
@@ -68,10 +82,11 @@
                     required: true,
                     message: 'Description  is required',
                     trigger: 'blur',
-                  }">
+                  }"
+                >
                   <!-- <ElInput type="textarea" v-model="item.description" /> -->
                   <div>
-                  <QuillEditor
+                    <QuillEditor
                       ref="descriptionEditorRef"
                       v-model:content="item.description"
                       :blur="checkData()"
@@ -80,12 +95,13 @@
                       toolbar="full"
                       placeholder="Type description here"
                     />
-                    </div>
-
+                  </div>
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
-                <ElFormItem label="Date"  :prop="
+                <ElFormItem
+                  label="Date"
+                  :prop="
                     ruleForm.campaigns
                       ? 'campaigns.' + index + '.date'
                       : 'data.' + index + '.date'
@@ -94,10 +110,11 @@
                     required: true,
                     message: 'Date  is required',
                     trigger: 'blur',
-                  }">
+                  }"
+                >
                   <!-- <ElInput type="textarea" v-model="item.description" /> -->
                   <div>
-                  <QuillEditor
+                    <QuillEditor
                       ref="dateEditorRef"
                       v-model:content="item.date"
                       :blur="checkData()"
@@ -106,8 +123,7 @@
                       toolbar="full"
                       placeholder="Type Date here"
                     />
-                    </div>
-
+                  </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -125,11 +141,13 @@
               auto-upload="false"
             >
               <div class="el-upload__text">
-                <el-icon v-if="!ruleForm.image && !previewImage" class="el-icon--upload"
+                <el-icon
+                  v-if="!ruleForm.image && !previewImage"
+                  class="el-icon--upload"
                   ><upload-filled
                 /></el-icon>
                 <img
-                v-if="ruleForm.image || previewImage"
+                  v-if="ruleForm.image || previewImage"
                   :src="previewImage ? previewImage : ruleForm.image"
                   alt=""
                   height="60"
@@ -154,11 +172,38 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
-            {{ mode }}
-          </ElButton>
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Submit"
+            placement="top-start"
+          >
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Reset"
+            placement="top-start"
+          >
+            <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+              >Reset</ElButton
+            >
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -171,9 +216,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -202,8 +247,9 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 const imgUploadValidation = ref(false);
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-   props.mode == "create" && !tempImg.value
+  props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
   if (!formEl) return;
@@ -220,23 +266,34 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
-      try{
-      const { data } = props.ruleForm.id
-        ? await campaignStore.updateCampaign(form)
-        : await campaignStore.createCampaign(props.ruleForm);
-      data.status_code == 200
-        ? notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right",
-            emit("getEmit")
-          )
-        : "";
+      loading.value = true;
+      try {
+        const { data } = props.ruleForm.id
+          ? await campaignStore.updateCampaign(form)
+          : await campaignStore.createCampaign(props.ruleForm);
+        data.status_code == 200
+          ? (notify(
+              "Congratulations!",
+              data.message,
+              "success",
+              "top-right",
+              emit("getEmit")
+            ),
+            (loading.value = false))
+          : "";
         data.status_code == 200 ? router.push({ name: "campaignList" }) : "";
-      }catch (error) {
+      } catch (error) {
         console.log(error);
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);
@@ -266,42 +323,41 @@ const viewImage = (item) => {
   modalImg.value = item;
 };
 const descriptionEditorRef = ref(null);
-const dateEditorRef = ref(null)
+const dateEditorRef = ref(null);
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
     e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-    
-  })
+  });
   dateEditorRef.value?.map((e) => {
     e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-  })
+  });
   props.ruleForm.data?.map((e) => {
     e.description == "<p><br></p>" ? (e.description = "") : "";
     e.date == "<p><br></p>" ? (e.date = "") : "";
-  })
+  });
   props.ruleForm.campaigns?.map((e) => {
     e.description == "<p><br></p>" ? (e.description = "") : "";
     e.date == "<p><br></p>" ? (e.date = "") : "";
-  })
-}
+  });
+};
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
   dateEditorRef.value?.map((e) => e.setHTML(""));
   props.ruleForm.map((e) => {
-    e.description = ""
-   e.date=""
-  })
-}
+    e.description = "";
+    e.date = "";
+  });
+};
 onMounted(() => {
   descriptionEditorRef.value?.map((e) => e.setHTML(""));
   dateEditorRef.value?.map((e) => e.setHTML(""));
-})
+});
 </script>
 
 <style scoped>
-.submit{
+.submit {
   text-transform: capitalize;
 }
 

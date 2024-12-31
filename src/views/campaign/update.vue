@@ -1,37 +1,34 @@
 <!-- eslint-disable camelcase -->
 <template>
   <div>
-    <NewsForm
-      :rule-form="ruleForm"
-      mode="update"
-    />
+    <NewsForm v-loading="loading" :rule-form="ruleForm" mode="update" />
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { useCampaignStore } from "@/stores/tourism/campaignStore"
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import NewsForm from './campaignForm.vue'
+import { useCampaignStore } from "@/stores/tourism/campaignStore";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import NewsForm from "./campaignForm.vue";
 
-const route = useRoute()
+const route = useRoute();
 
-const campaignStore = useCampaignStore()
+const campaignStore = useCampaignStore();
 
-const ruleForm = ref({})
+const ruleForm = ref({});
+const loading = ref(false);
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  loading.value = true;
 
-  const { data } = await campaignStore.editCampaign({ id: route.params.id })
+  const { data } = await campaignStore.editCampaign({ id: route.params.id });
 
-  console.log("data", data)
+  ruleForm.value = data.data;
 
-  ruleForm.value = data.data
-}
+  loading.value = false;
+};
 
 onMounted(() => {
-  getNewsDetails()
-})
+  getNewsDetails();
+});
 </script>

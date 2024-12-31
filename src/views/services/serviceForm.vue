@@ -23,7 +23,8 @@
             @click="router.go(-1)"
             to="#"
             class="create-btn"
-          >
+          > 
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
             {{
               route.params.type == 1
                 ? "Tourism Helpline"
@@ -34,12 +35,14 @@
                 : "Kitkat Chair"
             }}
             List
+            </el-tooltip> 
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -238,6 +241,11 @@
           </VCol>
         </VRow>
         <div class="py-4">
+          <el-tooltip 
+            class="box-item"
+            effect="dark"
+            content="Submit"
+            >
           <ElButton
             type="primary"
             @click="submitForm(ruleFormRef)"
@@ -245,11 +253,22 @@
           >
             {{ mode }}
           </ElButton>
+          </el-tooltip>
           <!-- reset button -->
+          <el-tooltip 
+            class="box-item"
+            effect="dark"
+            content="Reset">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
             >Reset</ElButton
           >
+          </el-tooltip>
+          <el-tooltip 
+            class="box-item"
+            effect="dark"
+            content="Back">
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -301,6 +320,8 @@ const getSpotDropdownList = async () => {
   }
 };
 
+
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   props.ruleForm.type == 1 || props.ruleForm.type == 2
     ? (props.ruleForm.spot_parent_id = spotDropdownData.value[0].id)
@@ -338,18 +359,19 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     };
 
     if (valid) {
+      loading.value = true 
       try {
         const { data } = props.ruleForm.id
           ? await serviceStore.updateService(form)
           : await serviceStore.createService(form);
         data.status_code == 200
-          ? notify(
+          ? (notify(
               "Congratulations!",
               data.message,
               "success",
               "top-right",
               emit("getEmit")
-            )
+            ), loading.value = false)
           : "";
 
         props.ruleForm.type == "1"

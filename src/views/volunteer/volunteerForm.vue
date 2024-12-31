@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip content="Beach Volunteer List" placement="top">
             Beach Volunteer List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -129,12 +132,19 @@
           </VCol>
         </VRow>
         <div class="py-4 ">
+          <el-tooltip content="Submit" placement="top">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+
           <!-- reset button -->
+          <el-tooltip content="Reset" placement="top">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip>
+          <el-tooltip content="Back" placement="top">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -146,9 +156,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { useVolunteerStore } from "@/stores/tourism/volunteerStore";
 import { notify } from "@/utils/notification";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -179,7 +189,10 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 
+const loading = ref(false)
+
 const submitForm = async (formEl: FormInstance | undefined) => {
+ 
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
@@ -190,13 +203,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.volunteer,
     };
     if (valid) {
+       loading.value = true
       try{
       const { data } = props.ruleForm.id
         ? await volunteerStore.updateVolunteer(form)
         : await volunteerStore.createVolunteer(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
+          emit("tableDataEmit"),loading.value = false)
         : "";
         data.status_code == 200 ? router.push({ name: "volunteerList" }) : "";
       } catch (error) {

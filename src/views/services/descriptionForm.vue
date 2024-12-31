@@ -13,13 +13,24 @@
             to="#"
             class="create-btn"
           >
-            List
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
+             {{
+              route.params.type == 1
+                ? "Tourism Helpline"
+                : route.params.type == 2
+                ? "Dc Helpline"
+                : route.params.type == 3
+                ? "Bus Service"
+                : "Kitkat Chair"
+            }} List 
+          </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -141,6 +152,7 @@
         </VRow>
 
         <div class="py-4">
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton
             type="primary"
             @click="submitForm(ruleFormRef)"
@@ -148,8 +160,10 @@
           >
             Update
           </ElButton>
-
+</el-tooltip>
+<el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -202,32 +216,36 @@ const getSpotDropdownList = async () => {
   }
 };
 const getDescriptonData = async () => {
+  loading.value = true
   try {
     const { data } = await serviceStore.getDescription({
       type: route.params.type,
     });
     ruleForm.value = data.data;
+    loading.value = false
   } catch (error) {
     console.log(error);
   }
 };
 
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log("ruleForm.value", ruleForm.value);
+      loading.value = true;
       ruleForm.value.image = tempImg.value ? tempImg.value :''
       try {
         const { data } = await serviceStore.updateDescription(ruleForm.value);
         data.status_code == 200
-          ? notify(
+          ? (notify(
               "Congratulations!",
               data.message,
               "success",
               "top-right",
               emit("getEmit")
-            )
+            ),
+            loading.value = false)
           : "";
 
         route.params.type == 1

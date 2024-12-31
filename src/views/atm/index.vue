@@ -11,13 +11,18 @@
         >
           <RouterLink
             type="primary"
-            :underline="false"          
-          
-            :to="{ name: 'createAtm'}"
-            
-            class="create-btn "
+            :underline="false"
+            :to="{ name: 'createAtm' }"
+            class="create-btn"
           >
-            Create ATM
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create ATM"
+              placement="top-start"
+            >
+              Create ATM
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>
@@ -25,10 +30,10 @@
     <ElCard>
       <div class="mb-5">
         <BankTable
-          v-loading="loading"          
+          v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getspotList(10,1)"
+          @table-data-emit="getspotList(10, 1)"
         />
       </div>
       <PaginationSection
@@ -53,13 +58,12 @@ const atmStore = useAtmStore()
 
 const spotList = ref([])
 
-const columns = ref( [
-  { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Spot Name', prop: 'spot_name', sortable: false },  
-  { label: 'ATM Name Bangla', prop: 'name', sortable: false },        
+const columns = ref([
+  { label: "S.L", prop: "id", sortable: false },
+  { label: "Spot Name", prop: "spot_name", sortable: false },
+  { label: "ATM Name Bangla", prop: "name", sortable: false },
 
-  { label: "ATM Name English", prop: "name_en", sortable: false },     
-        
+  { label: "ATM Name English", prop: "name_en", sortable: false },
 ])
 
 const totalData = ref(0)
@@ -76,18 +80,15 @@ const getspotList = async (pageSize, pageNo) => {
     spotList.value = data.data.data
     totalData.value = data.data.total
     loading.value = false
-    
   } catch (error) {
     console.log(error)
   }
 }
 
 onMounted(() => {
-  
   getspotList(10, 1)
 })
 </script>
-
 
 <style scoped>
 .create-btn {
@@ -95,6 +96,6 @@ onMounted(() => {
   background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding-block: 6px;
-  padding-inline: 10px; 
+  padding-inline: 10px;
 }
 </style>

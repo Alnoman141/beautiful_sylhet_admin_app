@@ -10,11 +10,15 @@
             type="primary"
             :underline="false"
             :to="{ name: 'newsList' }"
-            
             class="create-btn"
           >
-          <el-tooltip class="box-item" effect="dark" content="News List" placement="top-start">
-            News List
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="News List"
+              placement="top-start"
+            >
+              News List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -22,7 +26,7 @@
     </ElCard>
 
     <ElForm
-    v-loading="loading"
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -70,16 +74,20 @@
       </VRow>
 
       <ElCard>
-         <VRow>
+        <VRow>
           <VCol cols="12" md="6">
-            <ElFormItem label="News Type" prop="news_type_id"  :rules="{
-                      required: true,
-                      message: 'News type is required',
-                      trigger: 'blur',
-                    }">
+            <ElFormItem
+              label="News Type"
+              prop="news_type_id"
+              :rules="{
+                required: true,
+                message: 'News type is required',
+                trigger: 'blur',
+              }"
+            >
               <el-select
                 v-model="ruleForm.news_type_id"
-                placeholder="Select News Type" 
+                placeholder="Select News Type"
                 size="large"
               >
                 <el-option
@@ -92,8 +100,7 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            
-            <ElFormItem label="Expire at" :prop="'expiry'">              
+            <ElFormItem label="Expire at" :prop="'expiry'">
               <el-date-picker
                 style="inline-size: 100%"
                 v-model="ruleForm.expiry"
@@ -101,28 +108,42 @@
                 placeholder="Pick a Date"
                 format="DD/MM/YYYY hh:mm:ss a"
                 value-format="DD-MM-YYYY h:m:s a"
-                
               />
             </ElFormItem>
           </VCol>
         </VRow>
-        <el-tooltip class="box-item" effect="dark" content="News Type" placement="top-start">
-        <ElButton
-          class="submit"
-          type="primary"
-          @click="submitForm(ruleFormRef)"
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="News Type"
+          placement="top-start"
         >
-          {{ mode }}
-        </ElButton>
+          <ElButton
+            class="submit"
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            {{ mode }}
+          </ElButton>
         </el-tooltip>
-        <el-tooltip class="box-item" effect="dark" content="Reset" placement="top-start">
-        <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-          >Reset</ElButton
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Reset"
+          placement="top-start"
         >
+          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+            >Reset</ElButton
+          >
         </el-tooltip>
-        <el-tooltip class="box-item" effect="dark" content="Back" placement="top-start">
-        <ElButton @click="router.go(-1)" type="info">Back</ElButton>
-        </el-tooltip> 
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Back"
+          placement="top-start"
+        >
+          <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+        </el-tooltip>
       </ElCard>
     </ElForm>
   </div>
@@ -166,20 +187,20 @@ const imgUploadValidation = ref(false);
 const formattedDate = ref("");
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry.split(' ');
-  let [hours, minutes, seconds] = timePart.split(':');
-  if (period.toLowerCase() === 'pm' && hours !== '12') {
+  // convert date to 24h format from am pm
+  const [datePart, timePart, period] = props.ruleForm.expiry
+    ? props.ruleForm.expiry.split(" ")
+    : "";
+  let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
+  if (period.toLowerCase() === "pm" && hours !== "12") {
     hours = String(Number(hours) + 12);
-  } else if (period.toLowerCase() === 'am' && hours === '12') {
-    hours = '00';
+  } else if (period.toLowerCase() === "am" && hours === "12") {
+    hours = "00";
   }
   formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
 
+  props.ruleForm.expiry = formattedDate.value;
 
-  
-  props.ruleForm.expiry = formattedDate.value
-  loading.value = true;
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let data = [];
@@ -191,22 +212,34 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       expiry: formattedDate.value,
     };
     if (valid) {
-      try{
-      const { data } = props.ruleForm.id
-        ? await newsStore.updateNews(form)
-        : await newsStore.createNews(props.ruleForm);
-      data.status_code == 200
-        ?( notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right",
-            emit("getEmit")
-          ), loading.value = false)
-        : "";
+      loading.value = true;
+
+      try {
+        const { data } = props.ruleForm.id
+          ? await newsStore.updateNews(form)
+          : await newsStore.createNews(props.ruleForm);
+        data.status_code == 200
+          ? (notify(
+              "Congratulations!",
+              data.message,
+              "success",
+              "top-right",
+              emit("getEmit")
+            ),
+            (loading.value = false))
+          : "";
         router.push({ name: "newsList" });
       } catch (error) {
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);

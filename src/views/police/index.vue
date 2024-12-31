@@ -16,7 +16,14 @@
             
             class="create-btn"
           >
-            Create Police
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Police"
+              placement="top-start"
+            >
+              Create Police
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

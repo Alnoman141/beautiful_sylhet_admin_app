@@ -2,6 +2,7 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
@@ -15,6 +16,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import NewsForm from './bankForm.vue'
 
+const loading = ref(false)
 const route = useRoute()
 
 const bankStore = useBankStore()
@@ -22,13 +24,12 @@ const bankStore = useBankStore()
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  loading.value = true
 
   const { data } = await bankStore.editBank({ id: route.params.id })
 
-  console.log("data", data)
-
   ruleForm.value = data.data
+  loading.value = false
 }
 
 onMounted(() => {

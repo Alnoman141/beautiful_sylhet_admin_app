@@ -14,13 +14,17 @@
             
             class="create-btn"
           >
+          <el-tooltip class="box-item" effect="dark" content="Event List" placement="top-start">
             Event List
+          </el-tooltip>
           </RouterLink>
+
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -238,11 +242,17 @@
           </VCol>
         </VRow>
         <div class="py-4">
+          <el-tooltip class="box-item" effect="dark" content="Submit" placement="top-start">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top-start">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -299,10 +309,12 @@ const getSpotDropdownList = async () => {
 const formattedDate = ref("");
 
 const imgUploadValidation = ref(false);
+
+const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry.split(' ');
-  let [hours, minutes, seconds] = timePart.split(':');
+  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :' ';
+  let [hours, minutes, seconds] = timePart ? timePart.split(':') : '';
   if (period.toLowerCase() === 'pm' && hours !== '12') {
     hours = String(Number(hours) + 12);
   } else if (period.toLowerCase() === 'am' && hours === '12') {
@@ -331,6 +343,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
+      loading.value = true
       try{
       const { data } = props.ruleForm.id
         ? await eventsStore.updateEvents(form)
@@ -341,7 +354,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             data.message,
             "success",
             "top-right"
-          ), router.push({ name: "eventsList" }))
+          ), router.push({ name: "eventsList" }), loading.value = false)
         : "";
       }catch (error) {
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')

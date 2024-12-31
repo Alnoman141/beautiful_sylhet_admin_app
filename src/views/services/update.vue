@@ -2,6 +2,7 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
@@ -18,6 +19,8 @@ import NewsForm from './serviceForm.vue'
 const route = useRoute()
 
 const serviceStore = useServiceStore()
+
+const loading = ref(false)
 
 const ruleForm = ref({
   id: null,
@@ -38,7 +41,7 @@ const ruleForm = ref({
 })
 
 const getNewsDetails = async () => {
-  
+  loading.value = true
 
   const { data } = await serviceStore.editService({ id: route.params.id })
 
@@ -83,6 +86,9 @@ const getNewsDetails = async () => {
 
   // ruleForm.value = data.data
   ruleForm.value.link = data.data.parent.link
+
+
+  loading.value = false
 }
 
 onMounted(() => {

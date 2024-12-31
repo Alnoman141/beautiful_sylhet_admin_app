@@ -15,7 +15,14 @@
            
             class="create-btn "
           >
-            Create  DC Helpline
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create DC Helpline"
+              placement="top-start"
+            >
+              Create  DC Helpline
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

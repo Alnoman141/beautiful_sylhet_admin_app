@@ -17,7 +17,14 @@
             
             class="create-btn "
           >
-            Create  Notice
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Notice"
+              placement="top-start"
+            >
+              Create  Notice
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

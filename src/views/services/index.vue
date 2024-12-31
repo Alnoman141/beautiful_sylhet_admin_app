@@ -16,7 +16,14 @@
            
             class="create-btn "
           >
-            Create Tourism Helpline
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Tourism Helpline"
+              placement="top-start"
+            >
+              Create Tourism Helpline
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

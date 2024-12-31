@@ -239,7 +239,7 @@ const getSpotDropdownList = async () => {
 };
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  loading.value = true;
+  
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let data = [];
@@ -252,6 +252,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     };
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid) {
+  loading.value = true
+
       try {
         const { data } = props.ruleForm.id
           ? await lockerStore.updateLocker(form)

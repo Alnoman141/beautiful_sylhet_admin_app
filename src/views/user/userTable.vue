@@ -47,30 +47,43 @@
             style="color:white"
             :to="{ name: 'editUser', params: { id: scope.row.id } }"
           >
-            <ElButton
-              size="small"
-              type="primary"
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Edit"
+              placement="top-start"
             >
-              <VIcon
-                icon="tabler-edit"
-                size="15"
-              />
-            </ElButton>
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
           </RouterLink>
             
-          
-          <ElButton
-            v-if="scope.row.id !== 1"
-            size="small"
-            type="danger"
-            @click="showAlert(scope.row.id)"
+          <ElTooltip
+            class="item"
+            effect="dark"
+            content="Delete"
+            placement="top-start"
           >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
+            <ElButton
+              v-if="scope.row.id !== 1"
+              size="small"
+              type="danger"
+              @click="showAlert(scope.row.id)"
+            >
+              <VIcon
+                icon="tabler-trash"
+                size="15"
+              />
             <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
+            </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

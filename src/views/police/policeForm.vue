@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Red Zone List" placement="top-start">
             Red Zone List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -109,7 +112,7 @@
           <VCol cols="12" md="6">
             <ElFormItem
               label="Tourist Spot"
-              prop="police_parent_id"
+              prop="spot_parent_id"
               :rules="{
                 required: true,
                 message: 'Please select Tourist Spot',
@@ -117,7 +120,7 @@
               }"
             >
               <el-select
-                v-model="ruleForm.police_parent_id"
+                v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
                 
               >
@@ -132,11 +135,17 @@
           </VCol>
         </VRow>
         <div class="py-4 ">
+          <el-tooltip class="item" effect="dark" content="Submit" placement="top-start">
           <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
             {{ mode }}
           </ElButton>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
           <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -148,9 +157,9 @@ import { usePoliceStore } from "@/stores/tourism/policeStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -181,25 +190,28 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 
+const loading = ref(false)
 const submitForm = async (formEl: FormInstance | undefined) => {
+  
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
-    props.ruleForm.spot_parent_id = props.ruleForm.police_parent_id;
+    props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     let form = {
       id: props.ruleForm.id,
       // image: tempImg.value ? tempImg.value : null,
-      spot_parent_id: props.ruleForm.police_parent_id,
+      spot_parent_id: props.ruleForm.spot_parent_id,
       data: props.ruleForm.police,
     };
     if (valid) {
+      loading.value = true
       try{
       const { data } = props.ruleForm.id
         ? await policeStore.updatePolice(form)
         : await policeStore.createPolice(props.ruleForm);
       data.status_code == 200
         ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"))
+          emit("tableDataEmit"), loading.value = false)
         : "";
         data.status_code == 200 ? router.push({ name: "policeList" }) : "";
       } catch (error) {

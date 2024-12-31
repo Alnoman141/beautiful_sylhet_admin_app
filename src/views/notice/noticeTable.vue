@@ -43,31 +43,46 @@
           </div>
         </template>
         <template #default="scope">
-          <ElButton
-            size="small"
-            type="primary"
+          <RouterLink
+            style="color:white"
+            :to="{ name: 'editNotice', params: { id: scope.row.parent_id } }"
+            class="mx-2"
           >
-            <RouterLink
-              style="color:white"
-              :to="{ name: 'editNotice', params: { id: scope.row.parent_id } }"
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Edit"
+              placement="top-start"
+            >
+              <ElButton
+                size="small"
+                type="primary"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
+          </RouterLink>
+          <ElTooltip
+            class="item"
+            effect="dark"
+            content="Delete"
+            placement="top-start"
+          >
+            <ElButton
+              size="small"
+              type="danger"
+              @click="showAlert(scope.row.parent_id)"
             >
               <VIcon
-                icon="tabler-edit"
+                icon="tabler-trash"
                 size="15"
               />
-            </RouterLink>
-          </ElButton>
-          <ElButton
-            size="small"
-            type="danger"
-            @click="showAlert(scope.row.parent_id)"
-          >
-            <VIcon
-              icon="tabler-trash"
-              size="15"
-            />
             <!--  v-if="scope.row.status == 0" -->
-          </ElButton>
+            </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

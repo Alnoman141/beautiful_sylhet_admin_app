@@ -14,7 +14,14 @@
            
             class="create-btn "
           >
-            Create  Kitkot Chair
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Kitkot Chair"
+              placement="top-start"
+            >
+              Create  Kitkot Chair
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

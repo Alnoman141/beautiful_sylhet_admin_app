@@ -2,6 +2,7 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
@@ -21,14 +22,19 @@ const userStore = useUserStore()
 
 const ruleForm = ref({})
 
+const loading = ref(false)
+
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+
+  loading.value = true
 
   const { data } = await userStore.editUser({ id: route.params.id })
 
-  console.log("data", data)
+ 
 
   ruleForm.value = data.data
+
+  loading.value = false
 }
 
 onMounted(() => {

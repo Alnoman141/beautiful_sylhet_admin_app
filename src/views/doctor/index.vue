@@ -17,7 +17,14 @@
             
             class="create-btn "
           >
-            Create Doctor
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Doctor"
+              placement="top-start"
+            >
+              Create Doctor
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

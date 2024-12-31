@@ -16,7 +16,12 @@
             
             class="create-btn"
           >
-            Create Beach Volunteer
+            <ElTooltip
+              content="Create Beach Volunteer"
+              placement="top"
+            >
+              Create Beach Volunteer
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

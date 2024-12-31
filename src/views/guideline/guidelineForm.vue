@@ -143,7 +143,7 @@ const validationLock = ref(false);
 
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  loading.value = true
+  
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let updateMode = false;
@@ -151,6 +151,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       e.id ? (updateMode = true) : "";
     });
     if (valid) {
+  loading.value = true;
+
       try {
         const { data } = updateMode
           ? await guidelineStore.updateGuideline(ruleForm.value)

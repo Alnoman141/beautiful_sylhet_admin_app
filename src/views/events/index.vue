@@ -14,7 +14,14 @@
             
             class="create-btn "
           >
-            Create  Event
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Create Event"
+              placement="top-start"
+            >
+              Create  Event
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

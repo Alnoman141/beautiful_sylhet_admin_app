@@ -13,13 +13,16 @@
             
             class="create-btn"
           >
+          <el-tooltip class="item" effect="dark" content="Bank List" placement="top-start">
             Bank List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+    v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -67,12 +70,17 @@
       </VRow>
 
       <ElCard class="my-4 ">
+        <el-tooltip class="item" effect="dark" content="Submit" placement="top-start">
         <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
           {{ mode }}
         </ElButton>
-
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
         <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
         <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+        </el-tooltip>
       </ElCard>
     </ElForm>
   </div>
@@ -82,13 +90,13 @@
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { notify } from "@/utils/notification";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
+const loading = ref(false)
 const emit = defineEmits(["tableDataEmit"]);
 const route = useRoute();
 const router = useRouter();
@@ -116,7 +124,9 @@ const rules = reactive<FormRules<RuleForm>>({
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
-    if (valid) {
+    if (valid) { 
+  loading.value = true
+
       try {
         const { data } =
           props.mode == "update"
@@ -124,7 +134,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             : await bankStore.createBank(props.ruleForm);
         data.status_code == 200
           ? (notify("Congratulations!", data.message, "success", "top-right"),
-            emit("tableDataEmit"))
+            emit("tableDataEmit"), loading.value = false)
           : "";
         data.status_code == 200 ? router.push({ name: "bankList" }) : "";
 

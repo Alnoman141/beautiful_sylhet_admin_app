@@ -70,12 +70,19 @@
   </MasonryWall>
   <ElDivider />
   <div class="text-center">
-    <ElButton
-      type="primary"
-      @click="assignPermission"
+    <ElTooltip
+      class="item"
+      effect="dark"
+      content="Assign Permissions"
+      placement="top-start"
     >
-      Assign Permissions
-    </ElButton>
+      <ElButton
+        type="primary"
+        @click="assignPermission"
+      >
+        Assign Permissions
+      </ElButton>
+    </ElTooltip>
   </div>
 </template>
 

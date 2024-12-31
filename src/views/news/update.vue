@@ -33,8 +33,8 @@ const getNewsDetails = async () => {
 
 
   // Convert date back to am/pm format
-  const [datePart24, timePart24] = data.data.expiry.split(' ')
-  let [hours24, minutes24, seconds24] = timePart24.split(':')
+  const [datePart24, timePart24] = data.data.expiry ?  data.data.expiry.split(' ') :''
+  let [hours24, minutes24, seconds24] = timePart24 ?  timePart24.split(':') :''
   const period24 = Number(hours24) >= 12 ? 'PM' : 'AM'
 
   hours24 = Number(hours24) % 12 || 12

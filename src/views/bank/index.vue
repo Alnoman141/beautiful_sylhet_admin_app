@@ -16,7 +16,14 @@
             
             class="create-btn"
           >
-            Create Bank
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Bank"
+              placement="top-start"
+            >
+              Create Bank
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>

@@ -11,16 +11,23 @@
             type="primary"
             :underline="false"
             :to="{ name: 'transportList' }"
-            
             class="create-btn"
           >
-            Transport List
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Transport List"
+              placement="top-start"
+            >
+              Transport List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -41,10 +48,12 @@
         >
           <ElCard class="rounded py-2 px-2">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-            <hr class="mb-4">
+            <hr class="mb-4" />
             <VRow>
               <VCol cols="12" md="6">
-                <ElFormItem label="Transport Name"  :prop="
+                <ElFormItem
+                  label="Transport Name"
+                  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.name'
                       : 'data.' + index + '.name'
@@ -53,7 +62,8 @@
                     required: true,
                     message: 'Name is required',
                     trigger: 'blur',
-                  }">
+                  }"
+                >
                   <ElInput placeholder="Transport Name" v-model="item.name" />
                 </ElFormItem>
               </VCol>
@@ -105,24 +115,26 @@
                 </ElFormItem>
               </VCol> -->
               <VCol cols="12">
-                <ElFormItem label="Description"  :prop="
+                <ElFormItem
+                  label="Description"
+                  :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.description'
                       : 'data.' + index + '.description'
-                  " >
+                  "
+                >
                   <!-- <ElInput placeholder="Description" type="textarea" v-model="item.description" /> -->
                   <div>
-                    
-                  <QuillEditor
+                    <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.description"                     
+                      v-model:content="item.description"
                       content-type="html"
                       theme="snow"
                       :text-change="checkData()"
                       toolbar="full"
                       placeholder="Type Description here"
                     />
-                    </div>  
+                  </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -156,22 +168,56 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            <ElFormItem label="Website Link" prop="map_link" :rules="{
-                    required: true,
-                    message: 'Website Link is required',
-                    trigger: 'blur',
-                  }" >
-              <ElInput type="url" placeholder="Website Link" v-model="ruleForm.map_link" />
+            <ElFormItem
+              label="Website Link"
+              prop="map_link"
+              :rules="{
+                required: true,
+                message: 'Website Link is required',
+                trigger: 'blur',
+              }"
+            >
+              <ElInput
+                type="url"
+                placeholder="Website Link"
+                v-model="ruleForm.map_link"
+              />
             </ElFormItem>
           </VCol>
         </VRow>
         <div class="py-4">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
-            {{ mode }}
-          </ElButton>
-
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Submit"
+            placement="top-start"
+          >
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Reset"
+            placement="top-start"
+          >
+            <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+              >Reset</ElButton
+            >
+          </el-tooltip>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          </el-tooltip>
         </div>
       </ElCard>
     </ElForm>
@@ -190,7 +236,7 @@ import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 const emit = defineEmits(["getEmit"]);
 const route = useRoute();
-const router = useRouter()
+const router = useRouter();
 const props = defineProps({
   ruleForm: {
     type: Object,
@@ -201,6 +247,8 @@ const props = defineProps({
     default: "create",
   },
 });
+
+const loading = ref(false);
 const transportStore = useTransportStore();
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -215,12 +263,10 @@ const transportDropdownData = ref([]);
 const getTransportTypeDropdownList = async () => {
   try {
     const { data } = await transportStore.getTransportType();
-    console.log("transport data",data)
+    console.log("transport data", data);
 
     data.data.map((e) => {
-      
-        e.id != 0 ?  transportDropdownData.value.push(e):''
-      
+      e.id != 0 ? transportDropdownData.value.push(e) : "";
     });
   } catch (e) {
     console.log(e);
@@ -240,22 +286,29 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     };
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid) {
-      try{
-      const { data } = props.ruleForm.id
-        ? await transportStore.updateTransport(form)
-        : await transportStore.createTransport(props.ruleForm);
-      data.status_code == 200
-        ? (notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right"
-            
-          ), router.push({ name: "transportList" }))
+      loading.value = true;
+
+      try {
+        const { data } = props.ruleForm.id
+          ? await transportStore.updateTransport(form)
+          : await transportStore.createTransport(props.ruleForm);
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            router.push({ name: "transportList" }),
+            (loading.value = false))
           : "";
       } catch (error) {
-            notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
-        }
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
+      }
     } else {
       console.log("error submit!", fields);
     }
@@ -265,27 +318,25 @@ const descriptionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
- descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  descriptionEditorRef.value?.map((e) => e.setHTML(""));
   props.ruleForm?.data?.map((e) => {
     e.description = "";
-  })
+  });
   props.ruleForm?.transports?.map((e) => {
     e.description = "";
-  })
-
-}
+  });
+};
 const checkData = () => {
   descriptionEditorRef.value?.map((item) => {
     item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
-
-  })
+  });
   props.ruleForm?.transports?.map((e) => {
-    e.description === "<p><br></p>" ? e.description = "" : "";
-  })
+    e.description === "<p><br></p>" ? (e.description = "") : "";
+  });
   props.ruleForm?.data?.map((e) => {
-    e.description ==="<p><br></p>" ? e.description = "" : "";
-  })
-}
+    e.description === "<p><br></p>" ? (e.description = "") : "";
+  });
+};
 const typeList = ref([]);
 
 onMounted(() => {
@@ -294,7 +345,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.submit{
+.submit {
   text-transform: capitalize;
 }
 

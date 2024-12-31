@@ -11,13 +11,18 @@
         >
           <RouterLink
             type="primary"
-            :underline="false"          
-          
-            :to="{ name: 'createCampaign'}"
-            
-            class="create-btn "
+            :underline="false"
+            :to="{ name: 'createCampaign' }"
+            class="create-btn"
           >
-            Create  Campaign
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Campaign"
+              placement="top-start"
+            >
+              Create Campaign
+            </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>
@@ -52,11 +57,11 @@ const campaignStore = useCampaignStore()
 
 const spotList = ref([])
 
-const columns = ref( [
-  { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Campaign Name Bangla', prop: 'name', sortable: false },        
-  { label: 'Campaign Name English', prop: 'name_en', sortable: false },        
-  { label: 'Description', prop: 'description', sortable: false },        
+const columns = ref([
+  { label: "S.L", prop: "id", sortable: false },
+  { label: "Campaign Name Bangla", prop: "name", sortable: false },
+  { label: "Campaign Name English", prop: "name_en", sortable: false },
+  { label: "Description", prop: "description", sortable: false },
 ])
 
 const totalData = ref(0)
@@ -70,8 +75,6 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await campaignStore.getCampaign(parameter)
 
-    
-
     spotList.value = data.data.data
 
     totalData.value = data.data.total
@@ -83,11 +86,9 @@ const getspotList = async (pageSize, pageNo) => {
 }
 
 onMounted(() => {
-  
   getspotList(10, 1)
 })
 </script>
-
 
 <style scoped>
 .create-btn {
@@ -95,6 +96,6 @@ onMounted(() => {
   background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding-block: 6px;
-  padding-inline: 10px; 
+  padding-inline: 10px;
 }
 </style>

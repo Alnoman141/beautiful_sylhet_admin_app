@@ -40,13 +40,20 @@
         min-width="300"
       >
         <template #default="scope">
-          <ElButton
-            size="small"
-            type="info"
-            @click="viewPermissions(scope.row)"
+          <ElTooltip
+            class="item"
+            effect="dark"
+            content="View Permissions"
+            placement="top-start"
           >
-            View Permissions
-          </ElButton>
+            <ElButton
+              size="small"
+              type="info"
+              @click="viewPermissions(scope.row)"
+            >
+              View Permissions
+            </ElButton>
+          </ElTooltip>
         </template>
       </ElTableColumn>
     </ElTable>

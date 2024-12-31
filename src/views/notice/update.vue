@@ -2,6 +2,7 @@
 <template>
   <div>
     <NewsForm
+      v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
     />
@@ -17,12 +18,13 @@ import NewsForm from './noticeForm.vue'
 
 const route = useRoute()
 
+const loading = ref(false)
 const noticeStore = useNoticeStore()
 
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  loading.value = true
 
   const { data } = await noticeStore.editNotice({ id: route.params.id })
 
@@ -34,10 +36,13 @@ const getNewsDetails = async () => {
 
   ruleForm.value = data.data
 
+  loading.value = false
+
+ 
 
   // Convert date back to am/pm format
-  const [datePart24, timePart24] = data.data.expiry.split(' ')
-  let [hours24, minutes24, seconds24] = timePart24.split(':')
+  const [datePart24, timePart24] = data.data.expiry ?  data.data.expiry.split(' ') :''
+  let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(':') :''
   const period24 = Number(hours24) >= 12 ? 'PM' : 'AM'
 
   hours24 = Number(hours24) % 12 || 12

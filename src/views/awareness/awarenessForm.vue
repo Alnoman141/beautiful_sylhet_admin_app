@@ -131,10 +131,12 @@ const getAwareness = async () => {
 };
 
 const updateAwarenessData = async (formEl: FormInstance | undefined) => {
-  loading.value = true;
+  
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+  loading.value = true;
+
       try {
         const { data } = await awarenessStore.updateAwareness(ruleForm.value);
 
