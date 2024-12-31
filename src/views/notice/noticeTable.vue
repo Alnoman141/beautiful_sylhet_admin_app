@@ -21,7 +21,7 @@
             <div
               v-if="column.prop !== 'date'"
               class="text-limit"
-              v-html="column.prop !== 'id' ? scope.row[column.prop] : index++"
+              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo-1) * 10 + index++"
             />
             <div
               v-else
@@ -105,7 +105,10 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
-  
+  pageNo: {
+    type: Number,
+    default: () => (1),
+  },
 })
 
 const emit = defineEmits(["tableDataEmit"]) 

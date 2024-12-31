@@ -32,6 +32,7 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
+          :page-no="page"
           @table-data-emit="getspotList"
         />
       </div>
@@ -46,6 +47,7 @@
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
 import PaginationSection from "@/components/tourism/pagination.vue"
+import { onMounted, ref } from "vue"
 
 import { useHotelStore } from "@/stores/tourism/hotelStore"
 import HotelTable from "./hotelTable.vue"
@@ -75,6 +77,7 @@ const columns = ref( [
 ])
 
 const totalData = ref(0)
+const page = ref(1)
 
 const getspotList = async (pageSize, pageNo) => {
   loading.value = true
@@ -86,6 +89,7 @@ const getspotList = async (pageSize, pageNo) => {
     const { data } = await hotelStore.getHotel(parameter)
 
     
+    page.value = data.data.current_page
 
     spotList.value = data.data.data
     totalData.value = data.data.total

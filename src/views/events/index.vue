@@ -8,11 +8,9 @@
         <VCol class="text-right">
           <RouterLink
             type="primary"
-            :underline="false"          
-          
-            :to="{ name: 'createEvents'}"
-            
-            class="create-btn "
+            :underline="false"
+            :to="{ name: 'createEvents' }"
+            class="create-btn"
           >
             <ElTooltip
               class="box-item"
@@ -20,7 +18,7 @@
               content="Create Event"
               placement="top-start"
             >
-              Create  Event
+              Create Event
             </ElTooltip>
           </RouterLink>
         </VCol>
@@ -32,7 +30,8 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getspotList(10,1)"
+          :page-no="page"
+          @table-data-emit="getspotList(10, 1)"
         />
       </div>
       <PaginationSection
@@ -55,17 +54,18 @@ const eventsStore = useEventsStore()
 
 const spotList = ref([])
 
-const columns = ref( [
-  { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Name', prop: 'name', sortable: false },
-  { label: 'Location', prop: 'location', sortable: false },
-  { label: 'Time', prop: 'time', sortable: false },        
+const columns = ref([
+  { label: "S.L", prop: "id", sortable: false },
+  { label: "Name", prop: "name", sortable: false },
+  { label: "Location", prop: "location", sortable: false },
+  { label: "Time", prop: "time", sortable: false },
 
-  // { label: 'Description', prop: 'description', sortable: false },        
+  // { label: 'Description', prop: 'description', sortable: false },
 ])
 
 const totalData = ref(0)
 const loading = ref(false)
+const page = ref(1)
 
 const getspotList = async (pageSize, pageNo) => {
   loading.value = true
@@ -77,7 +77,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await eventsStore.getEvents(parameter)
 
-    
+    page.value = data.data.current_page
 
     spotList.value = data.data.data
 
@@ -90,11 +90,9 @@ const getspotList = async (pageSize, pageNo) => {
 }
 
 onMounted(() => {
-  
   getspotList(10, 1)
 })
 </script>
-
 
 <style scoped>
 .create-btn {
@@ -102,6 +100,6 @@ onMounted(() => {
   background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding-block: 6px;
-  padding-inline: 10px; 
+  padding-inline: 10px;
 }
 </style>

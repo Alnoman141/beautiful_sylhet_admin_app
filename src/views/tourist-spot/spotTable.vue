@@ -19,7 +19,7 @@
         <template #default="scope">
           <div
             v-if="column.prop !== 'image' "
-            v-html="column.prop !== 'id' ? scope.row[column.prop] : index++"
+            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo-1 )* 10 + index++"
           />
           <div class="text-center">
             <img
@@ -106,6 +106,10 @@ const props = defineProps({
   columns: {
     type: Array,
     default: () => [],
+  },
+  pageNo: {
+    type: Number,
+    default: 1,
   },
 })
 

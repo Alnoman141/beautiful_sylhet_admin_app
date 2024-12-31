@@ -17,7 +17,7 @@
         :width="column.prop == 'id' ? '100' : column.prop == 'type' ? '150' : ''"
       >
         <template #default="scope">
-          <div v-html="scope.row[column.prop]" />
+          <div v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo-1) * 10 + index++" />
         </template>
       </ElTableColumn>
 
@@ -93,6 +93,10 @@ const props = defineProps({
   columns: {
     type: Array,
     default: () => ([]),
+  },
+  pageNo: {
+    type: Number,
+    default: () => (1),
   },
   
 })

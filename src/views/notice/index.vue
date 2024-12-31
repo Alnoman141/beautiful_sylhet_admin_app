@@ -35,6 +35,7 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
+          :page-no="page"
           @table-data-emit="getCampaignList"
         />
       </div>
@@ -69,6 +70,7 @@ const columns = ref( [
 
 const totalData = ref(0)
 const loading = ref(false)
+const page = ref(1)
 
 const getCampaignList = async (pageSize, pageNo) => {
   loading.value = true
@@ -81,6 +83,7 @@ const getCampaignList = async (pageSize, pageNo) => {
   try {
     const { data } = await noticeStore.getNotice(params)
 
+    page.value = data.data.current_page
     
 
     spotList.value = data.data.data

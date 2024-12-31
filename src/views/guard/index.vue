@@ -35,6 +35,7 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
+          :page-no="page"
           @table-data-emit="getspotList"
         />
       </div>
@@ -68,6 +69,7 @@ const columns = ref( [
 
 const totalData = ref(0)
 const loading = ref(false)
+const page = ref(1)
 
 const getspotList = async (pageSize, pageNo) => {
   loading.value = true
@@ -78,6 +80,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await guardStore.getGuard(parameter)
 
+    page.value = data.data.current_page
     
 
     spotList.value = data.data.data

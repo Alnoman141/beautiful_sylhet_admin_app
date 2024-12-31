@@ -33,6 +33,7 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
+          :page-no="page"
           @table-data-emit="getspotList(10, 1)"
         />
       </div>
@@ -67,6 +68,7 @@ const columns = ref([
 ])
 
 const totalData = ref(0)
+const page = ref(1)
 
 const getspotList = async (pageSize, pageNo) => {
   loading.value = true
@@ -77,6 +79,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await atmStore.getAtm(parameter)
 
+    page.value = data.data.current_page
     spotList.value = data.data.data
     totalData.value = data.data.total
     loading.value = false

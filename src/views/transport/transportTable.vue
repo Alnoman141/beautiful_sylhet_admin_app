@@ -20,7 +20,7 @@
           <!-- <div v-html="scope.row[column.prop]" /> -->
           <div
             class="text-limit"
-            v-html="column.prop !== 'id' ? scope.row[column.prop] : index++"
+            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * 10 + index++"
           />
         </template>
       </ElTableColumn>
@@ -98,6 +98,10 @@ const props = defineProps({
   columns: {
     type: Array,
     default: () => ([]),
+  },
+  pageNo: {
+    type: Number,
+    default: () => (1),
   },
   
 })
