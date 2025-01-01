@@ -172,6 +172,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
         router.push({ name: "hotelCategoryList" });
       } catch (error) {
+        loading.value = false
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors

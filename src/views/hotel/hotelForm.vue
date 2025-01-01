@@ -410,6 +410,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         : "";
         router.push({ name: "hotelList" });
       } catch (error) {
+        loading.value = false
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
       }
     } else {

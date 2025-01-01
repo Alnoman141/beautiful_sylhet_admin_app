@@ -682,6 +682,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         router.push({ name: "touristSpot" });
       }
       catch (error) {
+        loading.value = false
         console.log(error);
         // notify("Warning!", 'Something went wrong', "warning", "top-right");
          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')

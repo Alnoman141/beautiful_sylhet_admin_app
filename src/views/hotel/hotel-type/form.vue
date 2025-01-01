@@ -145,7 +145,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           ), loading.value = false)
         : "";
         router.push({ name: "hotelTypeList" });
-      }catch(error){
+      } catch (error) {
+        loading.value = false
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
       }
     } else {

@@ -283,7 +283,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
         data.status_code == 200 ? router.push({ name: "campaignList" }) : "";
       } catch (error) {
-        console.log(error);
+        loading.value = false
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors

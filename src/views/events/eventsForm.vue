@@ -234,8 +234,8 @@
                 v-model="ruleForm.expiry"
                 type="datetime"
                 placeholder="Pick a Date"
-                format="DD/MM/YYYY hh:mm:ss a"
-                value-format="DD-MM-YYYY h:m:s a"
+                format="YYYY/MM/DD hh:mm:ss a"
+                value-format="YYYY-MM-DD hh:mm:ss a"
                 
               />
             </ElFormItem>
@@ -356,7 +356,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             "top-right"
           ), router.push({ name: "eventsList" }), loading.value = false)
         : "";
-      }catch (error) {
+      } catch (error) {
+        loading.value = false
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
       }
         

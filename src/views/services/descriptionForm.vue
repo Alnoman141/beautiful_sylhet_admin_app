@@ -224,6 +224,7 @@ const getDescriptonData = async () => {
     ruleForm.value = data.data;
     loading.value = false
   } catch (error) {
+    loading.value = false
     console.log(error);
   }
 };

@@ -46,16 +46,27 @@ const logout = async () => {
   }
 }
 
+const profile = () => {
+  router.push({ name: 'profile' })
+}
+
 
 
 const userProfileList = [
   { type: 'divider' },
   {
     type: 'navItem',
+    icon: 'tabler-user',
+    title: 'Profile',
+    onClick: profile,
+  },
+  {
+    type: 'navItem',
     icon: 'tabler-logout',
     title: 'Logout',
     onClick: logout,
   },
+  
 ]
 
 
@@ -96,37 +107,38 @@ token  == undefined || !token ? router.push({ name: "login" }) : null
         <VList>
           <VListItem>
             <template #prepend>
-              <VListItemAction start>
-                <VBadge
-                  dot
-                  location="bottom right"
-                  offset-x="3"
-                  offset-y="3"
-                  color="success"
-                  bordered
-                >
-                  <VAvatar
-                    :color="!(userData && userData.avatar) ? 'primary' : undefined"
-                    :variant="!(userData && userData.avatar) ? 'tonal' : undefined"
+              <RouterLink :to="{ name: 'profile' }">
+                <VListItemAction start>
+                  <VBadge
+                    dot
+                    location="bottom right"
+                    offset-x="3"
+                    offset-y="3"
+                    color="success"
+                    bordered
                   >
-                    <VImg
-                      v-if="userData && userData.avatar"
-                      :src="userData.avatar"
-                    />
-                    <VIcon
-                      v-else
-                      icon="tabler-user"
-                    />
-                  </VAvatar>
-                </VBadge>
-              </VListItemAction>
+                    <VAvatar
+                      :color="!(userData && userData.avatar) ? 'primary' : undefined"
+                      :variant="!(userData && userData.avatar) ? 'tonal' : undefined"
+                    >
+                      <VImg
+                        v-if="userData && userData.avatar"
+                        :src="userData.avatar"
+                      />
+                      <VIcon
+                        v-else
+                        icon="tabler-user"
+                      />
+                    </VAvatar>
+                  </VBadge>
+                </VListItemAction>
+              </RouterLink>
             </template>
-
-            <VListItemTitle class="font-weight-medium">
-              {{ userData.first_name || userData.username }}
-            </VListItemTitle>
-            <!-- <VListItemSubtitle>{{ userData.roles[0]?.name }}</VListItemSubtitle> -->
-            <!-- this section need data from backend -->
+            <RouterLink :to="{ name: 'profile' }">
+              <VListItemTitle class="font-weight-medium">
+                {{ userData.first_name || userData.username }}
+              </VListItemTitle>
+            </RouterLink>
           </VListItem>
 
           <PerfectScrollbar :options="{ wheelPropagation: false }">

@@ -48,6 +48,14 @@ export function updateUser(data) {
   })
 }
 
+export function updatePassword(data) {
+  return request({
+    url: "/password-update",
+    method: "post",
+    data,
+  })
+}
+
 // createNews
 
 export function deleteUser(data) {

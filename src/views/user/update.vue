@@ -3,9 +3,10 @@
   <div>
     <NewsForm
       v-loading="loading"
-      :rule-form="ruleForm"
+      :rule-form="ruleForm"      
       mode="update"
     />
+    <Password :id="route.params.id" />
   </div>
 </template>
 
@@ -14,6 +15,7 @@
 import { useUserStore } from "@/stores/tourism/userStore"
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import Password from './password.vue'
 import NewsForm from './userForm.vue'
 
 const route = useRoute()

@@ -298,6 +298,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             (loading.value = false))
           : "";
       } catch (error) {
+        loading.value = false
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors

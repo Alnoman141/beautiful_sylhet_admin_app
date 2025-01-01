@@ -322,7 +322,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
         data.status_code == 200 ? router.push({ name: "atmList" }) : "";
       } catch (error) {
-        console.log(error);
+        loading.value = false
         // notify("Error", "Something went wrong", "error", "top-right");
         notify(
           error?.response?.data?.message,

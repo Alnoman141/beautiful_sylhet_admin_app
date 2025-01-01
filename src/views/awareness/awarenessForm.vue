@@ -146,6 +146,7 @@ const updateAwarenessData = async (formEl: FormInstance | undefined) => {
           : "";
         data.status_code == 200 ? router.push({ name: "awareness" }) : "";
       } catch (error) {
+        loading.value = false
         // notify("error", error?.response?.data?.message)
         notify(
           error?.response?.data?.message,

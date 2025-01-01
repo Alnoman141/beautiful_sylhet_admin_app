@@ -110,6 +110,16 @@ export const routes = [
       navActiveLink: 'info',
     },
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/user/profile.vue'),
+    meta: {
+      subject: "dashboard",
+      action: "show menu",
+      
+    },
+  },
  
  
 ]

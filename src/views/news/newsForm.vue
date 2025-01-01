@@ -106,8 +106,8 @@
                 v-model="ruleForm.expiry"
                 type="datetime"
                 placeholder="Pick a Date"
-                format="DD/MM/YYYY hh:mm:ss a"
-                value-format="DD-MM-YYYY h:m:s a"
+                format="YYYY/MM/DD hh:mm:ss a"
+                value-format="YYYY-MM-DD hh:mm:ss a"
               />
             </ElFormItem>
           </VCol>
@@ -230,6 +230,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
         router.push({ name: "newsList" });
       } catch (error) {
+        loading.value = false
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors

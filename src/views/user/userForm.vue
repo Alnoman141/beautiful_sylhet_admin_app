@@ -13,7 +13,7 @@
             class="create-btn"
           >
           <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
-            Bank List
+            User List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -270,6 +270,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         : "";
         data.status_code == 200 ? router.push({ name: "userList" }) : "";
       } catch (error) {
+        loading.value = false
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
       }
     } else {

@@ -139,7 +139,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         data.status_code == 200 ? router.push({ name: "bankList" }) : "";
 
       } catch (error) {
-        console.log(error);
+        loading.value = false
         // notify("Error", "Something went wrong", "error", "top-right");
           notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
       }
