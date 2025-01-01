@@ -20,7 +20,7 @@
           <!-- <div v-html="scope.row[column.prop]" /> -->
           <div
             v-if="column.prop !== 'content'"
-            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : pageNo * 10 + index++"
+            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
           />
           <div v-else>
             {{ scope.row[column.prop].data.title }}
@@ -109,6 +109,10 @@ const props = defineProps({
   pageNo: {
     type: Number,
     default: 1,
+  },
+  pageSize: {
+    type: Number,
+    default: 10,
   },
   
 })

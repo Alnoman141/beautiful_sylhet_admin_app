@@ -10,7 +10,7 @@
             type="primary"
             :underline="false"          
           
-            :to="{ name: 'createKitkat', params: { type: 4 } }"
+            :to="{ name: 'createKitkot', params: { type: 4 } }"
            
             class="create-btn "
           >

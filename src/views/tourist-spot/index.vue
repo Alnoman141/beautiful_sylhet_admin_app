@@ -33,6 +33,7 @@
           :filter-table-data="spotList"
           :columns="columns"
           :page-no="page"
+          :page-size="size"
           @table-data-emit="getspotList"
         />
         <PaginationSection
@@ -66,8 +67,10 @@ const columns = ref( [
 
 const totalData = ref(0)
 const page = ref(1)
+const size = ref(10)
 
 const getspotList = async (pageSize, pageNo) => {
+  size.value = pageSize
   loading.value = true
   let parameter = {
     page: pageNo,

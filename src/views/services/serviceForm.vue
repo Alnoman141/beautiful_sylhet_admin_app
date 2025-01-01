@@ -375,12 +375,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
 
         props.ruleForm.type == "1"
-          ? router.push({ name: "tourismHelpline" })
+          ? router.push({ name: "Tourism Corporation" })
           : props.ruleForm.type == "2"
-          ? router.push({ name: "dcHelpline" })
+          ? router.push({ name: "DC Activities" })
           : props.ruleForm.type == "3"
-          ? router.push({ name: "busService" })
-          : router.push({ name: "kitkatChair" });
+          ? router.push({ name: "Tourist Bus" })
+          : router.push({ name: "Kitkot Chair" });
       } catch (error) {
         notify(
           error?.response?.data?.message,

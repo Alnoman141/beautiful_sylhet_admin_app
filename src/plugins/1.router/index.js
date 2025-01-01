@@ -18,9 +18,14 @@ import { lockerRoutes } from './locker'
 import { newsRoutes } from './news'
 import { noticeRoutes } from './notice'
 import { policeRoutes } from './police'
-import { servicesRoutes } from './service'
+
+// import { servicesRoutes } from './service'
+import { busRoutes } from './bus'
+import { dcRoutes } from './dc'
+import { kitkotRoutes } from './kitkot'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
+import { tourismRoutes } from './tourism'
 import { transportRoutes } from './transport'
 import { userRoutes } from './user'
 import { volunteerRoutes } from './volunteer'
@@ -68,7 +73,12 @@ const router = createRouter({
       ...volunteerRoutes,
       ...noticeRoutes,
       ...userRoutes,
-      ...servicesRoutes,
+      ...tourismRoutes,
+      ...dcRoutes,
+      ...busRoutes,
+      ...kitkotRoutes,
+
+      // ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),
   ],
 })

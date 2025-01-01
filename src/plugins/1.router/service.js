@@ -1,6 +1,6 @@
 export const servicesRoutes = [
   {
-    path: '/tourismHelpline',
+    path: '/Tourism-Corporation',
     meta: {
       subject: "transport",
       action: "show menu",
@@ -8,7 +8,7 @@ export const servicesRoutes = [
     children: [
       {
         path: '',
-        name: 'tourismHelpline',
+        name: 'Tourism Corporation',
         component: () => import('@/views/services/index.vue'),
         meta: {
           subject: "transport",
@@ -16,8 +16,8 @@ export const servicesRoutes = [
         },
       },
       {
-        path: '/dcHelpline',
-        name: 'dcHelpline',
+        path: '/DC-Activities',
+        name: 'DC Activities',
         component: () => import('@/views/services/dc.vue'),
         meta: {
           subject: "transport",
@@ -25,8 +25,8 @@ export const servicesRoutes = [
         },
       },
       {
-        path: '/busService',
-        name: 'busService',
+        path: '/Tourist-Bus',
+        name: 'Tourist Bus',
         component: () => import('@/views/services/bus.vue'),
         meta: {
           subject: "transport",
@@ -34,8 +34,8 @@ export const servicesRoutes = [
         },
       },
       {
-        path: '/kitkatChair',
-        name: 'kitkatChair',
+        path: '/Kitkot-Chair',
+        name: 'Kitkot Chair',
         component: () => import('@/views/services/kitkat.vue'),
         meta: {
           subject: "transport",
@@ -49,7 +49,7 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'tourismHelpline',
+          navActiveLink: 'Tourism Corporation',
         },
       },
       {
@@ -59,7 +59,7 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'dcHelpline',
+          navActiveLink: 'DC Activities',
         },
       },
       {
@@ -69,17 +69,17 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'busService',
+          navActiveLink: 'Tourist Bus',
         },
       },
       {
-        path: 'create-kitkat/:type',
-        name: 'createKitkat',
+        path: 'create-kitkot/:type',
+        name: 'createKitkot',
         component: () => import('@/views/services/create.vue'),
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'kitkatChair',
+          navActiveLink: 'Kitkot Chair',
         },
       },
     
@@ -91,7 +91,7 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'tourismHelpline',
+          navActiveLink: 'Tourism Corporation',
         },
       },
       {
@@ -101,7 +101,7 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'dcHelpline',
+          navActiveLink: 'DC Activities',
         },
       },
       {
@@ -111,17 +111,17 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'busService',
+          navActiveLink: 'Tourist Bus',
         },
       },
       {
-        path: 'edit-kitkat/:id',
-        name: 'editKitkat',
+        path: 'edit-kitkot/:id',
+        name: 'editKitkot',
         component: () => import('@/views/services/update.vue'),
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'kitkatChair',
+          navActiveLink: 'Kitkot Chair',
         },
       },
       {
@@ -131,7 +131,7 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'tourismHelpline',
+          navActiveLink: 'Tourism Corporation',
         },
       },
       {
@@ -141,7 +141,7 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'dcHelpline',
+          navActiveLink: 'DC Activities',
         },
       },
       {
@@ -151,17 +151,17 @@ export const servicesRoutes = [
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'busService',
+          navActiveLink: 'Tourist Bus',
         },
       },
       {
-        path: 'edit-kitkat-description/:type',
-        name: 'editKitkatDescription',
+        path: 'edit-kitkot-description/:type',
+        name: 'editKitkotDescription',
         component: () => import('@/views/services/descriptionForm.vue'),
         meta: {
           subject: "transport",
           action: "show menu",
-          navActiveLink: 'kitkatChair',
+          navActiveLink: 'Kitkot Chair',
         },
       },
 

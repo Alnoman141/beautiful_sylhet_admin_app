@@ -18,7 +18,7 @@
       >
         <template #default="scope">
           <!-- <div v-html="scope.row[column.prop]" /> -->
-          <div v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : pageNo * 10 + index++" />
+          <div v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo -1) * pageSize + index++" />
           <!-- pageNo * 10 + index++ -->
         </template>
       </ElTableColumn>
@@ -97,6 +97,10 @@ const props = defineProps({
   pageNo: {
     type: Number,
     default: 1,
+  },
+  pageSize: {
+    type: Number,
+    default: 10,
   },
   
 })

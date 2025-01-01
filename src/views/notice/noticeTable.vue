@@ -21,7 +21,7 @@
             <div
               v-if="column.prop !== 'date'"
               class="text-limit"
-              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : pageNo * 10 + index++"
+              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
             />
             <div
               v-else
@@ -108,6 +108,10 @@ const props = defineProps({
   pageNo: {
     type: Number,
     default: () => (1),
+  },
+  pageSize: {
+    type: Number,
+    default: () => (10),
   },
 })
 

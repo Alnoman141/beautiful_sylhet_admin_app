@@ -8,7 +8,7 @@
 
       <div class=" my-2 d-flex">
         <div
-          :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:50% !important'"
+          :style="route.name == 'Tourism Corporation' || route.name == 'DC Activities' ?'inline-size:45% !important':'inline-size:50% !important'"
           class="border"
         > 
           <p class="px-2 my-2">
@@ -22,7 +22,7 @@
         </div>
         <div
           v-if="
-            route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'
+            route.name !== 'Tourism Corporation' && route.name !== 'DC Activities'
           "
           style="inline-size:40% !important"
           class="border"
@@ -36,8 +36,8 @@
           </p>
         </div>
         <div
-          v-if="route.name == 'tourismHelpline' || route.name == 'dcHelpline'"
-          :style="route.name == 'tourismHelpline' || route.name == 'dcHelpline' ?'inline-size:45% !important':'inline-size:30% !important'"
+          v-if="route.name == 'Tourism Corporation' || route.name == 'DC Activities'"
+          :style="route.name == 'Tourism Corporation' || route.name == 'DC Activities' ?'inline-size:45% !important':'inline-size:30% !important'"
           class="border"
         > 
           <p class="px-2 my-2">
@@ -64,13 +64,13 @@
               style="color: white"
               :underline="false"
               :to="
-                route.name == 'tourismHelpline'
+                route.name == 'Tourism Corporation'
                   ? { name: 'editTourismDescription', params: { type: 1 } }
-                  : route.name == 'dcHelpline'
+                  : route.name == 'DC Activities'
                     ? { name: 'editDcDescription', params: { type: 2 } }
                     : route.name == 'busService'
                       ? { name: 'editBusDescription', params: { type: 3 } }
-                      : { name: 'editKitkatDescription', params: { type: 4 } }
+                      : { name: 'editKitkotDescription', params: { type: 4 } }
               "
             >
               <ElTooltip
@@ -96,7 +96,7 @@
     </ElCard>
     <ElCard>
       <h4 class="text-h4">
-        {{ route.name !== 'tourismHelpline' && route.name !== 'dcHelpline' ? 'Spot Wise Contact Information' : 'Officer Contact Information' }}
+        {{ route.name !== 'Tourism Corporation' && route.name !== 'DC Activities' ? 'Spot Wise Contact Information' : 'Officer Contact Information' }}
       </h4>
       <hr class="mb-4">
       <ElTable
@@ -114,7 +114,7 @@
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="route.name !== 'tourismHelpline' && route.name !== 'dcHelpline'"
+          v-if="route.name !== 'Tourism Corporation' && route.name !== 'DC Activities'"
           label="Spot Name"
         >
           <template #default="scope">
@@ -123,8 +123,8 @@
         </ElTableColumn>
 
         <ElTableColumn
-          :label="route.name !== 'tourismHelpline' &&
-            route.name !== 'dcHelpline' ? 'Booking Person Information' : 'Officer Informations'"
+          :label="route.name !== 'Tourism Corporation' &&
+            route.name !== 'DC Activities' ? 'Booking Person Information' : 'Officer Informations'"
         >
           <template #default="scope">
             <div
@@ -156,9 +156,9 @@
 
         <ElTableColumn
           v-if="
-            route.name !== 'tourismHelpline' &&
-              route.name !== 'dcHelpline' &&
-              route.name !== 'kitkatChair'
+            route.name !== 'Tourism Corporation' &&
+              route.name !== 'DC Activities' &&
+              route.name !== 'kitkotChair'
           "
           label="Supervisor Informations"
         >
@@ -204,13 +204,13 @@
               style="color: white"
               :to="{
                 name:
-                  route.name == 'tourismHelpline'
+                  route.name == 'Tourism Corporation'
                     ? 'editTourism'
-                    : route.name == 'dcHelpline'
+                    : route.name == 'DC Activities'
                       ? 'editDc'
                       : route.name == 'busService'
                         ? 'editBus'
-                        : 'editKitkat',
+                        : 'editKitkot',
                 params: { id: scope.row.id },
               }"
             >

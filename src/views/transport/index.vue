@@ -31,6 +31,8 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
+          :page-no="page"
+          :page-size="size"
           @table-data-emit="getspotList"
         />
       </div>
@@ -65,8 +67,11 @@ const columns = ref([
 ])
 
 const totalData = ref(0)
+const page = ref(1)
+const size = ref(10)
 
 const getspotList = async (pageSize, pageNo) => {
+  size.value = pageSize
   loading.value = true
   let parameter = {
     page: pageNo,
@@ -75,6 +80,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await transportStore.getTransport(parameter)
 
+    page.value = data.data.current_page
     spotList.value = data.data.data
     totalData.value = data.data.total
     loading.value = false
