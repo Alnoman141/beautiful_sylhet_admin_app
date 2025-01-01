@@ -192,9 +192,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     ? props.ruleForm.expiry.split(" ")
     : "";
   let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
-  if (period.toLowerCase() === "pm" && hours !== "12") {
+  if (props.ruleForm.expiry && period.toLowerCase() === "pm" && hours !== "12") {
     hours = String(Number(hours) + 12);
-  } else if (period.toLowerCase() === "am" && hours === "12") {
+  } else if (props.ruleForm.expiry && period.toLowerCase() === "am" && hours === "12") {
     hours = "00";
   }
   formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;

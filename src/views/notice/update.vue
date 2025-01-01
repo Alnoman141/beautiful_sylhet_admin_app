@@ -9,12 +9,11 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { useNoticeStore } from "@/stores/tourism/noticeStore"
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import NewsForm from './noticeForm.vue'
+import { onMounted, ref } from "vue"
+import { useRoute } from "vue-router"
+import NewsForm from "./noticeForm.vue"
 
 const route = useRoute()
 
@@ -28,26 +27,21 @@ const getNewsDetails = async () => {
 
   const { data } = await noticeStore.editNotice({ id: route.params.id })
 
- 
-
-  
-
-  
-
   ruleForm.value = data.data
 
   loading.value = false
 
- 
-
   // Convert date back to am/pm format
-  const [datePart24, timePart24] = data.data.expiry ?  data.data.expiry.split(' ') :''
-  let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(':') :''
-  const period24 = Number(hours24) >= 12 ? 'PM' : 'AM'
+  const [datePart24, timePart24] = data.data.expiry
+    ? data.data.expiry.split(" ")
+    : ""
+
+  let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(":") : ""
+
+  const period24 = Number(hours24) >= 12 ? "pm" : "am"
 
   hours24 = Number(hours24) % 12 || 12
   ruleForm.value.expiry = `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
-
 }
 
 onMounted(() => {

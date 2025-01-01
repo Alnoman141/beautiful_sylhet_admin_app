@@ -103,7 +103,7 @@
                 type="password"
                 placeholder="Password"
                 v-model="ruleForm.password"
-                autocomplete="off"
+                
               />
             </ElFormItem>
           </VCol>
@@ -118,7 +118,7 @@
                 type="password"
                 placeholder="Confirm Password"
                 v-model="ruleForm.password_confirmation"
-                autocomplete="off"
+                
               />
             </ElFormItem>
           </VCol>

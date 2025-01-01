@@ -60,6 +60,7 @@
                   }"
                 >
                   <!-- <ElInput v-model="item.name"  /> -->
+                
                   <div>
                     <QuillEditor
                       ref="noticeEditorRef"
@@ -212,9 +213,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   // convert date to 24h format from am pm
   const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :'';
   let [hours, minutes, seconds] = timePart ? timePart.split(':') :'';
-  if (period.toLowerCase() === 'pm' && hours !== '12') {
+  if (props.ruleForm.expiry && period.toLowerCase() === 'pm' && hours !== '12') {
     hours = String(Number(hours) + 12);
-  } else if (period.toLowerCase() === 'am' && hours === '12') {
+  } else if (props.ruleForm.expiry && period.toLowerCase() === 'am' && hours === '12') {
     hours = '00';
   }
   formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
@@ -368,6 +369,11 @@ const formatExpiryDate = (date) => {
 
   
 }
+
+onMounted(() => {
+  console.log("props.ruleForm",props.ruleForm)
+  checkData();
+});
 </script>
 
 <style scoped>
