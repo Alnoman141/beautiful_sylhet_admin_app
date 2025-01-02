@@ -1,10 +1,11 @@
 export const newsRoutes = [
   {
     path: '/news',
-    meta: {
-      subject: "news",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "news",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ export const newsRoutes = [
         component: () => import('@/views/news/create.vue'),
         meta: {
           subject: "news",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'newsList',
         },
       },
@@ -32,7 +33,7 @@ export const newsRoutes = [
         component: () => import('@/views/news/update.vue'),
         meta: {
           subject: "news",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'newsList',
         },
       },

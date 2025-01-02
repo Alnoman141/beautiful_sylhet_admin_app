@@ -7,6 +7,7 @@
         </VCol>
         <VCol class="text-right">
           <RouterLink
+            v-if="$can('create', 'spot')"
             type="primary"
             :underline="false"          
           

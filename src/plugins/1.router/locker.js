@@ -1,10 +1,11 @@
 export const lockerRoutes = [
   {
     path: '/locker',
-    meta: {
-      subject: "locker",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "locker",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ export const lockerRoutes = [
         component: () => import('@/views/locker/create.vue'),
         meta: {
           subject: "locker",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'lockerList',
         },
       },
@@ -32,7 +33,7 @@ export const lockerRoutes = [
         component: () => import('@/views/locker/update.vue'),
         meta: {
           subject: "locker",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'lockerList',
         },
       },

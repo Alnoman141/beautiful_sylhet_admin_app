@@ -18,6 +18,7 @@
         <template #default="scope">
           <div class="text-end">
             <RouterLink
+              v-if="$can('edit', 'guideline')"
               :to="{ name: 'edit-guideline', params: { id: scope.row.id } }"
               style=" color:white !important;text-decoration: none !important;"
             >
@@ -27,7 +28,7 @@
                 content="Edit Instructions"
                 placement="top-start"
               >
-                <ElButton
+                <ElButton 
                   type="primary"
                   size="small"
                 >

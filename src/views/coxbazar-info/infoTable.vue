@@ -33,6 +33,7 @@
         </template>
         <template #default="scope">
           <RouterLink
+            v-if="$can('edit', 'info')"
             :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
             style=" color:white !important;text-decoration: none !important;"
           >

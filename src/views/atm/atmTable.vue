@@ -36,6 +36,7 @@
         </template>
         <template #default="scope">
           <RouterLink
+            v-if="$can('edit', 'atm')"
             class="mx-2"
             style="color:white"
             :to="{ name: 'editAtm', params: { id: scope.row.atm_parent_id } }"
@@ -47,6 +48,7 @@
               placement="top-start"
             >
               <ElButton
+                
                 size="small"
                 type="primary"
               >
@@ -65,6 +67,7 @@
             placement="top-start"
           >
             <ElButton
+              v-if="$can('delete', 'atm')"
               size="small"
               type="danger"
               @click="showAlert(scope.row.parent_id)"

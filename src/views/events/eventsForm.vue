@@ -11,20 +11,23 @@
             type="primary"
             :underline="false"
             :to="{ name: 'eventsList' }"
-            
             class="create-btn"
           >
-          <el-tooltip class="box-item" effect="dark" content="Event List" placement="top-start">
-            Event List
-          </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Event List"
+              placement="top-start"
+            >
+              Event List
+            </el-tooltip>
           </RouterLink>
-
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
-    v-loading="loading"
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -144,7 +147,6 @@
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
-                
                 <ElFormItem
                   label="Description"
                   :prop="
@@ -152,7 +154,6 @@
                       ? 'events.' + index + '.description'
                       : 'data.' + index + '.description'
                   "
-                  
                 >
                   <!-- <ElInput
                     placeholder="Description"
@@ -160,15 +161,15 @@
                     v-model="item.description"
                   /> -->
                   <div>
-                  <QuillEditor
+                    <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.description"                     
+                      v-model:content="item.description"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
                       placeholder="Type Description here"
                     />
-                    </div> 
+                  </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -212,7 +213,17 @@
           </VCol>
 
           <VCol cols="12" md="6">
-            <ElFormItem label="Event Spot" prop="spot_parent_id" :rules="[{ required: true, message: 'Please select Spot', trigger: 'change' }]">
+            <ElFormItem
+              label="Event Spot"
+              prop="spot_parent_id"
+              :rules="[
+                {
+                  required: true,
+                  message: 'Please select Spot',
+                  trigger: 'change',
+                },
+              ]"
+            >
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Spot"
@@ -226,9 +237,8 @@
               </el-select>
             </ElFormItem>
           </VCol>
-           <VCol cols="12" md="6">
-            
-            <ElFormItem label="Expire at" :prop="'expiry'">              
+          <VCol cols="12" md="6">
+            <ElFormItem label="Expire at" :prop="'expiry'">
               <el-date-picker
                 style="inline-size: 100%"
                 v-model="ruleForm.expiry"
@@ -236,22 +246,42 @@
                 placeholder="Pick a Date"
                 format="YYYY/MM/DD hh:mm:ss a"
                 value-format="YYYY-MM-DD hh:mm:ss a"
-                
               />
             </ElFormItem>
           </VCol>
         </VRow>
         <div class="py-4">
-          <el-tooltip class="box-item" effect="dark" content="Submit" placement="top-start">
-          <ElButton class="submit" type="primary" @click="submitForm(ruleFormRef)">
-            {{ mode }}
-          </ElButton>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Submit"
+            placement="top-start"
+          >
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
           </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top-start">
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Reset"
+            placement="top-start"
+          >
+            <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+              >Reset</ElButton
+            >
           </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Back" placement="top-start">
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
           </el-tooltip>
         </div>
       </ElCard>
@@ -313,18 +343,28 @@ const imgUploadValidation = ref(false);
 const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :' ';
+  // const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :' ';
+  // let [hours, minutes, seconds] = timePart ? timePart.split(':') : '';
+  // if (props.ruleForm.expiry && period.toLowerCase() === 'pm' && hours !== '12') {
+  //   hours = String(Number(hours) + 12);
+  // } else if (props.ruleForm.expiry && period.toLowerCase() === 'am' && hours === '12') {
+  //   hours = '00';
+  // }
+  // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+  // convert date to 24h format from am pm
+  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :'';
   let [hours, minutes, seconds] = timePart ? timePart.split(':') : '';
-  if (props.ruleForm.expiry && period.toLowerCase() === 'pm' && hours !== '12') {
+ 
+  if (props.ruleForm.expiry && period === 'pm' && hours !== '12') {
     hours = String(Number(hours) + 12);
-  } else if (props.ruleForm.expiry && period.toLowerCase() === 'am' && hours === '12') {
+  } else if (props.ruleForm.expiry && period === 'am' && hours === '12') {
     hours = '00';
   }
-  formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+  datePart != undefined && hours != undefined && minutes != undefined && seconds != undefined ? formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}` : formattedDate.value = null;
 
-
-  
   props.ruleForm.expiry = formattedDate.value
+
+  props.ruleForm.expiry = formattedDate.value;
 
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
@@ -343,24 +383,39 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.spot_parent_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
-      loading.value = true
-      try{
-      const { data } = props.ruleForm.id
-        ? await eventsStore.updateEvents(form)
-        : await eventsStore.createEvents(props.ruleForm);
-      data.status_code == 200
-        ? (notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right"
-          ), router.push({ name: "eventsList" }), loading.value = false)
-        : "";
+      // const [datePart, timePart, period] = props.ruleForm.expiry
+      //   ? props.ruleForm.expiry.split(" ")
+      //   : "";
+      // let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
+      // if (props.ruleForm.expiry && period === "pm" && hours !== "12") {
+      //   hours = String(Number(hours) + 12);
+      // } else if (props.ruleForm.expiry && period === "am" && hours === "12") {
+      //   hours = "00";
+      // }
+      // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+      loading.value = true;
+      try {
+        const { data } = props.ruleForm.id
+          ? await eventsStore.updateEvents(form)
+          : await eventsStore.createEvents(props.ruleForm);
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            router.push({ name: "eventsList" }),
+            (loading.value = false))
+          : "";
       } catch (error) {
-        loading.value = false
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        loading.value = false;
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
-        
     } else {
       console.log("error submit!", fields);
     }
@@ -397,15 +452,14 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const checkData = () => {
   descriptionEditorRef.value?.map((item) => {
     item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
-
-  })
+  });
   props.ruleForm?.events?.map((e) => {
-    e.description === "<p><br></p>" ? e.description = "" : "";
-  })
+    e.description === "<p><br></p>" ? (e.description = "") : "";
+  });
   props.ruleForm?.data?.map((e) => {
-    e.description ==="<p><br></p>" ? e.description = "" : "";
-  })
-}
+    e.description === "<p><br></p>" ? (e.description = "") : "";
+  });
+};
 
 onMounted(() => {
   getSpotDropdownList();
@@ -413,7 +467,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.submit{
+.submit {
   text-transform: capitalize;
 }
 

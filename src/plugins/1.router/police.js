@@ -1,10 +1,11 @@
 export const policeRoutes = [
   {
     path: '/police',
-    meta: {
-      subject: "police",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "police",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ export const policeRoutes = [
         component: () => import('@/views/police/create.vue'),
         meta: {
           subject: "police",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'policeList',
         },
       },
@@ -32,7 +33,7 @@ export const policeRoutes = [
         component: () => import('@/views/police/update.vue'),
         meta: {
           subject: "police",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'policeList',
         },
       },

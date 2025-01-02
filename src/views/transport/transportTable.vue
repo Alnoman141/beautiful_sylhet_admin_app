@@ -38,6 +38,7 @@
         </template>
         <template #default="scope">
           <RouterLink
+            v-if="$can('edit', 'transport')"
             class="mx-2"
             style="
             color:white"
@@ -67,6 +68,7 @@
             placement="top-start"
           >
             <ElButton
+              v-if="$can('delete', 'transport')"
               size="small"
               type="danger"
               @click="showAlert(scope.row.parent_id)"

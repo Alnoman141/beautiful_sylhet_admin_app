@@ -1,10 +1,11 @@
 export const transportRoutes = [
   {
     path: '/transport',
-    meta: {
-      subject: "transport",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "transport",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ export const transportRoutes = [
         component: () => import('@/views/transport/create.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'transportList',
         },
       },
@@ -32,7 +33,7 @@ export const transportRoutes = [
         component: () => import('@/views/transport/update.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'transportList',
         },
       },

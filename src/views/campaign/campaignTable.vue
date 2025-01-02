@@ -38,6 +38,7 @@
         </template>
         <template #default="scope">
           <RouterLink
+            v-if="$can('edit', 'campaign')"
             class="mx-2"
             style="color:white"
             :to="{ name: 'editCampaign', params: { id: scope.row.parent_id } }"
@@ -66,6 +67,7 @@
             placement="top-start"
           >
             <ElButton
+              v-if="$can('delete', 'campaign')"
               size="small"
               type="danger"
               @click="showAlert(scope.row.parent_id)"

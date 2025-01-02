@@ -10,6 +10,7 @@
           class="text-right"
         >
           <RouterLink
+            v-if="$can('create', 'police')"
             type="primary"
             :underline="false"
             :to="{ name: 'createPolice' }"

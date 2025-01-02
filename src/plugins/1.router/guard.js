@@ -1,10 +1,11 @@
 export const guardRoutes = [
   {
     path: '/guard',
-    meta: {
-      subject: "guard",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "guard",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ export const guardRoutes = [
         component: () => import('@/views/guard/create.vue'),
         meta: {
           subject: "guard",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'guardList',
         },
       },
@@ -32,7 +33,7 @@ export const guardRoutes = [
         component: () => import('@/views/guard/update.vue'),
         meta: {
           subject: "guard",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'guardList',
         },
       },

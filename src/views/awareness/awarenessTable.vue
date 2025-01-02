@@ -17,6 +17,7 @@
         <template #default="scope">
           <div class="text-end">
             <RouterLink
+              v-if="$can('edit', 'awareness')"
               :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
               style=" color:white !important;text-decoration: none !important;"
             >

@@ -7,6 +7,7 @@
         </VCol>
         <VCol class="text-right">
           <RouterLink
+            v-if="$can('create', 'event')"
             type="primary"
             :underline="false"
             :to="{ name: 'createEvents' }"
@@ -60,6 +61,7 @@ const columns = ref([
   { label: "Name", prop: "name", sortable: false },
   { label: "Location", prop: "location", sortable: false },
   { label: "Time", prop: "time", sortable: false },
+  { label: "Expiry", prop: "expiry", sortable: false },
 
   // { label: 'Description', prop: 'description', sortable: false },
 ])
@@ -84,6 +86,20 @@ const getspotList = async (pageSize, pageNo) => {
     page.value = data.data.current_page
 
     spotList.value = data.data.data
+
+    // convert expiry date to am/pm format and update the spotList
+    spotList.value.forEach(item => {
+      console.log(item)
+
+      const [datePart24, timePart24] = item.expiry ? item.expiry.split(' ') : ''
+      let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(':') : ''
+      const period24 = Number(hours24) >= 12 ? 'pm' : 'am'
+
+      hours24 = Number(hours24) % 12 || 12
+
+      // if date is expired then show Expired else show the date
+      item.expiry = item.expiry == null ? ('No expiry')  :  new Date(item.expiry) < new Date() ? `Expired at ${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}` : `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
+    })
 
     totalData.value = data.data.total
 

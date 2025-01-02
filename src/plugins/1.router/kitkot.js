@@ -1,10 +1,11 @@
 export const kitkotRoutes = [
   {
     path: "/Kitkot-Chair",
-    meta: {
-      subject: "transport",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "transport",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: "/Kitkot-Chair",
@@ -22,7 +23,7 @@ export const kitkotRoutes = [
         component: () => import("@/views/services/create.vue"),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "create",
           navActiveLink: "Kitkot Chair",
         },
       },
@@ -33,7 +34,7 @@ export const kitkotRoutes = [
         component: () => import("@/views/services/update.vue"),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: "Kitkot Chair",
         },
       },
@@ -44,7 +45,7 @@ export const kitkotRoutes = [
         component: () => import("@/views/services/descriptionForm.vue"),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: "Kitkot Chair",
         },
       },

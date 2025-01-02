@@ -10,6 +10,7 @@
           class="text-right"
         >
           <RouterLink
+            v-if="$can('create', 'bank')"
             type="primary"
             :underline="false"
             :to="{ name: 'createBank' }"

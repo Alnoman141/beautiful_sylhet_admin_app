@@ -1,13 +1,14 @@
 
-const childrenRoutes = [
+export const awarenessRoutes = [
   
   {
     path: 'awareness',
     redirects: '/awareness/list',
-    meta: {
-      subject: "awareness",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "awareness",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -34,17 +35,17 @@ const childrenRoutes = [
  
 ]
 
-export const awarenessRoutes = [
-  {
-    path: '/awareness',
-    name: 'awareness',
-    redirects: '/list',
-    meta: {
-      subject: "awareness",
-      action: "show menu",
-    },
-    children: [
-      ...childrenRoutes,
-    ],
-  },
-]
+// export const awarenessRoutes = [
+//   {
+//     path: '/awareness',
+//     name: 'awareness',
+//     redirects: '/list',
+//     meta: {
+//       subject: "awareness",
+//       action: "show menu",
+//     },
+//     children: [
+//       ...childrenRoutes,
+//     ],
+//   },
+// ]

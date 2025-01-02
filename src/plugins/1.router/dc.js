@@ -1,10 +1,11 @@
 export const dcRoutes = [
   {
     path: '/DC-Activities',
-    meta: {
-      subject: "transport",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "transport",
+    //   action: "show menu",
+    // },
     children: [
      
       {
@@ -23,7 +24,7 @@ export const dcRoutes = [
         component: () => import('@/views/services/create.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: " create",
           navActiveLink: 'DC Activities',
         },
       },
@@ -47,7 +48,7 @@ export const dcRoutes = [
         component: () => import('@/views/services/descriptionForm.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'DC Activities',
         },
       },

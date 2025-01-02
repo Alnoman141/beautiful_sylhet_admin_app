@@ -45,6 +45,7 @@
         </template>
         <template #default="scope">
           <RouterLink
+            v-if="$can('edit', 'spot')"
             style="color: white"
             :to="{
               name: 'editTouristSpot',
@@ -75,6 +76,7 @@
             placement="top-start"
           >
             <ElButton
+              v-if="$can('delete', 'spot')"
               class="mx-2"
               type="danger"
               size="small"

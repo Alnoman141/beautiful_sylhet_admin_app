@@ -10,6 +10,7 @@
           class="text-right"
         >
           <RouterLink
+            v-if="$can('create', 'notice')"
             type="primary"
             :underline="false"          
           
@@ -65,7 +66,9 @@ const columns = ref( [
   { label: 'Name', prop: 'name', sortable: false }, 
   { label: 'Name English', prop: 'name_en', sortable: false }, 
         
-  { label: 'Date', prop: 'date', sortable: false },        
+  { label: 'Date', prop: 'date', sortable: false },   
+  { label: "Expiry", prop: "expiry", sortable: false },
+
         
 ])
 
@@ -90,6 +93,20 @@ const getCampaignList = async (pageSize, pageNo) => {
     
 
     spotList.value = data.data.data
+
+    // convert expiry date to am/pm format and update the spotList
+    spotList.value.forEach(item => {
+      console.log(item)
+
+      const [datePart24, timePart24] = item.expiry ? item.expiry.split(' ') : ''
+      let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(':') : ''
+      const period24 = Number(hours24) >= 12 ? 'pm' : 'am'
+
+      hours24 = Number(hours24) % 12 || 12
+
+      // if date is expired then show Expired else show the date
+      item.expiry = item.expiry == null ? ('No expiry')  :  new Date(item.expiry) < new Date() ? `Expired at ${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}` : `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
+    })
 
     totalData.value = data.data.total
     

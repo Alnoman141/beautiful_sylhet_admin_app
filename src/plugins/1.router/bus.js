@@ -1,10 +1,11 @@
 export const busRoutes = [
   {
     path: '/Tourist-Bus',
-    meta: {
-      subject: "transport",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "transport",
+    //   action: "show menu",
+    // },
     children: [
      
       {
@@ -23,7 +24,7 @@ export const busRoutes = [
         component: () => import('@/views/services/create.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'Tourist Bus',
         },
       },
@@ -37,7 +38,7 @@ export const busRoutes = [
         component: () => import('@/views/services/update.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'Tourist Bus',
         },
       },
@@ -48,7 +49,7 @@ export const busRoutes = [
         component: () => import('@/views/services/descriptionForm.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'Tourist Bus',
         },
       },

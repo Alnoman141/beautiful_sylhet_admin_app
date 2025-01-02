@@ -1,10 +1,11 @@
 export const tourismRoutes = [
   {
     path: '/Tourism-Corporation',
-    meta: {
-      subject: "transport",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "transport",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ export const tourismRoutes = [
         component: () => import('@/views/services/create.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "create",
           navActiveLink: 'Tourism Corporation',
         },
       },
@@ -35,7 +36,7 @@ export const tourismRoutes = [
         component: () => import('@/views/services/update.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'Tourism Corporation',
         },
       },
@@ -46,7 +47,7 @@ export const tourismRoutes = [
         component: () => import('@/views/services/descriptionForm.vue'),
         meta: {
           subject: "transport",
-          action: "show menu",
+          action: "edit",
           navActiveLink: 'Tourism Corporation',
         },
       },

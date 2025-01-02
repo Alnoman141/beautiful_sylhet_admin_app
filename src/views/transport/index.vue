@@ -7,6 +7,7 @@
         </VCol>
         <VCol class="text-right">
           <RouterLink
+            v-if="$can('create', 'transport')"
             type="primary"
             :underline="false"
             :to="{ name: 'createTransport' }"

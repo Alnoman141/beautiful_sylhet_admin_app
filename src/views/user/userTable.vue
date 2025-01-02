@@ -42,7 +42,8 @@
         </template>
         <template #default="scope">
           <RouterLink
-            v-if="scope.row.id !== 1"
+            v-if="$can('edit', 'user') && scope.row.id !== 1"
+            
             class="mx-2"
             style="color:white"
             :to="{ name: 'editUser', params: { id: scope.row.id } }"
@@ -72,7 +73,8 @@
             placement="top-start"
           >
             <ElButton
-              v-if="scope.row.id !== 1"
+              v-if="$can('delete', 'user') && scope.row.id !== 1"
+              
               size="small"
               type="danger"
               @click="showAlert(scope.row.id)"

@@ -188,18 +188,18 @@ const formattedDate = ref("");
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry
-    ? props.ruleForm.expiry.split(" ")
-    : "";
-  let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
-  if (props.ruleForm.expiry && period.toLowerCase() === "pm" && hours !== "12") {
+ 
+  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :'';
+  let [hours, minutes, seconds] = timePart ? timePart.split(':') : '';
+ 
+  if (props.ruleForm.expiry && period === 'pm' && hours !== '12') {
     hours = String(Number(hours) + 12);
-  } else if (props.ruleForm.expiry && period.toLowerCase() === "am" && hours === "12") {
-    hours = "00";
+  } else if (props.ruleForm.expiry && period === 'am' && hours === '12') {
+    hours = '00';
   }
-  formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
+  datePart != undefined && hours != undefined && minutes != undefined && seconds != undefined ? formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}` : formattedDate.value = null;
 
-  props.ruleForm.expiry = formattedDate.value;
+  props.ruleForm.expiry = formattedDate.value
 
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
@@ -212,6 +212,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       expiry: formattedDate.value,
     };
     if (valid) {
+      // const [datePart, timePart, period] = props.ruleForm.expiry
+      //   ? props.ruleForm.expiry.split(" ")
+      //   : "";
+      // let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
+      // if (props.ruleForm.expiry && period === "pm" && hours !== "12") {
+      //   hours = String(Number(hours) + 12);
+      // } else if (props.ruleForm.expiry && period === "am" && hours === "12") {
+      //   hours = "00";
+      // }
+      // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
       loading.value = true;
 
       try {
@@ -230,7 +240,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
         router.push({ name: "newsList" });
       } catch (error) {
-        loading.value = false
+        loading.value = false;
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors

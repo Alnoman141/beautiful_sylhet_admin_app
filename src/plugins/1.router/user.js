@@ -1,10 +1,11 @@
 export const userRoutes = [
   {
     path: '/user',
-    meta: {
-      subject: "user",
-      action: "show menu",
-    },
+
+    // meta: {
+    //   subject: "user",
+    //   action: "show menu",
+    // },
     children: [
       {
         path: '',

@@ -10,6 +10,7 @@
           class="text-right"
         >
           <RouterLink
+            v-if="$can('create', 'guard')"
             type="primary"
             :underline="false"          
           

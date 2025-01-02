@@ -1,10 +1,7 @@
 export const atmRoutes = [
   {
     path: '/atm',
-    meta: {
-      subject: "atm",
-      action: "show menu",
-    },
+
     children: [
       {
         path: '',

@@ -12,6 +12,7 @@
             <div class="">
               <div class="text-end">
                 <RouterLink
+                  v-if="$can('edit', 'info')"
                   :to="{ name: 'infoEdit' }"
                   style=" color:white !important;text-decoration: none !important;"
                 >
