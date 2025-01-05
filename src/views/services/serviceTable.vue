@@ -2,15 +2,19 @@
   <div>
     <ElCard class="my-4">
       <h4 class="text-h4">
-        Description 
+        Description
       </h4>
       <hr class="mb-4">
 
-      <div class=" my-2 d-flex">
+      <div class="my-2 d-flex">
         <div
-          :style="route.name == 'Tourism Corporation' || route.name == 'DC Activities' ?'inline-size:45% !important':'inline-size:50% !important'"
+          :style="
+            route.name == 'Tourism Corporation' || route.name == 'DC Activities'
+              ? 'inline-size:45% !important'
+              : 'inline-size:50% !important'
+          "
           class="border"
-        > 
+        >
           <p class="px-2 my-2">
             Description
           </p>
@@ -22,11 +26,12 @@
         </div>
         <div
           v-if="
-            route.name !== 'Tourism Corporation' && route.name !== 'DC Activities'
+            route.name !== 'Tourism Corporation' &&
+              route.name !== 'DC Activities'
           "
-          style="inline-size:40% !important"
+          style="inline-size: 40% !important"
           class="border"
-        > 
+        >
           <p class="px-2 my-2">
             Fare
           </p>
@@ -36,31 +41,37 @@
           </p>
         </div>
         <div
-          v-if="route.name == 'Tourism Corporation' || route.name == 'DC Activities'"
-          :style="route.name == 'Tourism Corporation' || route.name == 'DC Activities' ?'inline-size:45% !important':'inline-size:30% !important'"
+          v-if="
+            route.name == 'Tourism Corporation' || route.name == 'DC Activities'
+          "
+          :style="
+            route.name == 'Tourism Corporation' || route.name == 'DC Activities'
+              ? 'inline-size:45% !important'
+              : 'inline-size:30% !important'
+          "
           class="border"
-        > 
+        >
           <p class="px-2 my-2">
             Website Link
           </p>
           <hr class="text-muted">
           <div class="px-4 py-4">
-            <p class="px-2 py-2  link-wrap">
+            <p class="px-2 py-2 link-wrap">
               {{ descriptions.link }}
             </p>
           </div>
         </div>
         <div
-          style="inline-size:10% !important"
+          style="inline-size: 10% !important"
           class="border"
-        > 
+        >
           <p class="px-2 my-2">
             Action
           </p>
           <hr class="text-muted">
           <div class="my-4">
             <RouterLink
-              class="mx-2 "
+              class="mx-2"
               style="color: white"
               :underline="false"
               :to="
@@ -68,7 +79,7 @@
                   ? { name: 'editTourismDescription', params: { type: 1 } }
                   : route.name == 'DC Activities'
                     ? { name: 'editDcDescription', params: { type: 2 } }
-                    : route.name == 'busService'
+                    : route.name == 'Tourist Bus'
                       ? { name: 'editBusDescription', params: { type: 3 } }
                       : { name: 'editKitkotDescription', params: { type: 4 } }
               "
@@ -86,7 +97,7 @@
                   <VIcon
                     icon="tabler-edit"
                     size="15"
-                  /> 
+                  />
                 </ElButton>
               </ElTooltip>
             </RouterLink>
@@ -96,7 +107,11 @@
     </ElCard>
     <ElCard>
       <h4 class="text-h4">
-        {{ route.name !== 'Tourism Corporation' && route.name !== 'DC Activities' ? 'Spot Wise Contact Information' : 'Officer Contact Information' }}
+        {{
+          route.name !== "Tourism Corporation" && route.name !== "DC Activities"
+            ? "Spot Wise Contact Information"
+            : "Officer Contact Information"
+        }}
       </h4>
       <hr class="mb-4">
       <ElTable
@@ -114,7 +129,10 @@
           </template>
         </ElTableColumn>
         <ElTableColumn
-          v-if="route.name !== 'Tourism Corporation' && route.name !== 'DC Activities'"
+          v-if="
+            route.name !== 'Tourism Corporation' &&
+              route.name !== 'DC Activities'
+          "
           label="Spot Name"
         >
           <template #default="scope">
@@ -123,8 +141,12 @@
         </ElTableColumn>
 
         <ElTableColumn
-          :label="route.name !== 'Tourism Corporation' &&
-            route.name !== 'DC Activities' ? 'Booking Person Information' : 'Officer Informations'"
+          :label="
+            route.name !== 'Tourism Corporation' &&
+              route.name !== 'DC Activities'
+              ? 'Booking Person Information'
+              : 'Officer Informations'
+          "
         >
           <template #default="scope">
             <div
@@ -208,7 +230,7 @@
                     ? 'editTourism'
                     : route.name == 'DC Activities'
                       ? 'editDc'
-                      : route.name == 'busService'
+                      : route.name == 'Tourist Bus'
                         ? 'editBus'
                         : 'editKitkot',
                 params: { id: scope.row.id },
@@ -327,8 +349,8 @@ const showAlert = item => {
   padding-inline: 10px;
 }
 
-.link-wrap{
-  overflow: hidden !important;   
+.link-wrap {
+  overflow: hidden !important;
   text-overflow: ellipsis !important;
   word-wrap: break-word !important;
 }
