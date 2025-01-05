@@ -29,6 +29,11 @@
           <div v-if="column.prop == 'name'">
             {{ scope.row[column.prop] }}
           </div>
+          <div v-if="column.prop == 'expiry'">
+            <p :class="scope.row.expiry.includes('Expired') ? 'text-error' :scope.row.expiry.includes('No') ? 'text-warning' :'text-success'">
+              {{ scope.row[column.prop] }}
+            </p>
+          </div>
         </template>
       </ElTableColumn>
 
