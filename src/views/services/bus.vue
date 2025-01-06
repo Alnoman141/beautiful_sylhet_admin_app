@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Tourist Bus List</b>
+          <b> Tourist Bus List </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink

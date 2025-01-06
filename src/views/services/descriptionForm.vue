@@ -238,6 +238,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       ruleForm.value.image = tempImg.value ? tempImg.value :''
       try {
         const { data } = await serviceStore.updateDescription(ruleForm.value);
+        console.log("data",data)
         data.status_code == 200
           ? (notify(
               "Congratulations!",
@@ -250,13 +251,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           : "";
 
         route.params.type == 1
-          ? router.push({ name: "tourismHelpline" })
+          ? router.push({ name: "Tourism Corporation" })
           : route.params.type == 2
-          ? router.push({ name: "dcHelpline" })
+          ? router.push({ name: "DC Activities" })
           : route.params.type == 3
-          ? router.push({ name: "busService" })
-          : router.push({ name: "kitkatChair" });
+          ? router.push({ name: "Tourist Bus" })
+          : router.push({ name: "Kitkot Chair" });
       } catch (error) {
+        console.log("error",error)
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors
@@ -267,6 +269,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           "error",
           "top-right"
         );
+        loading.value = false
       }
     } else {
       console.log("error submit!", fields);

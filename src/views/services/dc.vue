@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> DC Activities List</b>
+          <b> DC Activities List </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink

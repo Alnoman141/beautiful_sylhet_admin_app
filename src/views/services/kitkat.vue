@@ -3,7 +3,7 @@
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> Kitkot Chair List</b>
+          <b> Kitkot Chair List </b>
         </VCol>
         <VCol class="text-right">
           <RouterLink
