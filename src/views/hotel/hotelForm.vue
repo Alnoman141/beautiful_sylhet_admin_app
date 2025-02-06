@@ -386,7 +386,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       hotel_type_parent_id: props.ruleForm.hotel_type_parent_id,
       hotel_category_parent_id: props.ruleForm.hotel_category_parent_id,
       link: props.ruleForm.link,
-      map_link:props.ruleForm.map_link,
+      map_link: props.ruleForm.map_link,
+      website_link: props.ruleForm.website_link,
       data: props.ruleForm.hotels,
 
     };
