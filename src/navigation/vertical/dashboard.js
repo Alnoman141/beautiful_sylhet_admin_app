@@ -78,10 +78,24 @@ export default [
     ],
   },
   {
+    title: 'Restaurant',
+    to: 'restaurantList',
+    icon: { icon: 'tabler-tools-kitchen' },
+    subject: "dangerzone",
+    action: "show menu",
+  },
+  {
     title: 'Transport Counter',
     to: 'transportList',
     icon: { icon: 'tabler-bus' },
     subject: "transport",
+    action: "show menu",
+  },
+  {
+    title: 'Fare',
+    to: 'fairList',
+    icon: { icon: 'tabler-cash-banknote' },
+    subject: "dangerzone",
     action: "show menu",
   },
   {

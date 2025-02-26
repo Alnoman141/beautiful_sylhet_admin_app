@@ -22,7 +22,9 @@ import { policeRoutes } from './police'
 // import { servicesRoutes } from './service'
 import { busRoutes } from './bus'
 import { dcRoutes } from './dc'
+import { fairRoutes } from './fair'
 import { kitkotRoutes } from './kitkot'
+import { restaurantRoutes } from './restaurant'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
 import { tourismRoutes } from './tourism'
@@ -77,6 +79,8 @@ const router = createRouter({
       ...dcRoutes,
       ...busRoutes,
       ...kitkotRoutes,
+      ...restaurantRoutes,
+      ...fairRoutes,
 
       // ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),

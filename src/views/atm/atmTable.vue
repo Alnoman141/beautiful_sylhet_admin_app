@@ -70,7 +70,7 @@
               v-if="$can('delete', 'atm')"
               size="small"
               type="danger"
-              @click="showAlert(scope.row.parent_id)"
+              @click="showAlert(scope.row.atm_parent_id)"
             >
               <VIcon
                 icon="tabler-trash"
