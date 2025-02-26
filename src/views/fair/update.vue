@@ -26,7 +26,7 @@ const getNewsDetails = async () => {
 
   const { data } = await fairStore.editFair({ id: route.params.id })
 
-  console.log("data", data)
+  
 
   ruleForm.value = data.data
 }
