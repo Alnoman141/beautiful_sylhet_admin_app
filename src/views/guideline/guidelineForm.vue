@@ -12,8 +12,13 @@
             :to="{ name: 'guide-line' }"
             class="create-btn"
           >
-          <el-tooltip class="box-item" effect="dark" content="Guideline List" placement="top-start">
-             Instructions List
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Guideline List"
+              placement="top-start"
+            >
+              Instructions List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -21,7 +26,7 @@
     </ElCard>
 
     <ElForm
-    v-loading="loading"
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -31,9 +36,11 @@
       label-position="top"
       status-icon
     >
+      
+
       <VRow>
         <VCol v-for="(item, index) in ruleForm.data" :key="index" md="6">
-          <!-- :prop="'data.' + index + '.name'" -->
+         
           <ElCard>
             <ElFormItem
               :label="index == 0 ? 'Bangla' : 'English'"
@@ -45,15 +52,27 @@
               }"
             >
               <div>
-                <QuillEditor
+                <!-- <QuillEditor
                   ref="guidelineEditorRef"
-                  v-model:content="item.name"
+                  v-model="item.name"
                   :text-change="checkData()"
                   content-type="html"
                   theme="snow"
                   toolbar="full"
                   style="min-block-size: 200px"
                   placeholder="Type Guideline here"
+                /> -->
+                <QuillEditor
+                  v-model="item.name"
+                  ref="guidelineEditorRef"
+                  content-type="html"
+                  theme="snow"
+                  toolbar="full"
+                  :text-change="checkData()"
+                  :Placeholder=" index == 0 ?   'এখানে গাইডলাইন লিখুন ' : 'Type Guideline here'"
+
+                  
+                  :customClass="'customClass'"
                 />
               </div>
             </ElFormItem>
@@ -71,8 +90,13 @@
             Submit
           </ElButton>
         </el-tooltip>
-        <el-tooltip class="box-item" effect="dark" content="Back" placement="top-start">
-        <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Back"
+          placement="top-start"
+        >
+          <ElButton @click="router.go(-1)" type="info">Back</ElButton>
         </el-tooltip>
       </ElCard>
     </ElForm>
@@ -80,10 +104,11 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useGuidelineStore } from "@/stores/tourism/guidelineStore";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-const loading = ref(false)
+const loading = ref(false);
 const route = useRoute();
 const router = useRouter();
 const quillEditor = ref(null); // Ref to the Quill editor instance
@@ -118,7 +143,7 @@ const ruleForm = ref({
 const htmlContent = ref("");
 
 const getGuideline = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let parameter = {
       id: route.params.id,
@@ -132,7 +157,7 @@ const getGuideline = async () => {
     }, 1000);
 
     ruleForm.value.data = data.data;
-    loading.value = false
+    loading.value = false;
   } catch (error) {
     console.log("error", error);
   }
@@ -140,10 +165,7 @@ const getGuideline = async () => {
 
 const validationLock = ref(false);
 
-
-
 const submitForm = async (formEl: FormInstance | undefined) => {
-  
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     let updateMode = false;
@@ -151,18 +173,19 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       e.id ? (updateMode = true) : "";
     });
     if (valid) {
-  loading.value = true;
+      loading.value = true;
 
       try {
         const { data } = updateMode
           ? await guidelineStore.updateGuideline(ruleForm.value)
           : await guidelineStore.createGuideline(ruleForm.value);
         data.status_code == 200
-          ? (notify("Congratulations!", data.message, "success", "top-right"), loading.value = false)
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            (loading.value = false))
           : "";
         router.push({ name: "guide-line" });
       } catch (error) {
-        loading.value = false
+        loading.value = false;
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors
@@ -181,13 +204,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 
 const checkData = () => {
-  guidelineEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-  });
+  // guidelineEditorRef.value?.map((e) => {
+  //   e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+  // });
 
-  ruleForm.value.data.map((e) => {
-    e.name == "<p><br></p>" ? (e.name = "") : "";
-  });
+  // ruleForm.value.data.map((e) => {
+  //   e.name == "<p><br></p>" ? (e.name = "") : "";
+  // });
 };
 const guidelineEditorRef = ref(null);
 

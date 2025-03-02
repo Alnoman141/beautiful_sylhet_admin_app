@@ -56,13 +56,14 @@
             >
               <div>
                 <QuillEditor
-                  v-model:content="item.name"
+                  v-model="item.name"
                   :text-change="checkData()"
                   content-type="html"
                   theme="snow"
                   toolbar="full"
                   style="min-block-size: 200px"
                   placeholder="Type Awareness here"
+                  :customClass="'customClass'"
                 />
               </div>
             </ElFormItem>
@@ -81,6 +82,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useAwarenessStore } from "@/stores/tourism/awarenessStore";
 import { notify } from "@/utils/notification";
 import { onMounted, ref } from "vue";

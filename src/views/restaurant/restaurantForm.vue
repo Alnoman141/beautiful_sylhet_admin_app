@@ -36,7 +36,6 @@
       label-position="top"
       status-icon
     >
-      
       <VRow>
         <VCol
           v-for="(item, index) in ruleForm && ruleForm.restaurants
@@ -95,27 +94,50 @@
               </VCol>
 
               <VCol cols="12">
-                <ElFormItem label="Open Time" :prop="'open_time'">
+                <ElFormItem
+                  label="Open Time"
+                  :prop="
+                    ruleForm.restaurants
+                      ? 'restaurants.' + index + '.open_time'
+                      : 'data.' + index + '.open_time'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'Open Time is required',
+                    trigger: 'blur',
+                  }"
+                >
                   <el-time-picker
                     style="inline-size: 100%"
                     v-model="item.open_time"
-                    
                     placeholder="Pick a time"
                     format="hh:mm:ss a"
-                    value-format="HH:mm:ss a"
+                    value-format="HH:mm:ss"
                   />
                 </ElFormItem>
               </VCol>
 
               <VCol cols="12">
-                <ElFormItem label="Close Time" :prop="'close_time'">
+                <ElFormItem
+                  label="Close Time"
+                  :prop="
+                    ruleForm.restaurants
+                      ? 'restaurants.' + index + '.close_time'
+                      : 'data.' + index + '.close_time'
+                  "
+                  :rules="{
+                    required: true,
+                    message: 'Close Time is required',
+                    trigger: 'blur',
+                  }"
+                >
                   <el-time-picker
                     style="inline-size: 100%"
                     v-model="item.close_time"
                     type="time"
                     placeholder="Pick a time"
                     format="hh:mm:ss a"
-                    value-format="HH:mm:ss a"
+                    value-format="HH:mm:ss"
                   />
                 </ElFormItem>
               </VCol>
@@ -136,7 +158,7 @@
                 >
                   <div>
                     <QuillEditor
-                      v-model:content="item.description"
+                      v-model="item.description"
                       ref="descriptionEditorRef"
                       content-type="html"
                       theme="snow"
@@ -158,7 +180,7 @@
                 >
                   <div>
                     <QuillEditor
-                      v-model:content="item.facilities"
+                      v-model="item.facilities"
                       ref="facilitiesEditorRef"
                       content-type="html"
                       theme="snow"
@@ -180,7 +202,7 @@
                   "
                 >
                   <div>
-                    <QuillEditor
+                    <!-- <QuillEditor
                       v-model:content="item.menu"
                       ref="menuEditorRef"
                       content-type="html"
@@ -188,6 +210,10 @@
                       toolbar="full"
                       :text-change="checkData()"
                       placeholder="menu"
+                    /> -->
+                    <QuillEditor
+                      :text-change="checkData()"
+                      v-model="item.menu"
                     />
                   </div>
                 </ElFormItem>
@@ -201,7 +227,6 @@
 
       <ElCard class="my-4">
         <VRow>
-          
           <VCol cols="12" md="6">
             <ElFormItem
               label="Tourist Spot"
@@ -335,6 +360,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { useRestaurantStore } from "@/stores/tourism/restaurantStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
@@ -377,43 +403,85 @@ const loading = ref(false);
 const formattedOpenTime = ref("");
 const formattedCloseTime = ref("");
 const submitForm = async (formEl: FormInstance | undefined) => {
+  props.ruleForm.data = props.ruleForm.restaurants
+    ? props.ruleForm.restaurants
+    : props.ruleForm.data;
+  // props.ruleForm.data.map((e) => {
 
-  props.ruleForm.data = props.ruleForm.restaurants ? props.ruleForm.restaurants : props.ruleForm.data
+  //   // open time
+  //   const [timePart, period] = e.open_time ? e.open_time.split(" ") : "";
+  //   let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
+
+  //   if (e.open_time && period === "pm" && hours !== "12") {
+  //     hours = String(Number(hours) + 12);
+  //   } else if (e.open_time && period === "am" && hours === "12") {
+  //     hours = "00";
+  //   }
+  //   hours != undefined && minutes != undefined && seconds != undefined
+  //     ? (formattedOpenTime.value = `${hours}:${minutes}:${seconds}`)
+  //     : (formattedOpenTime.value = null);
+
+  //   e.open_time = formattedOpenTime.value;
+  //   // close time
+  //   const [timePartClose, periodClose] = e.close_time
+  //     ? e.close_time.split(" ")
+  //     : "";
+  //   let [hoursClose, minutesClose, secondsClose] = timePartClose
+  //     ? timePartClose.split(":")
+  //     : "";
+
+  //   if (e.close_time && periodClose === "pm" && hoursClose !== "12") {
+  //     hoursClose = String(Number(hoursClose) + 12);
+  //   } else if (e.close_time && periodClose === "am" && hoursClose === "12") {
+  //     hoursClose = "00";
+  //   }
+  //   hoursClose != undefined && minutesClose != undefined && secondsClose != undefined
+  //     ? (formattedCloseTime.value = `${hoursClose}:${minutesClose}:${secondsClose}`)
+  //     : (formattedCloseTime.value = null);
+
+  //   e.close_time = formattedCloseTime.value;
+
+  // });
   props.ruleForm.data.map((e) => {
-    
-    // open time
-    const [timePart, period] = e.open_time ? e.open_time.split(" ") : "";
-    let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
+    if (e.open_time) {
+      const parts = e.open_time.split(" ");
+      const timePart = parts[0] || "";
+      const period = parts[1] || "";
 
-    if (e.open_time && period === "pm" && hours !== "12") {
-      hours = String(Number(hours) + 12);
-    } else if (e.open_time && period === "am" && hours === "12") {
-      hours = "00";
+      let [hours, minutes, seconds] = timePart
+        ? timePart.split(":")
+        : ["00", "00", "00"];
+
+      if (period === "pm" && hours !== "12") {
+        hours = String(Number(hours) + 12);
+      } else if (period === "am" && hours === "12") {
+        hours = "00";
+      }
+
+      e.open_time = `${hours}:${minutes}:${seconds}`;
+    } else {
+      e.open_time = null; // Handle missing time properly
     }
-    hours != undefined && minutes != undefined && seconds != undefined
-      ? (formattedOpenTime.value = `${hours}:${minutes}:${seconds}`)
-      : (formattedOpenTime.value = null);
 
-    e.open_time = formattedOpenTime.value;
-    // close time 
-    const [timePartClose, periodClose] = e.close_time
-      ? e.close_time.split(" ")
-      : "";
-    let [hoursClose, minutesClose, secondsClose] = timePartClose
-      ? timePartClose.split(":")
-      : "";
+    if (e.close_time) {
+      const partsClose = e.close_time.split(" ");
+      const timePartClose = partsClose[0] || "";
+      const periodClose = partsClose[1] || "";
 
-    if (e.close_time && periodClose === "pm" && hoursClose !== "12") {
-      hoursClose = String(Number(hoursClose) + 12);
-    } else if (e.close_time && periodClose === "am" && hoursClose === "12") {
-      hoursClose = "00";
+      let [hoursClose, minutesClose, secondsClose] = timePartClose
+        ? timePartClose.split(":")
+        : ["00", "00", "00"];
+
+      if (periodClose === "pm" && hoursClose !== "12") {
+        hoursClose = String(Number(hoursClose) + 12);
+      } else if (periodClose === "am" && hoursClose === "12") {
+        hoursClose = "00";
+      }
+
+      e.close_time = `${hoursClose}:${minutesClose}:${secondsClose}`;
+    } else {
+      e.close_time = null; // Handle missing time properly
     }
-    hoursClose != undefined && minutesClose != undefined && secondsClose != undefined
-      ? (formattedCloseTime.value = `${hoursClose}:${minutesClose}:${secondsClose}`)
-      : (formattedCloseTime.value = null);
-
-    e.close_time = formattedCloseTime.value;
-    
   });
 
   if (!formEl) return;
@@ -529,7 +597,7 @@ const checkData = () => {
 
   descriptionEditorRef.value?.map((item) => {
     // item.setHTML("");
-    item?.getHTML() == "<p><br></p>" ? item?.setHTML("") : "";
+    // item?.getHTML() == "<p><br></p>" ? item?.setHTML("") : "";
   });
   // facilitiesEditorRef.value?.getHTML() == "<p><br></p>"
   //   ? facilitiesEditorRef.value?.setHTML("")

@@ -2,8 +2,34 @@
   <div>
     <ElCard class="my-4">
       <VRow>
-        <VCol>
+        <VCol :cols="guidelineList.length == 0 ?'6' : '12'">
           <b> Instructions</b>
+          <!-- create-guideline -->
+          {{ guidelineList.length }}
+        </VCol>
+        <VCol
+          v-if="guidelineList.length == 0" 
+          :cols="guidelineList.length == 0 ?'6' : '12'"
+          class="text-right"
+        >
+          <RouterLink
+            v-if="$can('create', 'guideline')"
+            type="primary"
+            :underline="false"          
+          
+            :to="{ name: 'createGuideline'}"
+            
+            class="create-btn "
+          >
+            <ElTooltip
+              class="item"
+              effect="dark"
+              content="Create Guideline"
+              placement="top-start"
+            >
+              Create Guideline
+            </ElTooltip>
+          </RouterLink>
         </VCol>
       </VRow>
     </ElCard>

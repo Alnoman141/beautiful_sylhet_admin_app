@@ -34,20 +34,22 @@ const getNewsDetails = async () => {
   
 
   ruleForm.value.restaurants.map(e => {
-    const [datePart, timePart] = e.open_time ? e.open_time.split(" ") : ""
+    const [ timePart] = e.open_time ? e.open_time.split(" ") : ""
     let [hours, minutes, seconds] = timePart ? timePart.split(":") : ""
     const period = Number(hours) >= 12 ? "pm" : "am"
 
     hours = Number(hours) % 12 || 12
-    e.open_time = `${datePart} ${hours}:${minutes}:${seconds} ${period}`
+    e.open_time = `${hours ? hours :'00' }:${minutes ? minutes : '00'}:${seconds ? seconds : '00'} ${period ? period : 'am'}`
+    
 
     // close time
-    const [datePart1, timePart1] = e.close_time ? e.close_time.split(" ") : ""
+    const [timePart1] = e.close_time ? e.close_time.split(" ") : ""
     let [hours1, minutes1, seconds1] = timePart1 ? timePart1.split(":") : ""
     const period1 = Number(hours1) >= 12 ? "pm" : "am"
 
     hours1 = Number(hours1) % 12 || 12
-    e.close_time = `${datePart1} ${hours1}:${minutes1}:${seconds1} ${period1}`
+    e.close_time = `${hours1 ? hours1 : '00'}:${minutes1 ? minutes1 : '00'}:${seconds1 ? seconds1 : '00'} ${period1 ? period1 : 'am'}`
+    
   })
 
   // const [datePart24, timePart24] = data.data.expiry ?  data.data.expiry.split(' ') :''
