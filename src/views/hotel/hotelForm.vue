@@ -39,7 +39,7 @@
           md="6"
         >
           <ElCard class="rounded py-2 my-4">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
 
             <VRow>

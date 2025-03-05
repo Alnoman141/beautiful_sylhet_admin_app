@@ -46,12 +46,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  :label="index == 0 ? 'ভাড়া' : 'Fair'"
+                  :label="index == 0 ? 'ভাড়া' : 'Fare'"
                   :prop="
                     ruleForm.fair_boards
                       ? 'fair_boards.' + index + '.name'
@@ -59,14 +59,24 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'ভাড়া আবশ্যক' : 'Fair is required',
+                    message: index == 0 ? 'ভাড়া আবশ্যক' : 'Fare is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput
-                    :placeholder="index == 0 ? 'ভাড়া' : 'Fair'"
+                  <!-- <ElInput
+                    :placeholder="index == 0 ? 'ভাড়া' : 'Fare'"
                     v-model="item.name"
-                  />
+                  /> -->
+                  <div>
+                    <QuillEditor
+                      v-model="item.name"                      
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      :text-change="checkData()"
+                      :Placeholder=" index == 0 ? 'ভাড়া' : 'Fare'"
+                    />
+                  </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -147,6 +157,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { useFairStore } from "@/stores/tourism/fairStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
@@ -279,25 +290,51 @@ const resetForm = (formEl: FormInstance | undefined) => {
   // });
 };
 const checkData = () => {
-  descriptionEditorRef.value?.getHTML() == "<p><br></p>"
-    ? descriptionEditorRef.value?.setHTML("")
-    : "";
+  // descriptionEditorRef.value?.getHTML() == "<p><br></p>"
+  //   ? descriptionEditorRef.value?.setHTML("")
+  //   : "";
 
-  instructionEditorRef.value?.map((item) => {
-    // item.setHTML("");
-    item?.getHTML() == "<p><br></p>" ? item?.setHTML("") : "";
-  });
+  // instructionEditorRef.value?.map((item) => {
+  //   // item.setHTML("");
+  //   item?.getHTML() == "<p><br></p>" ? item?.setHTML("") : "";
+  // });
   props.ruleForm.fair_boards
     ? props.ruleForm.fair_boards?.map((e) => {
-        e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+         e.name == "<p><br></p>" ||
+    e.name == "<h1><br></h1>" ||
+    e.name == "<h2><br></h2>" ||
+    e.name == "<h3><br></h3>" ||
+    e.name == "<h4><br></h4>" ||
+    e.name == "<h5><br></h5>" ||
+    e.name == "<h6><br></h6>" ||
+    e.name == "<b><br></b>" ||
+    e.name == "<i><br></i>" ||
+    e.name == "<u><br></u>" ||
+    e.name == "<span><br></span>" ||
+    e.name == "<div><br></div>" ||
+    e.name == "<s><br></s>"
+      ? (e.name = "")
+      : "";
       })
     : "";
   props.ruleForm.data?.map((e) => {
-    e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+     e.name == "<p><br></p>" ||
+    e.name == "<h1><br></h1>" ||
+    e.name == "<h2><br></h2>" ||
+    e.name == "<h3><br></h3>" ||
+    e.name == "<h4><br></h4>" ||
+    e.name == "<h5><br></h5>" ||
+    e.name == "<h6><br></h6>" ||
+    e.name == "<b><br></b>" ||
+    e.name == "<i><br></i>" ||
+    e.name == "<u><br></u>" ||
+    e.name == "<span><br></span>" ||
+    e.name == "<div><br></div>" ||
+    e.name == "<s><br></s>"
+      ? (e.name = "")
+      : "";
   });
-  props.ruleFormshort_description == "<p><br></p>"
-    ? (props.ruleFormshort_description = "")
-    : "";
+  
 };
 const imgViewModal = ref(false);
 const modalImg = ref(null);

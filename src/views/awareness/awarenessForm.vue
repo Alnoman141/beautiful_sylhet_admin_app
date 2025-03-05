@@ -48,7 +48,7 @@
             <!-- <b> {{ index == 0 ? "Bangla" : "English" }} </b> -->
             <hr class="my-2" />
             <ElFormItem
-              :label="index == 0 ? 'Bangla' : 'English'"
+              :label="index == 0 ? 'বাংলা' : 'English'"
               :prop="'data.' + index + '.name'"
               :rules="{
                 required: true,

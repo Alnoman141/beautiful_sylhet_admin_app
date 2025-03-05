@@ -63,7 +63,7 @@ const spotList = ref([])
 
 const columns = ref([
   { label: "S.L", prop: "id", sortable: false },
-  { label: "Name", prop: "name", sortable: false },
+  { label: "Restaurant Name", prop: "name", sortable: false },
 
   { label: "Spot Name", prop: "spot", sortable: false },
 ])
