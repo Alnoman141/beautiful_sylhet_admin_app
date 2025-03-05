@@ -9,7 +9,7 @@
           <RouterLink
             type="primary"
             :underline="false"
-            :to="{ name: 'bankList' }"
+            :to="{ name: 'atmList' }"
             class="create-btn"
           >
             <el-tooltip
@@ -18,7 +18,7 @@
               content="Bank List"
               placement="top-start"
             >
-              Bank List
+              ATM List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -46,13 +46,13 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
 
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="ATM Both Name"
+                  :label=" index == 0 ? 'এটিএম বুথের নাম' : 'ATM Both Name'"
                   :prop="
                     ruleForm.atms
                       ? 'atms.' + index + '.name'
@@ -60,16 +60,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'ATM both name  is required',
+                    message: index == 0 ? 'এটিএম বুথের নাম  আবশ্যক'   :  'ATM Both name  is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="ATM Both Name" v-model="item.name" />
+                  <ElInput :placeholder=" index == 0 ? 'এটিএম বুথের নাম' : 'ATM Both Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Address"
+                  :label=" index == 0 ? 'ঠিকানা' : 'Address'"
                   :prop="
                     ruleForm.atms
                       ? 'atms.' + index + '.address'
@@ -77,11 +77,11 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'ATM both Address  is required',
+                    message: index == 0 ? 'এটিএম বুথের ঠিকানা আবশ্যক'  : 'ATM Both Address  is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Address" v-model="item.address" />
+                  <ElInput :placeholder=" index == 0 ? 'এটিএম বুথের ঠিকানা' : 'ATM Both Address'" v-model="item.address" />
                 </ElFormItem>
               </VCol>
             </VRow>

@@ -46,12 +46,12 @@
           md="6"
         >
           <ElCard class="py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Campaign Name"
+                  :label=" index == 0 ? 'প্রচারণার নাম' : 'Campaign Name'"
                   :prop="
                     ruleForm.campaigns
                       ? 'campaigns.' + index + '.name'
@@ -59,12 +59,12 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Campaign name is required',
+                    message: index == 0 ? 'প্রচারণার নাম  আবশ্যক' : 'Campaign name is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput
-                    placeholder="Enter campaign name"
+                    :placeholder=" index == 0 ? 'প্রচারণার নাম' : 'campaign name'"
                     v-model="item.name"
                   />
                 </ElFormItem>
@@ -88,19 +88,19 @@
                   <div>
                     <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.description"
+                      v-model="item.description"
                       :blur="checkData()"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type description here"
+                      :Placeholder="index == 0 ? 'প্রচারণার বিস্তারিত' : 'Type description here'"
                     />
                   </div>
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Date"
+                  :label=" index == 0 ? 'তারিখ' : 'Date'"
                   :prop="
                     ruleForm.campaigns
                       ? 'campaigns.' + index + '.date'
@@ -108,7 +108,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Date  is required',
+                    message: index == 0 ? 'তারিখ  আবশ্যক' : 'Date  is required',
                     trigger: 'blur',
                   }"
                 >
@@ -116,12 +116,12 @@
                   <div>
                     <QuillEditor
                       ref="dateEditorRef"
-                      v-model:content="item.date"
+                      v-model="item.date"
                       :blur="checkData()"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type Date here"
+                      :Placeholder=" index == 0 ? 'তারিখ লিখুন': 'Type Date here'"
                     />
                   </div>
                 </ElFormItem>
@@ -211,6 +211,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useCampaignStore } from "@/stores/tourism/campaignStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -326,10 +327,10 @@ const descriptionEditorRef = ref(null);
 const dateEditorRef = ref(null);
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    // e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
   });
   dateEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    // e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
   });
   props.ruleForm.data?.map((e) => {
     e.description == "<p><br></p>" ? (e.description = "") : "";
@@ -343,16 +344,15 @@ const checkData = () => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
-  dateEditorRef.value?.map((e) => e.setHTML(""));
+  // descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  // dateEditorRef.value?.map((e) => e.setHTML(""));
   props.ruleForm.map((e) => {
     e.description = "";
     e.date = "";
   });
 };
 onMounted(() => {
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
-  dateEditorRef.value?.map((e) => e.setHTML(""));
+  checkData();
 });
 </script>
 

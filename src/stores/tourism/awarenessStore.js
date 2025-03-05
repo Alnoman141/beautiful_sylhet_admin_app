@@ -1,4 +1,4 @@
-import { editAwareness, getAwareness, getAwarenessById, updateAwareness } from '@/api/toruism/awareness'
+import { createAwareness, editAwareness, getAwareness, getAwarenessById, updateAwareness } from '@/api/toruism/awareness'
 import { defineStore } from 'pinia'
 
 export const useAwarenessStore = defineStore('awarenessStore', {
@@ -49,6 +49,18 @@ export const useAwarenessStore = defineStore('awarenessStore', {
             this.location = response.data.data
             resolve(response)
           }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    createAwareness(data) {
+      return new Promise((resolve, reject) => {
+        createAwareness(data)
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
             reject(error)
           })
       })

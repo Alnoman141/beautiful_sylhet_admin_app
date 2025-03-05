@@ -46,12 +46,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "  বাংলা " : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Restaurant Name"
+                  :label=" index == 0 ? 'রেস্তোরার নাম' : 'Restaurant Name'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.name'
@@ -59,43 +59,43 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Restaurant name is required',
+                    message: index == 0 ? 'রেস্তোরার নাম আবশ্যক ' : 'Restaurant name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Restaurant Name" v-model="item.name" />
+                  <ElInput :placeholder=" index == 0 ? 'রেস্তোরার নাম' : 'Restaurant Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
 
               <!-- phone -->
               <VCol cols="12">
                 <ElFormItem
-                  label="Phone"
+                  :label=" index == 0 ? 'ফোন নম্বর' : 'Phone'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.phone'
                       : 'data.' + index + '.phone'
                   "
                 >
-                  <ElInput placeholder="Phone" v-model="item.phone" />
+                  <ElInput :placeholder="index == 0 ? 'ফোন নম্বর' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Address"
+                  :label=" index == 0 ? 'ঠিকানা' : 'Address'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.address'
                       : 'data.' + index + '.address'
                   "
                 >
-                  <ElInput placeholder="Address" v-model="item.address" />
+                  <ElInput :placeholder="index == 0  ? 'ঠিকানা' : 'Address'" v-model="item.address" />
                 </ElFormItem>
               </VCol>
 
               <VCol cols="12">
                 <ElFormItem
-                  label="Open Time"
+                  :label="index == 0 ? ' খোলার সময়' : 'Open Time'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.open_time'
@@ -103,23 +103,24 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Open Time is required',
+                    message: index == 0 ? ' খোলার সময় আবশ্যক ' : 'Open Time is required',
                     trigger: 'blur',
                   }"
                 >
                   <el-time-picker
                     style="inline-size: 100%"
                     v-model="item.open_time"
-                    placeholder="Pick a time"
+                    :placeholder=" index == 0 ? ' খোলার সময়' : 'Open Time'"
                     format="hh:mm:ss a"
                     value-format="HH:mm:ss"
+                    
                   />
                 </ElFormItem>
               </VCol>
 
               <VCol cols="12">
                 <ElFormItem
-                  label="Close Time"
+                  :label=" index == 0 ? 'বন্ধের সময়' : 'Close Time'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.close_time'
@@ -127,7 +128,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Close Time is required',
+                    message:  index == 0 ? 'বন্ধের সময় আবশ্যক ' : 'Close Time is required',
                     trigger: 'blur',
                   }"
                 >
@@ -135,7 +136,7 @@
                     style="inline-size: 100%"
                     v-model="item.close_time"
                     type="time"
-                    placeholder="Pick a time"
+                    :placeholder="index == 0 ? 'বন্ধের সময়' : 'Close Time'"
                     format="hh:mm:ss a"
                     value-format="HH:mm:ss"
                   />
@@ -144,7 +145,7 @@
 
               <VCol cols="12">
                 <ElFormItem
-                  label="Description"
+                  :label=" index == 0 ? 'বিস্তারিত' : 'Description'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.description'
@@ -152,7 +153,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'description is required',
+                    message: index == 0 ? 'বিস্তারিত আবশ্যক ' : 'description is required',
                     trigger: 'blur',
                   }"
                 >
@@ -164,14 +165,14 @@
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      placeholder="Description"
+                      :Placeholder=" index == 0 ? 'বিস্তারিত' : 'Description'"
                     />
                   </div>
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Facilities"
+                  :label=" index == 0 ? 'সুযোগ-সুবিধা' : 'Facilities'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.facilities'
@@ -186,7 +187,7 @@
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      placeholder="Facilities"
+                      :Placeholder=" index == 0 ? 'সুযোগ-সুবিধা' : 'Facilities'"
                     />
                   </div>
                 </ElFormItem>
@@ -194,7 +195,7 @@
 
               <VCol cols="12">
                 <ElFormItem
-                  label="Menu"
+                  :label=" index == 0 ? 'তালিকা' : 'Menu'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.menu'
@@ -214,6 +215,7 @@
                     <QuillEditor
                       :text-change="checkData()"
                       v-model="item.menu"
+                      :Placeholder=" index == 0 ? 'তালিকা' : 'Menu'"
                     />
                   </div>
                 </ElFormItem>
@@ -256,6 +258,7 @@
               </el-select>
             </ElFormItem>
           </VCol>
+
           <VCol cols="12" md="6">
             <ElFormItem label="Map Link" prop="map_link">
               <ElInput
@@ -389,6 +392,7 @@ const props = defineProps({
     default: "create",
   },
 });
+
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
 const locationOptions = ["Home", "Company", "School"];
@@ -402,46 +406,48 @@ const imgUploadValidation = ref(false);
 const loading = ref(false);
 const formattedOpenTime = ref("");
 const formattedCloseTime = ref("");
+
+
 const submitForm = async (formEl: FormInstance | undefined) => {
   props.ruleForm.data = props.ruleForm.restaurants
     ? props.ruleForm.restaurants
     : props.ruleForm.data;
-  // props.ruleForm.data.map((e) => {
+  props.ruleForm.data.map((e) => {
 
-  //   // open time
-  //   const [timePart, period] = e.open_time ? e.open_time.split(" ") : "";
-  //   let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
+    // open time
+    const [timePart, period] = e.open_time ? e.open_time.split(" ") : "";
+    let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
 
-  //   if (e.open_time && period === "pm" && hours !== "12") {
-  //     hours = String(Number(hours) + 12);
-  //   } else if (e.open_time && period === "am" && hours === "12") {
-  //     hours = "00";
-  //   }
-  //   hours != undefined && minutes != undefined && seconds != undefined
-  //     ? (formattedOpenTime.value = `${hours}:${minutes}:${seconds}`)
-  //     : (formattedOpenTime.value = null);
+    if (e.open_time && period === "pm" && hours !== "12") {
+      hours = String(Number(hours) + 12);
+    } else if (e.open_time && period === "am" && hours === "12") {
+      hours = "00";
+    }
+    hours != undefined && minutes != undefined && seconds != undefined
+      ? (formattedOpenTime.value = `${hours}:${minutes}:${seconds}`)
+      : (formattedOpenTime.value = null);
 
-  //   e.open_time = formattedOpenTime.value;
-  //   // close time
-  //   const [timePartClose, periodClose] = e.close_time
-  //     ? e.close_time.split(" ")
-  //     : "";
-  //   let [hoursClose, minutesClose, secondsClose] = timePartClose
-  //     ? timePartClose.split(":")
-  //     : "";
+    e.open_time = formattedOpenTime.value;
+    // close time
+    const [timePartClose, periodClose] = e.close_time
+      ? e.close_time.split(" ")
+      : "";
+    let [hoursClose, minutesClose, secondsClose] = timePartClose
+      ? timePartClose.split(":")
+      : "";
 
-  //   if (e.close_time && periodClose === "pm" && hoursClose !== "12") {
-  //     hoursClose = String(Number(hoursClose) + 12);
-  //   } else if (e.close_time && periodClose === "am" && hoursClose === "12") {
-  //     hoursClose = "00";
-  //   }
-  //   hoursClose != undefined && minutesClose != undefined && secondsClose != undefined
-  //     ? (formattedCloseTime.value = `${hoursClose}:${minutesClose}:${secondsClose}`)
-  //     : (formattedCloseTime.value = null);
+    if (e.close_time && periodClose === "pm" && hoursClose !== "12") {
+      hoursClose = String(Number(hoursClose) + 12);
+    } else if (e.close_time && periodClose === "am" && hoursClose === "12") {
+      hoursClose = "00";
+    }
+    hoursClose != undefined && minutesClose != undefined && secondsClose != undefined
+      ? (formattedCloseTime.value = `${hoursClose}:${minutesClose}:${secondsClose}`)
+      : (formattedCloseTime.value = null);
 
-  //   e.close_time = formattedCloseTime.value;
+    e.close_time = formattedCloseTime.value;
 
-  // });
+  });
   props.ruleForm.data.map((e) => {
     if (e.open_time) {
       const parts = e.open_time.split(" ");
@@ -591,40 +597,44 @@ const resetForm = (formEl: FormInstance | undefined) => {
   });
 };
 const checkData = () => {
-  // descriptionEditorRef.value?.getHTML() == "<p><br></p>"
-  //   ? descriptionEditorRef.value?.setHTML("")
-  //   : "";
+  props.ruleForm.restaurants
+    ? props.ruleForm.restaurants?.map((e) => {
+        e.instruction == "<p><br></p>" ||
+        e.instruction == "<h1><br></h1>" ||
+        e.instruction == "<h2><br></h2>" ||
+        e.instruction == "<h3><br></h3>" ||
+        e.instruction == "<h4><br></h4>" ||
+        e.instruction == "<h5><br></h5>" ||
+        e.instruction == "<h6><br></h6>" ||
+        e.instruction == "<b><br></b>" ||
+        e.instruction == "<i><br></i>" ||
+        e.instruction == "<u><br></u>" ||
+        e.instruction == "<span><br></span>" ||
+        e.instruction == "<div><br></div>" ||
+        e.instruction == "<s><br></s>"
+          ? (e.instruction = "")
+          : "";
 
-  descriptionEditorRef.value?.map((item) => {
-    // item.setHTML("");
-    // item?.getHTML() == "<p><br></p>" ? item?.setHTML("") : "";
+        // e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+      })
+    : "";
+  props.ruleForm.data?.map((e) => {
+    e.instruction == "<p><br></p>" ||
+    e.instruction == "<h1><br></h1>" ||
+    e.instruction == "<h2><br></h2>" ||
+    e.instruction == "<h3><br></h3>" ||
+    e.instruction == "<h4><br></h4>" ||
+    e.instruction == "<h5><br></h5>" ||
+    e.instruction == "<h6><br></h6>" ||
+    e.instruction == "<b><br></b>" ||
+    e.instruction == "<i><br></i>" ||
+    e.instruction == "<u><br></u>" ||
+    e.instruction == "<span><br></span>" ||
+    e.instruction == "<div><br></div>" ||
+    e.instruction == "<s><br></s>"
+      ? (e.instruction = "")
+      : "";
   });
-  // facilitiesEditorRef.value?.getHTML() == "<p><br></p>"
-  //   ? facilitiesEditorRef.value?.setHTML("")
-  //   : "";
-  // props.ruleForm.restaurants
-  //   ? props.ruleForm.restaurants?.map((e) => {
-  //       e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
-  //     })
-  //   : "";
-  // props.ruleForm.data?.map((e) => {
-  //   e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
-  // });
-
-  // props.ruleForm.restaurants
-  //   ? props.ruleForm.restaurants?.map((e) => {
-  //       e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
-  //     })
-  //   : "";
-  // props.ruleForm.data?.map((e) => {
-  //   e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
-  // });
-  // menuEditorRef.value?.getHTML() == "<p><br></p>"
-  //   ? menuEditorRef.value?.setHTML("")
-  //   : "";
-  // menuEditorRef.value?.map((item) => {
-  //   item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
-  // });
 };
 const imgViewModal = ref(false);
 const modalImg = ref(null);
@@ -638,25 +648,7 @@ const facilitiesEditorRef = ref(null);
 const menuEditorRef = ref(null);
 onMounted(() => {
   getSpotDropdown();
-
-  // descriptionEditorRef.value ? descriptionEditorRef.value.setHTML("") : "";
-  // descriptionEditorRef.value
-  //   ? descriptionEditorRef.value?.map((item) => {
-  //       item.setHTML("");
-  //     })
-  //   : "";
-  // facilitiesEditorRef.value ? facilitiesEditorRef.value.setHTML("") : "";
-  // facilitiesEditorRef.value
-  //   ? facilitiesEditorRef.value?.map((item) => {
-  //       item.setHTML("");
-  //     })
-  //   : "";
-  // menuEditorRef.value ? menuEditorRef.value.setHTML("") : "";
-  // menuEditorRef.value
-  //   ? menuEditorRef.value?.map((item) => {
-  //       item.setHTML("");
-  //     })
-  //   : "";
+  checkData();
 });
 </script>
 

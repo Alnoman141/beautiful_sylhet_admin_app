@@ -41,13 +41,13 @@
           >
             <ElCard class="rounded py-2 px-2">
               
-                <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+                <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
                 <hr class="my-2">
               
               <VRow>
                 <VCol cols="12">
                   <ElFormItem
-                    label="Hotel Type Name"
+                    :label="index == 0 ? 'হোটেল টাইপ নাম' : 'Hotel Type Name'"
                     :prop="
                       ruleForm.types
                         ? 'types.' + index + '.name'
@@ -55,11 +55,11 @@
                     "
                     :rules="{
                       required: true,
-                      message: 'Hotel type is required',
+                      message: index == 0 ? 'হোটেল টাইপ আবশ্যক' : 'Hotel type is required',
                       trigger: 'blur',
                     }"
                   >
-                    <ElInput placeholder="Hotel Type Name" v-model="item.name" />
+                    <ElInput :placeholder="index == 0 ? 'হোটেল টাইপ নাম' : 'Hotel Type Name'" v-model="item.name" />
                   </ElFormItem>
                 </VCol>
               </VRow>

@@ -44,13 +44,13 @@
           :key="index"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "      বাংলা" : "English" }} </b>
             <hr class="my-2" />
 
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Phone"
+                  :label="index == 0 ? 'ফোন নম্বর' : 'Phone'"
                   :prop="
                     ruleForm.lockers
                       ? 'lockers.' + index + '.phone'
@@ -58,16 +58,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Phone is required',
+                    message: index == 0 ? 'ফোন নম্বর আবশ্যক' : 'Phone is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Phone Number" v-model="item.phone" />
+                  <ElInput :placeholder="index == 0 ? ' ফোন নম্বর' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Address"
+                  :label="index == 0 ? 'ঠিকানা' : 'Address'"
                   :prop="
                     ruleForm.lockers
                       ? 'lockers.' + index + '.address'
@@ -75,16 +75,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Address is required',
+                    message: index == 0 ? 'ঠিকানা আবশ্যক' : 'Address is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Address" v-model="item.address" />
+                  <ElInput :placeholder=" index == 0 ? 'ঠিকানা' : 'Address'" v-model="item.address" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Description"
+                  :label="index == 0 ? 'বর্ণনা' : 'Description'"
                   :prop="
                     ruleForm.lockers
                       ? 'lockers.' + index + '.description'
@@ -100,13 +100,14 @@
                   <div>
                     <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.description"
+                      v-model="item.description"
                       :blur="checkData()"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      style="min-block-size: 200"
-                      placeholder="Type description here"
+                  
+                      :Placeholder="index == 0 ? 'বাংলায় বর্ণনা লিখুন' : 'Type Description in English'"
+                      :custom-class="'customClass'"
                     />
                   </div>
                 </ElFormItem>
@@ -192,6 +193,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useLockerStore } from "@/stores/tourism/lockerStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -293,29 +295,23 @@ const typeList = ref([]);
 const descriptionEditorRef = ref();
 onMounted(() => {
   getSpotDropdownList();
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  // descriptionEditorRef.value?.map((e) => e.setHTML(""));
 });
 
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
-    console.log("e", e.getHTML());
+    // console.log("e", e.getHTML());
 
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-    console.log("e", e.getHTML());
+    // e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    // console.log("e", e.getHTML());
   });
-  props.ruleForm.lockers
-    ? props.ruleForm.lockers?.map((e) =>
-        e.description == "<p><br></p>" ? (e.description = "") : ""
-      )
-    : props.ruleForm.data?.map((e) =>
-        e.description == "<p><br></p>" ? (e.description = "") : ""
-      );
+  
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  // descriptionEditorRef.value?.map((e) => e.setHTML(""));
   checkData();
 };
 </script>

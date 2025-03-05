@@ -43,12 +43,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Bank Name"
+                  :label=" index == 0 ? 'ব্যাংকের নাম' : 'Bank Name'"
                   
                   :prop="
                     ruleForm.data
@@ -57,11 +57,11 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Bank name  is required',
+                    message:  index == 0 ? 'ব্যাংকের নাম আবশ্যক' : 'Bank name  is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Bank Name" v-model="item.name" />
+                  <ElInput :placeholder=" index == 0 ? 'ব্যাংকের নাম' : 'Bank Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
             </VRow>

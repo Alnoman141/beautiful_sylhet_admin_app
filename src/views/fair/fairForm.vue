@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Fair {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> Fare {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
         <VCol cols="6" class="text-right">
           <RouterLink
@@ -15,10 +15,10 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="Fair List"
+              content="Fare List"
               placement="top-start"
             >
-              Fair List
+              Fare List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -51,7 +51,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Fair"
+                  :label="index == 0 ? 'ভাড়া' : 'Fair'"
                   :prop="
                     ruleForm.fair_boards
                       ? 'fair_boards.' + index + '.name'
@@ -59,11 +59,14 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Fair is required',
+                    message: index == 0 ? 'ভাড়া আবশ্যক' : 'Fair is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Fair" v-model="item.name" />
+                  <ElInput
+                    :placeholder="index == 0 ? 'ভাড়া' : 'Fair'"
+                    v-model="item.name"
+                  />
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -192,30 +195,32 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.fair_boards,
     };
 
-    loading.value = true;
+    if (valid) {
+      loading.value = true;
 
-    try {
-      const { data } = props.ruleForm.id
-        ? await fairStore.updateFair(form)
-        : await fairStore.createFair(props.ruleForm);
-      data.status_code == 200
-        ? (notify("Congratulations!", data.message, "success", "top-right"),
-          emit("tableDataEmit"),
-          (loading.value = false))
-        : "";
-      data.status_code == 200 ? router.push({ name: "fairList" }) : "";
-    } catch (error) {
-      loading.value = false;
-      notify(
-        error?.response?.data?.message,
-        error?.response?.data?.errors
-          ? error?.response?.data?.errors
-          : error?.response?.data?.error
-          ? error?.response?.data?.error
-          : "Something went wrong",
-        "error",
-        "top-right"
-      );
+      try {
+        const { data } = props.ruleForm.id
+          ? await fairStore.updateFair(form)
+          : await fairStore.createFair(props.ruleForm);
+        data.status_code == 200
+          ? (notify("Congratulations!", data.message, "success", "top-right"),
+            emit("tableDataEmit"),
+            (loading.value = false))
+          : "";
+        data.status_code == 200 ? router.push({ name: "fairList" }) : "";
+      } catch (error) {
+        loading.value = false;
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
+      }
     }
   });
 };

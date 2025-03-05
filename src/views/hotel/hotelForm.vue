@@ -10,7 +10,6 @@
             type="primary"
             :underline="false"
             :to="{ name: 'hotelList' }"
-            
             class="create-btn"
           >
             Hotel/Motel/Resort List</RouterLink
@@ -20,7 +19,7 @@
     </ElCard>
 
     <ElForm
-    v-loading="loading"
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -41,12 +40,16 @@
         >
           <ElCard class="rounded py-2 my-4">
             <b> {{ index == 0 ? "Bangla" : "English" }} </b>
-            <hr class="my-2">
+            <hr class="my-2" />
 
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Hotel/Motel/Resort Name"
+                  :label="
+                    index == 0
+                      ? 'হোটেল/মোটেল/রিসোর্ট নাম'
+                      : 'Hotel/Motel/Resort Name'
+                  "
                   :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.name'
@@ -54,16 +57,26 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Hotel name is required',
+                    message:
+                      index == 0
+                        ? 'হোটেল/মোটেল/রিসোর্টের নাম আবশ্যক'
+                        : 'Hotel name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Hotel Name" v-model="item.name" />
+                  <ElInput
+                    :placeholder="
+                      index == 0
+                        ? 'হোটেল/মোটেল/রিসোর্ট নাম'
+                        : 'Hotel/Motel/Resort Name'
+                    "
+                    v-model="item.name"
+                  />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Phone No"
+                  :label="index == 0 ? 'ফোন নম্বর' : 'Phone No'"
                   :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.phone'
@@ -71,54 +84,82 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Phone number is required',
+                    message:
+                      index == 0
+                        ? ' ফোন নাম্বার আবশ্যক'
+                        : 'Phone number is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Phone No" v-model="item.phone" />
+                  <ElInput
+                    :placeholder="index == 0 ? ' ফোন নম্বর' : 'Phone No'"
+                    v-model="item.phone"
+                  />
                 </ElFormItem>
               </VCol>
-              <VCol cols="12" >
-                <ElFormItem label="Address"  :prop="
+              <VCol cols="12">
+                <ElFormItem
+                  :label="index == 0 ? 'ঠিকানা' : 'Address'"
+                  :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.address'
                       : 'data.' + index + '.address'
-                  " >
+                  "
+                >
                   <!-- :rules="[{ required: true, message: 'address is required', trigger: 'blur' }]" -->
                   <!-- <ElInput placeholder="Address" v-model="item.address" /> -->
-                   <div>
-                   <QuillEditor
+                  <div>
+                    <!-- <QuillEditor
                       ref="addressEditorRef"
-                      v-model:content="item.address"                     
+                      v-model="item.address"
                       content-type="html"
                       theme="snow"
                       :text-change="checkData()"
                       toolbar="full"
                       placeholder="Type address here"
+                    /> -->
+                    <QuillEditor
+                      v-model="item.address"
+                      :text-change="checkData()"
+                      content-type="html"
+                      theme="snow"
+                      toolbar="full"
+                      style="min-block-size: 200px"
+                      :Placeholder="index == 0 ? 'ঠিকানা' : 'Address'"
+                      :customClass="'customClass'"
                     />
-                    </div>
+                  </div>
                 </ElFormItem>
               </VCol>
-              <VCol cols="12" >
-                <ElFormItem label="Description"  :prop="
+              <VCol cols="12">
+                <ElFormItem
+                  :label="index == 0 ? 'বর্ণনা' : 'Description'"
+                  :prop="
                     ruleForm.hotels
                       ? 'hotels.' + index + '.description'
                       : 'data.' + index + '.description'
-                  ">
+                  "
+                >
                   <!-- <ElInput
                     placeholder="Description"
                     v-model="item.description"
                   /> -->
                   <div>
-                   <QuillEditor
-                      ref="descriptionEditorRef"
-                      v-model:content="item.description"                     
+                    <QuillEditor
+                      v-model="item.description"
+                      :text-change="checkData()"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type Description here"
+                      style="min-block-size: 200px"
+                      :Placeholder="
+                        index == 0
+                          ? 'বাংলায় বর্ণনা লিখুন'
+                          : 'Type Description in English'
+                      "
+                      :customClass="'customClass'"
                     />
-                    </div>
+                  </div>
                 </ElFormItem>
               </VCol>
             </VRow>
@@ -219,11 +260,7 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            <ElFormItem
-              label="Map Link"
-              prop="map_link"
-              
-            >
+            <ElFormItem label="Map Link" prop="map_link">
               <ElInput
                 placeholder="Map Link"
                 type="url"
@@ -277,22 +314,39 @@
           </VCol>
         </VRow>
         <div class="py-4">
-          <el-tooltip class="box-item" effect="dark" content="Save" placement="top">
-          <ElButton
-            class="submit"
-            type="primary"
-            @click="submitForm(ruleFormRef)"
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Save"
+            placement="top"
           >
-            {{ mode }}
-          </ElButton>
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
           </el-tooltip>
           <!-- reset button -->
-          <el-tooltip class="box-item" effect="dark" content="Reset" placement="top">
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)">Reset</ElButton>
-          </el-tooltip> 
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Reset"
+            placement="top"
+          >
+            <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
+              >Reset</ElButton
+            >
+          </el-tooltip>
           <!-- back  -->
-          <el-tooltip class="box-item" effect="dark" content="Back" placement="top">
-          <ElButton @click="router.go(-1)" type="info" >Back</ElButton>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Back"
+            placement="top"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
           </el-tooltip>
         </div>
       </ElCard>
@@ -301,6 +355,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useHotelCategoryStore } from "@/stores/tourism/hotelCategoryStore";
 import { useHotelStore } from "@/stores/tourism/hotelStore";
 import { useHotelTypeStore } from "@/stores/tourism/hotelTypeStore";
@@ -314,7 +369,7 @@ import {
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-const loading = ref(false)
+const loading = ref(false);
 const emit = defineEmits(["getEmit"]);
 const route = useRoute();
 const router = useRouter();
@@ -389,30 +444,39 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       map_link: props.ruleForm.map_link,
       website_link: props.ruleForm.website_link,
       data: props.ruleForm.hotels,
-
     };
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.parent_spot_id = props.ruleForm.spot_parent_id;
     if (valid && !imgUploadValidation.value) {
-  loading.value = true
+      loading.value = true;
 
-      try{
-      const { data } = props.ruleForm.id
-        ? await hotelStore.updateHotel(form)
-        : await hotelStore.createHotel(props.ruleForm);
-      data.status_code == 200
-        ? (notify(
-            "Congratulations!",
-            data.message,
-            "success",
-            "top-right",
-            emit("getEmit")
-          ), loading.value = false)
-        : "";
+      try {
+        const { data } = props.ruleForm.id
+          ? await hotelStore.updateHotel(form)
+          : await hotelStore.createHotel(props.ruleForm);
+        data.status_code == 200
+          ? (notify(
+              "Congratulations!",
+              data.message,
+              "success",
+              "top-right",
+              emit("getEmit")
+            ),
+            (loading.value = false))
+          : "";
         router.push({ name: "hotelList" });
       } catch (error) {
-        loading.value = false
-          notify(error?.response?.data?.message,  error?.response?.data?.errors ? error?.response?.data?.errors : error?.response?.data?.error ?error?.response?.data?.error : "Something went wrong", 'error', 'top-right')
+        loading.value = false;
+        notify(
+          error?.response?.data?.message,
+          error?.response?.data?.errors
+            ? error?.response?.data?.errors
+            : error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "Something went wrong",
+          "error",
+          "top-right"
+        );
       }
     } else {
       console.log("error submit!", fields);
@@ -443,20 +507,52 @@ const addressEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
-  addressEditorRef.value?.map((e) => e.setHTML(""));
+  // descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  // addressEditorRef.value?.map((e) => e.setHTML(""));
 };
 const checkData = () => {
   addressEditorRef.value?.map((e) => {
-    e.getHTML == "<p><br></p>" ? e.setHTML("") : "";
+    // e.getHTML == "<p><br></p>" ? e.setHTML("") : "";
   });
   props.ruleForm?.hotels?.map((e) => {
-    e.address === "<p><br></p>" ? (e.address = "") : "";
-  })
+    e.address == "<p><br></p>" ||
+    e.address == "<h1><br></h1>" ||
+    e.address == "<h2><br></h2>" ||
+    e.address == "<h3><br></h3>" ||
+    e.address == "<h4><br></h4>" ||
+    e.address == "<h5><br></h5>" ||
+    e.address == "<h6><br></h6>" ||
+    e.address == "<b><br></b>" ||
+    e.address == "<i><br></i>" ||
+    e.address == "<u><br></u>" ||
+    e.address == "<span><br></span>" ||
+    e.address == "<div><br></div>" ||
+    e.address == "<s><br></s>"
+      ? (e.address = "")
+      : "";
+
+    // e.address === "<p><br></p>" ? (e.address = "") : "";
+  });
   props.ruleForm?.data?.map((e) => {
-    e.address ==="<p><br></p>" ? (e.address = "") : "";
-  })
-}
+    e.address == "<p><br></p>" ||
+    e.address == "<h1><br></h1>" ||
+    e.address == "<h2><br></h2>" ||
+    e.address == "<h3><br></h3>" ||
+    e.address == "<h4><br></h4>" ||
+    e.address == "<h5><br></h5>" ||
+    e.address == "<h6><br></h6>" ||
+    e.address == "<b><br></b>" ||
+    e.address == "<i><br></i>" ||
+    e.address == "<u><br></u>" ||
+    e.address == "<span><br></span>" ||
+    e.address == "<div><br></div>" ||
+    e.address == "<s><br></s>"
+      ? (e.address = "")
+      : "";
+
+    // e.address === "<p><br></p>" ? (e.address = "") : "";
+  });
+};
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (
     rawFile.type !== "image/jpeg" &&
@@ -480,8 +576,7 @@ onMounted(() => {
   getSpotDropdownList();
   getCategoryDropdownList();
   getTypeDropdownList();
-  addressEditorRef.value?.map((e) => e.setHTML(""));
-
+  // addressEditorRef.value?.map((e) => e.setHTML(""));
 });
 </script>
 

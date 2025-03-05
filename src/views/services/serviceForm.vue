@@ -203,13 +203,15 @@
             <ElFormItem label="Owner Information" :prop="'owner_information'">
               <div>
                 <QuillEditor
-                  v-model:content="ruleForm.owner_information"
+                  v-model="ruleForm.owner_information"
                   ref="ownerInformationEditorRef"
                   content-type="html"
                   theme="snow"
                   toolbar="full"
                   :text-change="checkData()"
-                  placeholder="Owner Information"
+                  :Placeholder="'Owner Information'"
+                  :customClass = "'customClass'"
+
                 />
               </div>
             </ElFormItem>
@@ -276,6 +278,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useServiceStore } from "@/stores/tourism/serviceStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import {
@@ -430,9 +433,9 @@ const removeSupervisorNumber = (index: number) => {
 };
 const ownerInformationEditorRef = ref(null);
 const checkData = () => {
-  descriptionEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-  });
+  // descriptionEditorRef.value?.map((e) => {
+  //   e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+  // });
   props.ruleForm.owner_information
     ? props.ruleForm.owner_information == "<p><br></p>"
       ? (props.ruleForm.owner_information = "")
@@ -445,21 +448,21 @@ const checkData = () => {
     : props.ruleForm.descriptions?.map((e) =>
         e.name == "<p><br></p>" ? (e.name = "") : ""
       );
-  descriptionEditorRef.value?.getHTML() == "<p><br></p>"
-    ? descriptionEditorRef.value?.setHTML("")
-    : "";
+  // descriptionEditorRef.value?.getHTML() == "<p><br></p>"
+  //   ? descriptionEditorRef.value?.setHTML("")
+  //   : "";
 
-  ownerInformationEditorRef.value?.getHTML() == "<p><br></p>"
-    ? ownerInformationEditorRef.value?.setHTML("")
-    : "";
-  props.ruleForm.reds
-    ? props.ruleForm.reds?.map((e) => {
-        e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
-      })
-    : "";
-  props.ruleForm.data?.map((e) => {
-    e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
-  });
+  // ownerInformationEditorRef.value?.getHTML() == "<p><br></p>"
+  //   ? ownerInformationEditorRef.value?.setHTML("")
+  //   : "";
+  // props.ruleForm.reds
+  //   ? props.ruleForm.reds?.map((e) => {
+  //       e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+  //     })
+  //   : "";
+  // props.ruleForm.data?.map((e) => {
+  //   e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
+  // });
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {

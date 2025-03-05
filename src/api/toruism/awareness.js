@@ -36,3 +36,12 @@ export function updateAwareness(data) {
     data,
   })
 }
+
+
+export function createAwareness(data) {
+  return request({
+    url: "/awareness/store",
+    method: "post",
+    data,
+  })
+}

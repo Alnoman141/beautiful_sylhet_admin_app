@@ -33,10 +33,6 @@ const ruleForm = ref({
       phone: '',           
       instruction: '',
     },
-   
-
-    
-   
   ],
   
 })

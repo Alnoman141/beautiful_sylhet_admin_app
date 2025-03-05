@@ -47,12 +47,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="mb-4" />
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Transport Name"
+                  :label="index == 0 ? ' পরিবহনের নাম ' : 'Transport Name'"
                   :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.name'
@@ -60,11 +60,11 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Name is required',
+                    message: index == 0 ? ' পরিবহনের নাম আবশ্যক' : 'Transport name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Transport Name" v-model="item.name" />
+                  <ElInput :placeholder=" index == 0 ? ' পরিবহনের নাম ' : 'Transport Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <!-- <VCol cols="12" md="6">
@@ -116,7 +116,7 @@
               </VCol> -->
               <VCol cols="12">
                 <ElFormItem
-                  label="Description"
+                  :label="index == 0 ? 'বিস্তারিত' : 'Description'"
                   :prop="
                     ruleForm.transports
                       ? 'transports.' + index + '.description'
@@ -127,12 +127,12 @@
                   <div>
                     <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.description"
+                      v-model="item.description"
                       content-type="html"
                       theme="snow"
                       :text-change="checkData()"
                       toolbar="full"
-                      placeholder="Type Description here"
+                      :Placeholder="index == 0 ? 'বিস্তারিত লিখুন' : 'Type Description here'"
                     />
                   </div>
                 </ElFormItem>
@@ -225,6 +225,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useTransportStore } from "@/stores/tourism/transportStore";
 import { notify } from "@/utils/notification";
 import {
@@ -319,7 +320,7 @@ const descriptionEditorRef = ref(null);
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  // descriptionEditorRef.value?.map((e) => e.setHTML(""));
   props.ruleForm?.data?.map((e) => {
     e.description = "";
   });
@@ -329,7 +330,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 const checkData = () => {
   descriptionEditorRef.value?.map((item) => {
-    item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
+    // item.getHTML() == "<p><br></p>" ? item.setHTML("") : "";
   });
   props.ruleForm?.transports?.map((e) => {
     e.description === "<p><br></p>" ? (e.description = "") : "";

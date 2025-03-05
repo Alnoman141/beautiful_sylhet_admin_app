@@ -36,27 +36,28 @@
         
         <VCol v-for="(item, index) in ruleForm" :key="index" cols="12" md="6">
           <el-card>
-            <p>{{ index == 0 ? "Bangla" : "English" }}</p>
+            <p>{{ index == 0 ? "বাংলা" : "English" }}</p>
             <hr class="my-2" />
             <ElFormItem
-              label="Cox Bazar Info"
-              :prop="index + '.description'"
+              :label="index == 0 ?  'কক্সবাজার সম্পর্কিত তথ্য' : 'Cox Bazar Info'"
+              :prop=" index + '.description'"
               :rules="{
                 required: true,
-                message: 'Cox bazar info is required',
+                message: index == 0 ? 'কক্সবাজার সম্পর্কিত তথ্য আবশ্যক' : 'Cox bazar info is required',
                 trigger: 'blur',
               }"
             >
             <div>
               <QuillEditor
                 ref="coxbazarInfoEditorRef"
-                v-model:content="item.description"
+                v-model="item.description"
                 content-type="html"
                 theme="snow"
                 toolbar="full"
                 :text-change="checkData()"
                 style="block-size: 100dvh;"
-                placeholder="Type Cox's Bazar Info here"
+                :customClass="'customClass'"
+                :Placeholder="index == 0 ? 'কক্সবাজার সম্পর্কিত তথ্য' : 'Type Coxs Bazar Info here'"
               />
             </div> 
             </ElFormItem>
@@ -79,6 +80,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useInfoStore } from "@/stores/tourism/infoStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -150,12 +152,29 @@ const getInfo = async () => {
 };
 const coxbazarInfoEditorRef = ref(null);
 const checkData = () => {
-  coxbazarInfoEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" || e.getHTML().length <= 13 ? e.setHTML("") : "";
-  });
-  ruleForm.value?.map((e) => {
-    
-    e.description == "<p><br></p>" || e.description.lenght <= 13 ? (e.description = "") : "";
+  // coxbazarInfoEditorRef.value?.map((e) => {
+  //   e.getHTML() == "<p><br></p>" || e.getHTML().length <= 13 ? e.setHTML("") : "";
+  // });
+  // ruleForm.value?.map((e) => {
+
+  //   e.description == "<p><br></p>" || e.description.lenght <= 13 ? (e.description = "") : "";
+  // });
+   ruleForm.value.map((e) => {
+    e.description == "<p><br></p>" ||
+    e.description == "<h2><br></h2>" ||
+    e.description == "<h3><br></h3>" ||
+    e.description == "<h4><br></h4>" ||
+    e.description == "<h5><br></h5>" ||
+    e.description == "<h6><br></h6>" ||
+    e.description == "<h1><br></h1>" ||
+    e.description == "<b><br></b>" ||
+    e.description == "<i><br></i>" ||
+    e.description == "<u><br></u>" ||
+    e.description == "<span><br></span>" ||
+    e.description == "<div><br></div>" ||
+    e.description == "<s><br></s>"
+      ? (e.description = "")
+      : "";
   });
 };
 onMounted(() => {

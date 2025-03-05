@@ -47,12 +47,12 @@
         >
           <!-- <fieldset class="rounded py-2 px-2"> -->
           <ElCard class="my-4">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="News Title"
+                  :label="index == 0 ? 'সংবাদ শিরোনাম' : 'News Title'"
                   :prop="
                     ruleForm.news
                       ? 'news.' + index + '.name'
@@ -60,11 +60,11 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'News title is required',
+                    message: index == 0 ? ' বাংলায় সংবাদ শিরোনাম আবশ্যক' : 'News title in English is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="News Title " v-model="item.name" />
+                  <ElInput :placeholder="index == 0 ? 'সংবাদ শিরোনাম' : 'News Title' " v-model="item.name" />
                 </ElFormItem>
               </VCol>
             </VRow>

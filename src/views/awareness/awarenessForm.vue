@@ -45,12 +45,18 @@
       <VRow>
         <VCol v-for="(item, index) in ruleForm.data" :key="index" class="mb-5">
           <ElCard>
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <!-- <b> {{ index == 0 ? "Bangla" : "English" }} </b> -->
             <hr class="my-2" />
             <ElFormItem
+              :label="index == 0 ? 'Bangla' : 'English'"
+              :prop="'data.' + index + '.name'"
               :rules="{
                 required: true,
-                message: 'Awareness is required',
+
+                message:
+                  index == 0
+                    ? 'বাংলায় সতর্কতা আবশ্যক'
+                    : 'Awareness in English is required',
                 trigger: 'blur',
               }"
             >
@@ -62,7 +68,11 @@
                   theme="snow"
                   toolbar="full"
                   style="min-block-size: 200px"
-                  placeholder="Type Awareness here"
+                  :Placeholder="
+                    index == 0
+                      ? 'বাংলায় সতর্কতা লিখুন'
+                      : 'Type Awareness in English'
+                  "
                   :customClass="'customClass'"
                 />
               </div>
@@ -92,7 +102,8 @@ const loading = ref(false);
 const route = useRoute();
 const router = useRouter();
 const quillEditor = ref(null); // Ref to the Quill editor instance
-
+const rules = reactive<FormRules<RuleForm>>({}); // Define rules for the form
+const formSize = ref<ComponentSize>("default"); // Form size
 const editorOptions = {
   placeholder: "Type here...",
   theme: "snow", // Change to 'bubble' or other supported themes if needed
@@ -107,7 +118,18 @@ const editData = ref({
 
 const awarenessStore = useAwarenessStore();
 
-const ruleForm = ref({});
+const ruleForm = ref({
+  data: [
+    {
+      name: "",
+      language_id: 1,
+    },
+    {
+      name: "",
+      language_id: 2,
+    },
+  ],
+});
 const ruleFormRef = ref<FormInstance>();
 const htmlContent = ref("");
 
@@ -125,7 +147,8 @@ const getAwareness = async () => {
       quillEditor.value ? quillEditor.value.setHTML(data.data.name) : "";
     }, 1000);
 
-    ruleForm.value.data = data.data;
+    ruleForm.value.data =
+      data.data.length > 0 ? data.data : ruleForm.value.data;
     loading.value = false;
   } catch (error) {
     console.log("error", error);
@@ -133,11 +156,11 @@ const getAwareness = async () => {
 };
 
 const updateAwarenessData = async (formEl: FormInstance | undefined) => {
-  
+  // updateAwareness updateAwareness
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-  loading.value = true;
+      loading.value = true;
 
       try {
         const { data } = await awarenessStore.updateAwareness(ruleForm.value);
@@ -148,7 +171,7 @@ const updateAwarenessData = async (formEl: FormInstance | undefined) => {
           : "";
         data.status_code == 200 ? router.push({ name: "awareness" }) : "";
       } catch (error) {
-        loading.value = false
+        loading.value = false;
         // notify("error", error?.response?.data?.message)
         notify(
           error?.response?.data?.message,
@@ -170,12 +193,22 @@ const updateAwarenessData = async (formEl: FormInstance | undefined) => {
 const awarenessEditorRef = ref(null);
 
 const checkData = () => {
-  awarenessEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-  });
-
   ruleForm.value.data.map((e) => {
-    e.name == "<p><br></p>" ? (e.name = "") : "";
+    e.name == "<p><br></p>" ||
+    e.name == "<h1><br></h1>" ||
+    e.name == "<h2><br></h2>" ||
+    e.name == "<h3><br></h3>" ||
+    e.name == "<h4><br></h4>" ||
+    e.name == "<h5><br></h5>" ||
+    e.name == "<h6><br></h6>" ||
+    e.name == "<b><br></b>" ||
+    e.name == "<i><br></i>" ||
+    e.name == "<u><br></u>" ||
+    e.name == "<span><br></span>" ||
+    e.name == "<div><br></div>" ||
+    e.name == "<s><br></s>"
+      ? (e.name = "")
+      : "";
   });
 };
 

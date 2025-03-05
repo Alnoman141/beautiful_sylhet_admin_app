@@ -44,12 +44,12 @@
           :key="index"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Hotel Category Name"
+                  :label=" index == 0 ? 'হোটেল ক্যাটাগরি' : 'Hotel Category Name'"
                   :prop="
                     ruleForm.categories
                       ? 'categories.' + index + '.name'
@@ -57,13 +57,13 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Hotel category is required',
+                    message: index == 0 ? 'হোটেল ক্যাটাগরি আবশ্যক' : 'Hotel category is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput
                     v-model="item.name"
-                    placeholder="Enter Category name"
+                    :placeholder=" index == 0 ? 'হোটেল ক্যাটাগরি' : 'Category name'"
                   />
                 </ElFormItem>
               </VCol>

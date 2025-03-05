@@ -41,13 +41,13 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
 
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Notice"
+                  :label="index == 0 ? 'ঘোষনা' : 'Announcement'"
                   :prop="
                     ruleForm.notice
                       ? 'notice.' + index + '.name'
@@ -55,7 +55,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Notice is required',
+                    message: index == 0 ? ' ঘোষনা আবশ্যক' : 'Notice is required',
                     trigger: 'blur',
                   }"
                 >
@@ -64,12 +64,12 @@
                   <div>
                     <QuillEditor
                       ref="noticeEditorRef"
-                      v-model:content="item.name"
+                      v-model="item.name"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      placeholder="Type notice here"
+                      :Placeholder=" index == 0 ? 'ঘোষনা লিখুন' : 'Type Announcement here'"
                     />
                   </div>
                 </ElFormItem>
@@ -167,6 +167,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useNoticeStore } from "@/stores/tourism/noticeStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -296,14 +297,44 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
 
 const checkData = () => {
   noticeEditorRef.value?.map((e) => {
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
+    //e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
   });
   props.ruleForm?.data?.map((e) => {
-    console.log("clear", e);
-    e.name == "<p><br></p>" ? (e.name = "") : "";
+    
+    // e.name == "<p><br></p>" ? (e.name = "") : "";
+     e.name == "<p><br></p>" ||
+    e.description == "<h2><br></h2>" ||
+    e.description == "<h3><br></h3>" ||
+    e.description == "<h4><br></h4>" ||
+    e.description == "<h5><br></h5>" ||
+    e.description == "<h6><br></h6>" ||
+    e.description == "<h1><br></h1>" ||
+    e.description == "<b><br></b>" ||
+    e.description == "<i><br></i>" ||
+    e.description == "<u><br></u>" ||
+    e.description == "<span><br></span>" ||
+    e.description == "<div><br></div>" ||
+    e.description == "<s><br></s>"
+      ? (e.description = "")
+      : "";
   });
   props.ruleForm?.notice?.map((e) => {
-    e.name == "<p><br></p>" ? (e.name = "") : "";
+    // e.name == "<p><br></p>" ? (e.name = "") : "";
+    e.name == "<p><br></p>" ||
+    e.name == "<h2><br></h2>" ||
+    e.name == "<h3><br></h3>" ||
+    e.name == "<h4><br></h4>" ||
+    e.name == "<h5><br></h5>" ||
+    e.name == "<h6><br></h6>" ||
+    e.name == "<h1><br></h1>" ||
+    e.name == "<b><br></b>" ||
+    e.name == "<i><br></i>" ||
+    e.name == "<u><br></u>" ||
+    e.name == "<span><br></span>" ||
+    e.name == "<div><br></div>" ||
+    e.name == "<s><br></s>"
+      ? (e.name = "")
+      : "";
   });
 };
 

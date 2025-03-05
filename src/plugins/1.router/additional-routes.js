@@ -111,6 +111,16 @@ export const routes = [
     },
   },
   {
+    path: '/info-create',
+    name: 'infoCreate',
+    component: () => import('@/views/coxbazar-info/infoForm.vue'),
+    meta: {
+      subject: "info",
+      action: "create",
+      navActiveLink: 'info',
+    },
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: () => import('@/views/user/profile.vue'),

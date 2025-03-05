@@ -4,8 +4,6 @@
       <VRow>
         <VCol :cols="guidelineList.length == 0 ?'6' : '12'">
           <b> Instructions</b>
-          <!-- create-guideline -->
-          {{ guidelineList.length }}
         </VCol>
         <VCol
           v-if="guidelineList.length == 0" 

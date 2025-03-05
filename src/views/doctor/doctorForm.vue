@@ -9,7 +9,7 @@
           <RouterLink
             type="primary"
             :underline="false"
-            :to="{ name: 'redZoneList' }"
+            :to="{ name: 'doctorList' }"
             
             class="create-btn"
           >
@@ -42,39 +42,39 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
-                <ElFormItem label="Name" :prop="
+                <ElFormItem :label=" index == 0 ? 'নাম' : 'Name'" :prop="
                     ruleForm.doctor
                       ? 'doctor.' + index + '.name'
                       : 'data.' + index + '.name'
                   "
                   :rules="{
                     required: true,
-                    message: 'Doctor name is required',
+                    message: index == 0 ? 'ডাক্তারের নাম আবশ্যক' : 'Doctor name is required',
                     trigger: 'blur',
                   }">
-                  <ElInput placeholder="Name" v-model="item.name" />
+                  <ElInput :placeholder="index == 0 ? 'নাম' : 'Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
-                <ElFormItem label="Phone"  :prop="
+                <ElFormItem :label=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"  :prop="
                     ruleForm.doctor
                       ? 'doctor.' + index + '.phone'
                       : 'data.' + index + '.phone'
                   "
                   :rules="{
                     required: true,
-                    message: 'Doctor phone number  is required',
+                    message: index == 0 ? 'ফোন নাম্বার আবশ্যক' : 'phone number  is required',
                     trigger: 'blur',
                   }">
-                  <ElInput placeholder="Phone" v-model="item.phone" />
+                  <ElInput :placeholder=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
-                <ElFormItem label="Instruction" :prop="
+                <ElFormItem :label="index == 0 ? ' নির্দেশিকা' : 'Instruction'" :prop="
                     ruleForm.doctor
                       ? 'doctor.' + index + '.instruction'
                       : 'data.' + index + '.instruction'
@@ -83,11 +83,11 @@
                   <div>
                   <QuillEditor
                       ref="instructionEditorRef"
-                      v-model:content="item.instruction"                     
+                      v-model="item.instruction"                     
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type instruction here"
+                      :Placeholder=" index == 0 ? 'নির্দেশিকা লিখুন' : 'Type instruction here'"
                     />
                     </div>
 
@@ -151,6 +151,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useDoctorStore } from "@/stores/tourism/doctorStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";

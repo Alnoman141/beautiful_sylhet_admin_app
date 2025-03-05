@@ -24,7 +24,7 @@ export const dcRoutes = [
         component: () => import('@/views/services/create.vue'),
         meta: {
           subject: "transport",
-          action: " create",
+          action: "create",
           navActiveLink: 'DC Activities',
         },
       },

@@ -13,24 +13,30 @@
             to="#"
             class="create-btn"
           >
-          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
-             {{
-              route.params.type == 1
-                ? "Tourism Corporation"
-                : route.params.type == 2
-                ? "DC Activities"
-                : route.params.type == 3
-                ? "Tourist Bus Service"
-                : "Kitkat Chair"
-            }} List 
-          </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Back"
+              placement="top-start"
+            >
+              {{
+                route.params.type == 1
+                  ? "Tourism Corporation"
+                  : route.params.type == 2
+                  ? "DC Activities"
+                  : route.params.type == 3
+                  ? "Tourist Bus Service"
+                  : "Kitkat Chair"
+              }}
+              List
+            </el-tooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
 
     <ElForm
-    v-loading="loading"
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -40,6 +46,7 @@
       label-position="top"
       status-icon
     >
+    
       <VRow>
         <VCol
           cols="12"
@@ -48,13 +55,13 @@
           :key="index"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
 
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Description"
+                  :label="index == 0 ? 'বিস্তারিত' : 'Description'"
                   :prop="
                     ruleForm.descriptions
                       ? 'descriptions.' + index + '.name'
@@ -62,20 +69,25 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Description is required',
+                    message:
+                      index == 0
+                        ? 'বিস্তারিত আবশ্যক '
+                        : 'Description is required',
                     trigger: 'blur',
                   }"
                 >
                   <div>
                     <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.name"
+                      v-model="item.name"
                       :blur="checkData()"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
                       style="min-block-size: 200"
-                      placeholder="Type description here"
+                      :Placeholder="
+                        index == 0 ? 'বিস্তারিত লিখুন' : 'Type description here'
+                      "
                     />
                   </div>
                 </ElFormItem>
@@ -100,14 +112,17 @@
         </VCol>
       </VRow>
       <ElCard class="my-4">
-        <VRow >
-          <VCol cols="12" md="6" v-if="route.params.type == '1' || route.params.type == '2'">
+        <VRow>
+          <VCol
+            cols="12"
+            md="6"
+            v-if="route.params.type == '1' || route.params.type == '2'"
+          >
             <ElFormItem label="Website Link" prop="link">
               <ElInput placeholder="Website Link" v-model="ruleForm.link" />
             </ElFormItem>
           </VCol>
-           <VCol cols="12" md="6" class="my-2" v-if="route.params.type == '3' ">
-           
+          <VCol cols="12" md="6" class="my-2" v-if="route.params.type == '3'">
             <label for=""> <span style="color: #f89797">*</span> Image </label>
             <el-upload
               class="upload-section"
@@ -134,7 +149,7 @@
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
-               <template #tip>
+              <template #tip>
                 <div class="el-upload__tip">
                   jpg/png files with a size less than 2MB <br />
                   <span
@@ -146,23 +161,33 @@
                 </div>
               </template>
             </el-upload>
-            
+
             <!-- </ElFormItem> -->
           </VCol>
         </VRow>
 
         <div class="py-4">
-          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
-          <ElButton
-            type="primary"
-            @click="submitForm(ruleFormRef)"
-            class="submit"
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
           >
-            Update
-          </ElButton>
-</el-tooltip>
-<el-tooltip class="item" effect="dark" content="Back" placement="top-start">
-          <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+            <ElButton
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+              class="submit"
+            >
+              Update
+            </ElButton>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
           </el-tooltip>
         </div>
       </ElCard>
@@ -171,10 +196,10 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useServiceStore } from "@/stores/tourism/serviceStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { UploadFilled } from "@element-plus/icons-vue";
-
 import {
   type ComponentSize,
   type FormInstance,
@@ -188,7 +213,7 @@ const router = useRouter();
 const ruleForm = ref({
   type: route.params.type,
   link: "",
-  image:'',
+  image: "",
   descriptions: [
     { name: "", language_id: 1, fare: null },
     { name: "", language_id: 2, fare: null },
@@ -216,29 +241,35 @@ const getSpotDropdownList = async () => {
   }
 };
 const getDescriptonData = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     const { data } = await serviceStore.getDescription({
       type: route.params.type,
     });
-    ruleForm.value = data.data;
-    loading.value = false
+    ruleForm.value =  data.data ;
+      // data.data;
+    loading.value = false;
   } catch (error) {
-    loading.value = false
+    loading.value = false;
     console.log(error);
   }
 };
 
 const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
+  
+
+  ruleForm.value.id = ruleForm.value.id ? ruleForm.value.id : route.params.type;
+
+  // route.params.type
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       loading.value = true;
-      ruleForm.value.image = tempImg.value ? tempImg.value :''
+      ruleForm.value.image = tempImg.value ? tempImg.value : "";
       try {
         const { data } = await serviceStore.updateDescription(ruleForm.value);
-        console.log("data",data)
+       
         data.status_code == 200
           ? (notify(
               "Congratulations!",
@@ -247,7 +278,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               "top-right",
               emit("getEmit")
             ),
-            loading.value = false)
+            (loading.value = false))
           : "";
 
         route.params.type == 1
@@ -258,7 +289,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           ? router.push({ name: "Tourist Bus" })
           : router.push({ name: "Kitkot Chair" });
       } catch (error) {
-        console.log("error",error)
+        console.log("error", error);
         notify(
           error?.response?.data?.message,
           error?.response?.data?.errors
@@ -269,7 +300,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           "error",
           "top-right"
         );
-        loading.value = false
+        loading.value = false;
       }
     } else {
       console.log("error submit!", fields);
@@ -289,29 +320,53 @@ onMounted(() => {
 
 const checkData = () => {
   descriptionEditorRef.value?.map((e) => {
-    console.log("e", e.getHTML());
-
-    e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-    console.log("e", e.getHTML());
+    // e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
   });
   ruleForm.value.descriptions
     ? ruleForm.value.descriptions?.map((e) =>
-        e.name == "<p><br></p>" ? (e.name = "") : ""
+        e.name == "<p><br></p>" ||
+        e.name == "<h2><br></h2>" ||
+        e.name == "<h3><br></h3>" ||
+        e.name == "<h4><br></h4>" ||
+        e.name == "<h5><br></h5>" ||
+        e.name == "<h6><br></h6>" ||
+        e.name == "<h1><br></h1>" ||
+        e.name == "<b><br></b>" ||
+        e.name == "<i><br></i>" ||
+        e.name == "<u><br></u>" ||
+        e.name == "<span><br></span>" ||
+        e.name == "<div><br></div>" ||
+        e.name == "<s><br></s>"
+          ? (e.name = "")
+          : ""
       )
     : ruleForm.value.descriptions?.map((e) =>
-        e.name == "<p><br></p>" ? (e.name = "") : ""
+        e.name == "<p><br></p>" ||
+        e.name == "<h2><br></h2>" ||
+        e.name == "<h3><br></h3>" ||
+        e.name == "<h4><br></h4>" ||
+        e.name == "<h5><br></h5>" ||
+        e.name == "<h6><br></h6>" ||
+        e.name == "<h1><br></h1>" ||
+        e.name == "<b><br></b>" ||
+        e.name == "<i><br></i>" ||
+        e.name == "<u><br></u>" ||
+        e.name == "<span><br></span>" ||
+        e.name == "<div><br></div>" ||
+        e.name == "<s><br></s>"
+          ? (e.name = "")
+          : ""
       );
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  descriptionEditorRef.value?.map((e) => e.setHTML(""));
+  // descriptionEditorRef.value?.map((e) => e.setHTML(""));
   checkData();
 };
 
 // image functionality
-
 
 const previewImage = ref(null);
 const tempImg = ref("");
@@ -327,7 +382,6 @@ const onFileChange = (file) => {
 };
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  
   if (
     rawFile.type !== "image/jpeg" &&
     rawFile.type !== "image/png" &&
@@ -338,7 +392,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
     return false;
   } else if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error("Avatar picture size can not exceed 2MB!");
-    
+
     return false;
   }
 

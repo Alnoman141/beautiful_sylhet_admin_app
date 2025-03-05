@@ -46,12 +46,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Name"
+                  :label=" index == 0 ? 'নাম' : 'Name'"
                   :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.name'
@@ -59,7 +59,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Beach Guard name  is required',
+                    message: index == 0 ? 'বিচ গার্ডের নাম আবশ্যক' : 'Beach Guard name  is required',
                     trigger: 'blur',
                   }"
                 >
@@ -68,7 +68,7 @@
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Phone"
+                  :label=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"
                   :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.phone'
@@ -76,16 +76,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Beach guard phone number  is required',
+                    message: index == 0 ? 'ফোন নাম্বার আবশ্যক' : '  phone number  is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Phone" v-model="item.phone" />
+                  <ElInput :placeholder=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Instruction"
+                  :label=" index == 0 ? 'নির্দেশিকা' : 'Instruction'"
                   :prop="
                     ruleForm.guards
                       ? 'guards.' + index + '.instruction'
@@ -96,11 +96,11 @@
                   <div>
                     <QuillEditor
                       ref="instructionEditorRef"
-                      v-model:content="item.instruction"
+                      v-model="item.instruction"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type instruction here"
+                      :Placeholder=" index == 0 ? 'নির্দেশিকা লিখুন' : 'Type instruction here'"
                     />
                   </div>
                 </ElFormItem>
@@ -183,6 +183,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useGuardStore } from "@/stores/tourism/guardStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
@@ -223,7 +224,7 @@ const rules = reactive<FormRules<RuleForm>>({
 
 const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-  loading.value = true;
+ 
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
@@ -234,6 +235,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       data: props.ruleForm.guards,
     };
     if (valid) {
+       loading.value = true;
       try {
         const { data } = props.ruleForm.id
           ? await guardStore.updateGuard(form)
@@ -257,6 +259,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         );
       }
     } else {
+      loading.value = false;
       console.log("error submit!", fields);
     }
   });

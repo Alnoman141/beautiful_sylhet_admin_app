@@ -36,32 +36,19 @@
       label-position="top"
       status-icon
     >
-      
-
       <VRow>
         <VCol v-for="(item, index) in ruleForm.data" :key="index" md="6">
-         
           <ElCard>
             <ElFormItem
-              :label="index == 0 ? 'Bangla' : 'English'"
+              :label="index == 0 ? 'বাংলা' : 'English'"
               :prop="'data.' + index + '.name'"
               :rules="{
                 required: true,
-                message: 'Guideline is required',
+                message: index == 0 ? 'বাংলায় নির্দেশনা আবশ্যক' : 'Instruction in English is required',
                 trigger: 'blur',
               }"
             >
               <div>
-                <!-- <QuillEditor
-                  ref="guidelineEditorRef"
-                  v-model="item.name"
-                  :text-change="checkData()"
-                  content-type="html"
-                  theme="snow"
-                  toolbar="full"
-                  style="min-block-size: 200px"
-                  placeholder="Type Guideline here"
-                /> -->
                 <QuillEditor
                   v-model="item.name"
                   ref="guidelineEditorRef"
@@ -69,9 +56,11 @@
                   theme="snow"
                   toolbar="full"
                   :text-change="checkData()"
-                  :Placeholder=" index == 0 ?   'এখানে গাইডলাইন লিখুন ' : 'Type Guideline here'"
-
-                  
+                  :Placeholder="
+                    index == 0
+                      ? 'বাংলায় নির্দেশনা লিখুন '
+                      : 'Type Instruction in English'
+                  "
                   :customClass="'customClass'"
                 />
               </div>
@@ -202,15 +191,26 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
+const rules = reactive<FormRules<RuleForm>>({}); // Define rules for the form
+const formSize = ref<ComponentSize>("default"); // Form size
 const checkData = () => {
-  // guidelineEditorRef.value?.map((e) => {
-  //   e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
-  // });
-
-  // ruleForm.value.data.map((e) => {
-  //   e.name == "<p><br></p>" ? (e.name = "") : "";
-  // });
+  ruleForm.value.data.map((e) => {
+    e.name == "<p><br></p>" ||
+    e.name == "<h2><br></h2>" ||
+    e.name == "<h3><br></h3>" ||
+    e.name == "<h4><br></h4>" ||
+    e.name == "<h5><br></h5>" ||
+    e.name == "<h6><br></h6>" ||
+    e.name == "<h1><br></h1>" ||
+    e.name == "<b><br></b>" ||
+    e.name == "<i><br></i>" ||
+    e.name == "<u><br></u>" ||
+    e.name == "<span><br></span>" ||
+    e.name == "<div><br></div>" ||
+    e.name == "<s><br></s>"
+      ? (e.name = "")
+      : "";
+  });
 };
 const guidelineEditorRef = ref(null);
 

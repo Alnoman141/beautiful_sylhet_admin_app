@@ -42,12 +42,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Zone Name"
+                  :label="index == 0 ? 'অঞ্চলের নাম' : 'Zone Name'"
                   :prop="
                     ruleForm.reds
                       ? 'reds.' + index + '.name'
@@ -55,16 +55,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Zone name is required',
+                    message: index == 0 ? 'অঞ্চলের নাম আবশ্যক' : 'Zone name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Zone Name" v-model="item.name" />
+                  <ElInput :placeholder=" index == 0 ? 'অঞ্চলের নাম' : 'Zone Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Instruction"
+                  :label="index == 0 ? 'নির্দেশিকা' : 'Instruction'"
                   :prop="
                     ruleForm.reds
                       ? 'reds.' + index + '.instruction'
@@ -72,7 +72,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Instruction is required',
+                    message: index == 0 ? 'নির্দেশিকা আবশ্যক' : 'Instruction is required',
                     trigger: 'blur',
                   }"
                 >
@@ -80,13 +80,13 @@
                   <!-- instructionEditorRef -->
                   <div>
                     <QuillEditor
-                      v-model:content="item.instruction"
+                      v-model="item.instruction"
                       ref="instructionEditorRef"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      placeholder="Instruction"
+                      :Placeholder=" index == 0 ? 'নির্দেশিকা' : 'Instruction'"
                     />
                   </div>
                 </ElFormItem>
@@ -191,13 +191,14 @@
             >
               <div>
                 <QuillEditor
-                  v-model:content="ruleForm.short_description"
+                  v-model="ruleForm.short_description"
                   ref="descriptionEditorRef"
                   :text-change="checkData()"
                   content-type="html"
                   theme="snow"
                   toolbar="full"
                   style="min-block-size: 100px"
+                  :customClass="'customClass'"
                 />
               </div>
             </ElFormItem>
@@ -225,6 +226,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { useRedZoneStore } from "@/stores/tourism/redZoneStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
@@ -357,19 +359,14 @@ const resetForm = (formEl: FormInstance | undefined) => {
  
 };
 const checkData = () => {
-    descriptionEditorRef.value?.getHTML() == "<p><br></p>" ? descriptionEditorRef.value?.setHTML("") : "";
-  
-  instructionEditorRef.value?.map((item) => {
-    // item.setHTML("");
-    item?.getHTML() == "<p><br></p>" ? item?.setHTML("") : "";
-  });
+
    props.ruleForm.reds ? props.ruleForm.reds?.map((e) => {
     e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
    }):''
    props.ruleForm.data?.map((e) => {
     e.instruction == "<p><br></p>" ? (e.instruction = "") : "";
    })
-  props.ruleFormshort_description == "<p><br></p>" ? (props.ruleFormshort_description = "") : "";
+  props.ruleForm.short_description == "<p><br></p>" ? (props.ruleForm.short_description = "") : "";
 };
 const imgViewModal = ref(false);
 const modalImg = ref(null);
@@ -384,10 +381,7 @@ const instructionEditorRef = ref(null);
 onMounted(() => {
   getSpotDropdown();
   getBankDropdown();
-  descriptionEditorRef.value.setHTML("");
-  instructionEditorRef.value?.map((item) => {
-    item.setHTML("");
-  });
+  checkData();
 });
 </script>
 

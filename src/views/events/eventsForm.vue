@@ -47,12 +47,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Event Name"
+                  :label="index == 0 ? 'উৎসবের নাম' : 'Event Name'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.name'
@@ -60,16 +60,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Event name is required',
+                    message: index == 0 ? 'উৎসবের নাম আবশ্যক' : 'Event name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Event Name" v-model="item.name" />
+                  <ElInput :placeholder="index == 0 ? 'উৎসবের নাম' : 'Event Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Phone"
+                  :label=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.phone'
@@ -77,16 +77,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Phone number is required',
+                    message: index == 0 ? 'ফোন নাম্বার আবশ্যক' : 'Phone number is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Phone Number" v-model="item.phone" />
+                  <ElInput :placeholder=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Location"
+                  :label="index == 0 ? ' অবস্থান' : 'Location'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.location'
@@ -94,16 +94,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Location is required',
+                    message: index == 0 ? 'অবস্থান আবশ্যক' : 'Location is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Location" v-model="item.location" />
+                  <ElInput  :placeholder=" index == 0 ? ' অবস্থান' : 'Location'" v-model="item.location" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Time"
+                  :label=" index == 0 ? 'সময়' : 'Time'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.time'
@@ -111,28 +111,28 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Time is required',
+                    message: index == 0 ? 'সময় আবশ্যক' : 'Time is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Time" v-model="item.time" />
+                  <ElInput :placeholder=" index == 0 ? 'সময়' : 'Time'" v-model="item.time" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  label="Fee"
+                  :label=" index == 0 ? 'খরচ' : 'Fee'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.fare'
                       : 'data.' + index + '.fare'
                   "
                 >
-                  <ElInput placeholder="Fee" v-model="item.fare" />
+                  <ElInput :placeholder=" index == 0 ? 'খরচ' : 'Fee'" v-model="item.fare" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Terms & Conditions"
+                  :label=" index == 0 ? 'শর্তাবলী' : 'Terms & Conditions'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.terms'
@@ -140,7 +140,7 @@
                   "
                 >
                   <ElInput
-                    placeholder="Terms & Conditions"
+                    :placeholder=" index == 0 ? 'শর্তাবলী' : 'Terms & Conditions'"
                     type="textarea"
                     v-model="item.terms"
                   />
@@ -148,7 +148,7 @@
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Description"
+                  :label=" index == 0 ? 'বিস্তারিত' : 'Description'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.description'
@@ -163,11 +163,11 @@
                   <div>
                     <QuillEditor
                       ref="descriptionEditorRef"
-                      v-model:content="item.description"
+                      v-model="item.description"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type Description here"
+                      :Placeholder="index == 0 ? 'বিস্তারিত' : 'Description'"
                     />
                   </div>
                 </ElFormItem>
@@ -290,6 +290,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useEventsStore } from "@/stores/tourism/eventsStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";

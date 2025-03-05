@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Police List</b>
+          <b> Tourist Police List</b>
         </VCol>
         <VCol
           cols="6"
@@ -23,7 +23,7 @@
               content="Create Police"
               placement="top-start"
             >
-              Create Police
+              Create Tourist Police
             </ElTooltip>
           </RouterLink>
         </VCol>

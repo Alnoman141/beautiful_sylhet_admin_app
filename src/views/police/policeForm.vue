@@ -3,18 +3,18 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Red Zone {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> Tourist Police {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
         <VCol cols="6" class="text-right">
           <RouterLink
             type="primary"
             :underline="false"
-            :to="{ name: 'redZoneList' }"
+            :to="{ name: 'policeList' }"
             
             class="create-btn"
           >
-          <el-tooltip class="item" effect="dark" content="Red Zone List" placement="top-start">
-            Red Zone List
+          <el-tooltip class="item" effect="dark" content="Tourist Police List" placement="top-start">
+            Tourist Police List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -42,12 +42,12 @@
           md="6"
         >
           <ElCard class="rounded py-2 px-2">
-            <b> {{ index == 0 ? "Bangla" : "English" }} </b>
+            <b> {{ index == 0 ? "বাংলা" : "English" }} </b>
             <hr class="my-2" />
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  label="Name"
+                  :label="index == 0 ? 'নাম' : 'Name'"
                   
                   :prop="
                     ruleForm.police
@@ -56,16 +56,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Name is required',
+                    message: index == 0 ? ' ট্যুরিস্ট পুলিশের নাম আবশ্যক' : 'Tourist Police Name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Name" v-model="item.name" />
+                  <ElInput :placeholder=" index == 0 ? 'নাম' : 'Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Phone"
+                  :label=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"
                   :prop="
                     ruleForm.police
                       ? 'police.' + index + '.phone'
@@ -73,16 +73,16 @@
                   "
                   :rules="{
                     required: true,
-                    message: 'Phone number is required',
+                    message: index == 0 ? 'ফোন নাম্বার আবশ্যক' : 'Phone number is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput placeholder="Phone" v-model="item.phone" />
+                  <ElInput :placeholder=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  label="Instruction"
+                  :label=" index == 0 ? 'নির্দেশিকা' : 'Instruction'"
                   :prop="
                     ruleForm.police
                       ? 'police.' + index + '.instruction'
@@ -93,11 +93,11 @@
                   <div>
                    <QuillEditor
                       ref="instructionEditorRef"
-                      v-model:content="item.instruction"                     
+                      v-model="item.instruction"                     
                       content-type="html"
                       theme="snow"
                       toolbar="full"
-                      placeholder="Type instruction here"
+                      :Placeholder=" index == 0 ? 'নির্দেশিকা লিখুন' : 'Type instruction here'"
                     />
                     </div>
                 </ElFormItem>
@@ -153,6 +153,7 @@
 </template>
 
 <script setup lang="ts">
+import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { usePoliceStore } from "@/stores/tourism/policeStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
