@@ -450,7 +450,7 @@
               drag
               :on-change="onFileChange"
               :before-upload="beforeAvatarUpload"
-              :auto-upload="false"
+              ::auto-upload="false"
             >
               <div class="el-upload__text">
                 <el-icon
@@ -504,7 +504,7 @@
               action="#"
               multiple
               :limit="10"
-              :auto-upload="false"
+              ::auto-upload="false"
               :on-change="onFileChangeMultiple"
               :before-upload="beforeAvatarUpload"
             >
@@ -605,7 +605,7 @@
             >
               <button
                 class="dlt-btn"
-                @click.prevent="remoeUploadedImage(index)"
+                @click.prevent="removeUploadedImage(index)"
               >
                 <VIcon icon="tabler-trash" size="20" class="text-danger" />
               </button>
@@ -671,10 +671,10 @@ import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import type { UploadProps } from "element-plus";
 import {
-  ElMessage,
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    ElMessage,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
@@ -717,6 +717,8 @@ const onFileChange = (file) => {
   //   ? (imgUploadValidation.value = false)
   //   : (imgUploadValidation.value = true);
 };
+
+// multiple image upload
 const multpleTempImg = ref([]);
 const previewMultipleImage = ref([]);
 const onFileChangeMultiple = (file) => {
@@ -745,7 +747,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   return true;
 };
 
-const remoeUploadedImage = (index) => {
+const removeUploadedImage = (index) => {
   ElMessageBox.alert(
     "Are you sure that you want to delete this image ?",
     "Delete",

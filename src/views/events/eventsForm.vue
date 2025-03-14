@@ -194,7 +194,7 @@
                   width="60"
                   class="border mt-2"
                 />
-                <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+                
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
@@ -296,9 +296,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { router, useRoute } from "vue-router";

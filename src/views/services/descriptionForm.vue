@@ -129,7 +129,7 @@
               drag
               :on-change="onFileChange"
               :before-upload="beforeAvatarUpload"
-              auto-upload="false"
+              :auto-upload="false"
             >
               <div class="el-upload__text">
                 <el-icon
@@ -145,7 +145,7 @@
                   class="border mt-2"
                   v-if="ruleForm.image || previewImage"
                 />
-                <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+                
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
@@ -201,9 +201,9 @@ import { useServiceStore } from "@/stores/tourism/serviceStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

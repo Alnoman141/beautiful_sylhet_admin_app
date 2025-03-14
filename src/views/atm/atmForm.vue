@@ -179,7 +179,7 @@
               class="upload-section"
               drag
               :on-change="onFileChange"
-              auto-upload="false"
+              :auto-upload="false"
             >
               <div class="el-upload__text">
                 <el-icon
@@ -196,7 +196,7 @@
                   width="60"
                   class="border mt-2"
                 />
-                <el-icon class="avatar-uploader-icon"><Plus /></el-icon> <br />
+                
                 Drop file here or <em>click to upload</em>
               </div>
               <template #tip>
@@ -260,9 +260,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

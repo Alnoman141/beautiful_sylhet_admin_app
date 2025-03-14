@@ -22,7 +22,7 @@ const restaurantStore = useRestaurantStore()
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  
 
   const { data } = await restaurantStore.editRestaurant({ id: route.params.id })
 

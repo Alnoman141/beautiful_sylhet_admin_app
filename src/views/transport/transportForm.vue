@@ -132,6 +132,7 @@
                       theme="snow"
                       :text-change="checkData()"
                       toolbar="full"
+                      :customClass="'customClass'"
                       :Placeholder="index == 0 ? 'বিস্তারিত লিখুন' : 'Type Description here'"
                     />
                   </div>

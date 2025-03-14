@@ -86,7 +86,7 @@
               drag
               :on-change="onFileChange"
               :before-upload="beforeAvatarUpload"
-              :auto-upload="false"
+              ::auto-upload="false"
             >
               <div class="el-upload__text">
                 <el-icon
@@ -102,7 +102,7 @@
                   width="60"
                   class="border mt-2"
                 />
-                <!-- <el-icon class="avatar-uploader-icon"><Plus /></el-icon> -->
+                <!--  -->
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
@@ -174,9 +174,9 @@ import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
