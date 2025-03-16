@@ -21,9 +21,11 @@ import { policeRoutes } from './police'
 
 // import { servicesRoutes } from './service'
 import { busRoutes } from './bus'
+import { redZoneCategoryRoutes } from './dangerZoneCategory'
 import { dcRoutes } from './dc'
 import { fairRoutes } from './fair'
 import { kitkotRoutes } from './kitkot'
+import { landingPageRoutes } from './landing-page'
 import { restaurantRoutes } from './restaurant'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
@@ -31,7 +33,6 @@ import { tourismRoutes } from './tourism'
 import { transportRoutes } from './transport'
 import { userRoutes } from './user'
 import { volunteerRoutes } from './volunteer'
-import { landingPageRoutes } from './landing-page'
 
 function recursiveLayouts(route) {
   if (route.children) {
@@ -83,6 +84,7 @@ const router = createRouter({
       ...restaurantRoutes,
       ...fairRoutes,
       ...landingPageRoutes,
+      ...redZoneCategoryRoutes,
 
       // ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),

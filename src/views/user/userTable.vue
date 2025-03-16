@@ -20,8 +20,9 @@
           <!-- <div v-html="scope.row[column.prop]" /> -->
           <div
             v-if="column.prop !== 'content'"
-            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
+            v-html="column.prop !== 'id' ? scope.row[column.prop] && scope.row[column.prop].name ? scope.row[column.prop].name : scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
           />
+          
           <div v-else>
             {{ scope.row[column.prop].data.title }}
           </div>
@@ -31,7 +32,7 @@
 
       <!-- Action Buttons Column -->
       <ElTableColumn
-        v-if="route.name !== 'userActivity'"
+        v-if="route.name !== 'userActivity' && route.name !== 'touristList' && route.name !== 'complainList'"
         align="left"
         width="180"
       >

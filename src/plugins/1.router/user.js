@@ -17,12 +17,35 @@ export const userRoutes = [
         },
       },
       {
+        path: '/tourist-list',
+        name: 'touristList',
+        component: () => import('@/views/user/tourist.vue'),
+        meta: {
+          subject: "user",
+          action: "show menu",
+          navActiveLink: 'touristList',
+        },
+      },
+
+      // complain
+      {
+        path: '/complain-list',
+        name: 'complainList',
+        component: () => import('@/views/user/complain.vue'),
+        meta: {
+          subject: "user",
+          action: "show menu",
+          navActiveLink: 'complainList',
+        },
+      },
+      {
         path: '/user-activity',
         name: 'userActivity',
         component: () => import('@/views/user/activity.vue'),
         meta: {
           subject: "user",
           action: "show menu",
+          navActiveLink: 'userActivity',
         },
       },
     

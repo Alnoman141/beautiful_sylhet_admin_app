@@ -1,5 +1,26 @@
 import request from "@/utils/request"
 
+export function getTouristList(query) {
+  console.log("called tourist")
+  
+  return request({
+    url: "/tourist/list",
+    method: "post",
+    params: query,
+  })
+}
+
+// complain
+export function getComplainList(query) {
+  console.log("called complain")
+  
+  return request({
+    url: "/complain/list",
+    method: "post",
+    params: query,
+  })
+}
+
 // get all awareness
 export function getUser(query) {
   return request({

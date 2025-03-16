@@ -127,6 +127,38 @@
               </el-select>
             </ElFormItem>
           </VCol>
+
+          <VCol cols="12" md="6">            
+            <ElFormItem
+              label="Hazard Category"
+              prop="red_zone_category_parent_id"
+              :rules="{
+                required: true,
+                message: 'Please select Hazard Category',
+                trigger: 'change',
+              }"
+            >
+              <el-select
+                v-model="ruleForm.red_zone_category_parent_id"
+                placeholder="Select Hazard Category"
+                prop="red_zone_category_parent_id"
+                :rules="{
+                  required: true,
+                  message: 'Please select Hazard Category',
+                  trigger: 'change',
+                }"
+              >
+                <el-option
+                  v-for="(item, index) in redZoneCategoryDropdown"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </ElFormItem>
+          </VCol>
+
+
           <VCol cols="12" md="6">
             <ElFormItem
               label="Map Link"
@@ -228,14 +260,15 @@
 <script setup lang="ts">
 import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useBankStore } from "@/stores/tourism/bankStore";
+import { useRedZoneCategoryStore } from "@/stores/tourism/redZoneCategoryStore";
 import { useRedZoneStore } from "@/stores/tourism/redZoneStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -278,6 +311,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
       spot_parent_id: props.ruleForm.spot_parent_id,
+      red_zone_category_parent_id: props.ruleForm.red_zone_category_parent_id,
       data: props.ruleForm.reds,
     };
     if (valid && !imgUploadValidation.value) {
@@ -308,6 +342,13 @@ const getSpotDropdown = async () => {
   const { data } = await spotStore.getSpotDropdown();
   spotDropdown.value = data.data;
 };
+
+const redZoneCategoryStore = useRedZoneCategoryStore()
+const redZoneCategoryDropdown = ref([])
+const getRedZoneCategoryDropdown = async () => {
+  const { data } = await redZoneCategoryStore.getRedZoneCategory();
+  redZoneCategoryDropdown.value = data.data;
+}
 
 const bankDropdown = ref([]);
 const getBankDropdown = async () => {
@@ -380,8 +421,9 @@ const descriptionEditorRef = ref(null);
 const instructionEditorRef = ref(null);
 onMounted(() => {
   getSpotDropdown();
-  getBankDropdown();
+  // getBankDropdown();
   checkData();
+  getRedZoneCategoryDropdown();
 });
 </script>
 

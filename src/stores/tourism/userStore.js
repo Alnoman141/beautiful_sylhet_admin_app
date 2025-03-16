@@ -1,8 +1,36 @@
-import { createUser, deleteUser, editUser, getUser, getUserActivity, updatePassword, updateUser } from '@/api/toruism/user'
+import { createUser, deleteUser, editUser, getComplainList, getTouristList, getUser, getUserActivity, updatePassword, updateUser } from '@/api/toruism/user'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('userStore', {
   actions: {     
+    
+    getTouristList(query) {
+      return new Promise((resolve, reject) => {
+        getTouristList(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    // getComplainList
+
+    getComplainList(query) {
+      return new Promise((resolve, reject) => {
+        getComplainList(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     getUser(query) {
       return new Promise((resolve, reject) => {
         getUser(query)

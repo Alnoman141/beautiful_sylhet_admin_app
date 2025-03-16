@@ -92,16 +92,16 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue"
-import About from "./about.vue"
-import Caurosel from "./caurosel.vue"
-import Feature from "./feature.vue"
-import Footer from "./footer.vue"
-import Header from "./header.vue"
-import Speciality from "./speciality.vue"
-import Testimonial from "./testimonial.vue"
-import VideoTutorial from "./videoInformation.vue"
-import WhyChooseVromonica from "./whyChooseVromonica.vue"
-import Workflow from "./workflow.vue"
+import About from "./components/about.vue"
+import Caurosel from "./components/caurosel.vue"
+import Feature from "./components/feature.vue"
+import Footer from "./components/footer.vue"
+import Header from "./components/header.vue"
+import Speciality from "./components/speciality.vue"
+import Testimonial from "./components/testimonial.vue"
+import VideoTutorial from "./components/videoInformation.vue"
+import WhyChooseVromonica from "./components/whyChooseVromonica.vue"
+import Workflow from "./components/workflow.vue"
 
 import { useLandingPageStore } from "@/stores/tourism/landingPageStore"
 

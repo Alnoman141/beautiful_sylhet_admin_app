@@ -1,4 +1,6 @@
 {
+  "Tourist List": "Tourist List",
+  "Complain List": "Complain List",
   "Landing Page": "Landing Page",
   "Tourist Services": "Tourist Services",
   "Transportation": "Transportation",
@@ -42,6 +44,7 @@
   "Bank": "Bank",
   "ATM": "ATM",
   "Danger Zone": "Danger Zone",
+  "Zone Category": "Zone Category",
   "Police": "Police ",
   "Doctor": "Doctor",
   "Life Guard": "Life Guard",

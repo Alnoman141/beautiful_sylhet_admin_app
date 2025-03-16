@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div>
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
@@ -27,66 +27,79 @@
         </VCol>
       </VRow>
     </ElCard>
-    <Header
-      :rule-form="landingPage.header"
-      mode="view"
-    />
-    <Caurosel
-      :rule-form="landingPage.caurosel"
-      mode="view"
-    />
-    <About
-      :rule-form="landingPage.about"
-      mode="view"
-    />
-    <Feature
-      mode="view"
-      :rule-form="landingPage.feature"
-    />
-    <Speciality
-      :rule-form="landingPage.speciality"
-      mode="view"
-    />
-    <WhyChooseVromonica
-      :rule-form="landingPage.whyChooseVromonica"
-      mode="view"
-    />
-    <Workflow
-      :rule-form="landingPage.workflow"
-      mode="view"
-    />
-    <VideoTutorial
-      :rule-form="landingPage.videoInformation"
-      mode="view"
-    />
-    <Testimonial
-      mode="view"
-      :rule-form="landingPage.testimonial"
-    />
-    <Footer
-      mode="view"
-      :rule-form="landingPage.footer"
-    />
+    <!-- check the objec is empty or not -->
+    <div v-loading="loading">
+      <div
+        v-if="Object.keys(landingPage).length != 0"
+    
+        element-loading-text="Loading..."
+        :element-loading-spinner="svg"
+        element-loading-svg-view-box="-10, -10, 50, 50"
+        element-loading-background="rgba(122, 122, 122, 0.8)"
+      >
+        <Header
+          :rule-form="
+            landingPage.header"
+          mode="view"
+        />
+        <Caurosel
+          :rule-form="landingPage.caurosel"
+          mode="view"
+        />
+        <About
+          :rule-form="landingPage.about"
+          mode="view"
+        />
+        <Feature
+          mode="view"
+          :rule-form="landingPage.feature"
+        />
+        <Speciality
+          :rule-form="landingPage.speciality"
+          mode="view"
+        />
+        <WhyChooseVromonica
+          :rule-form="landingPage.whyChooseVromonica"
+          mode="view"
+        />
+        <Workflow
+          :rule-form="landingPage.workflow"
+          mode="view"
+        />
+        <VideoTutorial
+          :rule-form="landingPage.videoInformation"
+          mode="view"
+        />
+        <Testimonial
+          mode="view"
+          :rule-form="landingPage.testimonial"
+        />
+        <Footer
+          mode="view"
+          :rule-form="landingPage.footer"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue"
-import About from "./about.vue"
-import Caurosel from "./caurosel.vue"
+import About from "./components/about.vue"
+import Caurosel from "./components/caurosel.vue"
 
-import Feature from "./feature.vue"
+import Feature from "./components/feature.vue"
 
-import Footer from "./footer.vue"
-import Header from "./header.vue"
+import Footer from "./components/footer.vue"
+import Header from "./components/header.vue"
 
-import Speciality from "./speciality.vue"
+import Speciality from "./components/speciality.vue"
 
-import Testimonial from "./testimonial.vue"
-import VideoTutorial from "./videoInformation.vue"
-import WhyChooseVromonica from "./whyChooseVromonica.vue"
+import Testimonial from "./components/testimonial.vue"
+import VideoTutorial from "./components/videoInformation.vue"
+import WhyChooseVromonica from "./components/whyChooseVromonica.vue"
 
-import Workflow from "./workflow.vue"
+import Workflow from "./components/workflow.vue"
 
 const getImageUrl = name => {
   return new URL(
@@ -110,9 +123,10 @@ const detLandidingPageData = async () => {
     const { data } = await landingPageStore.getLandingPage()
 
     console.log("dataa", data)
-    data.status_code == 200 ? (loading.value = false, landingPage.value = data.data.data) : ""
-    
-  }catch (error) {
+    data.status_code == 200
+      ? ((loading.value = false), (landingPage.value = data.data.data))
+      : ""
+  } catch (error) {
     console.log(error)
   }
 }
