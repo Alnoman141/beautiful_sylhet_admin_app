@@ -1,50 +1,4 @@
 <template>
-  <!--
-    <div>
-    <Header
-    v-if="step == 1"
-    :rule-form="landingPage.header"
-    @step-increment="stepIncrement"
-    />
-    <Caurosel
-    v-if="step == 2"
-    :rule-form="landingPage.caurosel"
-    />
-    <About
-    v-if="step == 3"
-    :rule-form="landingPage.about"
-    />
-    <Feature
-    v-if="step == 4"
-    :rule-form="landingPage.feature"
-    />
-    <Speciality
-    v-if="step == 5"
-    :rule-form="landingPage.speciality"
-    />
-    <WhyChooseVromonica
-    v-if="step == 6"
-    :rule-form="landingPage.whyChooseVromonica"
-    />
-    <Workflow
-    v-if="step == 7"
-    :rule-form="landingPage.workflow"
-    />
-    <VideoTutorial
-    v-if="step == 8"
-    :rule-form="landingPage.videoInformation"
-    />
-    <Testimonial
-    v-if="step == 9"
-    :rule-form="landingPage.testimonial"
-    />
-    <Footer
-    v-if="step == 10"
-    :rule-form="landingPage.footer"
-    />
-    </div> 
-  -->
-
   <div>
     <ElCard class="my-4">
       <VRow>
@@ -64,15 +18,30 @@
             <ElTooltip
               class="item"
               effect="dark"
-              content="Landign Page "
+              content="Landing Page"
               placement="top-start"
             >
-              Landing Page 
+              Landing Page
             </ElTooltip>
           </RouterLink>
         </VCol>
       </VRow>
     </ElCard>
+
+    <!-- Tabs -->
+    <ElTabs
+      v-model="activeName"
+      class="demo-tabs"
+      @tab-click="handleClick"
+    >
+      <ElTabPane
+        v-for="(component, index) in components"
+        :key="index"
+        :label="component.name"
+        :name="String(index + 1)"
+      />
+    </ElTabs>
+
     <Transition
       v-loading="loading"
       name="slide"
@@ -81,45 +50,33 @@
       <component
         :is="currentComponent"
         :key="step"
-        :rule-form="landingPage[componentKey]"
+        :rule-form="landingPage[currentComponentKey] || {}"
         :mode="mode"
         @step-increment="stepIncrement"
         @step-decrement="stepDecrement"
+        @submit-form="submitForm"
       />
     </Transition>
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, onMounted, ref } from "vue"
+<script setup>
+import { useLandingPageStore } from "@/stores/tourism/landingPageStore"
+import { notify } from "@/utils/notification"
+import { computed, onMounted, ref, watch } from "vue"
 import About from "./components/about.vue"
 import Caurosel from "./components/caurosel.vue"
 import Feature from "./components/feature.vue"
 import Footer from "./components/footer.vue"
-import Header from "./components/header.vue"
 import Speciality from "./components/speciality.vue"
 import Testimonial from "./components/testimonial.vue"
 import VideoTutorial from "./components/videoInformation.vue"
 import WhyChooseVromonica from "./components/whyChooseVromonica.vue"
 import Workflow from "./components/workflow.vue"
 
-import { useLandingPageStore } from "@/stores/tourism/landingPageStore"
-
 const landingPageStore = useLandingPageStore()
 const mode = ref("create")
 
-const components = {
-  1: Header,
-  2: Caurosel,
-  3: About,
-  4: Feature,
-  5: Speciality,
-  6: WhyChooseVromonica,
-  7: Workflow,
-  8: VideoTutorial,
-  9: Testimonial,
-  10: Footer,
-}
 
 const landingPage = ref({
   header: {
@@ -363,6 +320,45 @@ const landingPage = ref({
   },
 })
 
+// ✅ Define components with corresponding keys
+const components = [
+  { name: "Carousel", component: Caurosel, key: "caurosel" },
+  { name: "About", component: About, key: "about" },
+  { name: "Feature", component: Feature, key: "feature" },
+  { name: "Speciality", component: Speciality, key: "speciality" },
+  { name: "Why Choose Vromonica", component: WhyChooseVromonica, key: "whyChooseVromonica" },
+  { name: "Workflow", component: Workflow, key: "workflow" },
+  { name: "Video Tutorial", component: VideoTutorial, key: "videoInformation" },
+  { name: "Testimonial", component: Testimonial, key: "testimonial" },
+  { name: "Footer", component: Footer, key: "footer" },
+]
+
+const step = ref(1)
+const activeName = ref("1")
+
+// ✅ Computed property for the current component
+const currentComponent = computed(() => components[step.value - 1]?.component || null)
+
+// ✅ Computed property for the current key
+const currentComponentKey = computed(() => components[step.value - 1]?.key || "")
+
+// ✅ Watcher to debug and verify data updates
+watch(currentComponentKey, newKey => {
+  console.log("Switched to:", newKey)
+  console.log("Data for this tab:", landingPage[newKey])
+})
+
+// ✅ Handle tab click
+const handleClick = tab => {
+  console.log(tab)
+
+  const newStep = parseInt(tab.paneName, 10)
+  
+  if (newStep >= 1 && newStep <= components.length) {
+    step.value = newStep
+    activeName.value = tab.paneName
+  }
+}
 
 // editLandingPage
 const loading = ref(false)
@@ -370,46 +366,82 @@ const loading = ref(false)
 const getLandingPage = async () => {
   try {
     loading.value = true
+  
 
     const { data } = await landingPageStore.editLandingPage()
 
-    console.log("data", data)
-    if(data.status_code == 200){
+    console.log(data)
+    if (data.status_code == 200) {
       landingPage.value = data.data.data
       loading.value = false
     }
-    
   } catch (error) {
     console.log(error)
   }
-  
-
-  console.log("dataa", data.data.data)
-  
 }
+
+const submitForm = async () => {
+  try {
+    loading.value = true
+
+    const { data } = await landingPageStore.createLandingPage({
+      data: landingPage.value,
+    })
+
+    console.log("data response", data)
+    data.status_code == 200
+      ? (notify("Congratulations!", data.message, "success", "top-right"),
+      (loading.value = false))
+      : ""
+
+    // data.status_code == 200 ? router.push({ name: "landingPage" }) : ""
+  } catch (error) {
+    loading.value = false
+
+    // notify("Error", "Something went wrong", "error", "top-right");
+    notify(
+      error?.response?.data?.message,
+      error?.response?.data?.errors
+        ? error?.response?.data?.errors
+        : error?.response?.data?.error
+          ? error?.response?.data?.error
+          : "Something went wrong",
+      "error",
+      "top-right",
+    )
+  }
+}
+
 
 onMounted(() => {
   getLandingPage()
 })
 
 
-// const step = ref(1)
-const step = ref(1)
-
-// Dynamically determine the current component
-const currentComponent = computed(() => components[step.value])
 
 const componentKey = computed(
   () => Object.keys(landingPage.value)[step.value - 1],
 )
 
-const stepIncrement = item => {
-  console.log("item", item)
-  step.value = item
+// const stepIncrement = item => {
+//   step.value = item
+// }
+
+// const stepDecrement = () => {
+//   step.value = step.value - 1
+// }
+const stepIncrement = () => {
+  if (step.value < components.length) {
+    step.value++ 
+    activeName.value = String(step.value) // ✅ Sync tab change
+  }
 }
 
 const stepDecrement = () => {
-  step.value = step.value - 1
+  if (step.value > 1) {
+    step.value-- 
+    activeName.value = String(step.value) // ✅ Sync tab change
+  }
 }
 </script>
 
@@ -437,5 +469,11 @@ const stepDecrement = () => {
   padding-block: 6px;
   padding-inline: 10px;
 }
-</style>
 
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+</style>

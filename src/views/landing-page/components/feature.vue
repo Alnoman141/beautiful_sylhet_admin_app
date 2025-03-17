@@ -162,8 +162,16 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Next
+            Save
           </ElButton>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="Back"
+          placement="top-start"
+        >
+          <ElButton @click="emit('stepIncrement',5)" type="info"> Next</ElButton>
         </el-tooltip>
       </div>
     </ElForm>
@@ -188,7 +196,7 @@ const props = defineProps({
     default: "create",
   },
 });
-const emit = defineEmits(["stepIncrement", "stepDecrement"]);
+const emit = defineEmits(["stepIncrement", "stepDecrement","submitForm"]);
 const headerRef = ref(null);
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -228,7 +236,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       loading.value = true;
       try {
-        localStorage.setItem("feature", JSON.stringify(props.ruleForm));
+        // localStorage.setItem("feature", JSON.stringify(props.ruleForm));
+        emit("submitForm");
         loading.value = false;
         emit("stepIncrement", 5);
       } catch (error) {

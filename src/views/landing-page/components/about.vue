@@ -131,8 +131,16 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Next
+            Save
           </ElButton>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="Back"
+          placement="top-start"
+        >
+          <ElButton @click="emit('stepIncrement',4)" type="info"> Next</ElButton>
         </el-tooltip>
       </div>
     </ElForm>
@@ -168,7 +176,7 @@ const rules = reactive<FormRules<RuleForm>>({
   // ],
 });
 const loading = ref(false);
-const emit = defineEmits(["stepIncrement", "stepDecrement"]);
+const emit = defineEmits(["stepIncrement", "stepDecrement","submitForm"]);
 const submitForm = async (formEl: FormInstance | undefined) => {
   props.mode == "create" && !tempImg.value && props.ruleForm.imageBase64.length == 0
     ? (imgUploadValidation.value = true)
@@ -181,7 +189,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       loading.value = true;
 
       try {
-        localStorage.setItem("about", JSON.stringify(props.ruleForm));
+        // localStorage.setItem("about", JSON.stringify(props.ruleForm));
+          emit("submitForm");
         // console.log(JSON.parse(localStorage.getItem("header")));  // for testing
         loading.value = false;
          emit("stepIncrement", 4) 

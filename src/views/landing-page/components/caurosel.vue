@@ -1,6 +1,6 @@
 <template>
   <div class="my-2">
-   
+  
     <ElForm
       ref="ruleFormRef"
       v-loading="loading"
@@ -69,7 +69,7 @@
               action="#"
               multiple
               :limit="10"
-              ::auto-upload="false"
+              :auto-upload="false"
               :on-change="onFileChangeMultiple"
               :before-upload="beforeAvatarUpload"
               :disabled="multpleTempImg.length == 3 || mode == 'view'"
@@ -81,20 +81,21 @@
               <template #tip>
                 <div class="el-upload__tip">
                   jpg/png files with a size less than 2MB
+                  
 
-                  <p v-if="multpleTempImg.length == 3" style="color: #fc6767; font-size: 12px; font-weight: light" > You have already reached max image upload limit </p>
+                  <p v-if="ruleForm.logoBase64 && ruleForm.logoBase64.length == 3" style="color: #fc6767; font-size: 12px; font-weight: light" > You have already reached max image upload limit </p>
 
                 </div>
               </template>
             </el-upload>
           </VCol>
         </VRow>
-
+       
         <VRow class="px-4">
           <VCol
-            class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
+            class="btn-section text-center mt-2 d-flex flex-column justify-center align-center "
             cols="12"
-            md="1"
+            md="2"
             v-for="(item, index) in ruleForm.logoBase64"
             :key="index"
           >
@@ -109,41 +110,18 @@
             <button v-if="mode != 'view'" class="dlt-btn" @click.prevent="showAlert(index)">
               <VIcon icon="tabler-trash" size="20" class="text-danger" />
             </button>
-          </VCol>
-
-          <!-- <VCol
-            class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
-            cols="12"
-            md="1"
-            v-for="(item, index) in previewMultipleImage"
-            :key="index"
-          >
-            <img height="100" width="100" :src="item" alt="" />
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Delete"
-              placement="top-start"
-            >
-              <button
-                class="dlt-btn"
-                @click.prevent="removeUploadedImage(index)"
-              >
-                <VIcon icon="tabler-trash" size="20" class="text-danger" />
-              </button>
-            </el-tooltip>
-          </VCol> -->
+          </VCol>        
         </VRow>
       </ElCard>
       <div class="py-4" v-if="mode != 'view'">
-        <el-tooltip
+        <!-- <el-tooltip
           class="item"
           effect="dark"
           content="Back"
           placement="top-start"
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
-        </el-tooltip>
+        </el-tooltip> -->
         <el-tooltip
           class="item"
           effect="dark"
@@ -167,8 +145,16 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Next
+            Save
           </ElButton>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="Back"
+          placement="top-start"
+        >
+          <ElButton @click="emit('stepIncrement',2)" type="info"> Next</ElButton>
         </el-tooltip>
       </div>
     </ElForm>
@@ -192,7 +178,7 @@ const props = defineProps({
     default: "create",
   },
 });
-const emit = defineEmits(["stepIncrement", "stepDecrement"]);
+const emit = defineEmits(["stepIncrement", "stepDecrement", "submitForm"]);
 const headerRef = ref(null);
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -213,10 +199,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       loading.value = true;
 
       try {
-        localStorage.setItem("caurosel", JSON.stringify(props.ruleForm));
+        // localStorage.setItem("caurosel", JSON.stringify(props.ruleForm));
+        emit("submitForm");
         // console.log(JSON.parse(localStorage.getItem("header")));  // for testing
         loading.value = false;
-        emit("stepIncrement", 3);
+        emit("stepIncrement", 2);
       } catch (error) {
         loading.value = false;
         // notify("Error", "Something went wrong", "error", "top-right");
@@ -227,6 +214,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+
+
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -254,12 +244,15 @@ const onFileChange = (file) => {
 const multpleTempImg = ref([]);
 const previewMultipleImage = ref([]);
 const onFileChangeMultiple = (file) => {
+  
   multpleTempImg.value.push(file.raw);
   const reader = new FileReader();
   reader.readAsDataURL(file.raw);
+  let tempBase64 = []
   reader.onload = () => {
     previewMultipleImage.value.push(reader.result);
-    props.ruleForm.logoBase64 = previewMultipleImage.value;
+    props.ruleForm.logoBase64 = [...props.ruleForm.logoBase64, previewMultipleImage.value];
+    previewMultipleImage.value = []
   };
 };
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
@@ -323,25 +316,13 @@ const showAlert = (item) => {
 };
 
 const removeImage = async (index) => {
-  console.log("item", index);
-  (previewMultipleImage.value.splice(index, 1),
-            multpleTempImg.value.splice(index, 1))
-  props.ruleForm.imageBase64 = previewMultipleImage.value;
-  // let arr = [];
-  // arr.push(item.id);
-  try {
-    // const { data } = await spotStore.deleteImage({ ids: arr });
+  
+  
+  // props.ruleForm.imageBase64 = previewMultipleImage.value;
 
-    // data.status_code == 200
-    //   ? notify(
-    //       "Warning!",
-    //       data.message,
-    //       "warning",
-    //       "top-right",
-    //       // getSpotlist()
-    //       emit("getEmit")
-    //     )
-    //   : "";
+  try {
+    ( props.ruleForm.logoBase64.splice(index, 1));
+   
   } catch (error) {
     console.log("error", error);
   }

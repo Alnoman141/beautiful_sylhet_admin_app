@@ -450,7 +450,7 @@
               drag
               :on-change="onFileChange"
               :before-upload="beforeAvatarUpload"
-              ::auto-upload="false"
+              :auto-upload="false"
             >
               <div class="el-upload__text">
                 <el-icon
@@ -504,7 +504,7 @@
               action="#"
               multiple
               :limit="10"
-              ::auto-upload="false"
+              :auto-upload="false"
               :on-change="onFileChangeMultiple"
               :before-upload="beforeAvatarUpload"
             >

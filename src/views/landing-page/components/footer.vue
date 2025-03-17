@@ -41,7 +41,7 @@
                   width="60"
                   class="border mt-2"
                 />
-                
+
                 <p v-if="mode != 'view'">
                   Drop image here or <em>click to upload</em>
                 </p>
@@ -146,7 +146,7 @@
                       width="60"
                       class="border mt-2"
                     />
-                    
+
                     <br />
                     <p v-if="mode != 'view'">
                       Drop image here or <em>click to upload</em>
@@ -181,7 +181,7 @@
               action="#"
               multiple
               :limit="10"
-              ::auto-upload="false"
+              :auto-upload="false"
               :on-change="onFileChangeMultiple"
               :before-upload="beforeAvatarUpload"
               :disabled="
@@ -207,14 +207,13 @@
             <!-- </ElFormItem> -->
           </VCol>
         </VRow>
-<label for="">Tech Support Sponsor Images </label>
-            <hr />
+        <label for="">Tech Support Sponsor Images </label>
+        <hr />
         <VRow class="px-4">
-
           <VCol
             class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
             cols="12"
-            md="1"
+            md="2"
             v-for="(item, index) in ruleForm.techSupportImagesBase64"
             :key="index"
           >
@@ -228,7 +227,7 @@
             <button
               v-if="mode != 'view'"
               class="dlt-btn"
-              @click.prevent="showAlert(item)"
+              @click.prevent="showAlert(index)"
             >
               <VIcon icon="tabler-trash" size="20" class="text-danger" />
             </button>
@@ -267,7 +266,7 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Next
+            Save
           </ElButton>
         </el-tooltip>
       </div>
@@ -293,7 +292,7 @@ const props = defineProps({
     default: "create",
   },
 });
-const emit = defineEmits(["stepIncrement"]);
+const emit = defineEmits(["stepIncrement", "submitForm"]);
 const headerRef = ref(null);
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -306,7 +305,8 @@ const rules = reactive<FormRules<RuleForm>>({
 const loading = ref(false);
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  props.mode == "create" && !tempLogo.value &&
+  props.mode == "create" &&
+  !tempLogo.value &&
   props.ruleForm.logoBase64.length == 0
     ? (logoUploadValidation.value = true)
     : (logoUploadValidation.value = false);
@@ -341,9 +341,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid && !logoUploadValidation.value) {
       loading.value = true;
       try {
-        localStorage.setItem("footer", JSON.stringify(props.ruleForm));
+        // localStorage.setItem("footer", JSON.stringify(props.ruleForm));
+        emit("submitForm");
         loading.value = false;
-        router.push({ name: "previewLandingPage" });
+        //router.push({ name: "previewLandingPage" });
       } catch (error) {
         loading.value = false;
         console.log("Error submitting form");
@@ -411,7 +412,12 @@ const onFileChangeMultiple = (file) => {
   reader.readAsDataURL(file.raw);
   reader.onload = () => {
     previewMultipleImage.value.push(reader.result);
-    props.ruleForm.techSupportImagesBase64 = previewMultipleImage.value;
+    // props.ruleForm.techSupportImagesBase64 = previewMultipleImage.value;
+    props.ruleForm.techSupportImagesBase64 = [
+      ...props.ruleForm.techSupportImagesBase64,
+      previewMultipleImage.value,
+    ];
+    previewMultipleImage.value =[]
   };
 };
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
@@ -446,8 +452,7 @@ const removeUploadedImage = (index) => {
         });
 
         action == "confirm"
-          ? (previewMultipleImage.value.splice(index, 1),
-            multpleTempImg.value.splice(index, 1))
+          ? ( props.ruleForm.techSupportImages.splice(index, 1))
           : "";
       },
     }
@@ -455,7 +460,7 @@ const removeUploadedImage = (index) => {
 };
 const imgViewModal = ref(false);
 const modalImg = ref(null);
-const showAlert = (item) => {
+const showAlert = (index) => {
   ElMessageBox.alert(
     "Are you sure that you want to delete this image ?",
     "Delete",
@@ -468,28 +473,17 @@ const showAlert = (item) => {
           message: `action: ${action}`,
         });
 
-        action == "confirm" ? removeImage(item) : "";
+        action == "confirm" ? removeImage(index) : "";
       },
     }
   );
 };
 
-const removeImage = async (item) => {
-  let arr = [];
-  arr.push(item.id);
+const removeImage = async (index) => {
+ 
   try {
-    const { data } = await spotStore.deleteImage({ ids: arr });
+    props.ruleForm.techSupportImagesBase64.splice(index, 1)
 
-    data.status_code == 200
-      ? notify(
-          "Warning!",
-          data.message,
-          "warning",
-          "top-right",
-          // getSpotlist()
-          emit("getEmit")
-        )
-      : "";
   } catch (error) {
     console.log("error", error);
   }

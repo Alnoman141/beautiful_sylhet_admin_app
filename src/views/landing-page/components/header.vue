@@ -171,7 +171,7 @@ const props = defineProps({
     default: "create",
   },
 });
-const emit = defineEmits(["stepIncrement", "stepDecrement"]);
+const emit = defineEmits(["stepIncrement", "stepDecrement","submitForm"]);
 const headerRef = ref(null);
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -197,7 +197,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       loading.value = true;
 
       try {
-        localStorage.setItem("header", JSON.stringify(props.ruleForm));
+        // localStorage.setItem("header", JSON.stringify(props.ruleForm));
+        emit("submitForm");
         // console.log(JSON.parse(localStorage.getItem("header")));  // for testing
         loading.value = false;
         // props.step = 2;
