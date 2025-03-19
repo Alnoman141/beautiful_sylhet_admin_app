@@ -30,7 +30,7 @@
               <ElInput
                 type="textarea"
                 v-model="ruleForm.title"
-                placeholder="Caurosel Title"
+                placeholder="Feature Title"
                 :disabled="mode == 'view'"
               />
             </ElFormItem>

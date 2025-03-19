@@ -73,7 +73,7 @@
                 type="textarea"
                 :rows="5"
                 v-model="ruleForm.description"
-                placeholder="description"
+                placeholder="Description"
                 :disabled="mode == 'view'"
               />
             </ElFormItem>
@@ -97,7 +97,7 @@
                 <ElInput
                   :disabled="mode == 'view'"
                   v-model="item.name"
-                  placeholder="Feature Name"
+                  placeholder="Social Media Name"
                 />
               </ElFormItem>
               <ElFormItem

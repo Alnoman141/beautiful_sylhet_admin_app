@@ -131,6 +131,7 @@
                 placeholder="Pick a Date"
                 format="YYYY/MM/DD hh:mm:ss a"
                 value-format="YYYY-MM-DD hh:mm:ss a"
+                 :disabled-date="disabledDate"
                 
               />
             </ElFormItem>
@@ -174,9 +175,9 @@ import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -400,6 +401,11 @@ const formatExpiryDate = (date) => {
 
   
 }
+const disabledDate = (time) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time to start of the day
+  return time.getTime() < today.getTime(); // Disable dates before today
+};
 
 onMounted(() => {
   console.log("props.ruleForm",props.ruleForm)

@@ -33,7 +33,7 @@
               <ElInput
                 type="textarea"
                 v-model="ruleForm.title"
-                placeholder="Caurosel Title"
+                placeholder="About Title"
                 :disabled="mode == 'view'"
               />
             </ElFormItem>
@@ -51,13 +51,14 @@
               <ElInput
                 type="textarea"
                 v-model="ruleForm.description"
-                placeholder="Description"
+                placeholder="About Description"
                 :disabled="mode == 'view'"
                 :rows="10"
               />
             </ElFormItem>
           </VCol>
           <VCol  class="my-2">
+            <label for="">About Image</label>
             <el-upload
               class="upload-section"
               drag

@@ -37,11 +37,13 @@
         element-loading-svg-view-box="-10, -10, 50, 50"
         element-loading-background="rgba(122, 122, 122, 0.8)"
       >
-        <Header
+        <!--
+          <Header
           :rule-form="
-            landingPage.header"
+          landingPage.header"
           mode="view"
-        />
+          /> 
+        -->
         <Caurosel
           :rule-form="landingPage.caurosel"
           mode="view"
@@ -91,7 +93,6 @@ import Caurosel from "./components/caurosel.vue"
 import Feature from "./components/feature.vue"
 
 import Footer from "./components/footer.vue"
-import Header from "./components/header.vue"
 
 import Speciality from "./components/speciality.vue"
 

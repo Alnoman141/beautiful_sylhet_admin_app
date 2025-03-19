@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElTable
-      :data="filterTableData"
+      :data="getTableData"
       border
       :row-style="configStore.getRowStyle"
       :header-cell-style="configStore.getHeaderRowStyle"
@@ -17,12 +17,9 @@
         :width="column.prop == 'id' ? '100' : column.prop == 'type' ? '150' : ''"
       >
         <template #default="scope">
-          <!-- <div v-html="scope.row[column.prop]" /> -->
-          <div v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo -1) * pageSize + index++" />
-          <!-- pageNo * 10 + index++ -->
+          <div v-html="sanitizeHtml(column.prop !== 'id' ? scope.row[column.prop] : scope.row.computedIndex)" />
         </template>
       </ElTableColumn>
-
 
       <!-- Action Buttons Column -->
       <ElTableColumn
@@ -73,7 +70,6 @@
                 icon="tabler-trash"
                 size="15"
               />
-            <!--  v-if="scope.row.status == 0" -->
             </ElButton>
           </ElTooltip>
         </template>
@@ -104,37 +100,44 @@ const props = defineProps({
     type: Number,
     default: 10,
   },
-  
 })
 
 const emit = defineEmits(["tableDataEmit"]) 
 
 const hotelStore = useHotelStore()
-
-const editorContent = ref('') // Reactive variable to store the editor content
 const configStore = useConfigStore()
 const search = ref('')
 
+// const filterTableData = computed(() =>
+//   props.filterTableData.filter(
+//     data =>
+//       !search.value ||
+//       data.name.toLowerCase().includes(search.value.toLowerCase()), 
+//   ),
+// )
 
-const filterTableData = computed(() =>
-  props.filterTableData.filter(
-    data =>
-      !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase()), 
-  ),
-
-
-)
+// // ✅ Compute correct table index
+const getTableData = computed(() => {
+  return props.filterTableData.map((row, rowIndex) => {
+    return {
+      ...row,
+      computedIndex: props.pageNo === 1 
+        ? rowIndex + 1 
+        : (props.pageNo - 1) * props.pageSize + rowIndex + 1,
+    }
+  })
+})
 
 const deleteHotel = async item => {
-  
-  try{
+  try {
     const { data } = await hotelStore.deleteHotel({ id: item })
-
-    data.status_code == 200 ? notify('Deleted!', data.message, 'error', 'top-right') : notify('Error', data.message, 'error', 'top-right')
-
-    emit('tableDataEmit')}
-  catch(err){
+    if (data.status_code == 200) {
+      notify('Deleted!', data.message, 'error', 'top-right')
+    } else {
+      notify('Error', data.message, 'error', 'top-right')
+    }
+    emit('tableDataEmit')
+  } catch (err) {
     console.log(err)
   }
 }
@@ -142,7 +145,7 @@ const deleteHotel = async item => {
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this news ?', 'Delete', {
+  ElMessageBox.alert('Are you sure that you want to delete this news?', 'Delete', {
     confirmButtonText: 'Delete',
     confirmButtonClass: 'el-button--danger',
     callback: action => {
@@ -150,10 +153,15 @@ const showAlert = item => {
         type: 'info',
         message: `action: ${action}`,
       })
-
-      console.log("action", action)
-      action == 'confirm' ? deleteHotel(item) : ''
+      if (action == 'confirm') deleteHotel(item)
     },
   })
+}
+
+// ✅ Fix HTML sanitization
+const sanitizeHtml = html => {
+  if (!html) return '' // Ensure it's never undefined/null
+  
+  return html.toString().replace(/<\/?(?!b|i|u|span|strong|em|small|sub|sup|a)[^>]+(>|$)/g, '')
 }
 </script>

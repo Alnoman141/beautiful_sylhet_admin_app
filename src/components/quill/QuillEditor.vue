@@ -37,7 +37,7 @@ onMounted(() => {
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // Headers
         [{ 'align': [] }], // Alignment
         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }], // Lists & Indent
-        ['blockquote', 'code-block'], // Block types
+        // ['blockquote', 'code-block'], // Block types
         ['link', 'image', 'video'], // Media
         ['clean'], // Clear formatting
       ],

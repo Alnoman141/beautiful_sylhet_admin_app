@@ -22,7 +22,7 @@
               v-if="column.prop !== 'date'"
               :class="scope.row.expiry.includes('Expired') && column.prop == 'expiry' ? 'text-error' :scope.row.expiry.includes('No') && column.prop == 'expiry' ? 'text-warning' : column.prop == 'expiry' ? 'text-success' :''"
               class="text-limit"
-              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
+              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? ++index : (pageNo - 1) * pageSize + ++index"
             />
             <div
               v-else

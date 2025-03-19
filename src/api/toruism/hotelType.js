@@ -15,7 +15,7 @@ export function getHotelTypeDropdown(query) {
   return request({
     url: "/hotel/type-dropdown",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 export function createHotelType(data) {

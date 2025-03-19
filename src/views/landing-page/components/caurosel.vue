@@ -60,7 +60,7 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6" class="my-2" v-if="mode != 'view'">
-            <label for="">Multiple Image  </label>
+            <label for="">Caurosel Multiple Image  </label>
             <br />
 
             <el-upload

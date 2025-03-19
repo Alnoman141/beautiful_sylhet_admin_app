@@ -30,7 +30,7 @@
                 type="textarea"
                 v-model="ruleForm.title"
                 :disabled="mode == 'view'"
-                placeholder="Caurosel Title"
+                placeholder="Video Title"
               />
             </ElFormItem>
           </VCol>
@@ -48,7 +48,7 @@
                 type="textarea"
                 v-model="ruleForm.description"
                 :disabled="mode == 'view'"
-                placeholder="Description"
+                placeholder="Video Description"
                 :rows="5"
               />
             </ElFormItem>

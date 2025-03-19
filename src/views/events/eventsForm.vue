@@ -52,7 +52,7 @@
             <VRow>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  :label="index == 0 ? 'উৎসবের নাম' : 'Event Name'"
+                  :label="index == 0 ? 'ইভেন্টের নাম  ' : 'Event Name'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.name'
@@ -60,11 +60,11 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'উৎসবের নাম আবশ্যক' : 'Event name is required',
+                    message: index == 0 ? 'ইভেন্টের নাম   আবশ্যক' : 'Event name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput :placeholder="index == 0 ? 'উৎসবের নাম' : 'Event Name'" v-model="item.name" />
+                  <ElInput :placeholder="index == 0 ? 'ইভেন্টের নাম  ' : 'Event Name'" v-model="item.name" />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
@@ -246,6 +246,7 @@
                 placeholder="Pick a Date"
                 format="YYYY/MM/DD hh:mm:ss a"
                 value-format="YYYY-MM-DD hh:mm:ss a"
+                :disabled-date="disabledDate"
               />
             </ElFormItem>
           </VCol>
@@ -296,9 +297,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { router, useRoute } from "vue-router";
@@ -460,6 +461,12 @@ const checkData = () => {
   props.ruleForm?.data?.map((e) => {
     e.description === "<p><br></p>" ? (e.description = "") : "";
   });
+};
+
+const disabledDate = (time) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time to start of the day
+  return time.getTime() < today.getTime(); // Disable dates before today
 };
 
 onMounted(() => {

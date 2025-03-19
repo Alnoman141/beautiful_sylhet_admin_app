@@ -13,13 +13,24 @@ const showProgress = ref(false)
 
 let routeNames = ref([])
 
+// const initialRoute = useRoute().path
+// if (initialRoute) {
+//   routeNames.value = initialRoute.split('/').filter(route => route !== '' && route !== 'dashboards')
+// }
 const initialRoute = useRoute().path
 if (initialRoute) {
-  routeNames.value = initialRoute.split('/').filter(route => route !== '' && route !== 'dashboards')
+  routeNames.value = initialRoute
+    .split('/')
+    .filter(route => route !== '' && route !== 'dashboards' && !/^\d+$/.test(route)) // Ignore numbers
 }
 
+// watch(() => router.currentRoute.value.path, () => {
+//   routeNames.value = router.currentRoute.value.path.split('/').filter(route => route !== '' && route !== 'dashboards')
+// })
 watch(() => router.currentRoute.value.path, () => {
-  routeNames.value = router.currentRoute.value.path.split('/').filter(route => route !== '' && route !== 'dashboards')
+  routeNames.value = router.currentRoute.value.path
+    .split('/')
+    .filter(route => route !== '' && route !== 'dashboards' && !/^\d+$/.test(route)) // Ignore numbers
 })
 
 

@@ -31,7 +31,7 @@
                 type="textarea"
                 v-model="ruleForm.title"
                 :disabled="mode == 'view'"
-                placeholder="Caurosel Title"
+                placeholder="Title"
               />
             </ElFormItem>
           </VCol>

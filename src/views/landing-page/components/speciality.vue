@@ -38,17 +38,17 @@
                 <ElInput v-model="item.title" :disabled="mode == 'view'" placeholder="Speciality" />
               </ElFormItem>
               <ElFormItem
-                label="Feature description"
+                label="Speciality description"
                 :prop="  index + '.description'"
                 :rules="{
                   required: true,
-                  message: 'Feature description  is required',
+                  message: 'Speciality description  is required',
                   trigger: 'blur',
                 }"
               >
                 <ElInput
                   v-model="item.description"
-                  placeholder="Feature description"
+                  placeholder="Speciality description"
                   :disabled="mode == 'view'"
                 />
               </ElFormItem>

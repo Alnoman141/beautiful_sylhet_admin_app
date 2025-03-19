@@ -54,7 +54,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'স্বেচ্ছাসেবকের নাম আবশ্যক' : 'Beach volunteer name is required',
+                    message: index == 0 ? 'ভলান্টিয়ারের  নাম আবশ্যক' : 'Beach volunteer name is required',
                     trigger: 'blur',
                   }">
                   <ElInput :placeholder=" index == 0 ? 'নাম' : 'Name'" v-model="item.name" />
@@ -158,9 +158,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { useVolunteerStore } from "@/stores/tourism/volunteerStore";
 import { notify } from "@/utils/notification";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

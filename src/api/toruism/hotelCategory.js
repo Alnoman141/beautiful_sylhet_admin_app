@@ -12,7 +12,7 @@ export function getHotelCategoryDropdown(query) {
   return request({
     url: "/hotel/category-dropdown",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 

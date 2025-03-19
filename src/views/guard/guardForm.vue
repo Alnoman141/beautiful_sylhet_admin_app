@@ -59,7 +59,7 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'বিচ গার্ডের নাম আবশ্যক' : 'Beach Guard name  is required',
+                    message: index == 0 ? 'লাইফ গার্ডের নাম আবশ্যক' : 'Life Guard name  is required',
                     trigger: 'blur',
                   }"
                 >
@@ -188,9 +188,9 @@ import { useGuardStore } from "@/stores/tourism/guardStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

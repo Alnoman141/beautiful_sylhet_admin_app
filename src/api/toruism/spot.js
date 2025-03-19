@@ -12,7 +12,7 @@ export function getSpotDropdown(query) {
   return request({
     url: "/spot/dropdown",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 

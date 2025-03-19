@@ -32,7 +32,7 @@
               <ElInput
                 type="textarea"
                 v-model="ruleForm.title"
-                placeholder="Caurosel Title"
+                placeholder="Workflow Title"
               />
             </ElFormItem>
           </VCol>
@@ -44,29 +44,31 @@
           >
             <div class="border rounded px-4 py-4">
               <ElFormItem
-                label="Feature Name"
+                label="Workflow Name"
                 :prop="'workDetails.' + index + '.name'"
                 :rules="{
                   required: true,
-                  message: 'Feature name  is required',
+                  message: 'Workflow name  is required',
                   trigger: 'blur',
                 }"
               >
-                <ElInput :disabled="mode == 'view'" v-model="item.name" placeholder="Feature Name" />
+                <ElInput :disabled="mode == 'view'" v-model="item.name" placeholder="Workflow Name" />
               </ElFormItem>
               <ElFormItem
-                label="Feature description"
+                label="Workflow description"
                 :prop="'workDetails.' + index + '.description'"
                 :rules="{
                   required: true,
-                  message: 'Feature description  is required',
+                  message: 'Workflow description  is required',
                   trigger: 'blur',
                 }"
               >
                 <ElInput
                   v-model="item.description"
                   :disabled="mode == 'view'"
-                  placeholder="Feature description"
+                  type="textarea"
+                  :rows="2"
+                  placeholder="Workflow description"
                 />
               </ElFormItem>
               <div>

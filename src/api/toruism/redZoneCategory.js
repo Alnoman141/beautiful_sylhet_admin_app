@@ -6,7 +6,7 @@ function getRedZoneCategory(query) {
   return request({
     url: "/red-zone/category/list",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 

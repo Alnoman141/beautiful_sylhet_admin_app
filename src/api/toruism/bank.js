@@ -14,7 +14,7 @@ export function getBankDropdown(query) {
   return request({
     url: "/bank/dropdown",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 

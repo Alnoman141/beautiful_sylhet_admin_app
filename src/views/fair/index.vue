@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Fair List</b>
+          <b> Fare List</b>
         </VCol>
         <VCol
           cols="6"
@@ -22,7 +22,7 @@
               content="Create Danger Zone"
               placement="top-start"
             >
-              Create Fair
+              Create Fare
             </ElTooltip>
           </RouterLink>
         </VCol>

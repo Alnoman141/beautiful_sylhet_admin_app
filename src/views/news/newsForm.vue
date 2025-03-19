@@ -108,6 +108,8 @@
                 placeholder="Pick a Date"
                 format="YYYY/MM/DD hh:mm:ss a"
                 value-format="YYYY-MM-DD hh:mm:ss a"
+                :disabled-date="disabledDate"
+                
               />
             </ElFormItem>
           </VCol>
@@ -269,6 +271,14 @@ const newsType = async () => {
 
   typeList.value = data.data;
 };
+
+
+const disabledDate = (time) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time to start of the day
+  return time.getTime() < today.getTime(); // Disable dates before today
+};
+
 
 onMounted(() => {
   newsType();
