@@ -114,15 +114,15 @@
         </VRow>
       </ElCard>
       <div class="py-4" v-if="mode != 'view'">
-        <!-- <el-tooltip
+        <el-tooltip
           class="item"
           effect="dark"
           content="Back"
           placement="top-start"
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
-        </el-tooltip> -->
-        <el-tooltip
+        </el-tooltip>
+        <!-- <el-tooltip
           class="item"
           effect="dark"
           content="Reset"
@@ -131,7 +131,7 @@
           <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
             >Reset</ElButton
           >
-        </el-tooltip>
+        </el-tooltip> -->
 
         <el-tooltip
           class="item"
@@ -145,17 +145,17 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Save
+            Save & Next
           </ElButton>
         </el-tooltip>
-        <el-tooltip
+        <!-- <el-tooltip
           class="item"
           effect="dark"
           content="Back"
           placement="top-start"
         >
           <ElButton @click="emit('stepIncrement',2)" type="info"> Next</ElButton>
-        </el-tooltip>
+        </el-tooltip> -->
       </div>
     </ElForm>
   </div>

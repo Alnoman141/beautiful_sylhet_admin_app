@@ -93,3 +93,11 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 
 
 
+// disbale color correction
+.el-textarea.is-disabled .el-textarea__inner {
+  background-color: white !important;
+  box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset;
+  color: rgba(0, 0, 0, 77.4%) !important;
+  cursor: not-allowed;
+}
+

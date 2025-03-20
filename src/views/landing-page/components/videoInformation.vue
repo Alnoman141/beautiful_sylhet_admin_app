@@ -1,6 +1,5 @@
 <template>
   <div class="my-2">
-   
     <ElForm
       ref="ruleFormRef"
       v-loading="loading"
@@ -13,46 +12,8 @@
       status-icon
     >
       <ElCard class="rounded py-2 px-2">
-        <b > Landing Page Video Information Preview </b>
+        <b> Landing Page Video Information Preview </b>
         <VRow>
-           <VCol cols="12" md="6">
-            
-            <ElFormItem
-              label="Title"
-              :prop="'title'"
-              :rules="{
-                required: true,
-                message: 'Title  is required',
-                trigger: 'blur',
-              }"
-            >
-              <ElInput
-                type="textarea"
-                v-model="ruleForm.title"
-                :disabled="mode == 'view'"
-                placeholder="Video Title"
-              />
-            </ElFormItem>
-          </VCol>
-          <VCol cols="12" md="6">
-            <ElFormItem
-              label="Description"
-              :prop="'description'"
-              :rules="{
-                required: true,
-                message: 'Description  is required',
-                trigger: 'blur',
-              }"
-            >
-              <ElInput
-                type="textarea"
-                v-model="ruleForm.description"
-                :disabled="mode == 'view'"
-                placeholder="Video Description"
-                :rows="5"
-              />
-            </ElFormItem>
-          </VCol>
           <VCol cols="12" md="6">
             <ElFormItem
               label="Video Url"
@@ -67,17 +28,11 @@
                 :disabled="mode == 'view'"
                 v-model="ruleForm.videoUrl"
                 placeholder="Video Url"
-                
               />
-               <!-- <iframe class="my-2" height="300" width="100%" :src="ruleForm.videoUrl" allowfullscreen></iframe> -->
+              <!-- <iframe class="my-2" height="300" width="100%" :src="ruleForm.videoUrl" allowfullscreen></iframe> -->
             </ElFormItem>
           </VCol>
-          
         </VRow>
-        
-
-
-      
       </ElCard>
       <div class="py-4" v-if="mode != 'view'">
         <el-tooltip
@@ -87,16 +42,6 @@
           placement="top-start"
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Reset"
-          placement="top-start"
-        >
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-            >Reset</ElButton
-          >
         </el-tooltip>
 
         <el-tooltip
@@ -111,16 +56,8 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Save
+            Save & Next
           </ElButton>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Back"
-          placement="top-start"
-        >
-          <ElButton @click="emit('stepIncrement',9)" type="info"> Next</ElButton>
         </el-tooltip>
       </div>
     </ElForm>
@@ -144,7 +81,7 @@ const props = defineProps({
     default: "create",
   },
 });
-const emit = defineEmits(["stepIncrement", "stepDecrement","submitForm"]);
+const emit = defineEmits(["stepIncrement", "stepDecrement", "submitForm"]);
 const headerRef = ref(null);
 const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
@@ -172,7 +109,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         emit("submitForm");
         // console.log(JSON.parse(localStorage.getItem("header")));  // for testing
         loading.value = false;
-        emit("stepIncrement", 9) 
+        emit("stepIncrement", 9);
       } catch (error) {
         loading.value = false;
         // notify("Error", "Something went wrong", "error", "top-right");

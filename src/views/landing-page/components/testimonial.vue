@@ -19,11 +19,49 @@
             <b> Landing Page Testimonials  </b>
             <hr>
           </VCol>
-          <VCol v-for="(item, index) in ruleForm" :key="index" cols="12" md="6">
+           <VCol cols="12" md="6">
+            
+            <ElFormItem
+              label="Title"
+              :prop="'title'"
+              :rules="{
+                required: true,
+                message: 'Title  is required',
+                trigger: 'blur',
+              }"
+            >
+              <ElInput
+                type="textarea"
+                v-model="ruleForm.title"
+                :disabled="mode == 'view'"
+                placeholder="Video Title"
+              />
+            </ElFormItem>
+          </VCol>
+          <VCol cols="12" md="6">
+            <ElFormItem
+              label="Description"
+              :prop="'description'"
+              :rules="{
+                required: true,
+                message: 'Description  is required',
+                trigger: 'blur',
+              }"
+            >
+              <ElInput
+                type="textarea"
+                v-model="ruleForm.description"
+                :disabled="mode == 'view'"
+                placeholder="Video Description"
+                :rows="5"
+              />
+            </ElFormItem>
+          </VCol>
+          <VCol v-for="(item, index) in ruleForm.testimonial" :key="index" cols="12" md="6">
             <div class="border rounded px-4 py-4">
               <ElFormItem
                 label="Name"
-                :prop="index + '.name'"
+                :prop="'testimonial.' + index + '.name'"
                 :rules="{
                   required: true,
                   message: 'Name  is required',
@@ -35,7 +73,7 @@
 
               <ElFormItem
                 label="Rating"
-                :prop="index + '.rating'"
+                :prop="'testimonial.' + index + '.rating'"
                 :rules="{
                   required: true,
                   message: 'Rating  is required',
@@ -47,7 +85,7 @@
 
               <ElFormItem
                 label="Feedback "
-                :prop="index + '.description'"
+                :prop="'testimonial.' + index + '.description'"
                 :rules="{
                   required: true,
                   message: 'Feedback   is required',
@@ -123,16 +161,7 @@
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
         </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Reset"
-          placement="top-start"
-        >
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-            >Reset</ElButton
-          >
-        </el-tooltip>
+        
 
         <el-tooltip
           class="item"
@@ -146,17 +175,17 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Save
+            Save & Next
           </ElButton>
         </el-tooltip>
-        <el-tooltip
+        <!-- <el-tooltip
           class="item"
           effect="dark"
           content="Back"
           placement="top-start"
         >
           <ElButton @click="emit('stepIncrement',10)" type="info"> Next</ElButton>
-        </el-tooltip>
+        </el-tooltip> -->
       </div>
     </ElForm>
   </div>
@@ -197,8 +226,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
   let isValid = true;
 
-  props.ruleForm.forEach((_, index) => {
-    if (!tempImg.value[index] && !props.ruleForm[index].image && !props.ruleForm[index].imageBase64) {
+  props.ruleForm.testimonial.forEach((_, index) => {
+    if (!tempImg.value[index] && !props.ruleForm.testimonial[index].image && !props.ruleForm.testimonial[index].imageBase64) {
       imgUploadValidation.value[index] = { validation: true };
       isValid = false;
     } else {
@@ -240,7 +269,8 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const typeList = ref([]);
 
 const imgUploadValidation = ref(
-  props.ruleForm.map(() => ({ validation: false }))
+  // console.log("testimonial modification ", props.ruleForm);
+  props.ruleForm?.testimonial?.map(() => ({ validation: false }))
 );
 
 const previewImage = ref([]);
@@ -248,14 +278,14 @@ const tempImg = ref([]);
 
 const onFileChange = (file, index) => {
   tempImg.value[index] = file.raw; // Store in an array using index
-  props.ruleForm[index].image = file.raw;
+  props.ruleForm.testimonial[index].image = file.raw;
 
   const reader = new FileReader();
 
   reader.readAsDataURL(file.raw);
   reader.onload = () => {
     previewImage.value[index] = reader.result; // Store preview in an array using index
-    props.ruleForm[index].imageBase64 = previewImage.value[index];
+    props.ruleForm.testimonial[index].imageBase64 = previewImage.value[index];
     imgUploadValidation.value[index].validation = false; // Reset validation on successful upload
   };
 };

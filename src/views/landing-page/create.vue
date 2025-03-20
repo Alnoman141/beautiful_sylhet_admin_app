@@ -68,6 +68,7 @@ import About from "./components/about.vue"
 import Caurosel from "./components/caurosel.vue"
 import Feature from "./components/feature.vue"
 import Footer from "./components/footer.vue"
+import Header from "./components/header.vue"
 import Speciality from "./components/speciality.vue"
 import Testimonial from "./components/testimonial.vue"
 import VideoTutorial from "./components/videoInformation.vue"
@@ -77,33 +78,33 @@ import Workflow from "./components/workflow.vue"
 const landingPageStore = useLandingPageStore()
 const mode = ref("create")
 
-
 const landingPage = ref({
   header: {
     logo: "",
     logoBase64: "",
-    navLinks: [
-      {
-        name: "Home",
-        url: "/",
-      },
-      {
-        name: "About",
-        url: "/about",
-      },
-      {
-        name: "Features",
-        url: "/features",
-      },
-      {
-        name: "Testimonial",
-        url: "/testimonial",
-      },
-      {
-        name: "Contact",
-        url: "/contact",
-      },
-    ],
+
+    // navLinks: [
+    //   {
+    //     name: "Home",
+    //     url: "/",
+    //   },
+    //   {
+    //     name: "About",
+    //     url: "/about",
+    //   },
+    //   {
+    //     name: "Features",
+    //     url: "/features",
+    //   },
+    //   {
+    //     name: "Testimonial",
+    //     url: "/testimonial",
+    //   },
+    //   {
+    //     name: "Contact",
+    //     url: "/contact",
+    //   },
+    // ],
   },
   caurosel: {
     title: "Explore Cox’s Bazar Like Never Before!",
@@ -236,38 +237,40 @@ const landingPage = ref({
     ],
   },
   videoInformation: {
-    title: "What People Say About Vromonika",
-    description:
-      "Real Experiences. Genuine Reviews. See how Vromonika is making travel to Cox’s Bazar easier, safer, and more enjoyable!",
     videoUrl:
       "https://drive.google.com/file/d/1CGMln7bdAEQ-I-PpmrMNrykZgNuMRANv/preview",
   },
-  testimonial: [
-    {
-      name: "Mohammad Salahuddin",
-      image: "",
-      imageBase64: "",
-      rating: 5,
-      description:
-        "Vromonika made my trip to Cox’s Bazar so much easier! From finding the best places to visit to booking my bus tickets, everything was seamless. The danger zone alerts and emergency contact options gave me peace of mind while exploring. Highly recommended for anyone visiting Cox’s Bazar!",
-    },
-    {
-      name: "Abdullah Al Noman",
-      image: "",
-      imageBase64: "",
-      rating: 4,
-      description:
-        "Vromonika made my trip to Cox’s Bazar so much easier! From finding the best places to visit to booking my bus tickets, everything was seamless. The danger zone alerts and emergency contact options gave me peace of mind while exploring. Highly recommended for anyone visiting Cox’s Bazar!",
-    },
-    {
-      name: "Nizam Uddin Ahmed",
-      image: "",
-      imageBase64: "",
-      rating: 3,
-      description:
-        "Vromonika made my trip to Cox’s Bazar so much easier! From finding the best places to visit to booking my bus tickets, everything was seamless. The danger zone alerts and emergency contact options gave me peace of mind while exploring. Highly recommended for anyone visiting Cox’s Bazar!",
-    },
-  ],
+  testimonials: {
+    title: "What People Say About Vromonika",
+    description:
+      "Real Experiences. Genuine Reviews. See how Vromonika is making travel to Cox’s Bazar easier, safer, and more enjoyable!",
+    testimonial: [
+      {
+        name: "Mohammad Salahuddin",
+        image: "",
+        imageBase64: "",
+        rating: 5,
+        description:
+          "Vromonika made my trip to Cox’s Bazar so much easier! From finding the best places to visit to booking my bus tickets, everything was seamless. The danger zone alerts and emergency contact options gave me peace of mind while exploring. Highly recommended for anyone visiting Cox’s Bazar!",
+      },
+      {
+        name: "Abdullah Al Noman",
+        image: "",
+        imageBase64: "",
+        rating: 4,
+        description:
+          "Vromonika made my trip to Cox’s Bazar so much easier! From finding the best places to visit to booking my bus tickets, everything was seamless. The danger zone alerts and emergency contact options gave me peace of mind while exploring. Highly recommended for anyone visiting Cox’s Bazar!",
+      },
+      {
+        name: "Nizam Uddin Ahmed",
+        image: "",
+        imageBase64: "",
+        rating: 3,
+        description:
+          "Vromonika made my trip to Cox’s Bazar so much easier! From finding the best places to visit to booking my bus tickets, everything was seamless. The danger zone alerts and emergency contact options gave me peace of mind while exploring. Highly recommended for anyone visiting Cox’s Bazar!",
+      },
+    ],
+  },
   footer: {
     logo: "",
     logoBase64: "",
@@ -322,14 +325,19 @@ const landingPage = ref({
 
 // ✅ Define components with corresponding keys
 const components = [
+  { name: "Header", component: Header, key: "header" },
   { name: "Carousel", component: Caurosel, key: "caurosel" },
   { name: "About", component: About, key: "about" },
   { name: "Feature", component: Feature, key: "feature" },
   { name: "Speciality", component: Speciality, key: "speciality" },
-  { name: "Why Choose Vromonica", component: WhyChooseVromonica, key: "whyChooseVromonica" },
+  {
+    name: "Why Choose Vromonica",
+    component: WhyChooseVromonica,
+    key: "whyChooseVromonica",
+  },
   { name: "Workflow", component: Workflow, key: "workflow" },
   { name: "Video Tutorial", component: VideoTutorial, key: "videoInformation" },
-  { name: "Testimonial", component: Testimonial, key: "testimonial" },
+  { name: "Testimonial", component: Testimonial, key: "testimonials" },
   { name: "Footer", component: Footer, key: "footer" },
 ]
 
@@ -337,10 +345,14 @@ const step = ref(1)
 const activeName = ref("1")
 
 // ✅ Computed property for the current component
-const currentComponent = computed(() => components[step.value - 1]?.component || null)
+const currentComponent = computed(
+  () => components[step.value - 1]?.component || null,
+)
 
 // ✅ Computed property for the current key
-const currentComponentKey = computed(() => components[step.value - 1]?.key || "")
+const currentComponentKey = computed(
+  () => components[step.value - 1]?.key || "",
+)
 
 // ✅ Watcher to debug and verify data updates
 watch(currentComponentKey, newKey => {
@@ -353,7 +365,7 @@ const handleClick = tab => {
   console.log(tab)
 
   const newStep = parseInt(tab.paneName, 10)
-  
+
   if (newStep >= 1 && newStep <= components.length) {
     step.value = newStep
     activeName.value = tab.paneName
@@ -366,7 +378,6 @@ const loading = ref(false)
 const getLandingPage = async () => {
   try {
     loading.value = true
-  
 
     const { data } = await landingPageStore.editLandingPage()
 
@@ -412,34 +423,24 @@ const submitForm = async () => {
   }
 }
 
-
 onMounted(() => {
   getLandingPage()
 })
-
-
 
 const componentKey = computed(
   () => Object.keys(landingPage.value)[step.value - 1],
 )
 
-// const stepIncrement = item => {
-//   step.value = item
-// }
-
-// const stepDecrement = () => {
-//   step.value = step.value - 1
-// }
 const stepIncrement = () => {
   if (step.value < components.length) {
-    step.value++ 
+    step.value++
     activeName.value = String(step.value) // ✅ Sync tab change
   }
 }
 
 const stepDecrement = () => {
   if (step.value > 1) {
-    step.value-- 
+    step.value--
     activeName.value = String(step.value) // ✅ Sync tab change
   }
 }

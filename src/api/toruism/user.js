@@ -1,8 +1,6 @@
 import request from "@/utils/request"
 
 export function getTouristList(query) {
-  console.log("called tourist")
-  
   return request({
     url: "/tourist/list",
     method: "post",

@@ -17,7 +17,7 @@
             <b> Landing Page Header  </b>
             <hr />
           </VCol>
-          <VCol
+          <!-- <VCol
             v-for="(item, index) in ruleForm.navLinks"
             :key="index"
             cols="12"
@@ -46,17 +46,11 @@
               >
                 <ElInput :disabled="mode == 'view'" v-model="item.url" placeholder="Nav Link Url" />
               </ElFormItem>
-              <!-- <div v-if="ruleForm.navLinks.length > 1" class="text-end">
-                <ElButton
-                  type="danger"
-                  @click="ruleForm.navLinks.splice(index, 1)"
-                >
-                  -
-                </ElButton>
-              </div> -->
+              
             </div>
-          </VCol>
+          </VCol> -->
           <VCol class="my-2">
+            <label for="">Logo </label>
             <el-upload
               class="upload-section"
               drag
@@ -114,24 +108,7 @@
         </div> -->
       </ElCard>
       <div class="py-4" v-if="mode != 'view'">
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Back"
-          placement="top-start"
-        >
-          <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
-        </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Reset"
-          placement="top-start"
-        >
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-            >Reset</ElButton
-          >
-        </el-tooltip>
+        
 
         <el-tooltip
           class="item"
@@ -144,8 +121,8 @@
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
-            <!-- {{ mode }} -->
-            Next
+            
+           Save & Next
           </ElButton>
         </el-tooltip>
       </div>

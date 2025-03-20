@@ -265,14 +265,38 @@ export default [
       },
     ],
   },
+  {
+    title: "Complain",
+    to: "complainList",
+    icon: { icon: "tabler-mail-exclamation" },
+    subject: "dangerzone",
+    action: "show menu",
+    children: [
+      {
+        title: "Compalin List",
+        to: "complainList",
+        icon: { icon: "tabler-mail-exclamation" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
+
+      {
+        title: "Complain Category",
+        to: "complainCategoryList",
+        icon: { icon: "tabler-category-2" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
+    ],
+  },
   
   // {
-  //   title: "Danger Zone",
-  //   to: "redZoneList",
-  //   icon: { icon: "tabler-skull" },
-  //   subject: "dangerzone",
-  //   action: "show menu",
-  // },
+  //       title: "Complain List",
+  //       to: "complainList",
+  //       icon: { icon: "tabler-activity" },
+  //       subject: "user",
+  //       action: "show menu",
+  //     },
 
   {
     title: "News",
@@ -303,13 +327,14 @@ export default [
         subject: "user",
         action: "show menu",
       },
-      {
-        title: "Complain List",
-        to: "complainList",
-        icon: { icon: "tabler-activity" },
-        subject: "user",
-        action: "show menu",
-      },
+
+      // {
+      //   title: "Complain List",
+      //   to: "complainList",
+      //   icon: { icon: "tabler-activity" },
+      //   subject: "user",
+      //   action: "show menu",
+      // },
       {
         title: "Tourist List",
         to: "touristList",

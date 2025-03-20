@@ -243,16 +243,7 @@
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
         </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Reset"
-          placement="top-start"
-        >
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-            >Reset</ElButton
-          >
-        </el-tooltip>
+        
 
         <el-tooltip
           class="item"

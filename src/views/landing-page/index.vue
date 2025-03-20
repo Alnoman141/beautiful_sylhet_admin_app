@@ -37,13 +37,12 @@
         element-loading-svg-view-box="-10, -10, 50, 50"
         element-loading-background="rgba(122, 122, 122, 0.8)"
       >
-        <!--
-          <Header
+        <Header
           :rule-form="
-          landingPage.header"
+            landingPage.header"
           mode="view"
-          /> 
-        -->
+        /> 
+       
         <Caurosel
           :rule-form="landingPage.caurosel"
           mode="view"
@@ -87,6 +86,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue"
+import Header from "./components/header.vue"
 import About from "./components/about.vue"
 import Caurosel from "./components/caurosel.vue"
 

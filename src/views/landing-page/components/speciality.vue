@@ -112,16 +112,7 @@
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
         </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Reset"
-          placement="top-start"
-        >
-          <ElButton v-if="mode !== 'update'" @click="resetForm(ruleFormRef)"
-            >Reset</ElButton
-          >
-        </el-tooltip>
+        
 
         <el-tooltip
           class="item"
@@ -135,17 +126,10 @@
             @click="submitForm(ruleFormRef)"
           >
             <!-- {{ mode }} -->
-            Save
+            Save & Next
           </ElButton>
         </el-tooltip>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Back"
-          placement="top-start"
-        >
-          <ElButton @click="emit('stepIncrement',6)" type="info"> Next</ElButton>
-        </el-tooltip>
+        
       </div>
     </ElForm>
   </div>

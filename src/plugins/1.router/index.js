@@ -21,6 +21,8 @@ import { policeRoutes } from './police'
 
 // import { servicesRoutes } from './service'
 import { busRoutes } from './bus'
+import { complainRoutes } from './complain'
+import { complainCategoryRoutes } from './complainCategory'
 import { redZoneCategoryRoutes } from './dangerZoneCategory'
 import { dcRoutes } from './dc'
 import { fairRoutes } from './fair'
@@ -85,6 +87,8 @@ const router = createRouter({
       ...fairRoutes,
       ...landingPageRoutes,
       ...redZoneCategoryRoutes,
+      ...complainRoutes,
+      ...complainCategoryRoutes,
 
       // ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),

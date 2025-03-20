@@ -26,6 +26,7 @@ export function editSpot(query) {
 }
 
 
+
 // get awareness by id
 export function getSpotById(id) {
   return request({
