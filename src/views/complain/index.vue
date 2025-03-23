@@ -65,10 +65,7 @@ const columns = ref([
 
   { label: 'S.L', prop: 'id', sortable: false },
   { label: 'Category', prop: 'category', sortable: false },
-  { label: 'Description', prop: 'description', sortable: false },        
-
-  // { label: 'Image', prop: 'image', sortable: false },        
-  // { label: 'File', prop: 'file', sortable: false },        
+  { label: 'Description', prop: 'description', sortable: false },            
   { label: 'Date', prop: 'date', sortable: false }, 
 ])
 

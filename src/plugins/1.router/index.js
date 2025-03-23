@@ -29,6 +29,7 @@ import { fairRoutes } from './fair'
 import { kitkotRoutes } from './kitkot'
 import { landingPageRoutes } from './landing-page'
 import { restaurantRoutes } from './restaurant'
+import { restaurantCategoryRoutes } from './restaurantCategory'
 import { settingRoutes } from './settings'
 import { spotRoutes } from './spot'
 import { tourismRoutes } from './tourism'
@@ -89,6 +90,7 @@ const router = createRouter({
       ...redZoneCategoryRoutes,
       ...complainRoutes,
       ...complainCategoryRoutes,
+      ...restaurantCategoryRoutes,
 
       // ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),

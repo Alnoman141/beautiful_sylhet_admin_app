@@ -163,7 +163,7 @@ const rules = reactive<FormRules<RuleForm>>({
 const loading = ref(false);
 const emit = defineEmits(["stepIncrement", "stepDecrement","submitForm"]);
 const submitForm = async (formEl: FormInstance | undefined) => {
-  props.mode == "create" && !tempImg.value && props.ruleForm.imageBase64.length == 0
+  props.mode == "create" && !tempImg.value 
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
   if (!formEl) return;

@@ -1,84 +1,119 @@
 <template>
   <div>
-    <ElTable
-      :data="filterTableData"
-      border
-      :row-style="configStore.getRowStyle"
-      :header-cell-style="configStore.getHeaderRowStyle"
-      style="inline-size: 100%"
-    >
-      <ElTableColumn
-        v-for="(column, index) in columns"
-        :key="index"
-        :label="column.label"
-        :prop="column.prop"
-        :sortable="column.sortable"
-        :align="column.align"
-        :width="column.prop == 'id' ? '100' : ''"
-      >
-        <template #default="scope">
-          <div v-html="column.prop == 'name' ? scope.row[column.prop] :column.prop == 'spot' ? scope.row[column.prop].name : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++" />
-        </template>
-      </ElTableColumn>
-
-
-      <!-- Action Buttons Column -->
-      <ElTableColumn
-        align="left"
-        width="180"
-      >
-        <template #header>
-          <div class="text-start">
-            Actions
-          </div>
-        </template>
-        <template #default="scope">
-          <RouterLink
-            v-if="$can('edit', 'dangerzone')"
-            class="mx-2"
-            style="color:white"
-            :to="{ name: 'editFair', params: { id: scope.row.fair_board_parent_id } }"
-          >
-            <ElTooltip
-              class="item"
-              effect="dark"
-              content="Edit"
-              placement="top-start"
-            >
-              <ElButton
-                size="small"
-                type="primary"
-              >
-                <VIcon
-                  icon="tabler-edit"
-                  size="15"
-                />
-              </ElButton>
-            </ElTooltip>
-          </RouterLink>
+    <div class="border px-2 py-2">
+      <div class="text-end">
+        <RouterLink
+          v-if="$can('edit', 'dangerzone')"
+          class="mx-2"
+          style="color:white"
+          :to="{ name: 'editFair', params: { id: filterTableData?.fair_board_parent_id || 0 } }"
+        >
           <ElTooltip
             class="item"
             effect="dark"
-            content="Delete"
+            content="Edit"
             placement="top-start"
           >
             <ElButton
-              v-if="$can('delete', 'dangerzone')"
               size="small"
-              type="danger"
-              @click="showAlert(scope.row.fair_board_parent_id)"
+              type="primary"
             >
               <VIcon
-                icon="tabler-trash"
+                icon="tabler-edit"
                 size="15"
               />
-            <!--  v-if="scope.row.status == 0" -->
             </ElButton>
           </ElTooltip>
-        </template>
-      </ElTableColumn>
-    </ElTable>
+        </RouterLink>
+      </div>
+      <label for="">  Fare Detail </label>
+
+      <hr>
+      <p v-html="filterTableData.name" />
+    </div>
   </div>
+  <!--
+    <ElTable
+    :data="filterTableData"
+    border
+    :row-style="configStore.getRowStyle"
+    :header-cell-style="configStore.getHeaderRowStyle"
+    style="inline-size: 100%"
+    >
+    <ElTableColumn
+    v-for="(column, index) in columns"
+    :key="index"
+    :label="column.label"
+    :prop="column.prop"
+    :sortable="column.sortable"
+    :align="column.align"
+    :width="column.prop == 'id' ? '100' : ''"
+    >
+    <template #default="scope">
+    <div v-html="column.prop == 'name' ? scope.row[column.prop] :column.prop == 'spot' ? scope.row[column.prop].name : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++" />
+    </template>
+    </ElTableColumn> 
+  -->
+
+
+  <!-- Action Buttons Column -->
+  <!--
+    <ElTableColumn
+    align="left"
+    width="180"
+    >
+    <template #header>
+    <div class="text-start">
+    Actions
+    </div>
+    </template>
+    <template #default="scope">
+    <RouterLink
+    v-if="$can('edit', 'dangerzone')"
+    class="mx-2"
+    style="color:white"
+    :to="{ name: 'editFair', params: { id: scope.row.fair_board_parent_id } }"
+    >
+    <ElTooltip
+    class="item"
+    effect="dark"
+    content="Edit"
+    placement="top-start"
+    >
+    <ElButton
+    size="small"
+    type="primary"
+    >
+    <VIcon
+    icon="tabler-edit"
+    size="15"
+    />
+    </ElButton>
+    </ElTooltip>
+    </RouterLink>
+    <ElTooltip
+    class="item"
+    effect="dark"
+    content="Delete"
+    placement="top-start"
+    >
+    <ElButton
+    v-if="$can('delete', 'dangerzone')"
+    size="small"
+    type="danger"
+    @click="showAlert(scope.row.fair_board_parent_id)"
+    >
+    <VIcon
+    icon="tabler-trash"
+    size="15"
+    />
+            
+    </ElButton>
+    </ElTooltip>
+    </template>
+    </ElTableColumn> 
+  -->
+  <!-- </ElTable> -->
 </template>
 
 <script setup lang="ts">
@@ -91,7 +126,7 @@ import { defineEmits, defineProps, ref } from "vue"
 const props = defineProps({
   filterTableData: {
     type: Array,
-    default: () => ([]),
+    default: () => ({}),
   },
   columns: {
     type: Array,
@@ -124,15 +159,15 @@ const configStore = useConfigStore()
 const search = ref('')
 
 
-const filterTableData = computed(() =>
-  props.filterTableData.filter(
-    data =>
-      !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase()), 
-  ),
+// const filterTableData = computed(() =>
+//   props.filterTableData.filter(
+//     data =>
+//       !search.value ||
+//       data.name.toLowerCase().includes(search.value.toLowerCase()), 
+//   ),
 
 
-)
+// )
 
 const deleteTransport = async item => {
   let arr = []

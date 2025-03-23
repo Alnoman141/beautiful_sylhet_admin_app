@@ -106,12 +106,22 @@ export default [
         action: "show menu",
       },
       {
-        title: "Category",
+        title: "Hotel Category",
         to: "hotelCategoryList",
         icon: { icon: "tabler-category" },
         subject: "hotelcategory",
         action: "show menu",
       },
+
+      // restaurantCategoryList
+      {
+        title: "Restaurant Category",
+        to: "restaurantCategoryList",
+        icon: { icon: "tabler-category" },
+        subject: "hotelcategory",
+        action: "show menu",
+      },
+      
     ],
   },
 
@@ -274,7 +284,7 @@ export default [
     children: [
       {
         title: "Compalin List",
-        to: "complainList",
+        to: "complainChatList",
         icon: { icon: "tabler-mail-exclamation" },
         subject: "dangerzone",
         action: "show menu",

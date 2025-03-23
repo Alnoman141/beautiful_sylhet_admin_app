@@ -27,7 +27,7 @@
         </VCol>
       </VRow>
     </ElCard>
-
+    <!-- {{ landingPage }} -->
     <!-- Tabs -->
     <ElTabs
       v-model="activeName"
@@ -82,6 +82,8 @@ const landingPage = ref({
   header: {
     logo: "",
     logoBase64: "",
+    logoTwo: "",
+    logoBase64Two: "",
 
     // navLinks: [
     //   {
@@ -381,10 +383,12 @@ const getLandingPage = async () => {
 
     const { data } = await landingPageStore.editLandingPage()
 
-    console.log(data)
+   
     if (data.status_code == 200) {
       landingPage.value = data.data.data
       loading.value = false
+      
+      
     }
   } catch (error) {
     console.log(error)
@@ -399,7 +403,7 @@ const submitForm = async () => {
       data: landingPage.value,
     })
 
-    console.log("data response", data)
+    
     data.status_code == 200
       ? (notify("Congratulations!", data.message, "success", "top-right"),
       (loading.value = false))

@@ -85,7 +85,7 @@
       </VRow>
 
       <ElCard class="my-4">
-        <VRow>
+        <!-- <VRow>
           <VCol cols="12" md="6">
             <ElFormItem
               label="Tourist Spot"
@@ -115,7 +115,7 @@
               </el-select>
             </ElFormItem>
           </VCol>
-        </VRow>
+        </VRow> -->
 
         <div class="py-4">
           <el-tooltip

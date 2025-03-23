@@ -83,20 +83,20 @@
                   jpg/png files with a size less than 2MB
                   
 
-                  <p v-if="ruleForm.logoBase64 && ruleForm.logoBase64.length == 3" style="color: #fc6767; font-size: 12px; font-weight: light" > You have already reached max image upload limit </p>
+                  <p v-if="ruleForm.imageBase64 && ruleForm.imageBase64.length == 3" style="color: #fc6767; font-size: 12px; font-weight: light" > You have already reached max image upload limit </p>
 
                 </div>
               </template>
             </el-upload>
           </VCol>
         </VRow>
-       
+     
         <VRow class="px-4">
           <VCol
             class="btn-section text-center mt-2 d-flex flex-column justify-center align-center "
             cols="12"
             md="2"
-            v-for="(item, index) in ruleForm.logoBase64"
+            v-for="(item, index) in ruleForm.imageBase64"
             :key="index"
           >
           
@@ -228,17 +228,7 @@ const typeList = ref([]);
 const imgUploadValidation = ref(false);
 const previewImage = ref(null);
 const tempImg = ref("");
-const onFileChange = (file) => {
-  tempImg.value = file.raw;
 
-  const reader = new FileReader();
-
-  reader.readAsDataURL(file.raw);
-  reader.onload = () => {
-    previewImage.value = reader.result;
-    // props.ruleForm.logoBase64 = previewImage.value;
-  };
-};
 
 /*  multiple image upload section   */
 const multpleTempImg = ref([]);
@@ -251,7 +241,7 @@ const onFileChangeMultiple = (file) => {
   let tempBase64 = []
   reader.onload = () => {
     previewMultipleImage.value.push(reader.result);
-    props.ruleForm.logoBase64 = [...props.ruleForm.logoBase64, previewMultipleImage.value];
+    props.ruleForm.imageBase64 = [...props.ruleForm.imageBase64, previewMultipleImage.value];
     previewMultipleImage.value = []
   };
 };
@@ -321,7 +311,7 @@ const removeImage = async (index) => {
   // props.ruleForm.imageBase64 = previewMultipleImage.value;
 
   try {
-    ( props.ruleForm.logoBase64.splice(index, 1));
+    ( props.ruleForm.imageBase64.splice(index, 1));
    
   } catch (error) {
     console.log("error", error);

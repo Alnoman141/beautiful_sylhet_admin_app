@@ -28,7 +28,7 @@ export const hotelCategoryRoutes = [
         },
       },
       {
-        path: 'edit-hotel-type/:id',
+        path: 'edit-hotel-category/:id',
         name: 'editHotelCategory',
         component: () => import('@/views/hotel/hotel-category/update.vue'),
         meta: {

@@ -113,7 +113,8 @@
                     :placeholder=" index == 0 ? ' খোলার সময়' : 'Open Time'"
                     format="hh:mm:ss a"
                     value-format="HH:mm:ss"
-                    
+                    @change="openTimeChange(item.open_time)"
+                    :disabled="index == 1"
                   />
                 </ElFormItem>
               </VCol>
@@ -139,6 +140,8 @@
                     :placeholder="index == 0 ? 'বন্ধের সময়' : 'Close Time'"
                     format="hh:mm:ss a"
                     value-format="HH:mm:ss"
+                    @change="closeTimeChange(item.close_time)"
+                    :disabled="index == 1"
                   />
                 </ElFormItem>
               </VCol>
@@ -258,6 +261,35 @@
               </el-select>
             </ElFormItem>
           </VCol>
+          <VCol cols="12" md="6">
+            <ElFormItem
+              label="Restaurant Category"
+              prop="spot_parent_id"
+              :rules="{
+                required: true,
+                message: 'Please select Restaurant Category',
+                trigger: 'change',
+              }"
+            >
+              <el-select
+                v-model="ruleForm.restaurant_category_parent_id"
+                placeholder="Select Restaurant Category"
+                prop="restaurant_category_parent_id"
+                :rules="{
+                  required: true,
+                  message: 'Please select Restaurant Category',
+                  trigger: 'change',
+                }"
+              >
+                <el-option
+                  v-for="(item, index) in restaurantCategoryList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </ElFormItem>
+          </VCol>
 
           <VCol cols="12" md="6">
             <ElFormItem label="Map Link" prop="map_link">
@@ -365,19 +397,22 @@
 <script setup lang="ts">
 import QuillEditor from "@/components/quill/QuillEditor.vue";
 import { useBankStore } from "@/stores/tourism/bankStore";
+import { useRestaurantCategoryStore } from "@/stores/tourism/restaurantCategoryStore";
 import { useRestaurantStore } from "@/stores/tourism/restaurantStore";
+
 import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 const spotStore = useSpotStore();
 const bankStore = useBankStore();
+const restaurantCategory = useRestaurantCategoryStore();
 const restaurantStore = useRestaurantStore();
 const emit = defineEmits(["tableDataEmit"]);
 const route = useRoute();
@@ -543,7 +578,11 @@ const getSpotDropdown = async () => {
   const { data } = await spotStore.getSpotDropdown();
   spotDropdown.value = data.data;
 };
-
+const restaurantCategoryList = ref([]);
+const getRestaurantCategory = async () => {
+  const { data } = await restaurantCategory.getRestaurantCategory();
+  restaurantCategoryList.value = data.data;
+}
 const bankDropdown = ref([]);
 const getBankDropdown = async () => {
   const { data } = await bankStore.getBankDropdown();
@@ -635,7 +674,7 @@ const checkData = () => {
       ? (e.instruction = "")
       : "";
   });
-};np
+};
 const imgViewModal = ref(false);
 const modalImg = ref(null);
 const viewImage = (item) => {
@@ -646,9 +685,17 @@ const viewImage = (item) => {
 const descriptionEditorRef = ref(null);
 const facilitiesEditorRef = ref(null);
 const menuEditorRef = ref(null);
+const openTimeChange = (val) => {
+  
+   props.ruleForm?.restaurants ? props.ruleForm.restaurants[1].open_time = val : props.ruleForm.data[1].open_time = val;
+};
+const closeTimeChange = (val) => {
+  props.ruleForm?.restaurants ? props.ruleForm.restaurants[1].close_time = val : props.ruleForm.data[1].close_time = val;
+};
 onMounted(() => {
   getSpotDropdown();
-  checkData();
+  checkData();  
+  getRestaurantCategory();
 });
 </script>
 

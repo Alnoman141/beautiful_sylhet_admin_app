@@ -64,7 +64,8 @@ const spotList = ref([])
 const columns = ref([
   { label: "S.L", prop: "id", sortable: false },
   { label: "Name", prop: "name", sortable: false },
-  { label: "Spot Name", prop: "spot", sortable: false },
+
+  // { label: "Spot Name", prop: "spot", sortable: false },
 ])
 
 const totalData = ref(0)
@@ -81,11 +82,11 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await fairStore.getFair(parameter)
 
-    page.value = data.data.current_page
+    // page.value = data.data.current_page
+    console.log("data", data)
+    spotList.value = data.data
 
-    spotList.value = data.data.data
-
-    totalData.value = data.data.total
+    // totalData.value = data.data.total
     loading.value = false
   } catch (error) {
     console.log(error)

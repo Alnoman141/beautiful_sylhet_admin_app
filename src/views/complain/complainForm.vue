@@ -25,6 +25,8 @@
       </VRow>
     </ElCard>
 
+    <Chat />
+
     <ElForm
       v-loading="loading"
       ref="ruleFormRef"
@@ -194,6 +196,7 @@ import {
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Chat from "./chat.vue";
 const spotStore = useSpotStore();
 const bankStore = useBankStore();
 const complainStore = useComplainStore();
@@ -230,7 +233,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
     props.ruleForm.image = tempImg.value ? tempImg.value : "";
     props.ruleForm.file = tempFile.value ? tempFile.value : "";
-
+    console.log("props.ruleForm",props.ruleForm)
     let form = {
       complain_id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,

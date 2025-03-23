@@ -11,6 +11,15 @@ export const complainRoutes = [
           action: "show menu",
         },
       },
+      {
+        path: 'complain-chat',
+        name: 'complainChatList',
+        component: () => import('@/views/complain/chat.vue'),
+        meta: {
+          subject: "dangerzone",
+          action: "show menu",
+        },
+      },
     
       {
         path: 'create-complain',

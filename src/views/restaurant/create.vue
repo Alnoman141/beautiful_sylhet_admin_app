@@ -26,6 +26,7 @@ const ruleForm = ref({
   map_link: '',
   website_link: '',
   description: '',
+  restaurant_category_parent_id: null,
   data: [
     {
       language_id: 1, 

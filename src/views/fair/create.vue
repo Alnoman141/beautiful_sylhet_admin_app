@@ -18,7 +18,7 @@ const spotStore = useSpotStore()
 
 const ruleForm = ref({
 
-  spot_parent_id: null,
+  // spot_parent_id: null,
   image: '',
   map_link: '',
   short_description: '',
