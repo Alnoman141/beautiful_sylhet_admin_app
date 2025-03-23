@@ -5,7 +5,9 @@ export function getGuard(query) {
   return request({
     url: "/life-guard/list",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 

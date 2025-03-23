@@ -5,7 +5,9 @@ export function getAwareness(query) {
   return request({
     url: "/awareness/list",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 

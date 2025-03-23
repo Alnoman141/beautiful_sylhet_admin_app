@@ -89,7 +89,7 @@
               prop="phone"
               :rules="{ validator: validatePhone, trigger: 'blur' }"
             >
-              <ElInput placeholder="Phone number" v-model="ruleForm.phone" />
+              <ElInput placeholder="Phone number" type="number" v-model="ruleForm.phone" />
             </ElFormItem>
           </VCol>
           
@@ -97,7 +97,10 @@
             <ElFormItem
               label="Password"
               prop="password"
-              :rules="{ validator: validatePass, trigger: 'blur' }"
+              :rules="{ validator: validatePass,required: true,
+                
+                trigger: 'change', }"
+              
             >
               <ElInput
                 type="password"
@@ -112,7 +115,8 @@
             <ElFormItem
               label="Confirm Password"
               prop="password_confirmation"
-              :rules="{ validator: validatePass2, trigger: 'blur' }"
+              :rules="{ validator: validatePass2,required: true,
+                message: 'Confirm Password is required and must be same to Password', trigger: 'blur' }"
             >
               <ElInput
                 type="password"
@@ -212,9 +216,9 @@ import { useUserStore } from "@/stores/tourism/userStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

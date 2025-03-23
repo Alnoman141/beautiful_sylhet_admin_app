@@ -3,28 +3,30 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Fare List</b>
+          <b> Fare Board</b>
         </VCol>
         <VCol
           cols="6"
           class="text-right"
         >
-          <RouterLink
+          <!--
+            <RouterLink
             v-if="$can('create', 'dangerzone')"
             type="primary"
             :underline="false"
             :to="{ name: 'createFair' }"
             class="create-btn"
-          >
-            <ElTooltip
-              class="item"
-              effect="dark"
-              content="Create Danger Zone"
-              placement="top-start"
             >
-              Create Fare
+            <ElTooltip
+            class="item"
+            effect="dark"
+            content="Create Danger Zone"
+            placement="top-start"
+            >
+            Create Fare
             </ElTooltip>
-          </RouterLink>
+            </RouterLink> 
+          -->
         </VCol>
       </VRow>
     </ElCard>

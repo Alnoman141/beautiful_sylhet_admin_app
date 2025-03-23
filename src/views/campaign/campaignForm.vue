@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Campaign {{ mode == "update" ? "Edit" : "Create" }} </b>
+          <b> DC Activity {{ mode == "update" ? "Edit" : "Create" }} </b>
         </VCol>
         <VCol cols="6" class="text-right">
           <RouterLink
@@ -18,7 +18,7 @@
               content="Campaign List"
               placement="top-start"
             >
-              Campaign List
+              DC Activities
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -217,9 +217,9 @@ import { useSpotStore } from "@/stores/tourism/spotStore";
 import { notify } from "@/utils/notification";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {
-    type ComponentSize,
-    type FormInstance,
-    type FormRules,
+  type ComponentSize,
+  type FormInstance,
+  type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

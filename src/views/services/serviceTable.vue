@@ -20,9 +20,10 @@
               Description
             </p>
             <hr class="text-muted">
+            <!-- &nbsp; -->
             <p
               class="px-2 py-2"
-              v-html="descriptions?.descriptions?.name"
+              v-html="sanitizeHtml(descriptions?.descriptions?.name)"
             />
           </div>
           <div
@@ -56,11 +57,11 @@
               Website Link
             </p>
             <hr class="text-muted">
-            <div class="px-4 py-4">
-              <p class="px-2 py-2 link-wrap">
-                {{ descriptions.link }}
-              </p>
-            </div>
+            <!-- <div class="px-4 py-4"> -->
+            <p class="px-2 py-2 link-wrap">
+              {{ descriptions.link }}
+            </p>
+            <!-- </div> -->
           </div>
           <div
             style="inline-size: 10% !important"
@@ -163,7 +164,7 @@
                   </VCol>
                   <VCol>
                     <p class="my-0">
-                      Phone No
+                      Phone No :
                     </p>
                     <div
                       v-for="(number, idx) in item.numbers"
@@ -184,7 +185,7 @@
             v-if="
               route.name !== 'Tourism Corporation' &&
                 route.name !== 'DC Activities' &&
-                route.name !== 'kitkotChair'
+                route.name !== 'Kitkot Chair'
             "
             label="Supervisor Informations"
           >
@@ -199,7 +200,7 @@
                   </VCol>
                   <VCol>
                     <p class="my-0">
-                      Phone No
+                      Phone No :
                     </p>
                     <div
                       v-for="(number, idx) in item.numbers"
@@ -332,7 +333,7 @@ import { ElMessage, ElMessageBox } from "element-plus"
 
 const showAlert = item => {
   ElMessageBox.alert(
-    "Are you sure that you want to delete this news ?",
+    "Are you sure that you want to delete this  ?",
     "Delete",
     {
       confirmButtonText: "Delete",
@@ -348,6 +349,25 @@ const showAlert = item => {
       },
     },
   )
+}
+
+
+const getTableData = computed(() => {
+  return props.filterTableData.map((row, rowIndex) => {
+    return {
+      ...row,
+      computedIndex: props.pageNo === 1 
+        ? rowIndex + 1 
+        : (props.pageNo - 1) * props.pageSize + rowIndex + 1,
+    }
+  })
+})
+
+// ✅ Fix HTML sanitization
+const sanitizeHtml = html => {
+  if (!html) return '' // Ensure it's never undefined/null
+  
+  return html.toString().replace(/<\/?(?!b|i|u|span|strong|em|small|sub|sup|a)[^>]+(>|$)/g, '')
 }
 </script>
 

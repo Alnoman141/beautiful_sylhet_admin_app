@@ -5,7 +5,9 @@ export function getGuideline(query) {
   return request({
     url: "/guideline/list",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 

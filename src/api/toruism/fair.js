@@ -6,7 +6,7 @@ function getFair(query) {
   return request({
     url: "/fair-board/list",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 

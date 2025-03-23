@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElTable
-      :data="filterTableData"
+      :data="getTableData"
       border
       :row-style="configStore.getRowStyle"
       :header-cell-style="configStore.getHeaderRowStyle"
@@ -16,12 +16,17 @@
         :align="column.align"
         :width="column.prop == 'id' ? '100' : ''"
       >
-        <template #default="scope">
-          <!-- <div v-html="scope.row[column.prop]" /> -->
+        <!--
+          <template #default="scope">
+          
           <div
-            class="text-limit"
-            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
+          class="text-limit"
+          v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
           />
+          </template> 
+        -->
+        <template #default="scope">
+          <div v-html="sanitizeHtml(column.prop !== 'id' ? scope.row[column.prop] : scope.row.computedIndex)" />
         </template>
       </ElTableColumn>
 
@@ -127,6 +132,16 @@ const editorContent = ref('') // Reactive variable to store the editor content
 const configStore = useConfigStore()
 const search = ref('')
 
+const getTableData = computed(() => {
+  return props.filterTableData.map((row, rowIndex) => {
+    return {
+      ...row,
+      computedIndex: props.pageNo === 1 
+        ? rowIndex + 1 
+        : (props.pageNo - 1) * props.pageSize + rowIndex + 1,
+    }
+  })
+})
 
 const filterTableData = computed(() =>
   props.filterTableData.filter(
@@ -166,6 +181,13 @@ const showAlert = item => {
       action == 'confirm' ? deleteTransport(item) : ''
     },
   })
+}
+
+// ✅ Fix HTML sanitization
+const sanitizeHtml = html => {
+  if (!html) return '' // Ensure it's never undefined/null
+  
+  return html.toString().replace(/<\/?(?!b|i|u|span|strong|em|small|sub|sup|a)[^>]+(>|$)/g, '')
 }
 </script>
 

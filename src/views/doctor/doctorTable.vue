@@ -148,7 +148,7 @@ const deleteTransport = async item => {
 }
 
 const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this Transport ?', 'Delete', {
+  ElMessageBox.alert('Are you sure that you want to delete this doctor ?', 'Delete', {
     confirmButtonText: 'Delete',
     confirmButtonClass: 'el-button--danger',
     callback: action => {

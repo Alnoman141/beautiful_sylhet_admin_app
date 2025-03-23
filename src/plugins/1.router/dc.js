@@ -1,6 +1,6 @@
 export const dcRoutes = [
   {
-    path: '/DC-Activities',
+    path: '/DC-Tourism-Cell',
 
     // meta: {
     //   subject: "transport",
@@ -9,7 +9,7 @@ export const dcRoutes = [
     children: [
      
       {
-        path: '/DC-Activities',
+        path: '/DC-Tourism-Cell',
         name: 'DC Activities',
         component: () => import('@/views/services/dc.vue'),
         meta: {

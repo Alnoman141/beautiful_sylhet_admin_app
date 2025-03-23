@@ -5,7 +5,9 @@ export function getDoctor(query) {
   return request({
     url: "/doctor/list",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 export function createDoctor(data) {

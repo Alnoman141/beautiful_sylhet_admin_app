@@ -147,7 +147,7 @@ const deleteLocker = async item => {
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this news ?', 'Delete', {
+  ElMessageBox.alert('Are you sure that you want to delete this locker ?', 'Delete', {
     confirmButtonText: 'Delete',
     confirmButtonClass: 'el-button--danger',
     callback: action => {

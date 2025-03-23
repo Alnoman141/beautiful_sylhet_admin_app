@@ -6,7 +6,9 @@ function getHotel(query) {
   return request({
     url: "/hotel/list",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 

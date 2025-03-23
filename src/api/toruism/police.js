@@ -5,7 +5,9 @@ export function getPolice(query) {
   return request({
     url: "/police/list",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 

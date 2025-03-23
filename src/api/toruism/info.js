@@ -13,7 +13,9 @@ export function getInfoDetail(query) {
   return request({
     url: "/cox-bazaar/details",
     method: "post",
-    params: query,
+
+    // params: query,
+    params: { language_id: 2 },
   })
 }
 export function editInfo(query) {

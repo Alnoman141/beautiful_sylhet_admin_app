@@ -41,7 +41,7 @@ export function getTransportType(query) {
   return request({
     url: "/transport/type",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 

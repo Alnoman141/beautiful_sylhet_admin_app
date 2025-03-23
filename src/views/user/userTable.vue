@@ -161,7 +161,7 @@ const deleteTransport = async item => {
 }
 
 const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this User ?', 'Delete', {
+  ElMessageBox.alert('Are you sure that you want to delete this user ?', 'Delete', {
     confirmButtonText: 'Delete',
     confirmButtonClass: 'el-button--danger',
     callback: action => {

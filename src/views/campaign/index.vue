@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> Campaign List</b>
+          <b> DC Activities</b>
         </VCol>
         <VCol
           cols="6"
@@ -22,7 +22,7 @@
               content="Create Campaign"
               placement="top-start"
             >
-              Create Campaign
+              Create DC Activity
             </ElTooltip>
           </RouterLink>
         </VCol>
@@ -63,8 +63,8 @@ const spotList = ref([])
 
 const columns = ref([
   { label: "S.L", prop: "id", sortable: false },
-  { label: "Campaign Name Bangla", prop: "name", sortable: false },
-  { label: "Campaign Name English", prop: "name_en", sortable: false },
+  { label: "DC Activity Name Bangla", prop: "name", sortable: false },
+  { label: "DC Activity Name English", prop: "name_en", sortable: false },
   { label: "Description", prop: "description", sortable: false },
 ])
 

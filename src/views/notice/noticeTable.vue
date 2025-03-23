@@ -22,7 +22,7 @@
               v-if="column.prop !== 'date'"
               :class="scope.row.expiry.includes('Expired') && column.prop == 'expiry' ? 'text-error' :scope.row.expiry.includes('No') && column.prop == 'expiry' ? 'text-warning' : column.prop == 'expiry' ? 'text-success' :''"
               class="text-limit"
-              v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? ++index : (pageNo - 1) * pageSize + ++index"
+              v-html="sanitizeHtml(column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? ++index : (pageNo - 1) * pageSize + ++index)"
             />
             <div
               v-else
@@ -159,7 +159,7 @@ const deleteTransport = async item => {
 }
 
 const showAlert = item => {
-  ElMessageBox.alert('Are you sure that you want to delete this Transport ?', 'Delete', {
+  ElMessageBox.alert('Are you sure that you want to delete this announcement ?', 'Delete', {
     confirmButtonText: 'Delete',
     confirmButtonClass: 'el-button--danger',
     callback: action => {
@@ -172,5 +172,11 @@ const showAlert = item => {
       action == 'confirm' ? deleteTransport(item) : ''
     },
   })
+}
+
+const sanitizeHtml = html => {
+  if (!html) return '' // Ensure it's never undefined/null
+  
+  return html.toString().replace(/<\/?(?!b|i|u|span|strong|em|small|sub|sup|a)[^>]+(>|$)/g, '')
 }
 </script>
