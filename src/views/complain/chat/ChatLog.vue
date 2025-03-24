@@ -74,7 +74,7 @@ const msgGroups = computed(() => {
       <VAvatar
         size="32"
         
-        class="mx-2"
+        class="me-2"
       >
         <VImg
           v-if="
@@ -112,7 +112,7 @@ const msgGroups = computed(() => {
           <VImg
             :src="
               msgGrp.senderId === contact.id
-                ? contact.avatar
+                ? index != 0 ? contact.avatar :''
                 : index != 0 ? store.activeChat.replies[0].user.avatar :''
             "
           />

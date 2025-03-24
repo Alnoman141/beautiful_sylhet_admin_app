@@ -1,5 +1,6 @@
 <script setup>
 import { themes } from "@/plugins/vuetify/theme"
+
 import { useComplainStore } from "@/stores/tourism/complainStore"
 import { notify } from "@/utils/notification"
 import { ref } from "vue"
@@ -12,6 +13,7 @@ import { useChat } from "./chat/useChat"
 import { useChatStore } from "./chat/useChatStore"
 
 const complainStore = useComplainStore()
+
 
 const options = [
   {
@@ -234,248 +236,256 @@ const changeStatus = async item => {
 </script>
 
 <template>
-  <ElCard class="my-4">
-    <VRow>
-      <VCol cols="12">
-        <b> Complain List</b>
-      </VCol>
-    </VRow>
-  </ElCard>
-  <VLayout
-    class="chat-app-layout"
-    style="z-index: 0 !important"
-  >
-    <!-- 👉 Active Chat sidebar chat user info tuhinjamal -->
-    <VNavigationDrawer
-      v-model="isActiveChatUserProfileSidebarOpen"
-      width="374"
-      absolute
-      temporary
-      location="end"
-      touchless
-      class="active-chat-user-profile-sidebar"
+  <div>
+    <ElCard class="my-4">
+      <VRow>
+        <VCol cols="12">
+          <b> Complain List</b>
+        </VCol>
+      </VRow>
+    </ElCard>
+    <VLayout
+      class="chat-app-layout"
+      style="z-index: 0 !important"
     >
-      <ChatActiveChatUserProfileSidebarContent @close="isActiveChatUserProfileSidebarOpen = false" />
-    </VNavigationDrawer>
-
-    <!-- 👉 Left sidebar  chat user list tuhinjamal -->
-    <VNavigationDrawer
-      v-model="isLeftSidebarOpen"
-      absolute
-      touchless
-      location="start"
-      width="370"
-      :temporary="$vuetify.display.smAndDown"
-      class="chat-list-sidebar"
-      :permanent="$vuetify.display.mdAndUp"
-    >
-      <ChatLeftSidebarContent
-        v-model:isDrawerOpen="isLeftSidebarOpen"
-        v-model:search="q"
-        @open-chat-of-contact="openChatOfContact"
-        @show-user-profile="isUserProfileSidebarOpen = true"
-        @close="isLeftSidebarOpen = false"
-      />
-    </VNavigationDrawer>
-
-    <!-- 👉 Chat content se -->
-    <VMain class="chat-content-container">
-      <!-- 👉 Right content: Active Chat -->
-      <div
-        v-if="store.activeChat"
-        class="d-flex flex-column"
+      <!-- 👉 Active Chat sidebar chat user info tuhinjamal -->
+      <VNavigationDrawer
+        v-model="isActiveChatUserProfileSidebarOpen"
+        width="374"
+        absolute
+        temporary
+        location="end"
+        touchless
+        class="active-chat-user-profile-sidebar"
       >
-        <!-- 👉 Active chat header -->
-        <div class="bg-surface">
-          <VRow class="">
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <div class="active-chat-header d-flex align-center text-medium-emphasis">
-                <!-- Sidebar toggler -->
-                <IconBtn
-                  class="d-md-none me-3"
-                  @click="isLeftSidebarOpen = true"
-                >
-                  <VIcon icon="tabler-menu-2" />
-                </IconBtn>
+        <ChatActiveChatUserProfileSidebarContent @close="isActiveChatUserProfileSidebarOpen = false" />
+      </VNavigationDrawer>
 
-                <!-- avatar -->
+      <!-- 👉 Left sidebar  chat user list tuhinjamal -->
+      <VNavigationDrawer
+        v-model="isLeftSidebarOpen"
+        absolute
+        touchless
+        location="start"
+        width="370"
+        :temporary="$vuetify.display.smAndDown"
+        class="chat-list-sidebar"
+        :permanent="$vuetify.display.mdAndUp"
+      >
+        <ChatLeftSidebarContent
+          v-model:isDrawerOpen="isLeftSidebarOpen"
+          v-model:search="q"
+          @open-chat-of-contact="openChatOfContact"
+          @show-user-profile="isUserProfileSidebarOpen = true"
+          @close="isLeftSidebarOpen = false"
+        />
+      </VNavigationDrawer>
 
-                <div
-                  class="d-flex align-center cursor-pointer"
-                  @click="isActiveChatUserProfileSidebarOpen = true"
-                >
-                  <VAvatar
-                    size="40"
-                    :variant="
-                      !store.userInfo?.user?.avatar ? 'tonal' : undefined
-                    "
-                    class="cursor-pointer"
+      <!-- 👉 Chat content se -->
+      <VMain
+        id="chat"
+        class="chat-content-container"
+      >
+        <!-- 👉 Right content: Active Chat -->
+        <div
+          v-if="store.activeChat"
+          class="d-flex flex-column"
+        >
+          <!-- 👉 Active chat header -->
+          <div class="bg-surface">
+            <VRow class="">
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <div class="active-chat-header d-flex align-center text-medium-emphasis">
+                  <!-- Sidebar toggler -->
+                  <IconBtn
+                    class="d-md-none me-3"
+                    @click="isLeftSidebarOpen = true"
                   >
-                    <VImg
-                      v-if="store.userInfo?.user?.avatar"
-                      :src="store.userInfo?.user?.avatar"
-                      :alt="store.userInfo?.user?.name"
-                    />
-                    <span v-else>{{
-                      avatarText(store.userInfo?.user?.name)
-                    }}</span>
-                  </VAvatar>
+                    <VIcon icon="tabler-menu-2" />
+                  </IconBtn>
 
-                  <div class="flex-grow-1 ms-4 overflow-hidden">
-                    <div class="text-h6 mb-0 font-weight-regular">
-                      <b>
-                        {{ store.userInfo?.user?.name }}
-                      </b>
-                      <br>
-                      <small>Complain-No: {{ store.userInfo?.serial }} </small><br>
+                  <!-- avatar -->
+
+                  <div
+                    class="d-flex align-center cursor-pointer"
+                    @click="isActiveChatUserProfileSidebarOpen = true"
+                  >
+                    <VAvatar
+                      size="40"
+                      :variant="
+                        !store.userInfo?.user?.avatar ? 'tonal' : undefined
+                      "
+                      class="cursor-pointer"
+                    >
+                      <VImg
+                        v-if="store.userInfo?.user?.avatar"
+                        :src="store.userInfo?.user?.avatar"
+                        :alt="store.userInfo?.user?.name"
+                      />
+                      <span v-else>{{
+                        avatarText(store.userInfo?.user?.name)
+                      }}</span>
+                    </VAvatar>
+
+                    <div class="flex-grow-1 ms-4 overflow-hidden">
+                      <div class="text-h6 mb-0 font-weight-regular">
+                        <b>
+                          {{ store.userInfo?.user?.name }}
+                        </b>
+                        <br>
+                        <small>Complain-No: {{ store.userInfo?.serial }} </small><br>
+                      </div>
                     </div>
                   </div>
+                  <!-- <br> -->
+
+                  <VSpacer />
                 </div>
-                <!-- <br> -->
+              </VCol>
 
-                <VSpacer />
-              </div>
-            </VCol>
-            
-            <VCol
-              v-if="store.userInfo?.status || store.userInfo?.status == 0"
-              cols="12"
-              md="6"
-              class="d-flex justify-end"
-            >
-              <div class="active-chat-header d-flex align-center text-medium-emphasis">
-                <div>
-                  <label class="mx-2">{{ store.userInfo.category.name }} </label><br>
-                  <ElSelect
-                    v-model="store.userInfo.status"
-                    clearable
-                    placeholder="Complain Status"
-                    size="large"
-                    style="inline-size: 240px"
-                    class="px-2"
-                    @change="showAlert(store.userInfo?.status)"
-                  >
-                    <ElOption
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    />
-                  </ElSelect>
-                </div>
-              </div>
-            </VCol>
-          </VRow>
-        </div>
-        <VDivider />
-
-        <!-- Chat log -->
-        <PerfectScrollbar
-          ref="chatLogPS"
-          tag="ul"
-          :options="{ wheelPropagation: true }"
-          class="flex-grow-1"
-          style="height: 70dvh"
-        >
-          <!-- chat reply by tuhinjamal -->
-          <ChatLog />
-        </PerfectScrollbar>
-
-        <!-- Message form tuhinjamal -->
-        <VForm class="chat-log-message-form mb-5 mx-5">
-          <VTextField
-            :key="store.activeChat.id"
-            v-model="msg"
-            variant="solo"
-            density="default"
-            class="chat-message-input"
-            placeholder="Type your message..."
-            autofocus
-          >
-            <template #append-inner>
-              <img
-                v-if="previewImage"
-                :src="previewImage"
-                alt=""
-                height="60"
-                width="60"
-                class="border mx-2 my-2"
+              <VCol
+                v-if="store.userInfo?.status || store.userInfo?.status == 0"
+                cols="12"
+                md="6"
+                class="d-flex justify-end"
               >
-              <div class="d-flex gap-1">
-                <IconBtn @click="refInputEl?.click()">
-                  <VIcon
-                    icon="tabler-paperclip"
-                    size="22"
-                  />
-                </IconBtn>
-                <div class="d-none d-md-block">
-                  <VBtn
-                    append-icon="tabler-send"
-                    @click.prevent="sendMessage"
-                  >
-                    Send
-                  </VBtn>
+                <div class="active-chat-header d-flex align-center text-medium-emphasis">
+                  <div>
+                    <label class="mx-2">{{ store.userInfo.category.name }} </label><br>
+                    <ElSelect
+                      v-model="store.userInfo.status"
+                      clearable
+                      placeholder="Complain Status"
+                      size="large"
+                      style="inline-size: 240px"
+                      class="px-2"
+                      @change="showAlert(store.userInfo?.status)"
+                    >
+                      <ElOption
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </ElSelect>
+                  </div>
                 </div>
-                <IconBtn
-                  class="d-block d-md-none"
-                  @click.prevent="sendMessage"
-                >
-                  <VIcon icon="tabler-send" />
-                </IconBtn>
-              </div>
-            </template>
-          </VTextField>
+              </VCol>
+            </VRow>
+          </div>
+          <VDivider />
 
-          <input
-            ref="refInputEl"
-            type="file"
-            name="file"
-            accept=".jpeg,.png,.jpg,GIF"
-            hidden
-            @change="onFileChange"
+          <!-- Chat log -->
+          <PerfectScrollbar
+            ref="chatLogPS"
+            tag="ul"
+            :options="{ wheelPropagation: true }"
+            class="flex-grow-1"
+            style="height: 90dvh"
           >
-        </VForm>
-      </div>
+            <!-- chat reply by tuhinjamal -->
+            <ChatLog />
+            <VForm
+              class="chat-log-message-form mb-5 mx-5"
+              @submit.prevent="sendMessage"
+            >
+              <VTextField
+                :key="store.activeChat.id"
+                v-model="msg"
+                variant="solo"
+                density="default"
+                class="chat-message-input"
+                placeholder="Type your message..."
+                autofocus
+              >
+                <template #append-inner>
+                  <img
+                    v-if="previewImage"
+                    :src="previewImage"
+                    alt=""
+                    height="60"
+                    width="60"
+                    class="border mx-2 my-2"
+                  >
+                  <div class="d-flex gap-1">
+                    <IconBtn @click="refInputEl?.click()">
+                      <VIcon
+                        icon="tabler-paperclip"
+                        size="22"
+                      />
+                    </IconBtn>
+                    <div class="d-none d-md-block">
+                      <VBtn
+                        append-icon="tabler-send"
+                        @click.prevent="sendMessage"
+                      >
+                        Send
+                      </VBtn>
+                    </div>
+                    <IconBtn
+                      class="d-block d-md-none"
+                      @click.prevent="sendMessage"
+                    >
+                      <VIcon icon="tabler-send" />
+                    </IconBtn>
+                  </div>
+                </template>
+              </VTextField>
 
-      <!-- 👉 Start conversation -->
-      <div
-        v-else
-        class="d-flex h-100 align-center justify-center flex-column"
-      >
-        <VAvatar
-          size="98"
-          variant="tonal"
-          color="primary"
-          class="mb-4"
-        >
-          <VIcon
-            size="50"
-            class="rounded-0"
-            icon="tabler-message-2"
-          />
-        </VAvatar>
-        <VBtn
-          v-if="$vuetify.display.smAndDown"
-          rounded="pill"
-          @click="startConversation"
-        >
-          Start Conversation
-        </VBtn>
+              <input
+                ref="refInputEl"
+                type="file"
+                name="file"
+                accept=".jpeg,.png,.jpg,GIF"
+                hidden
+                @change="onFileChange"
+              >
+            </VForm>
+          </PerfectScrollbar>
 
-        <p
+          <!-- Message form tuhinjamal -->
+        </div>
+
+        <!-- 👉 Start conversation -->
+        <div
           v-else
-          style="max-inline-size: 40ch; text-wrap: balance"
-          class="text-center text-disabled"
+          class="d-flex h-100 align-center justify-center flex-column"
         >
-          Start connecting with the people by selecting one of the contact on
-          left
-        </p>
-      </div>
-    </VMain>
-  </VLayout>
+          <VAvatar
+            size="98"
+            variant="tonal"
+            color="primary"
+            class="mb-4"
+          >
+            <VIcon
+              size="50"
+              class="rounded-0"
+              icon="tabler-message-2"
+            />
+          </VAvatar>
+          <VBtn
+            v-if="$vuetify.display.smAndDown"
+            rounded="pill"
+            @click="startConversation"
+          >
+            Start Conversation
+          </VBtn>
+
+          <p
+            v-else
+            style="max-inline-size: 40ch; text-wrap: balance"
+            class="text-center text-disabled"
+          >
+            Start connecting with the people by selecting one of the contact on
+            left
+          </p>
+        </div>
+      </VMain>
+    </VLayout>
+  </div>
 </template>
 
 <style lang="scss">

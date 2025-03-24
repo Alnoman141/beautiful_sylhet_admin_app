@@ -8,75 +8,28 @@ export default [
   },
 
   {
-    title: "Landing Page",
-    to: "landingPage",
-    icon: { icon: "tabler-app-window" },
+    title: "Instructions",
+    to: "guide-line",
+
+    // need an icon for guideline
+    icon: { icon: "tabler-building-lighthouse" },
+    subject: "guideline",
+    action: "show menu",
+  },
+  {
+    title: "Awareness",
+    to: "awareness",
+    icon: { icon: "tabler-speakerphone" },
     subject: "awareness",
     action: "show menu",
   },
-  
   {
-    title: "Tourist Services",
+    title: "Tourist Places",
     to: "touristSpot",
-    icon: { icon: "tabler-brand-tripadvisor" },
+    icon: { icon: "tabler-map" },
     subject: "spot",
     action: "show menu",
-    children: [
-      {
-        title: "Tourist Places",
-        to: "touristSpot",
-        icon: { icon: "tabler-map" },
-        subject: "spot",
-        action: "show menu",
-      },
-      {
-        title: "Locker Service",
-        to: "lockerList",
-        icon: { icon: "tabler-lock-square-rounded" },
-        subject: "locker",
-        action: "show menu",
-      },
-      {
-        title: "Kitkot Chair",
-        to: "Kitkot Chair",
-        icon: { icon: "tabler-sailboat" },
-        subject: "notice",
-        action: "show menu",
-      },
-    ],
   },
-  {
-    title: "Transportation",
-    to: "transportList",
-    icon: { icon: "tabler-bus-stop" },
-    subject: "bank",
-    action: "show menu",
-    children: [
-      {
-        title: "Transport Counter",
-        to: "transportList",
-        icon: { icon: "tabler-bus" },
-        subject: "transport",
-        action: "show menu",
-      },
-
-      {
-        title: "Tourist Bus",
-        to: "Tourist Bus",
-        icon: { icon: "tabler-bus" },
-        subject: "notice",
-        action: "show menu",
-      },
-      {
-        title: "Fare",
-        to: "fairList",
-        icon: { icon: "tabler-cash-banknote" },
-        subject: "dangerzone",
-        action: "show menu",
-      },
-    ],
-  },
-
   {
     title: "Hotel & Restaurant",
     to: "hotelList",
@@ -124,8 +77,41 @@ export default [
       
     ],
   },
-
-  
+  {
+    title: "Transport Counter",
+    to: "transportList",
+    icon: { icon: "tabler-bus" },
+    subject: "transport",
+    action: "show menu",
+  },
+  {
+    title: "Event Information",
+    to: "eventsList",
+    icon: { icon: "tabler-ticket" },
+    subject: "event",
+    action: "show menu",
+  },
+  {
+    title: "DC Activities",
+    to: "campaignList",
+    icon: { icon: "tabler-brand-campaignmonitor" },
+    subject: "campaign",
+    action: "show menu",
+  },
+  {
+    title: `About Cox's Bazar`,
+    to: "info",
+    icon: { icon: "tabler-beach" },
+    subject: "info",
+    action: "show menu",
+  },
+  {
+    title: "Locker Service",
+    to: "lockerList",
+    icon: { icon: "tabler-lock-square-rounded" },
+    subject: "locker",
+    action: "show menu",
+  },
   {
     title: "Bank/ATM",
     to: "bank",
@@ -150,7 +136,75 @@ export default [
       },
     ],
   },
+  {
+    title: "Danger Zone",
+    to: "redZoneList",
+    icon: { icon: "tabler-skull" },
+    subject: "dangerzone",
+    action: "show menu",
+    children: [
+      {
+        title: "Danger Zone",
+        to: "redZoneList",
+        icon: { icon: "tabler-skull" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
 
+      {
+        title: "Zone Category",
+        to: "redZoneCategoryList",
+        icon: { icon: "tabler-category-2" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
+    ],
+  },
+  {
+    title: "Tourist Bus",
+    to: "Tourist Bus",
+    icon: { icon: "tabler-bus" },
+    subject: "notice",
+    action: "show menu",
+  },
+  {
+    title: "Kitkot Chair",
+    to: "Kitkot Chair",
+    icon: { icon: "tabler-sailboat" },
+    subject: "notice",
+    action: "show menu",
+  },
+  {
+    title: "Fare",
+    to: "fairList",
+    icon: { icon: "tabler-cash-banknote" },
+    subject: "dangerzone",
+    action: "show menu",
+  },
+  {
+    title: "Complaint & Suggestion",
+    to: "complainList",
+    icon: { icon: "tabler-mail-exclamation" },
+    subject: "dangerzone",
+    action: "show menu",
+    children: [
+      {
+        title: "Compalin List",
+        to: "complainChatList",
+        icon: { icon: "tabler-mail-exclamation" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
+
+      {
+        title: "Complain Category",
+        to: "complainCategoryList",
+        icon: { icon: "tabler-category-2" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
+    ],
+  },
   {
     title: "Emergency",
     to: "redZoneList",
@@ -205,100 +259,28 @@ export default [
     ],
   },
   {
-    title: "Information Center",
-    to: "touristSpot",
-    icon: { icon: "tabler-brand-feedly" },
-    subject: "guideline",
+    title: "Announcement",
+    to: "noticeList",
+    icon: { icon: "tabler-pinned" },
+    subject: "notice",
     action: "show menu",
-    children: [
-      {
-        title: "Instructions",
-        to: "guide-line",
+  },
 
-        // need an icon for guideline
-        icon: { icon: "tabler-building-lighthouse" },
-        subject: "guideline",
-        action: "show menu",
-      },
-      {
-        title: "Awareness",
-        to: "awareness",
-        icon: { icon: "tabler-speakerphone" },
-        subject: "awareness",
-        action: "show menu",
-      },
+  // ------------------
 
-      {
-        title: `About Cox's Bazar`,
-        to: "info",
-        icon: { icon: "tabler-beach" },
-        subject: "info",
-        action: "show menu",
-      },
-    ],
-  },
-  {
-    title: "DC Activities",
-    to: "campaignList",
-    icon: { icon: "tabler-brand-campaignmonitor" },
-    subject: "campaign",
-    action: "show menu",
-  },
-  {
-    title: "Event Information",
-    to: "eventsList",
-    icon: { icon: "tabler-ticket" },
-    subject: "event",
-    action: "show menu",
-  },
-  {
-    title: "Danger Zone",
-    to: "redZoneList",
-    icon: { icon: "tabler-skull" },
-    subject: "dangerzone",
-    action: "show menu",
-    children: [
-      {
-        title: "Danger Zone",
-        to: "redZoneList",
-        icon: { icon: "tabler-skull" },
-        subject: "dangerzone",
-        action: "show menu",
-      },
 
-      {
-        title: "Zone Category",
-        to: "redZoneCategoryList",
-        icon: { icon: "tabler-category-2" },
-        subject: "dangerzone",
-        action: "show menu",
-      },
-    ],
-  },
-  {
-    title: "Complain",
-    to: "complainList",
-    icon: { icon: "tabler-mail-exclamation" },
-    subject: "dangerzone",
-    action: "show menu",
-    children: [
-      {
-        title: "Compalin List",
-        to: "complainChatList",
-        icon: { icon: "tabler-mail-exclamation" },
-        subject: "dangerzone",
-        action: "show menu",
-      },
 
-      {
-        title: "Complain Category",
-        to: "complainCategoryList",
-        icon: { icon: "tabler-category-2" },
-        subject: "dangerzone",
-        action: "show menu",
-      },
-    ],
-  },
+  
+
+  
+ 
+
+  
+ 
+
+
+  
+  
   
   // {
   //       title: "Complain List",
@@ -315,14 +297,15 @@ export default [
     subject: "news",
     action: "show menu",
   },
+  
+ 
   {
-    title: "Announcement",
-    to: "noticeList",
-    icon: { icon: "tabler-pinned" },
-    subject: "notice",
+    title: "Tourist List",
+    to: "touristList",
+    icon: { icon: "tabler-luggage" },
+    subject: "user",
     action: "show menu",
   },
-
   {
     title: "Settings",
     to: "settings",
@@ -345,13 +328,7 @@ export default [
       //   subject: "user",
       //   action: "show menu",
       // },
-      {
-        title: "Tourist List",
-        to: "touristList",
-        icon: { icon: "tabler-activity" },
-        subject: "user",
-        action: "show menu",
-      },
+    
       {
         title: "User Activity",
         to: "userActivity",
@@ -367,5 +344,12 @@ export default [
         action: "show menu",
       },
     ],
+  },
+  {
+    title: "Landing Page",
+    to: "landingPage",
+    icon: { icon: "tabler-app-window" },
+    subject: "awareness",
+    action: "show menu",
   },
 ]

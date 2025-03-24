@@ -101,6 +101,6 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
   cursor: not-allowed;
 }
 
-main.v-main.chat-content-container {
+main#chat.v-main.chat-content-container {
   block-size: 100dvh;
 }
