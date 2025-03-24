@@ -73,7 +73,7 @@ const getspotList = async (pageSize, pageNo) => {
   }
   try {
     const { data } = await userStore.getUserActivity(parameter)
-
+    loading.value = false
   
 
     spotList.value = data.data.data

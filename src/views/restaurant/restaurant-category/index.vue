@@ -66,12 +66,14 @@ const getspotList = async () => {
   try {
     const { data } = await restaurantCategoryStore.getRestaurantCategory()
 
+    loading.value = false
     spotList.value = data.data
     console.log(data)
     data.status_code == 200 ? loading.value = false :''
 
     
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

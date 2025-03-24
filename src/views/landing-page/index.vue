@@ -86,9 +86,9 @@
 
 <script setup>
 import { onMounted, ref } from "vue"
-import Header from "./components/header.vue"
 import About from "./components/about.vue"
 import Caurosel from "./components/caurosel.vue"
+import Header from "./components/header.vue"
 
 import Feature from "./components/feature.vue"
 
@@ -123,11 +123,12 @@ const detLandidingPageData = async () => {
 
     const { data } = await landingPageStore.getLandingPage()
 
-    console.log("dataa", data)
+    
     data.status_code == 200
       ? ((loading.value = false), (landingPage.value = data.data.data))
       : ""
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

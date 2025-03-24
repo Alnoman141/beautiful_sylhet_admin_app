@@ -85,6 +85,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await userStore.getUser(parameter)
 
+    loading.value = false
     page.value = data.data.current_page
 
     spotList.value = data.data.data

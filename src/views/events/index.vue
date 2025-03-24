@@ -83,28 +83,36 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await eventsStore.getEvents(parameter)
 
+    loading.value = false
     page.value = data.data.current_page
 
     spotList.value = data.data.data
 
     // convert expiry date to am/pm format and update the spotList
     spotList.value.forEach(item => {
-     
+      const [datePart24, timePart24] = item.expiry
+        ? item.expiry.split(" ")
+        : ""
 
-      const [datePart24, timePart24] = item.expiry ? item.expiry.split(' ') : ''
-      let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(':') : ''
-      const period24 = Number(hours24) >= 12 ? 'pm' : 'am'
+      let [hours24, minutes24, seconds24] = timePart24
+        ? timePart24.split(":")
+        : ""
+      const period24 = Number(hours24) >= 12 ? "pm" : "am"
 
       hours24 = Number(hours24) % 12 || 12
 
       // if date is expired then show Expired else show the date
-      item.expiry = item.expiry == null ? ('No expiry')  :  new Date(item.expiry) < new Date() ? `Expired at ${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}` : `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
+      item.expiry =
+        item.expiry == null
+          ? "No expiry"
+          : new Date(item.expiry) < new Date()
+            ? `Expired at ${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
+            : `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
     })
 
     totalData.value = data.data.total
-
-    loading.value = false
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

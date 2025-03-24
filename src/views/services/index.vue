@@ -66,6 +66,7 @@ const getspotList = async () => {
   try {
     const { data } = await serviceStore.getService(parameter)
 
+    loading.value = false
     
 
     spotList.value = data.data?.services
@@ -75,6 +76,7 @@ const getspotList = async () => {
 
     loading.value = false
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

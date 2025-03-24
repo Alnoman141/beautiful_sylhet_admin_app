@@ -82,6 +82,7 @@ const getRestaurantList = async (pageSize, pageNo) => {
   try {
     const { data } = await restaurantStore.getRestaurant(parameter)
 
+    loading.value = false
     page.value = data.data.current_page
 
     spotList.value = data.data.data
@@ -89,6 +90,7 @@ const getRestaurantList = async (pageSize, pageNo) => {
     totalData.value = data.data.total
     loading.value = false
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

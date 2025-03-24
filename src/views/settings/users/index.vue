@@ -87,16 +87,17 @@ const getUsers = async () => {
   loading.value = true
   try {
     const { data } = await testStore.getTestUserList()
-
+    loading.value = false
     users.value = data
     
     
 
     // users.value = data.data
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
-  loading.value = false
+  
 }
 
 

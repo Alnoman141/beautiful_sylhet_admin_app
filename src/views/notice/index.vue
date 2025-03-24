@@ -89,6 +89,7 @@ const getCampaignList = async (pageSize, pageNo) => {
   try {
     const { data } = await noticeStore.getNotice(params)
 
+    loading.value = false
     page.value = data.data.current_page
     
 
@@ -113,6 +114,7 @@ const getCampaignList = async (pageSize, pageNo) => {
 
     loading.value = false
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

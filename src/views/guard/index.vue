@@ -12,18 +12,16 @@
           <RouterLink
             v-if="$can('create', 'guard')"
             type="primary"
-            :underline="false"          
-          
-            :to="{ name: 'createGuard'}"
-            
-            class="create-btn "
+            :underline="false"
+            :to="{ name: 'createGuard' }"
+            class="create-btn"
           >
             <ElTooltip
               class="item"
               effect="dark"
               content="Create Life Guard"
               placement="top-start"
-            >                         
+            >
               Create Life Guard
             </ElTooltip>
           </RouterLink>
@@ -62,11 +60,10 @@ const guardStore = useGuardStore()
 
 const spotList = ref([])
 
-const columns = ref( [
-  { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Name', prop: 'name', sortable: false },        
-  { label: 'Spot Name', prop: 'spot_name', sortable: false },        
-        
+const columns = ref([
+  { label: "S.L", prop: "id", sortable: false },
+  { label: "Name", prop: "name", sortable: false },
+  { label: "Spot Name", prop: "spot_name", sortable: false },
 ])
 
 const totalData = ref(0)
@@ -84,25 +81,22 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await guardStore.getGuard(parameter)
 
+    loading.value = false
     page.value = data.data.current_page
-    
 
     spotList.value = data.data.data
 
     totalData.value = data.data.total
-
-    loading.value = false
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }
 
 onMounted(() => {
-  
   getspotList(10, 1)
 })
 </script>
-
 
 <style scoped>
 .create-btn {
@@ -110,6 +104,6 @@ onMounted(() => {
   background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding-block: 6px;
-  padding-inline: 10px; 
+  padding-inline: 10px;
 }
 </style>

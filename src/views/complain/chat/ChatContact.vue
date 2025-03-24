@@ -36,18 +36,6 @@ const isChatContactActive = computed(() => {
     class="chat-contact cursor-pointer d-flex align-center"
     :class="{ 'chat-contact-active': isChatContactActive }"
   >
-    <!--
-      <VBadge
-      dot
-      location="bottom right"
-      offset-x="3"
-      offset-y="0"
-      :color="resolveAvatarBadgeVariant(props.user.user.status)"
-      bordered
-      :model-value="props.isChatContact"
-      > 
-    -->
-    
     <VAvatar
       size="50"
       :variant="!props.user.user.avatar ? 'tonal' : undefined"
@@ -65,13 +53,36 @@ const isChatContactActive = computed(() => {
       <b class="text-base text-high-emphasis mb-0">
         {{ props.user.user.name }}
       </b><br>
-      <!--
-        <p class="mb-0 text-truncate text-body-2">
-        {{ props.user.description }}
-        </p> 
-      -->
-      <small class="mb-0 text-truncate text-body-3"> <b>Complain-No</b>: {{ props.user.serial }}</small><br>
-      <small class="mb-0 text-truncate text-body-3">{{ props.user.date }}</small>
+      <small
+        :class="
+          props.user.status == 0
+            ? 'text-info'
+            : props.user.status == 1
+              ? ''
+              : props.user.status == 2
+                ? 'text-success'
+                : props.user.status == 3
+                  ? 'text-danger'
+                  : 'text-warning'
+        "
+        disabled
+        size="small"
+      >
+        {{
+          props.user.status == 0
+            ? "Submitted"
+            : props.user.status == 1
+              ? "In-Progress"
+              : props.user.status == 2
+                ? "Resolved"
+                : props.user.status == 3
+                  ? "Rejected"
+                  : "In-Review"
+        }}
+      </small>
+      <!-- <small class="mb-0 text-truncate text-body-3"> <b>Complain-No</b>: {{ props.user.serial }}</small> -->
+      <br> 
+      <!-- <small class="mb-0 text-truncate text-body-3">{{ props.user.date }}</small> -->
     </div>
   </li>
 </template>

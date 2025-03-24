@@ -65,10 +65,12 @@ const getGuidelineList = async () => {
   try {
     const { data } = await guidelineStore.getGuideline()
 
+    loading.value = false
     guidelineList.value = data.data
 
-    loading.value = false
+    
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

@@ -35,7 +35,7 @@ const getNewsDetails = async () => {
   loading.value = true
 
   const { data } = await userStore.editUser({ id: userData.id })
-
+  loading.value = false
  
 
   ruleForm.value = data.data

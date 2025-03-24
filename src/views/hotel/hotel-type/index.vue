@@ -66,10 +66,12 @@ const getspotList = async () => {
   try {
     const { data } = await hotelTypeStore.getHotelType()
 
-    spotList.value = data.data
     loading.value = false
+    spotList.value = data.data
+   
     
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

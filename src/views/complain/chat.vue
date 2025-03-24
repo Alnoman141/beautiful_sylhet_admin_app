@@ -290,7 +290,7 @@ const changeStatus = async item => {
           <VRow class="">
             <VCol
               cols="12"
-              md="4"
+              md="6"
             >
               <div class="active-chat-header d-flex align-center text-medium-emphasis">
                 <!-- Sidebar toggler -->
@@ -339,62 +339,33 @@ const changeStatus = async item => {
                 <VSpacer />
               </div>
             </VCol>
-            <VCol
-              cols="12"
-              md="4"
-            >
-              <div class="active-chat-header d-flex align-center text-medium-emphasis">
-                <!-- Sidebar toggler -->
-                <IconBtn
-                  class="d-md-none me-3"
-                  @click="isLeftSidebarOpen = true"
-                >
-                  <VIcon icon="tabler-menu-2" />
-                </IconBtn>
-
-                <!-- avatar -->
-
-                <div
-                  class="d-flex align-center cursor-pointer"
-                  @click="isActiveChatUserProfileSidebarOpen = true"
-                >
-                  <div class="flex-grow-1 ms-4 overflow-hidden">
-                    <div class="text-h6 mb-0 font-weight-regular">
-                      <br>
-                      <small>
-                        <b>Complain Category:</b>
-                        {{ store.userInfo.category.name }} </small><br>
-                    </div>
-                  </div>
-                </div>
-                <!-- <br> -->
-
-                <VSpacer />
-              </div>
-            </VCol>
+            
             <VCol
               v-if="store.userInfo?.status || store.userInfo?.status == 0"
               cols="12"
-              md="4"
+              md="6"
               class="d-flex justify-end"
             >
               <div class="active-chat-header d-flex align-center text-medium-emphasis">
-                <ElSelect
-                  v-model="store.userInfo.status"
-                  clearable
-                  placeholder="Complain Status"
-                  size="large"
-                  style="inline-size: 240px"
-                  class="px-2"
-                  @change="showAlert(store.userInfo?.status)"
-                >
-                  <ElOption
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  />
-                </ElSelect>
+                <div>
+                  <label class="mx-2">{{ store.userInfo.category.name }} </label><br>
+                  <ElSelect
+                    v-model="store.userInfo.status"
+                    clearable
+                    placeholder="Complain Status"
+                    size="large"
+                    style="inline-size: 240px"
+                    class="px-2"
+                    @change="showAlert(store.userInfo?.status)"
+                  >
+                    <ElOption
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </ElSelect>
+                </div>
               </div>
             </VCol>
           </VRow>
@@ -409,12 +380,6 @@ const changeStatus = async item => {
           class="flex-grow-1"
           style="height: 70dvh"
         >
-          <div class="text-h6 mb-0 font-weight-regular mx-2 my-2 text-medium-emphasis bg-surface px-2">
-            <br>
-            <p><b>Complain Detail:</b> {{ store.userInfo.description }}</p>
-            <br>
-          </div>
-
           <!-- chat reply by tuhinjamal -->
           <ChatLog />
         </PerfectScrollbar>

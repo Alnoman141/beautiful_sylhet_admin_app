@@ -5,23 +5,6 @@
         <VCol cols="6">
           <b> Tourist List</b>
         </VCol>
-        <!--
-          <VCol
-          cols="6"
-          class="text-right"
-          >
-          <RouterLink
-          type="primary"
-          :underline="false"          
-          
-          :to="{ name: 'createUser'}"
-            
-          class="create-btn "
-          >
-          Create User
-          </RouterLink>
-          </VCol> 
-        -->
       </VRow>
     </ElCard>
     <ElCard>
@@ -58,7 +41,10 @@ const columns = ref( [
   { label: 'S.L', prop: 'id', sortable: false },
   { label: 'Name', prop: 'name', sortable: false },        
   { label: 'Email', prop: 'email', sortable: false },        
-  { label: 'Phone', prop: 'phone', sortable: false },        
+  { label: 'Phone', prop: 'phone', sortable: false }, 
+  
+  
+         
          
 
       
@@ -78,6 +64,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await userStore.getTouristList(parameter)
 
+    loading.value = false
     console.log("data", data.data)
 
     spotList.value = data.data.data

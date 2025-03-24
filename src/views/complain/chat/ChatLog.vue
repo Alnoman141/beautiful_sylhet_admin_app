@@ -1,12 +1,9 @@
 <script setup>
-import { useChatStore } from './useChatStore'
+import { useChatStore } from "./useChatStore"
 
 const store = useChatStore()
 
-
-
 const contact = computed(() => ({
- 
   id: store.activeChat?.user_id,
   avatar: store.activeChat?.replies[1]?.user.avatar,
 }))
@@ -14,23 +11,22 @@ const contact = computed(() => ({
 const resolveFeedbackIcon = feedback => {
   if (feedback.isSeen)
     return {
-      icon: 'tabler-checks',
-      color: 'success',
+      icon: "tabler-checks",
+      color: "success",
     }
   else if (feedback.isDelivered)
     return {
-      icon: 'tabler-checks',
+      icon: "tabler-checks",
       color: undefined,
     }
   else
     return {
-      icon: 'tabler-check',
+      icon: "tabler-check",
       color: undefined,
     }
 }
 
 const msgGroups = computed(() => {
-  
   let messages = []
   const _msgGroups = []
   if (store.activeChat.replies) {
@@ -42,54 +38,84 @@ const msgGroups = computed(() => {
       messages: [],
     }
     messages.forEach((msg, index) => {
-      
       if (msgSenderId === msg.senderId) {
         msgGroup.messages.push({
           message: msg.description,
           image: msg.image,
           time: msg.updated_at,
-          feedback: 'seen',
+          feedback: "seen",
         })
       } else {
-        
         msgSenderId = msg.user_id
         _msgGroups.push(msgGroup)
         msgGroup = {
           senderId: msg.user_id,
-          messages: [{
-            message: msg.description,
-            image: msg.image,
-            time: msg.time,
-            feedback: 'seen',
-          }],
+          messages: [
+            {
+              message: msg.description,
+              image: msg.image,
+              time: msg.time,
+              feedback: "seen",
+            },
+          ],
         }
       }
-      if (index === messages.length - 1)
-        _msgGroups.push(msgGroup)
+      if (index === messages.length - 1) _msgGroups.push(msgGroup)
     })
   }
-  
+
   return _msgGroups
 })
 </script>
 
 <template>
   <div class="chat-log pa-6">
+    <div class="chat-body d-inline-flex">
+      <VAvatar
+        size="32"
+        
+        class="mx-2"
+      >
+        <VImg
+          v-if="
+            store.userInfo && store.userInfo.user && store.userInfo.user.avatar
+          "
+          :src="store.userInfo.user.avatar"
+        />
+      </VAvatar>
+      <div
+        class="chat-content py-2 px-4 elevation-2 chat-left"
+        style="background-color: rgb(var(--v-theme-surface))"
+      >
+        <p class="mb-0 text-base">
+          {{ store.userInfo.description }}
+        </p>
+      </div>
+    </div>
+
     <div
       v-for="(msgGrp, index) in msgGroups"
       :key="msgGrp.senderId + String(index)"
       class="chat-group d-flex align-start"
-      :class="[{
-        'flex-row-reverse': msgGrp.senderId !== contact.id,
-        'mb-6': msgGroups.length - 1 !== index,
-      }]"
+      :class="[
+        {
+          'flex-row-reverse': msgGrp.senderId !== contact.id,
+          'mb-6': msgGroups.length - 1 !== index,
+        },
+      ]"
     >
       <div
         class="chat-avatar"
         :class="msgGrp.senderId !== contact.id ? 'ms-4' : 'me-4'"
       >
         <VAvatar size="32">
-          <VImg :src="msgGrp.senderId === contact.id ? contact.avatar : store.activeChat.replies[0].user.avatar" />
+          <VImg
+            :src="
+              msgGrp.senderId === contact.id
+                ? contact.avatar
+                : index != 0 ? store.activeChat.replies[0].user.avatar :''
+            "
+          />
         </VAvatar>
       </div>
       <div
@@ -100,16 +126,18 @@ const msgGroups = computed(() => {
           v-for="(msgData, msgIndex) in msgGrp.messages"
           :key="msgData.time"
           class="chat-content py-2 px-4 elevation-2"
-          style="background-color: rgb(var(--v-theme-surface));"
+          style="background-color: rgb(var(--v-theme-surface))"
           :class="[
-            msgGrp.senderId === contact.id ? 'chat-left' : 'bg-primary text-white chat-right',
+            msgGrp.senderId === contact.id
+              ? 'chat-left'
+              : 'bg-primary text-white chat-right',
             msgGrp.messages.length - 1 !== msgIndex ? 'mb-2' : 'mb-1',
           ]"
         >
           <p class="mb-0 text-base">
             {{ msgData.message }}
           </p>
-         
+
           <VImg
             v-if="msgData.image"
             :src="msgData.image"
@@ -118,24 +146,12 @@ const msgGroups = computed(() => {
             height="400"
           />
         </div>
-        <!--
-          <div :class="{ 'text-right': msgGrp.senderId !== contact.id }">
-          <VIcon
-          v-if="msgGrp.senderId !== contact.id"
-          size="16"
-          :color="resolveFeedbackIcon(msgGrp.messages[msgGrp.messages.length - 1].feedback).color"
-          >
-          {{ resolveFeedbackIcon(msgGrp.messages[msgGrp.messages.length - 1].feedback).icon }}
-          </VIcon>
-          <span class="text-sm ms-2 text-disabled">{{ formatDate(msgGrp.messages[msgGrp.messages.length - 1].time, { hour: 'numeric', minute: 'numeric' }) }}</span>
-          </div> 
-        -->
       </div>
     </div>
   </div>
 </template>
 
-<style lang=scss>
+<style lang="scss">
 .chat-log {
   .chat-body {
     max-inline-size: calc(100% - 6.75rem);

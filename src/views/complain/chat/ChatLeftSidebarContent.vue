@@ -105,7 +105,7 @@ watch(() => search.value, () => {
   >
     <li class="list-none">
       <h5 class="chat-contact-header text-primary text-h5">
-        Complaints
+        Complains
       </h5>
     </li>
     
