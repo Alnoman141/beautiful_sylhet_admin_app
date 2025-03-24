@@ -2,17 +2,9 @@ export const complainRoutes = [
   {
     path: '/complain',
     children: [
+     
       {
-        path: '',
-        name: 'complainList',
-        component: () => import('@/views/complain/index.vue'),
-        meta: {
-          subject: "dangerzone",
-          action: "show menu",
-        },
-      },
-      {
-        path: 'complain-chat',
+        path: 'complain-list',
         name: 'complainChatList',
         component: () => import('@/views/complain/chat.vue'),
         meta: {

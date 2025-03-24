@@ -98,10 +98,12 @@ const getInfo = async () => {
   try {
     const { data } = await infoStore.getInfoDetail()
 
+    loading.value = false
     info.value.push(data.data)
 
-    loading.value = false
+    
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

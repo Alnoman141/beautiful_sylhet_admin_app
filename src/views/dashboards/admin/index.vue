@@ -25,7 +25,7 @@
             At glance the most important information about app
           </div>
         </ElCard>
-        <div class="d-flex align-center justify-space-between gap-x-4 my-2">
+        <div class=" d-flex align-center justify-space-between gap-x-4 my-2">
           <VCard
             v-for="(data, index) in transportData"
             :key="index"
@@ -63,7 +63,7 @@
             :key="index"
             cols="12"
             md="6"
-            sm="6"
+            sm="12"
           >
             <div>
               <VCard
@@ -224,8 +224,10 @@ const getEventList = async () => {
   try {
     const { data } = await eventsStore.getEvents()
 
+    loading.value = false
     eventList.value = data.data.data
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

@@ -66,10 +66,12 @@ const getAwarenessList = async () => {
   try {
     const { data } = await awarenessStore.getAwareness()
 
-    awarenessList.value = data.data
     loading.value = false
+    awarenessList.value = data.data
+    
     
   } catch (error) {
+    loading.value = false
     console.log(error)
   }
 }

@@ -87,7 +87,7 @@
             <ElFormItem
               label="Phone Number"
               prop="phone"
-              :rules="{ validator: validatePhone, trigger: 'blur' }"
+              :rules="{ validator: validatePhone,required: true, trigger: 'blur' }"
             >
               <ElInput placeholder="Phone number" type="number" v-model="ruleForm.phone" />
             </ElFormItem>

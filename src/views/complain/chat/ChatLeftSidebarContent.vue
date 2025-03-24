@@ -1,5 +1,6 @@
 <script setup>
 import { useComplainStore } from "@/stores/tourism/complainStore"
+import { watch } from "vue"
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import ChatContact from './ChatContact.vue'
 import { useChat } from './useChat'
@@ -50,25 +51,61 @@ onMounted(() => {
   getspotList(10, 1)
 })
 
+const searchComplain = () => {
+  let tempComplainList = complainList.value
+
+  complainList.value = complainList.value.filter(complain => {
+    return complain.serial.includes(search.value) || complain.category.name.includes(search.value) || complain.description.includes(search.value) || complain.user.name .includes(search.value) ? complain.serial.includes(search.value) || complain.category.name.includes(search.value) || complain.description.includes(search.value) || complain.user.name .includes(search.value) : ''
+  })
+
+  
+  if (search.value === '') {
+    
+    getspotList()
+  }
+
+  
+}
+
 const complainStore = useComplainStore()
 const { resolveAvatarBadgeVariant } = useChat()
-const search = useVModel(props, 'search', emit)
+const search = ref('')
 const store = useChatStore()
+
+watch(() => search.value, () => {
+  
+  search.value == '' || search.value == null || search.value == undefined ? getspotList() : searchComplain()
+})
 </script>
 
 <template>
   <!-- 👉 Chat list header -->
-  
+  <div class="chat-list-header ">
+    <VTextField
+      v-model="search"
+      v-debounce:300="searchComplain"
+      placeholder="Search Complain "
+      clearable
+    >
+      <template #prepend-inner>
+        <VIcon
+          size="22"
+          icon="tabler-search"
+        />
+      </template>
+    </VTextField>
+  </div>
  
 
   <PerfectScrollbar
     tag="ul"
     class="d-flex flex-column gap-y-1 chat-contacts-list px-3 py-2 list-none"
     :options="{ wheelPropagation: true }"
+    style=" block-size: 100dvh !important;"
   >
     <li class="list-none">
       <h5 class="chat-contact-header text-primary text-h5">
-        Chats
+        Complaints
       </h5>
     </li>
     

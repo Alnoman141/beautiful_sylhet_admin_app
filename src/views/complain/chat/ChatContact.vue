@@ -49,7 +49,7 @@ const isChatContactActive = computed(() => {
     -->
     
     <VAvatar
-      size="40"
+      size="50"
       :variant="!props.user.user.avatar ? 'tonal' : undefined"
       :color="!props.user.user.avatar ? resolveAvatarBadgeVariant(props.user.user.status) : undefined"
     >
@@ -62,13 +62,16 @@ const isChatContactActive = computed(() => {
     </VAvatar>
     <!-- </VBadge> -->
     <div class="flex-grow-1 ms-4 overflow-hidden">
-      <p class="text-base text-high-emphasis mb-0">
+      <b class="text-base text-high-emphasis mb-0">
         {{ props.user.user.name }}
-      </p>
-      <p class="mb-0 text-truncate text-body-2">
+      </b><br>
+      <!--
+        <p class="mb-0 text-truncate text-body-2">
         {{ props.user.description }}
-      </p>
-      <small>{{ props.user.date }}</small>
+        </p> 
+      -->
+      <small class="mb-0 text-truncate text-body-3"> <b>Complain-No</b>: {{ props.user.serial }}</small><br>
+      <small class="mb-0 text-truncate text-body-3">{{ props.user.date }}</small>
     </div>
   </li>
 </template>

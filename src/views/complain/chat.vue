@@ -1,7 +1,8 @@
 <script setup>
 import { themes } from "@/plugins/vuetify/theme"
 import { useComplainStore } from "@/stores/tourism/complainStore"
-import { defineEmits, ref } from "vue"
+import { notify } from "@/utils/notification"
+import { ref } from "vue"
 import { PerfectScrollbar } from "vue3-perfect-scrollbar"
 import { useDisplay, useTheme } from "vuetify"
 import ChatActiveChatUserProfileSidebarContent from "./chat/ChatActiveChatUserProfileSidebarContent.vue"
@@ -10,8 +11,30 @@ import ChatLog from "./chat/ChatLog.vue"
 import { useChat } from "./chat/useChat"
 import { useChatStore } from "./chat/useChatStore"
 
-const emit = defineEmits(["getDetail"])
 const complainStore = useComplainStore()
+
+const options = [
+  {
+    value: 0,
+    label: "Submitted",
+  },
+  {
+    value: 1,
+    label: "In-Progress",
+  },
+  {
+    value: 2,
+    label: "Resolved",
+  },
+  {
+    value: 3,
+    label: "Rejected",
+  },
+  {
+    value: 4,
+    label: "Review",
+  },
+]
 
 definePage({ meta: { layoutWrapperClasses: "layout-content-height-fixed" } })
 
@@ -73,7 +96,6 @@ const msg = ref("")
 const loading = ref(false)
 
 const sendMessage = async () => {
- 
   if (!msg.value) return
 
   // store.activeChat.id
@@ -83,18 +105,17 @@ const sendMessage = async () => {
     description: msg.value,
   }
 
-
   try {
     const { data } = await complainStore.replyComplain(form)
 
     data.status_code == 200
       ? (notify("Congratulations!", data.message, "success", "top-right"),
-      openChatOfContact(complainId.value),
+      openChatOfContact(complainId.value, store.userInfo),
       (loading.value = false))
       : ""
-    data.status_code == 200 ? ((msg.value = ""),
-    (tempImg.value = ""),
-    (previewImage.value = null) ): ""
+    data.status_code == 200
+      ? ((msg.value = ""), (tempImg.value = ""), (previewImage.value = null))
+      : ""
   } catch (error) {
     loading.value = false
     console.log("error", error)
@@ -109,8 +130,6 @@ const sendMessage = async () => {
       "top-right",
     )
   }
-
-  
 
   // Reset message input
 
@@ -161,12 +180,70 @@ const chatContentContainerBg = computed(() => {
 
   return color
 })
+
+const showAlert = item => {
+  ElMessageBox.alert(
+    "Are you sure that you want to change this complain status ?",
+    "Confirm",
+    {
+      confirmButtonText: "Confirm",
+      confirmButtonClass: "el-button--success",
+      callback: action => {
+        ElMessage({
+          type: "info",
+          message: `action: ${action}`,
+        })
+
+        action == "confirm" ? changeStatus(item) : ""
+      },
+    },
+  )
+}
+
+const changeStatus = async item => {
+  let form = {
+    id: store.userInfo.id,
+    status: store.userInfo.status,
+  }
+
+  // changeStatus
+  try {
+    const { data } = await complainStore.changeStatus(form)
+
+    data.status_code == 200
+      ? (notify("Congratulations!", data.message, "success", "top-right"),
+      openChatOfContact(complainId.value, store.userInfo),
+      (loading.value = false))
+      : ""
+
+    // data.status_code == 200 ? router.push({ name: "complainList" }) : "";
+  } catch (error) {
+    loading.value = false
+    notify(
+      error?.response?.data?.message,
+      error?.response?.data?.errors
+        ? error?.response?.data?.errors
+        : error?.response?.data?.error
+          ? error?.response?.data?.error
+          : "Something went wrong",
+      "error",
+      "top-right",
+    )
+  }
+}
 </script>
 
 <template>
+  <ElCard class="my-4">
+    <VRow>
+      <VCol cols="12">
+        <b> Complain List</b>
+      </VCol>
+    </VRow>
+  </ElCard>
   <VLayout
     class="chat-app-layout"
-    style="z-index: 0"
+    style="z-index: 0 !important"
   >
     <!-- 👉 Active Chat sidebar chat user info tuhinjamal -->
     <VNavigationDrawer
@@ -206,60 +283,122 @@ const chatContentContainerBg = computed(() => {
       <!-- 👉 Right content: Active Chat -->
       <div
         v-if="store.activeChat"
-        class="d-flex flex-column h-100"
+        class="d-flex flex-column"
       >
         <!-- 👉 Active chat header -->
-        <div class="active-chat-header d-flex align-center text-medium-emphasis bg-surface">
-          <!-- Sidebar toggler -->
-          <IconBtn
-            class="d-md-none me-3"
-            @click="isLeftSidebarOpen = true"
-          >
-            <VIcon icon="tabler-menu-2" />
-          </IconBtn>
-
-          <!-- avatar -->
-
-          <div
-            class="d-flex align-center cursor-pointer"
-            @click="isActiveChatUserProfileSidebarOpen = true"
-          >
-            <VAvatar
-              size="40"
-              :variant="
-                !store.userInfo?.user?.avatar ? 'tonal' : undefined
-              "
-              class="cursor-pointer"
+        <div class="bg-surface">
+          <VRow class="">
+            <VCol
+              cols="12"
+              md="4"
             >
-              <VImg
-                v-if="store.userInfo?.user?.avatar"
-                :src="store.userInfo?.user?.avatar"
-                :alt="
-                  store.userInfo?.user?.name
-                "
-              />
-              <span v-else>{{
-                avatarText(
-                  store.userInfo?.user?.name
-                )
-              }}</span>
-            </VAvatar>
+              <div class="active-chat-header d-flex align-center text-medium-emphasis">
+                <!-- Sidebar toggler -->
+                <IconBtn
+                  class="d-md-none me-3"
+                  @click="isLeftSidebarOpen = true"
+                >
+                  <VIcon icon="tabler-menu-2" />
+                </IconBtn>
 
-            <div class="flex-grow-1 ms-4 overflow-hidden">
-              <div class="text-h6 mb-0 font-weight-regular">
-                <p>
-                  {{
-                    store.userInfo?.user?.name 
-                  }}
-                </p>
+                <!-- avatar -->
+
+                <div
+                  class="d-flex align-center cursor-pointer"
+                  @click="isActiveChatUserProfileSidebarOpen = true"
+                >
+                  <VAvatar
+                    size="40"
+                    :variant="
+                      !store.userInfo?.user?.avatar ? 'tonal' : undefined
+                    "
+                    class="cursor-pointer"
+                  >
+                    <VImg
+                      v-if="store.userInfo?.user?.avatar"
+                      :src="store.userInfo?.user?.avatar"
+                      :alt="store.userInfo?.user?.name"
+                    />
+                    <span v-else>{{
+                      avatarText(store.userInfo?.user?.name)
+                    }}</span>
+                  </VAvatar>
+
+                  <div class="flex-grow-1 ms-4 overflow-hidden">
+                    <div class="text-h6 mb-0 font-weight-regular">
+                      <b>
+                        {{ store.userInfo?.user?.name }}
+                      </b>
+                      <br>
+                      <small>Complain-No: {{ store.userInfo?.serial }} </small><br>
+                    </div>
+                  </div>
+                </div>
+                <!-- <br> -->
+
+                <VSpacer />
               </div>
-            </div>
-          </div>
-          <br>
-         
-          <VSpacer />
-        </div>
+            </VCol>
+            <VCol
+              cols="12"
+              md="4"
+            >
+              <div class="active-chat-header d-flex align-center text-medium-emphasis">
+                <!-- Sidebar toggler -->
+                <IconBtn
+                  class="d-md-none me-3"
+                  @click="isLeftSidebarOpen = true"
+                >
+                  <VIcon icon="tabler-menu-2" />
+                </IconBtn>
 
+                <!-- avatar -->
+
+                <div
+                  class="d-flex align-center cursor-pointer"
+                  @click="isActiveChatUserProfileSidebarOpen = true"
+                >
+                  <div class="flex-grow-1 ms-4 overflow-hidden">
+                    <div class="text-h6 mb-0 font-weight-regular">
+                      <br>
+                      <small>
+                        <b>Complain Category:</b>
+                        {{ store.userInfo.category.name }} </small><br>
+                    </div>
+                  </div>
+                </div>
+                <!-- <br> -->
+
+                <VSpacer />
+              </div>
+            </VCol>
+            <VCol
+              v-if="store.userInfo?.status || store.userInfo?.status == 0"
+              cols="12"
+              md="4"
+              class="d-flex justify-end"
+            >
+              <div class="active-chat-header d-flex align-center text-medium-emphasis">
+                <ElSelect
+                  v-model="store.userInfo.status"
+                  clearable
+                  placeholder="Complain Status"
+                  size="large"
+                  style="inline-size: 240px"
+                  class="px-2"
+                  @change="showAlert(store.userInfo?.status)"
+                >
+                  <ElOption
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </ElSelect>
+              </div>
+            </VCol>
+          </VRow>
+        </div>
         <VDivider />
 
         <!-- Chat log -->
@@ -268,7 +407,14 @@ const chatContentContainerBg = computed(() => {
           tag="ul"
           :options="{ wheelPropagation: true }"
           class="flex-grow-1"
+          style="height: 70dvh"
         >
+          <div class="text-h6 mb-0 font-weight-regular mx-2 my-2 text-medium-emphasis bg-surface px-2">
+            <br>
+            <p><b>Complain Detail:</b> {{ store.userInfo.description }}</p>
+            <br>
+          </div>
+
           <!-- chat reply by tuhinjamal -->
           <ChatLog />
         </PerfectScrollbar>
@@ -303,14 +449,14 @@ const chatContentContainerBg = computed(() => {
                 <div class="d-none d-md-block">
                   <VBtn
                     append-icon="tabler-send"
-                    @click="sendMessage"
+                    @click.prevent="sendMessage"
                   >
                     Send
                   </VBtn>
                 </div>
                 <IconBtn
                   class="d-block d-md-none"
-                  @click="sendMessage"
+                  @click.prevent="sendMessage"
                 >
                   <VIcon icon="tabler-send" />
                 </IconBtn>
