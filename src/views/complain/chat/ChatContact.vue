@@ -1,6 +1,6 @@
 <script setup>
-import { useChat } from './useChat'
-import { useChatStore } from './useChatStore'
+import { useChat } from "./useChat"
+import { useChatStore } from "./useChatStore"
 
 const props = defineProps({
   isChatContact: {
@@ -13,7 +13,7 @@ const props = defineProps({
     required: true,
   },
   complainList: {
-    type: Array,    
+    type: Array,
     default: () => [],
   },
 })
@@ -23,9 +23,8 @@ const { resolveAvatarBadgeVariant } = useChat()
 
 const isChatContactActive = computed(() => {
   const isActive = store.activeChat?.id === props.user.id
-  if (!props.isChatContact)
-    return !store.activeChat?.replies && isActive
-  
+  if (!props.isChatContact) return !store.activeChat?.replies && isActive
+
   return isActive
 })
 </script>
@@ -39,7 +38,11 @@ const isChatContactActive = computed(() => {
     <VAvatar
       size="50"
       :variant="!props.user.user.avatar ? 'tonal' : undefined"
-      :color="!props.user.user.avatar ? resolveAvatarBadgeVariant(props.user.user.status) : undefined"
+      :color="
+        !props.user.user.avatar
+          ? resolveAvatarBadgeVariant(props.user.user.status)
+          : undefined
+      "
     >
       <VImg
         v-if="props.user.user.avatar"
@@ -51,8 +54,9 @@ const isChatContactActive = computed(() => {
     <!-- </VBadge> -->
     <div class="flex-grow-1 ms-4 overflow-hidden">
       <b class="text-base text-high-emphasis mb-0">
-        {{ props.user.user.name }}
-      </b><br>
+        {{ props.user.user.name }} </b><br>
+      <small>Complain-No: {{ props.user.serial }}</small> <br>
+      <small>Complain-Category: {{ props.user.category.name }}</small> <br>
       <small
         :class="
           props.user.status == 0
@@ -80,9 +84,8 @@ const isChatContactActive = computed(() => {
                   : "In-Review"
         }}
       </small>
-      <!-- <small class="mb-0 text-truncate text-body-3"> <b>Complain-No</b>: {{ props.user.serial }}</small> -->
-      <br> 
-      <!-- <small class="mb-0 text-truncate text-body-3">{{ props.user.date }}</small> -->
+      
+      <br>
     </div>
   </li>
 </template>

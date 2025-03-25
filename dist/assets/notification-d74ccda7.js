@@ -1,0 +1,1 @@
+import{bK as c}from"./index-46172f2d.js";function y(i,t,f,o){if(typeof t=="object"&&t instanceof Object){for(const a in t)if(t.hasOwnProperty(a)){const n=t[a];for(const s of n)c({title:i,message:s,type:f,position:o})}}else c({title:i,message:t,type:f,position:o})}export{y as n};

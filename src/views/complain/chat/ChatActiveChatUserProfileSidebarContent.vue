@@ -27,156 +27,66 @@ const { resolveAvatarBadgeVariant } = useChat()
     <div class="text-center px-6">
       <VAvatar
         size="40"
-        :variant="
-          !store.activeChat.replies[1]?.user?.avatar
-            ? 'tonal'
-            : undefined
-        "
+        
         class="cursor-pointer"
       >
         <VImg
-          v-if="store.activeChat.replies[1]?.user?.avatar"
-          :src="store.activeChat.replies[1]?.user?.avatar"
+          v-if="store.userInfo?.user?.avatar"
+          :src="store.userInfo?.user?.avatar"
           :alt="
-            store.activeChat.replies[1]?.user.first_name +
-              ' ' +
-              store.activeChat.replies[1]?.user.last_name
+            store.userInfo?.user?.name
           "
         />
         <span v-else>{{
           avatarText(
-            store.activeChat.replies[1]?.user.first_name +
-              " " +
-              store.activeChat.replies[1]?.user.last_name
+            store.userInfo?.user?.name
           )
         }}</span>
       </VAvatar>
       <h5 class="text-h5">
-        {{ store.activeChat.replies[1]?.user.first_name }} {{
-          store.activeChat.replies[1]?.user.last_name
-        }}
+        Name: {{ store.userInfo?.user?.name }} 
       </h5>
-    </div>
-
-    <!-- User Data -->
-    <!--
-      <PerfectScrollbar
-      class="ps-chat-user-profile-sidebar-content text-medium-emphasis pb-6 px-6"
-      :options="{ wheelPropagation: false }"
-      >
-      
-      <div class="my-6">
-      <div class="text-sm text-disabled">
-      ABOUT
-      </div>
-      <p class="mt-1 mb-6">
-      {{ store.activeChat }}
+      <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
+        Complain-Category: {{ store.userInfo.category.name }}
       </p>
-      </div>
-
+      <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
+        Complain-No: {{ store.userInfo.serial }}
+      </p>
       
-      <div class="mb-6">
-      <div class="text-sm text-disabled mb-1">
-      PERSONAL INFORMATION
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-mail"
-      size="22"
-      />
-      <div class="text-base">
-      lucifer@email.com
-      </div>
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-phone"
-      size="22"
-      />
-      <div class="text-base">
-      +1(123) 456 - 7890
-      </div>
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-clock"
-      size="22"
-      />
-      <div class="text-base">
-      Mon - Fri 10AM - 8PM
-      </div>
-      </div>
-      </div>
-
       
-      <div>
-      <div class="text-sm text-disabled mb-1">
-      OPTIONS
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-badge"
-      size="22"
-      />
-      <div class="text-base">
-      Add Tag
-      </div>
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-star"
-      size="22"
-      />
-      <div class="text-base">
-      Important Contact
-      </div>
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-photo"
-      size="22"
-      />
-      <div class="text-base">
-      Shared Media
-      </div>
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      class="me-2"
-      icon="tabler-trash"
-      size="22"
-      />
-      <div class="text-base">
-      Delete Contact
-      </div>
-      </div>
-      <div class="d-flex align-center text-high-emphasis pa-2">
-      <VIcon
-      icon="tabler-ban"
-      class="me-2"
-      size="22"
-      />
-      <div class="text-base">
-      Block Contact
-      </div>
-      </div>
-
-      <VBtn
-      block
-      color="error"
-      append-icon="tabler-trash"
-      class="mt-6"
+      <small
+        
+        disabled
+        size="small"
       >
-      Delete Contact
-      </VBtn>
-      </div>
-      </PerfectScrollbar> 
-    -->
+        Complain-Status: <b
+          :class="
+            store.userInfo.status.status == 0
+              ? 'text-info'
+              : store.userInfo.status.status == 1
+                ? ''
+                : store.userInfo.status.status == 2
+                  ? 'text-success'
+                  : store.userInfo.status.status == 3
+                    ? 'text-danger'
+                    : 'text-warning'
+          "
+        > {{
+          store.userInfo.status.status == 0
+            ? "Submitted"
+            : store.userInfo.status.status == 1
+              ? "In-Progress"
+              : store.userInfo.status.status == 2
+                ? "Resolved"
+                : store.userInfo.status.status == 3
+                  ? "Rejected"
+                  : "In-Review"
+        }} </b>
+      </small> 
+     
+      <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
+        Complain-Detail: {{ store.userInfo.description }}
+      </p>
+    </div>
   </template>
 </template>

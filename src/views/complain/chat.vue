@@ -337,6 +337,7 @@ const changeStatus = async item => {
                         </b>
                         <br>
                         <small>Complain-No: {{ store.userInfo?.serial }} </small><br>
+                        <small>Complain-Category: {{ store.userInfo?.category.name }} </small><br>
                       </div>
                     </div>
                   </div>
