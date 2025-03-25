@@ -63,7 +63,7 @@
 <script setup>
 import { useLandingPageStore } from "@/stores/tourism/landingPageStore"
 import { notify } from "@/utils/notification"
-import { computed, onMounted, ref, watch } from "vue"
+import { computed, onMounted, ref } from "vue"
 import About from "./components/about.vue"
 import Caurosel from "./components/caurosel.vue"
 import Feature from "./components/feature.vue"
@@ -85,28 +85,6 @@ const landingPage = ref({
     logoTwo: "",
     logoBase64Two: "",
 
-    // navLinks: [
-    //   {
-    //     name: "Home",
-    //     url: "/",
-    //   },
-    //   {
-    //     name: "About",
-    //     url: "/about",
-    //   },
-    //   {
-    //     name: "Features",
-    //     url: "/features",
-    //   },
-    //   {
-    //     name: "Testimonial",
-    //     url: "/testimonial",
-    //   },
-    //   {
-    //     name: "Contact",
-    //     url: "/contact",
-    //   },
-    // ],
   },
   caurosel: {
     title: "Explore Cox’s Bazar Like Never Before!",
@@ -357,10 +335,10 @@ const currentComponentKey = computed(
 )
 
 // ✅ Watcher to debug and verify data updates
-watch(currentComponentKey, newKey => {
-  console.log("Switched to:", newKey)
-  console.log("Data for this tab:", landingPage[newKey])
-})
+// watch(currentComponentKey, newKey => {
+//   console.log("Switched to:", newKey)
+//   console.log("Data for this tab:", landingPage[newKey])
+// })
 
 // ✅ Handle tab click
 const handleClick = tab => {
@@ -378,6 +356,8 @@ const handleClick = tab => {
 const loading = ref(false)
 
 const getLandingPage = async () => {
+  let tempLandingPage = {}
+  tempLandingPage = landingPage.value
   try {
     loading.value = true
 
@@ -387,6 +367,18 @@ const getLandingPage = async () => {
     if (data.status_code == 200) {
       landingPage.value = data.data.data
       loading.value = false
+      landingPage.value.workflow ? "" : landingPage.value.workflow = tempLandingPage.workflow
+      landingPage.value.testimonials ? "" : landingPage.value.testimonials = tempLandingPage.testimonials
+      landingPage.value.footer ? "" : landingPage.value.footer = tempLandingPage.footer
+      landingPage.value.videoInformation ? "" : landingPage.value.videoInformation = tempLandingPage.videoInformation
+      landingPage.value.whyChooseVromonica ? "" : landingPage.value.whyChooseVromonica = tempLandingPage.whyChooseVromonica
+      landingPage.value.speciality ? "" : landingPage.value.speciality = tempLandingPage.speciality
+      landingPage.value.feature ? "" : landingPage.value.feature = tempLandingPage.feature
+      landingPage.value.about ? "" : landingPage.value.about = tempLandingPage.about
+      landingPage.value.caurosel ? "" : landingPage.value.caurosel = tempLandingPage.caurosel
+      landingPage.value.header ? "" : landingPage.value.header = tempLandingPage.header 
+
+      
       
       
     }

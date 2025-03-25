@@ -127,6 +127,7 @@ const detLandidingPageData = async () => {
     data.status_code == 200
       ? ((loading.value = false), (landingPage.value = data.data.data))
       : ""
+    
   } catch (error) {
     loading.value = false
     console.log(error)

@@ -207,8 +207,12 @@
             <!-- </ElFormItem> -->
           </VCol>
         </VRow>
-        <label for="">Tech Support Sponsor Images </label>
-        <hr />
+        
+        <div v-if="ruleForm.techSupportImagesBase64" class="my-4">
+          <label for="">Tech Support Sponsor Images </label>
+
+          <hr />
+        </div>
         <VRow class="px-4">
           <VCol
             class="btn-section text-center mt-2 d-flex flex-column justify-center align-center"
@@ -243,7 +247,6 @@
         >
           <ElButton @click="emit('stepDecrement')" type="info"> Back</ElButton>
         </el-tooltip>
-        
 
         <el-tooltip
           class="item"
@@ -266,11 +269,10 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance } from "element-plus";
-import { defineEmits, defineProps, reactive, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
-
 import { UploadFilled } from "@element-plus/icons-vue";
+import type { FormInstance } from "element-plus";
+import { defineEmits, defineProps, onMounted, reactive, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const props = defineProps({
@@ -404,11 +406,16 @@ const onFileChangeMultiple = (file) => {
   reader.onload = () => {
     previewMultipleImage.value.push(reader.result);
     // props.ruleForm.techSupportImagesBase64 = previewMultipleImage.value;
+    // props.ruleForm.techSupportImagesBase64 = [
+    //   ...props.ruleForm.techSupportImagesBase64,
+    //   previewMultipleImage.value,
+    // ];
     props.ruleForm.techSupportImagesBase64 = [
-      ...props.ruleForm.techSupportImagesBase64,
-      previewMultipleImage.value,
-    ];
-    previewMultipleImage.value =[]
+  ...(Array.isArray(props.ruleForm.techSupportImagesBase64) ? props.ruleForm.techSupportImagesBase64 : []),
+  previewMultipleImage.value,
+];
+
+    previewMultipleImage.value = [];
   };
 };
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
@@ -443,7 +450,7 @@ const removeUploadedImage = (index) => {
         });
 
         action == "confirm"
-          ? ( props.ruleForm.techSupportImages.splice(index, 1))
+          ? props.ruleForm.techSupportImages.splice(index, 1)
           : "";
       },
     }
@@ -471,10 +478,8 @@ const showAlert = (index) => {
 };
 
 const removeImage = async (index) => {
- 
   try {
-    props.ruleForm.techSupportImagesBase64.splice(index, 1)
-
+    props.ruleForm.techSupportImagesBase64.splice(index, 1);
   } catch (error) {
     console.log("error", error);
   }
@@ -484,6 +489,16 @@ const viewImage = (item) => {
   imgViewModal.value = true;
   modalImg.value = item;
 };
+onMounted(() => {
+  // props.ruleForm.techSupportImages.map((e) => {
+  //   console.log("empty checko of footer image", Object.keys(e).length === 0);
+  //   Object.keys(e).length === 0 ? props.ruleForm.techSupportImages = []:''
+  // });
+  onMounted(() => {
+  props.ruleForm.techSupportImages = props.ruleForm.techSupportImages.filter(e => Object.keys(e).length !== 0);
+});
+
+});
 </script>
 
 <style scoped>

@@ -36,6 +36,7 @@
               />
             </ElFormItem>
           </VCol>
+          
           <VCol
             v-for="(item, index) in ruleForm.workDetails"
             :key="index"
