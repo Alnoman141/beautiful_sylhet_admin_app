@@ -6,7 +6,7 @@ function getEvents(query) {
   return request({
     url: "/event/list",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 export function createEvents(data) {

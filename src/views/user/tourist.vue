@@ -13,7 +13,9 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getspotList(10,1)"
+          :page-no="page"
+          :page-size="size"
+          @table-data-emit="getspotList(10, 1)"
         />
       </div>
       <PaginationSection
@@ -37,21 +39,15 @@ const userStore = useUserStore()
 
 const spotList = ref([])
 
-const columns = ref( [
-  { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Name', prop: 'name', sortable: false },        
-  { label: 'Email', prop: 'email', sortable: false },        
-  { label: 'Phone', prop: 'phone', sortable: false }, 
-  
-  
-         
-         
-
-      
-       
-        
+const columns = ref([
+  { label: "S.L", prop: "id", sortable: false },
+  { label: "Name", prop: "name", sortable: false },
+  { label: "Email", prop: "email", sortable: false },
+  { label: "Phone", prop: "phone", sortable: false },
 ])
 
+const page = ref(1)
+const size = ref(10)
 const totalData = ref(0)
 const loading = ref(false)
 
@@ -65,25 +61,21 @@ const getspotList = async (pageSize, pageNo) => {
     const { data } = await userStore.getTouristList(parameter)
 
     loading.value = false
-    console.log("data", data.data)
+    page.value = data.data.current_page
 
     spotList.value = data.data.data
-    
-    
+
     totalData.value = data.data.total
     loading.value = false
-    
   } catch (error) {
     console.log(error)
   }
 }
 
 onMounted(() => {
-  
   getspotList(10, 1)
 })
 </script>
-
 
 <style scoped>
 .create-btn {
@@ -91,6 +83,6 @@ onMounted(() => {
   background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding-block: 6px;
-  padding-inline: 10px; 
+  padding-inline: 10px;
 }
 </style>

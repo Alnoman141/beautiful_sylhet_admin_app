@@ -6,7 +6,7 @@ function getTransport(query) {
   return request({
     url: "/transport/list",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 export function createTransport(data) {

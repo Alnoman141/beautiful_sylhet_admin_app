@@ -198,6 +198,7 @@
         </template>
       </VRow>
       <ElCard class="my-4">
+        
         <VRow v-if="ruleForm.type != 1 && ruleForm.type != 2">
           <VCol cols="12" md="6" v-if="ruleForm.type == 4">
             <ElFormItem label="Owner Information" :prop="'owner_information'">

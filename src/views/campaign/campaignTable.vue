@@ -20,7 +20,7 @@
           <!-- <div v-html="scope.row[column.prop]" /> -->
           <div
             class="text-limit"
-            v-html="column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++"
+            v-html="sanitizeHtml(column.prop !== 'id' ? scope.row[column.prop] : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++)"
           />
         </template>
       </ElTableColumn>
@@ -167,5 +167,13 @@ const showAlert = item => {
       action == 'confirm' ? deleteTransport(item) : ''
     },
   })
+}
+
+
+// ✅ Fix HTML sanitization
+const sanitizeHtml = html => {
+  if (!html) return '' // Ensure it's never undefined/null
+  
+  return html.toString().replace(/<\/?(?!b|i|u|span|strong|em|small|sub|sup|a)[^>]+(>|$)/g, '')
 }
 </script>

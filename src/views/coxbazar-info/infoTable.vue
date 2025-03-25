@@ -21,7 +21,7 @@
       </ElTableColumn>
 
 
-      <!-- Action Buttons Column -->
+      
       <ElTableColumn
         align="left"
         width="100"

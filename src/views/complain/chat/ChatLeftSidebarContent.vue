@@ -1,7 +1,6 @@
 <script setup>
 import { useComplainCategoryStore } from "@/stores/tourism/complainCategoryStore"
 import { useComplainStore } from "@/stores/tourism/complainStore"
-import { watch } from "vue"
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import ChatContact from './ChatContact.vue'
 import { useChat } from './useChat'
@@ -27,7 +26,7 @@ const emit = defineEmits([
 
 const complainCategoryStore = useComplainCategoryStore()
 const complainCategoryList = ref([])
-const complainCategory = ref("")
+const complainCategory = ref(null)
 
 const getcomplainCategoryList = async () => {
 
@@ -56,6 +55,8 @@ const getspotList = async () => {
   let parameter = {
     page: 1,
     per_page: 100000,
+    category_id: complainCategory.value,
+    serial: search.value,
   }
   try {
     const { data } = await complainStore.getComplainList(parameter)
@@ -73,51 +74,11 @@ onMounted(() => {
   getcomplainCategoryList()
 })
 
-const searchComplain = () => {
-  let tempComplainList = complainList.value
-
-  complainList.value = complainList.value.filter(complain => {
-    return complain.serial.includes(search.value) || complain.category.name.includes(search.value) || complain.description.includes(search.value) || complain.user.name .includes(search.value) ? complain.serial.includes(search.value) || complain.category.name.includes(search.value) || complain.description.includes(search.value) || complain.user.name .includes(search.value) : ''
-  })
-
-
- 
-
-  
-  if (search.value === '') {
-    
-    getspotList()
-  }
-
-  
-}
-
-const searchComplainCategory = () => {
-  let tempComplainList = complainList.value
-
-  complainList.value = complainList.value.filter(complain => {
-    return complain.category.name.includes(complainCategory.value) ? complain.category.name.includes(complainCategory.value) : ''
-  })
-  if (complainCategory.value === '') {
-    
-    getspotList()
-  }
-
-}
 
 const complainStore = useComplainStore()
 const { resolveAvatarBadgeVariant } = useChat()
 const search = ref('')
 const store = useChatStore()
-
-watch(() => search.value, () => {
-  
-  search.value == '' || search.value == null || search.value == undefined ? getspotList() : searchComplain()
-})
-watch(() => complainCategory.value, () => {
-  
-  complainCategory.value == '' || complainCategory.value == null || complainCategory.value == undefined ? getspotList() : searchComplainCategory()
-})
 </script>
 
 <template>
@@ -126,7 +87,7 @@ watch(() => complainCategory.value, () => {
     <div class="chat-list-header ">
       <VTextField
         v-model="search"
-        v-debounce:300="searchComplain"
+        v-debounce:300="getspotList"
         placeholder="Search Complain "
         clearable
       >
@@ -148,7 +109,7 @@ watch(() => complainCategory.value, () => {
     >
       <li class="list-none">
         <h5 class="chat-contact-header text-primary text-h5">
-          Complains Category
+          Complains Category 
         </h5>
         <ElSelect
           v-model="complainCategory"
@@ -157,13 +118,13 @@ watch(() => complainCategory.value, () => {
           size="large"
           style="inline-size: 100%"
           class="px-2"
-          @change="searchComplainCategory"
+          @change="getspotList"
         >
           <ElOption
             v-for="item in complainCategoryList"
             :key="item.name"
             :label="item.name"
-            :value="item.name"
+            :value="item.id"
           />
         </ElSelect>
         <ElDivider />

@@ -17,7 +17,7 @@
         :width="column.prop == 'id' ? '100' : ''"
       >
         <template #default="scope">
-          <!-- <div v-html="scope.row[column.prop]" /> -->
+          
           <div
             v-if="column.prop !== 'content' && column.prop !== 'info'"
             v-html="
@@ -108,7 +108,7 @@
     </ElTable>
     <ElDialog
       v-model="detailDialog"
-      :title="`Tourist ${detailData.name} Details`"
+      :title="`Tourist - ${detailData.name} Details`"
       :before-close="handleClose"
     >
       <VRow class="my-4">
@@ -145,11 +145,11 @@
           {{
             detailData.info.data.country
               ? detailData.info.data.country.name
-              : "-"
+              : "     &nbsp; &nbsp;&nbsp; -    "
           }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Present Address: {{ detailData.info.data.present_address }},
+          >Present Address: {{ detailData.info.data.present_address }}
           {{ detailData.info.data.present_dist_name }}
         </VCol>
         <VCol

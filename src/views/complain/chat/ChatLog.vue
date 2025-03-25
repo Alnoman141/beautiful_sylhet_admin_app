@@ -90,6 +90,18 @@ const msgGroups = computed(() => {
         <p class="mb-0 text-base">
           {{ store.userInfo.description }}
         </p>
+        
+        <img
+          v-if="store.userInfo.image"
+          :src="store.userInfo.image"
+          alt=""
+        >
+        <iframe
+          v-if="store.userInfo.file"
+          :src="store.userInfo.file"
+          width="100%"
+          height="600"
+        />
       </div>
     </div>
 
@@ -137,13 +149,21 @@ const msgGroups = computed(() => {
           <p class="mb-0 text-base">
             {{ msgData.message }}
           </p>
+         
 
-          <VImg
-            v-if="msgData.image"
+          <img
+            v-if="msgData.image && !msgData.image.includes('.pdf')"
             :src="msgData.image"
             class="mt-2"
-            width="400"
+            width="100%"
             height="400"
+          >
+          <iframe
+            v-else
+            :src="msgData.image"
+            
+            width="100%"
+            height="600"
           />
         </div>
       </div>

@@ -53,7 +53,7 @@ const spotList = ref([])
 
 const columns = ref( [
   { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Category Bangla', prop: 'name', sortable: false },
+  { label: 'Complain Category Name ', prop: 'name', sortable: false },
 
   // { label: 'Category English', prop: 'name_en', sortable: false },        
 ])

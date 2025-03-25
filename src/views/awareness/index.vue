@@ -64,7 +64,7 @@ const columns = ref( [
 const getAwarenessList = async () => {
   loading.value = true
   try {
-    const { data } = await awarenessStore.getAwareness()
+    const { data } = await awarenessStore.editAwareness()
 
     loading.value = false
     awarenessList.value = data.data

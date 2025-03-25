@@ -1,51 +1,46 @@
 <template>
   <div>
-    <ElTable
-      :data="filterTableData"
-      border
-      :row-style="configStore.getRowStyle"
-      :header-cell-style="configStore.getHeaderRowStyle"
-      style="inline-size: 100%"
-    >
-      <ElTableColumn
-        v-for="(column, index) in columns"
-        :key="index"
-        :label="column.label"
-        :prop="column.prop"        
-        :align="column.align"
+    <div class="text-end">
+      <RouterLink
+        v-if="$can('edit', 'awareness')"
+        :to="{ name: 'edit-awareness', params: { id: 1 } }"
+        style=" color:white !important;text-decoration: none !important;"
       >
-        <template #default="scope">
-          <div class="text-end">
-            <RouterLink
-              v-if="$can('edit', 'awareness')"
-              :to="{ name: 'edit-awareness', params: { id: scope.row.id } }"
-              style=" color:white !important;text-decoration: none !important;"
-            >
-              <ElTooltip
-                class="box-item"
-                effect="dark"
-                content="Edit Awareness"
-                placement="top-start"
-              >
-                <ElButton
-                  type="primary"
-                  size="small"
-                >
-                  <VIcon
-                    icon="tabler-edit"
-                    size="15"
-                  />
-                </ElButton>
-              </ElTooltip>
-            </RouterLink>
-          </div>
-          <div
-            class="px-4"
-            v-html="scope.row[column.prop]"
-          />
-        </template>
-      </ElTableColumn>
-    </ElTable>
+        <ElTooltip
+          class="box-item"
+          effect="dark"
+          content="Edit Awareness"
+          placement="top-start"
+        >
+          <ElButton
+            type="primary"
+            size="small"
+          >
+            <VIcon
+              icon="tabler-edit"
+              size="15"
+            />
+          </ElButton>
+        </ElTooltip>
+      </RouterLink>
+    </div>
+    <VRow class="my-2 mx-2">
+      <VCol
+        v-for="(awareness, index) in filterTableData"
+        :key="index"
+        :class="index == 0? ' border-s border-t border-b' : 'border-s border-t border-b border-e'"
+      >
+        <div class="border ps-1">
+          <p class="mx-0 my-0 px-0 py-0">
+            {{ index == 0 ? "সতর্কতা বাংলা" : "Awareness English" }}
+          </p>
+        </div>
+        <p
+          class="my-4"
+          v-html="awareness.name"
+        />
+      </VCol>
+    </VRow>
   </div>
 </template>
 

@@ -354,7 +354,6 @@ const changeStatus = async item => {
               >
                 <div class="active-chat-header d-flex align-center text-medium-emphasis">
                   <div>
-                    <label class="mx-2">{{ store.userInfo.category.name }} </label><br>
                     <ElSelect
                       v-model="store.userInfo.status"
                       clearable
@@ -369,6 +368,7 @@ const changeStatus = async item => {
                         :key="item.value"
                         :label="item.label"
                         :value="item.value"
+                        :disabled="item.value == 0 || item.value == 1"
                       />
                     </ElSelect>
                   </div>
@@ -388,6 +388,28 @@ const changeStatus = async item => {
           >
             <!-- chat reply by tuhinjamal -->
             <ChatLog />
+            <div class="text-end px-4">
+              <div
+                v-if="previewImage"
+                class="text-end"
+              >
+                <!-- on hover show text close -->
+                <p
+                  class="cursor-pointer text-medium-emphasis text-disabled "
+                  style="border-radius: 50%; color: red !important; "
+                  @click="previewImage = ''"
+                >
+                  X
+                </p>
+              </div>
+              <iframe
+                v-if="previewImage?.includes('application/pdf')"
+                :src="previewImage"
+                height="500"
+                width="500"
+                class="border mx-2 my-2"
+              />
+            </div>
             <VForm
               class="chat-log-message-form mb-5 mx-5"
               @submit.prevent="sendMessage"
@@ -403,13 +425,14 @@ const changeStatus = async item => {
               >
                 <template #append-inner>
                   <img
-                    v-if="previewImage"
+                    v-if="previewImage && !previewImage?.includes('application/pdf')"
                     :src="previewImage"
                     alt=""
                     height="60"
                     width="60"
                     class="border mx-2 my-2"
                   >
+                 
                   <div class="d-flex gap-1">
                     <IconBtn @click="refInputEl?.click()">
                       <VIcon

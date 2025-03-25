@@ -6,7 +6,7 @@ function getCampaign(query) {
   return request({
     url: "/campaign/list",
     method: "post",
-    params: query,
+    params: { language_id: 2 },
   })
 }
 export function createCampaign(data) {

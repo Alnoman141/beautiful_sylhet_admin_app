@@ -63,7 +63,7 @@ const columns = ref([
 const getGuidelineList = async () => {
   loading.value = true
   try {
-    const { data } = await guidelineStore.getGuideline()
+    const { data } = await guidelineStore.editGuideline()
 
     loading.value = false
     guidelineList.value = data.data

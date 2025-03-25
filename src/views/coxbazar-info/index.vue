@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol :cols="info.length == 0 ?'6' : '12'">
-          <b> Beach Volunteer List</b>
+          <b> About Cox's Bazar</b>
         </VCol>
         <VCol
           v-if="info.length == 0" 
@@ -30,48 +30,94 @@
     <ElCard>
       <!-- infoCreate -->
       <div class="">
-        <ElTable
+        <div class="text-end">
+          <RouterLink
+            v-if="$can('edit', 'info')"
+            :to="{ name: 'infoEdit' }"
+            style=" color:white !important;text-decoration: none !important;"
+          >
+            <ElTooltip
+              class="box-item"
+              effect="dark"
+              content="Edit Info"
+              placement="top-start"
+            >
+              <ElButton
+                type="primary"
+                size="small"
+              >
+                <VIcon
+                  icon="tabler-edit"
+                  size="15"
+                />
+              </ElButton>
+            </ElTooltip>
+          </RouterLink>
+        </div>
+        
+        <VRow class="my-2 mx-2">
+          <VCol
+            v-for="(information, index) in info"
+            :key="index"
+            :class="index == 0? ' border-s border-t border-b' : 'border-s border-t border-b border-e'"
+          >
+            <div class="border ps-1">
+              <p class="mx-0 my-0 px-0 py-0">
+                {{ index == 0 ? "নির্দেশনা বাংলা" : "Instruction English" }}
+              </p>
+            </div>
+           
+            
+            <p
+              class="my-4"
+              v-html="information.description"
+            />
+          </VCol>
+        </VRow>
+        <!--
+          <ElTable
           v-loading="loading"
           :data="info"
           style="inline-size: 100%"
           border
-        >
+          >
           <ElTableColumn label="Description">
-            <template #default="scope">
-              <div class="">
-                <div class="text-end">
-                  <RouterLink
-                    v-if="$can('edit', 'info')"
-                    :to="{ name: 'infoEdit' }"
-                    style="
-                      color: white !important;
-                      text-decoration: none !important;
-                    "
-                  >
-                    <ElTooltip
-                      class="item"
-                      effect="dark"
-                      content="Edit"
-                      placement="top-start"
-                    >
-                      <ElButton
-                        type="primary"
-                        size="small"
-                      >
-                        <VIcon
-                          icon="tabler-edit"
-                          size="15"
-                        />
-                      </ElButton>
-                    </ElTooltip>
-                  </RouterLink>
-                </div>
+          <template #default="scope">
+          <div class="">
+          <div class="text-end">
+          <RouterLink
+          v-if="$can('edit', 'info')"
+          :to="{ name: 'infoEdit' }"
+          style="
+          color: white !important;
+          text-decoration: none !important;
+          "
+          >
+          <ElTooltip
+          class="item"
+          effect="dark"
+          content="Edit"
+          placement="top-start"
+          >
+          <ElButton
+          type="primary"
+          size="small"
+          >
+          <VIcon
+          icon="tabler-edit"
+          size="15"
+          />
+          </ElButton>
+          </ElTooltip>
+          </RouterLink>
+          </div>
 
-                <div v-html="scope.row.description" />
-              </div>
-            </template>
+          <div v-html="scope.row.description" />
+          </div>
+          </template>
           </ElTableColumn>
-        </ElTable>
+          </ElTable> 
+        -->
       </div>
     </ElCard>
   </div>
@@ -96,10 +142,10 @@ const columns = ref([
 const getInfo = async () => {
   loading.value = true
   try {
-    const { data } = await infoStore.getInfoDetail()
+    const { data } = await infoStore.editInfo()
 
     loading.value = false
-    info.value.push(data.data)
+    info.value= data.data
 
     
   } catch (error) {
