@@ -59,7 +59,7 @@ onMounted(() => {
                 <div class="text-caption text-uppercase py-2">
                   <h5
                     class="text-h5"
-                    v-html="item.name"
+                    v-html="item.name_en"
                   />
                   {{ new Date(item.date).toISOString().slice(0, 10) }}
                 </div>
@@ -73,45 +73,47 @@ onMounted(() => {
           </div>
           <div class="mb-4" />
         </VWindowItem>
-        <VWindowItem>
+        <!--
+          <VWindowItem>
           <div>
-            <VTimeline
-              v-for="(item, index) in campaignList"
-              align="start"
-              truncate-line="both"
-              side="end"
-              density="compact"
-              line-thickness="1"
-            >
-              <VTimelineItem
-                icon="tabler-circle-check"
-                dot-color="rgba(var(--v-theme-surface))"
-                :icon-color="
-                  new Date(item.date) < new Date() ? 'error' : 'success'
-                "
-                fill-dot
-                size="22"
-                :elevation="0"
-              >
-                <div class="text-caption text-uppercase">
-                  <h3
-                    class="text-success"
-                    v-html="item.name"
-                  />
-                </div>
-                <div
-                  class="app-timeline-title"
-                  v-html="item.date"
-                />
-              </VTimelineItem>
-              <VDivider
-                v-if="index + 1 < eventList.length"
-                class="my-5"
-                style="border-style: dashed"
-              />
-            </VTimeline>
+          <VTimeline
+          v-for="(item, index) in campaignList"
+          align="start"
+          truncate-line="both"
+          side="end"
+          density="compact"
+          line-thickness="1"
+          >
+          <VTimelineItem
+          icon="tabler-circle-check"
+          dot-color="rgba(var(--v-theme-surface))"
+          :icon-color="
+          new Date(item.date) < new Date() ? 'error' : 'success'
+          "
+          fill-dot
+          size="22"
+          :elevation="0"
+          >
+          <div class="text-caption text-uppercase">
+          <h3
+          class="text-success"
+          v-html="item.name"
+          />
           </div>
-        </VWindowItem>
+          <div
+          class="app-timeline-title"
+          v-html="item.date"
+          />
+          </VTimelineItem>
+          <VDivider
+          v-if="index + 1 < eventList.length"
+          class="my-5"
+          style="border-style: dashed"
+          />
+          </VTimeline>
+          </div>
+          </VWindowItem> 
+        -->
       </VWindow>
     </VCardText>
   </VCard>

@@ -90,7 +90,7 @@ const msgGroups = computed(() => {
         <p class="mb-0 text-base">
           {{ store.userInfo.description }}
         </p>
-        {{ store.userInfo.image }}
+        
         <img
           v-if="store.userInfo.image"
           :src="store.userInfo.image"

@@ -25,37 +25,43 @@
             At glance the most important information about app
           </div>
         </ElCard>
-        <div class=" d-flex align-center justify-space-between gap-x-4 my-2">
-          <VCard
+        <VRow>
+          <VCol
             v-for="(data, index) in transportData"
             :key="index"
-            class="logistics-card-statistics cursor-pointer w-100"
-            :style="data.isHover ? { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}))` } : { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}), var(--v-disabled-opacity))` }"
-            @mouseenter="data.isHover = true"
-            @mouseleave="data.isHover = false"
+            cols="12"
+            md="4"
           >
-            <VCardText>
-              <div class="d-flex align-center gap-x-4 mb-2">
-                <VAvatar
-                  variant="tonal"
-                  :color="data.color"
-                  rounded
-                >
-                  <VIcon
-                    :icon="data.icon"
-                    size="28"
-                  />
-                </VAvatar>
-                <h5 class="text-h5 font-weight-medium">
-                  {{ data.value }}
-                </h5>
-              </div>
-              <div class="text-body-1">
-                {{ data.title }}
-              </div>
-            </VCardText>
-          </VCard>
-        </div>
+            <VCard
+           
+              class="logistics-card-statistics cursor-pointer w-100"
+              :style="data.isHover ? { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}))` } : { 'border-block-end': `2px solid rgba(var(--v-theme-${data.color}), var(--v-disabled-opacity))` }"
+              @mouseenter="data.isHover = true"
+              @mouseleave="data.isHover = false"
+            >
+              <VCardText>
+                <div class="d-flex align-center gap-x-4 mb-2">
+                  <VAvatar
+                    variant="tonal"
+                    :color="data.color"
+                    rounded
+                  >
+                    <VIcon
+                      :icon="data.icon"
+                      size="28"
+                    />
+                  </VAvatar>
+                  <h5 class="text-h5 font-weight-medium">
+                    {{ data.value }}
+                  </h5>
+                </div>
+                <div class="text-body-1">
+                  {{ data.title }}
+                </div>
+              </VCardText>
+            </VCard>
+          </VCol>
+        </VRow>
         
         <VRow>
           <VCol
@@ -254,7 +260,7 @@ const logisticData = ref([
     icon: 'tabler-map',
     color: 'warning',
     title: 'Tourist Spots',
-    value: 8,
+    value: 0,
     
     isHover: false,
   },
@@ -262,7 +268,7 @@ const logisticData = ref([
     icon: 'tabler-building-skyscraper',
     color: 'primary',
     title: 'Hotels',
-    value: 42,
+    value: 0,
    
     isHover: false,
   },
@@ -270,7 +276,7 @@ const logisticData = ref([
     icon: 'tabler-lock',
     color: 'error',
     title: 'Locker',
-    value: 27,
+    value: 0,
    
     isHover: false,
   },
@@ -279,7 +285,7 @@ const logisticData = ref([
   //   icon: 'tabler-user',
   //   color: 'info',
   //   title: 'Vistors',
-  //   value: 27,
+  //   value: 0,
    
   //   isHover: false,
   // },
@@ -292,7 +298,7 @@ const cardData = ref([
     icon: 'tabler-users',
     color: 'warning',
     title: 'Visitors today',
-    value: 8,
+    value: 0,
     
     isHover: false,
   },
@@ -300,7 +306,7 @@ const cardData = ref([
     icon: 'tabler-users',
     color: 'primary',
     title: 'Visitors all time',
-    value: 42,
+    value: 0,
    
     isHover: false,
   },
@@ -314,7 +320,7 @@ const transportData = ref([
     icon: 'tabler-plane',
     color: 'warning',
     title: 'Airlines',
-    value: 8,
+    value: 0,
     
     isHover: false,
   },
@@ -322,7 +328,7 @@ const transportData = ref([
     icon: 'tabler-train',
     color: 'primary',
     title: 'Train',
-    value: 42,
+    value: 0,
    
     isHover: false,
   },
@@ -330,26 +336,27 @@ const transportData = ref([
     icon: 'tabler-ship',
     color: 'error',
     title: 'Ship',
-    value: 27,
+    value: 0,
    
     isHover: false,
   },
-  {
-    icon: 'tabler-bike',
-    color: 'info',
-    title: 'Bike',
-    value: 27,
+
+  // {
+  //   icon: 'tabler-bike',
+  //   color: 'info',
+  //   title: 'Bike',
+  //   value: 0,
    
-    isHover: false,
-  },
-  {
-    icon: 'tabler-truck',
-    color: 'success',
-    title: 'Jeep',
-    value: 27,
+  //   isHover: false,
+  // },
+  // {
+  //   icon: 'tabler-truck',
+  //   color: 'success',
+  //   title: 'Jeep',
+  //   value: 0,
    
-    isHover: false,
-  },
+  //   isHover: false,
+  // },
   
 ])
 

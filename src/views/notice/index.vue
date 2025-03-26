@@ -63,8 +63,8 @@ const spotList = ref([])
 
 const columns = ref( [
   { label: 'ID', prop: 'id', sortable: false },
-  { label: 'Name', prop: 'name', sortable: false }, 
-  { label: 'Name English', prop: 'name_en', sortable: false }, 
+  { label: 'Bangla', prop: 'name', sortable: false }, 
+  { label: 'English', prop: 'name_en', sortable: false }, 
         
   { label: 'Date', prop: 'date', sortable: false },   
   { label: "Expiry", prop: "expiry", sortable: false },

@@ -13,6 +13,7 @@
     >
       <ElCard class="rounded py-2 px-2">
         <h4 class="">Landing Page Footer</h4>
+        
         <hr />
         <VRow class="my-2">
           <VCol class="my-2" md="6">

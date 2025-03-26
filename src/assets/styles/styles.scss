@@ -101,6 +101,52 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
   cursor: not-allowed;
 }
 
-main#chat.v-main.chat-content-container {
-  block-size: 100dvh;
+@media screen and (min-width: 2560px){
+  #chat{
+    overflow: hidden scroll !important;
+    block-size: 75dvh !important;
+  }
+
+  #chatLog{
+    overflow: hidden scroll !important;
+    block-size: 60dvh;
+  }
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2559px) {
+  #chat{
+    overflow: hidden scroll !important;
+    block-size: 70dvh !important;
+  }
+
+  #chatLog{
+    overflow: hidden scroll !important;
+    block-size: 50dvh;
+  }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1919px) {
+  #chat{
+    overflow: hidden scroll !important;
+    block-size: 57dvh !important;
+  }
+
+  #chatLog{
+    overflow: hidden scroll !important;
+    block-size: 30dvh;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+  #chat{
+    overflow: hidden scroll !important;
+    block-size: 58dvh !important;
+  }
+
+  #chatLog{
+    overflow: hidden scroll !important;
+    block-size: 30dvh;
+  }
+
+
 }

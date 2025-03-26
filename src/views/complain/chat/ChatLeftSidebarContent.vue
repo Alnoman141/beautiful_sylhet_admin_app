@@ -1,10 +1,10 @@
 <script setup>
 import { useComplainCategoryStore } from "@/stores/tourism/complainCategoryStore"
 import { useComplainStore } from "@/stores/tourism/complainStore"
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
-import ChatContact from './ChatContact.vue'
-import { useChat } from './useChat'
-import { useChatStore } from './useChatStore'
+import { PerfectScrollbar } from "vue3-perfect-scrollbar"
+import ChatContact from "./ChatContact.vue"
+import { useChat } from "./useChat"
+import { useChatStore } from "./useChatStore"
 
 const props = defineProps({
   search: {
@@ -18,10 +18,10 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'openChatOfContact',
-  'showUserProfile',
-  'close',
-  'update:search',
+  "openChatOfContact",
+  "showUserProfile",
+  "close",
+  "update:search",
 ])
 
 const complainCategoryStore = useComplainCategoryStore()
@@ -29,22 +29,18 @@ const complainCategoryList = ref([])
 const complainCategory = ref(null)
 
 const getcomplainCategoryList = async () => {
-
   // loading.value = true
 
   try {
     const { data } = await complainCategoryStore.getComplainCategory()
 
     complainCategoryList.value = data.data
-    
-    // loading.value = false
 
-    
+    // loading.value = false
   } catch (error) {
     console.log(error)
   }
 }
-
 
 const complainList = ref([])
 
@@ -61,9 +57,7 @@ const getspotList = async () => {
   try {
     const { data } = await complainStore.getComplainList(parameter)
 
-    
     complainList.value = data.data.data
-
   } catch (error) {
     console.log(error)
   }
@@ -74,72 +68,75 @@ onMounted(() => {
   getcomplainCategoryList()
 })
 
-
 const complainStore = useComplainStore()
 const { resolveAvatarBadgeVariant } = useChat()
-const search = ref('')
+const search = ref("")
 const store = useChatStore()
 </script>
 
 <template>
-  <div>
+  <div style="position: fixed">
     <!-- 👉 Chat list header -->
-    <div class="chat-list-header ">
-      <VTextField
-        v-model="search"
-        v-debounce:300="getspotList"
-        placeholder="Search Complain "
-        clearable
-      >
-        <template #prepend-inner>
-          <VIcon
-            size="22"
-            icon="tabler-search"
-          />
-        </template>
-      </VTextField>
+    <div
+      class="chat-list-header"
+      style="position: sticky; inset-block-start: 0"
+    >
+      <VRow class="py-4">
+        <VCol cols="12">
+          <VTextField
+            v-model="search"
+            v-debounce:300="getspotList"
+            placeholder="Search Complain-No"
+            clearable
+          >
+            <template #prepend-inner>
+              <VIcon
+                size="22"
+                icon="tabler-search"
+              />
+            </template>
+          </VTextField>
+        </VCol>
+        <VCol cols="12">
+          <label class="chat-contact-header text-primary text-h5">
+            Complains Category
+          </label>
+          <ElSelect
+            v-model="complainCategory"
+            clearable
+            placeholder="Select Complain Category"
+            size="large"
+            style="inline-size: 100%"
+            class="px-2"
+            @change="getspotList"
+          >
+            <ElOption
+              v-for="item in complainCategoryList"
+              :key="item.name"
+              :label="item.name"
+              :value="item.id"
+            />
+          </ElSelect>
+        </VCol>
+      </VRow>
     </div>
- 
-
+    <h5 class="px-2 chat-contact-header text-primary text-h6">
+      Complains
+    </h5>
+    <hr>
     <PerfectScrollbar
       tag="ul"
       class="d-flex flex-column gap-y-1 chat-contacts-list px-3 py-2 list-none"
       :options="{ wheelPropagation: true }"
-      style=" block-size: 100dvh !important;"
+      style="position: relative; block-size: 100vh; overflow-y: scroll"
     >
-      <li class="list-none">
-        <h5 class="chat-contact-header text-primary text-h5">
-          Complains Category 
-        </h5>
-        <ElSelect
-          v-model="complainCategory"
-          clearable
-          placeholder="Select Complain Category"
-          size="large"
-          style="inline-size: 100%"
-          class="px-2"
-          @change="getspotList"
-        >
-          <ElOption
-            v-for="item in complainCategoryList"
-            :key="item.name"
-            :label="item.name"
-            :value="item.id"
-          />
-        </ElSelect>
-        <ElDivider />
-        <h5 class="chat-contact-header text-primary text-h5">
-          Complains 
-        </h5>
-      </li>
-    
       <ChatContact
         v-for="contact in complainList"
         :key="`chat-${contact.id}`"
         :user="contact"
         is-chat-contact
         :complain-list="complainList"
-        @click="$emit('openChatOfContact', contact.id,contact)"
+        @click="$emit('openChatOfContact', contact.id, contact)"
       />
 
       <span

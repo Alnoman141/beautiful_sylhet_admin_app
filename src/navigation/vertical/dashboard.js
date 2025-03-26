@@ -182,7 +182,7 @@ export default [
     action: "show menu",
   },
   {
-    title: "Complaint & Suggestion",
+    title: "Complain & Suggestion",
     to: "complainList",
     icon: { icon: "tabler-mail-exclamation" },
     subject: "dangerzone",

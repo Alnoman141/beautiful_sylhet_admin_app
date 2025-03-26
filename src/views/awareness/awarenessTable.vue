@@ -31,7 +31,7 @@
         :class="index == 0? ' border-s border-t border-b' : 'border-s border-t border-b border-e'"
       >
         <div class="border ps-1">
-          <p class="mx-0 my-0 px-0 py-0">
+          <p class="mx-0 my-0 px-0 py-0  ">
             {{ index == 0 ? "সতর্কতা বাংলা" : "Awareness English" }}
           </p>
         </div>

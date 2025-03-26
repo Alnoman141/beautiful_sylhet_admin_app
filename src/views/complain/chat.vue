@@ -62,7 +62,7 @@ const scrollToBottomInChatLog = () => {
 // Search query
 const q = ref("")
 
-watch(q, val => store.fetchChatsAndContacts(val), { immediate: true })
+// watch(q, val => store.fetchChatsAndContacts(val), { immediate: true })
 
 // Open Sidebar in smAndDown when "start conversation" is clicked
 const startConversation = () => {
@@ -96,9 +96,16 @@ const onFileChange = event => {
 // Chat message
 const msg = ref("")
 const loading = ref(false)
+const descValidation = ref(false)
 
 const sendMessage = async () => {
-  if (!msg.value) return
+  
+  if (!msg.value && !tempImg.value) {
+    descValidation.value = true
+    
+    return
+  }
+  descValidation.value = false
 
   // store.activeChat.id
   let form = {
@@ -381,14 +388,14 @@ const changeStatus = async item => {
 
           <!-- Chat log -->
           <PerfectScrollbar
+            id="scroll-container"
             ref="chatLogPS"
             tag="ul"
             :options="{ wheelPropagation: true }"
-            class="flex-grow-1"
-            style="height: 90dvh"
+            class="flex-grow-1 "
           >
             <!-- chat reply by tuhinjamal -->
-            <ChatLog />
+            <ChatLog id="chatLog" />
             <div class="text-end px-4">
               <div
                 v-if="previewImage"
@@ -411,10 +418,17 @@ const changeStatus = async item => {
                 class="border mx-2 my-2"
               />
             </div>
+            
             <VForm
-              class="chat-log-message-form mb-5 mx-5"
+              class="chat-log-message-form mb-5 mx-5 chat-form"
               @submit.prevent="sendMessage"
             >
+              <small
+                v-if="descValidation"
+                style="color:red"
+              >
+                Message is required
+              </small>
               <VTextField
                 :key="store.activeChat.id"
                 v-model="msg"
