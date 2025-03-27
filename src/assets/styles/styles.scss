@@ -101,6 +101,18 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
   cursor: not-allowed;
 }
 
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  #chat{
+    overflow: hidden scroll !important;
+    block-size: 75dvh !important;
+  }
+
+  #chatLog{
+    overflow: hidden scroll !important;
+    block-size: 60dvh;
+  }
+}
+
 @media screen and (min-width: 2560px){
   #chat{
     overflow: hidden scroll !important;
@@ -150,3 +162,37 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 
 
 }
+
+
+
+
+
+
+
+
+
+// quiell editor
+.ql-editor li:not(.ql-direction-rtl)::before {
+  display: none !important;
+}
+
+
+.preview-mode div.ql-toolbar {
+  display: none !important;
+}
+
+.preview-mode .ql-editor {
+  background-color: #f9f9f9; /* Light gray background */
+  block-size: 100dvh !important;
+  pointer-events: none; /* Prevent text selection & editing */
+  user-select: none; /* Disable text selection */
+
+}
+
+
+.preview-quill{
+  block-size: 100dvh !important;
+}
+
+
+

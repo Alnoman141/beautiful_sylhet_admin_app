@@ -14,6 +14,7 @@ const props = defineProps({
     type: String,
     default: 'Type here...',
   },
+  previewMode: { type: Boolean, default: false }, // New prop for preview mode
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -64,14 +65,19 @@ watch(() => props.modelValue, newValue => {
 </script>
 
 <template>
-  <div
-    ref="editorContainer"
-    
-    :class="customClass"
-  />
+  <div :class="{ 'preview-mode': previewMode }">
+    <div
+      ref="editorContainer"
+      :class="previewMode == false ? customClass :''"
+    />
+  </div>
 </template>
 
-<style>
+<style scoped>
+/* Hide the toolbar when previewMode is active */
+
+
+
 .customClass{
   block-size: 300px;
 
@@ -104,14 +110,7 @@ watch(() => props.modelValue, newValue => {
 
 
 
-/* media query for 768px */
 
-/* @media (min-width: 768px) {
-  .quill-editor {
-    block-size: 300px;
-    inline-size: 88vw;
-  }
-} */
 
 /* media query for min width 430 px to max widh 768 */
 @media (min-width: 430px) and (max-width: 500px) {

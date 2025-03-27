@@ -68,56 +68,18 @@
             </div>
            
             
-            <p
-              class="my-4"
-              v-html="information.description"
+            <QuillEditor
+              id="preview-quill-editor"
+              v-model="information.description"
+              content-type="html"
+              theme="snow"
+              toolbar="full"                  
+              custom-class="customClass"
+              preview-mode
+              class="preview-quill"
             />
           </VCol>
         </VRow>
-        <!--
-          <ElTable
-          v-loading="loading"
-          :data="info"
-          style="inline-size: 100%"
-          border
-          >
-          <ElTableColumn label="Description">
-          <template #default="scope">
-          <div class="">
-          <div class="text-end">
-          <RouterLink
-          v-if="$can('edit', 'info')"
-          :to="{ name: 'infoEdit' }"
-          style="
-          color: white !important;
-          text-decoration: none !important;
-          "
-          >
-          <ElTooltip
-          class="item"
-          effect="dark"
-          content="Edit"
-          placement="top-start"
-          >
-          <ElButton
-          type="primary"
-          size="small"
-          >
-          <VIcon
-          icon="tabler-edit"
-          size="15"
-          />
-          </ElButton>
-          </ElTooltip>
-          </RouterLink>
-          </div>
-
-          <div v-html="scope.row.description" />
-          </div>
-          </template>
-          </ElTableColumn>
-          </ElTable> 
-        -->
       </div>
     </ElCard>
   </div>
@@ -125,6 +87,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import QuillEditor from "@/components/quill/QuillEditor.vue"
 import { useInfoStore } from "@/stores/tourism/infoStore"
 
 const loading = ref(true)

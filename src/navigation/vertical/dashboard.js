@@ -31,7 +31,7 @@ export default [
     action: "show menu",
   },
   {
-    title: "Hotel & Restaurant",
+    title: "Hotel/Motel/Resort",
     to: "hotelList",
     icon: { icon: "tabler-building-skyscraper" },
     subject: "hotel",
@@ -44,13 +44,7 @@ export default [
         subject: "hotel",
         action: "show menu",
       },
-      {
-        title: "Restaurant",
-        to: "restaurantList",
-        icon: { icon: "tabler-tools-kitchen" },
-        subject: "dangerzone",
-        action: "show menu",
-      },
+      
       {
         title: "Type",
         to: "hotelTypeList",
@@ -65,6 +59,27 @@ export default [
         subject: "hotelcategory",
         action: "show menu",
       },
+
+     
+      
+    ],
+  },
+  {
+    title: " Restaurant",
+    to: "restaurantList",
+    icon: { icon: "tabler-tools-kitchen" },
+    subject: "hotel",
+    action: "show menu",
+    children: [
+     
+      {
+        title: "Restaurant",
+        to: "restaurantList",
+        icon: { icon: "tabler-tools-kitchen" },
+        subject: "dangerzone",
+        action: "show menu",
+      },
+      
 
       // restaurantCategoryList
       {

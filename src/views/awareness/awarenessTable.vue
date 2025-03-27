@@ -35,9 +35,15 @@
             {{ index == 0 ? "সতর্কতা বাংলা" : "Awareness English" }}
           </p>
         </div>
-        <p
-          class="my-4"
-          v-html="awareness.name"
+        <QuillEditor
+          id="preview-quill-editor"
+          v-model="awareness.name"
+          content-type="html"
+          theme="snow"
+          toolbar="full"                  
+          custom-class="customClass"
+          preview-mode
+          class="preview-quill "
         />
       </VCol>
     </VRow>
@@ -46,6 +52,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
+import QuillEditor from "@/components/quill/QuillEditor.vue"
 import { useAwarenessStore } from "@/stores/tourism/awarenessStore"
 import { defineEmits, defineProps, ref } from "vue"
 

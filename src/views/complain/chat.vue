@@ -100,7 +100,7 @@ const descValidation = ref(false)
 
 const sendMessage = async () => {
   
-  if (!msg.value && !tempImg.value) {
+  if (!msg.value && !tempImg.value || !msg.value) {
     descValidation.value = true
     
     return
@@ -410,8 +410,9 @@ const changeStatus = async item => {
                   X
                 </p>
               </div>
+              
               <iframe
-                v-if="previewImage?.includes('application/pdf')"
+                v-if="previewImage?.includes('application/pdf') || previewImage?.includes('video')"
                 :src="previewImage"
                 height="500"
                 width="500"
@@ -419,7 +420,9 @@ const changeStatus = async item => {
               />
             </div>
             
+
             <VForm
+              v-if="store.userInfo.status !=2 && store.userInfo.status !=3"
               class="chat-log-message-form mb-5 mx-5 chat-form"
               @submit.prevent="sendMessage"
             >
@@ -440,7 +443,7 @@ const changeStatus = async item => {
               >
                 <template #append-inner>
                   <img
-                    v-if="previewImage && !previewImage?.includes('application/pdf')"
+                    v-if="previewImage && !previewImage?.includes('application/pdf') && !previewImage?.includes('video')"
                     :src="previewImage"
                     alt=""
                     height="60"
@@ -482,6 +485,15 @@ const changeStatus = async item => {
                 @change="onFileChange"
               >
             </VForm>
+            <!-- :class="store.userInfo.status == 2 ? 'text-success' : 'text-danger'" -->
+            <p
+              v-else
+              class="chat-log-message-form my-5 mx-5 chat-form text-center"
+              
+              :style="store.userInfo.status == 2 ? 'color:green' : 'color:red'"
+            >
+              This complain has been {{ store.userInfo.status == 2 ? 'resolved' : 'rejected' }}
+            </p>
           </PerfectScrollbar>
 
           <!-- Message form tuhinjamal -->

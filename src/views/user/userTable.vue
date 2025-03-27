@@ -17,7 +17,6 @@
         :width="column.prop == 'id' ? '100' : ''"
       >
         <template #default="scope">
-          
           <div
             v-if="column.prop !== 'content' && column.prop !== 'info'"
             v-html="
@@ -129,37 +128,41 @@
           >Name: {{ detailData.name }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Email: {{ detailData.email }}</VCol
+          >Email: {{ detailData.email ? detailData.email : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Phone: {{ detailData.phone }}</VCol
+          >Phone: {{ detailData.phone ? detailData.phone : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >NID: {{ detailData.info.data.nid_passport }}</VCol
+          >NID: {{ detailData?.info?.data.nid_passport ? detailData?.info?.data.nid_passport : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Nationality: {{ detailData.info.data.nationality }}</VCol
+          >Nationality: {{ detailData?.info?.data.nationality ? detailData?.info?.data.nationality : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
           >Country:
           {{
-            detailData.info.data.country
-              ? detailData.info.data.country.name
+            detailData?.info?.data.country
+              ? detailData?.info?.data.country.name
               : "     &nbsp; &nbsp;&nbsp; -    "
           }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Present Address: {{ detailData.info.data.present_address }}
-          {{ detailData.info.data.present_dist_name }}
+          >Present Address: {{ detailData?.info?.data.present_address ? detailData?.info?.data.present_address : "     &nbsp; &nbsp;&nbsp; -    " }}
+          {{ detailData?.info?.data.present_dist_name ? detailData?.info?.data.present_dist_name : "     &nbsp; &nbsp;&nbsp; -    " }}
+          {{ detailData?.info?.data.present_up_name ? detailData?.info?.data.present_up_name  : "     &nbsp; &nbsp;&nbsp; -    " }}
         </VCol>
         <VCol
           cols="12"
           md="3"
           class="border-s border-b border-e d-flex align-center"
-          >Permanent Address: {{ detailData.info.data.permanent_address }}
-          {{ detailData.info.data.permanent_dist_name }}</VCol
-        >
+          >Permanent Address: <br />
+          {{ detailData?.info?.data.permanent_address ? detailData?.info?.data.permanent_address : "     &nbsp; &nbsp;&nbsp; -    " }}
+          {{ detailData?.info?.data.permanent_dist_name ? detailData?.info?.data.permanent_dist_name : "     &nbsp; &nbsp;&nbsp; -    " }}
+          {{ detailData?.info?.data.permanent_up_name }}
+        </VCol>
       </VRow>
+      
     </ElDialog>
   </div>
 </template>
@@ -247,20 +250,16 @@ const detailDialog = ref(false);
 const detailData = ref({});
 
 const showDetail = (item) => {
-  detailDialog.value = true;
-  detailData.value = item;
+  
+    detailData.value = item;
+    detailDialog.value = true;
+  
 };
 const handleClose = (done: () => void) => {
   detailDialog.value = false;
-  detailData.value = {};
-  done();
-  // ElMessageBox.confirm("Are you sure to close this dialog?")
-  //   .then(() => {
 
-  //
-  //   })
-  //   .catch(() => {
-  //     // catch error
-  //   });
+  done();
+  detailData.value = {};
+  
 };
 </script>

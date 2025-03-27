@@ -141,9 +141,9 @@ const getGuideline = async () => {
     const { data } = await guidelineStore.editGuideline();
 
     editData.value = data;
-    setTimeout(() => {
-      quillEditor.value ? quillEditor.value.setHTML(data.data.name) : "";
-    }, 1000);
+    // setTimeout(() => {
+    //   quillEditor.value ? quillEditor.value.setHTML(data.data.name) : "";
+    // }, 1000);
 
     ruleForm.value.data = data.data;
     loading.value = false;
