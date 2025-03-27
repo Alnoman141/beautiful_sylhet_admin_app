@@ -67,7 +67,6 @@ import { computed, onMounted, ref } from "vue"
 import About from "./components/about.vue"
 import Caurosel from "./components/caurosel.vue"
 import Feature from "./components/feature.vue"
-import Footer from "./components/footer.vue"
 import Header from "./components/header.vue"
 import Speciality from "./components/speciality.vue"
 import Testimonial from "./components/testimonial.vue"
@@ -318,7 +317,8 @@ const components = [
   { name: "Workflow", component: Workflow, key: "workflow" },
   { name: "Video Tutorial", component: VideoTutorial, key: "videoInformation" },
   { name: "Testimonial", component: Testimonial, key: "testimonials" },
-  { name: "Footer", component: Footer, key: "footer" },
+
+  // { name: "Footer", component: Footer, key: "footer" },
 ]
 
 const step = ref(1)

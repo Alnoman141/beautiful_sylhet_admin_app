@@ -71,14 +71,17 @@
           :rule-form="landingPage.videoInformation"
           mode="view"
         />
+        
         <Testimonial
           mode="view"
-          :rule-form="landingPage.testimonial"
+          :rule-form="landingPage.testimonials"
         />
-        <Footer
+        <!--
+          <Footer
           mode="view"
           :rule-form="landingPage.footer"
-        />
+          /> 
+        -->
       </div>
     </div>
   </div>
@@ -92,7 +95,6 @@ import Header from "./components/header.vue"
 
 import Feature from "./components/feature.vue"
 
-import Footer from "./components/footer.vue"
 
 import Speciality from "./components/speciality.vue"
 

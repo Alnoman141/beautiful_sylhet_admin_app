@@ -17,40 +17,9 @@
             <b> Landing Page Header  </b>            
             <hr />
           </VCol>
-          <!-- <VCol
-            v-for="(item, index) in ruleForm.navLinks"
-            :key="index"
-            cols="12"
-            md="3"
-          >
-            <div class="border rounded px-4 py-4">
-              <ElFormItem
-                label="Nav Link Name"
-                :prop="'navLinks.' + index + '.name'"
-                :rules="{
-                  required: true,
-                  message: 'Nav Link name  is required',
-                  trigger: 'blur',
-                }"
-              >
-                <ElInput :disabled="mode == 'view'" v-model="item.name" placeholder="Nav Link Name" />
-              </ElFormItem>
-              <ElFormItem
-                label="Nav Link URL"
-                :prop="'navLinks.' + index + '.url'"
-                :rules="{
-                  required: true,
-                  message: 'Nav Link url  is required',
-                  trigger: 'blur',
-                }"
-              >
-                <ElInput :disabled="mode == 'view'" v-model="item.url" placeholder="Nav Link Url" />
-              </ElFormItem>
-              
-            </div>
-          </VCol> -->
+          
           <VCol class="my-2">
-            <label for="">Logo One <span style="color:red">*</span></label>
+            <label for="">Logo Black <span style="color:red">*</span></label>
             <el-upload
               class="upload-section"
               drag
@@ -93,7 +62,7 @@
             </el-upload>
           </VCol>
           <VCol class="my-2">
-            <label for="">Logo Two <span style="color: red;">*</span></label>
+            <label for="">Logo White <span style="color: red;">*</span></label>
             <el-upload
               class="upload-section"
               drag
@@ -136,19 +105,7 @@
             </el-upload>
           </VCol>
         </VRow>
-        <!-- add more button -->
-        <!-- <div v-if="ruleForm.navLinks.length != 5" class="text-end mt-2">
-          <ElButton
-            type="primary"
-            @click="
-              ruleForm.navLinks.length < 5
-                ? ruleForm.navLinks.push({ name: '', url: '' })
-                : ''
-            "
-          >
-            +
-          </ElButton>
-        </div> -->
+        
       </ElCard>
       <div class="py-4" v-if="mode != 'view'">
         

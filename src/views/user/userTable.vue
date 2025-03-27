@@ -128,41 +128,41 @@
           >Name: {{ detailData.name }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Email: {{ detailData.email ? detailData.email : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
+          >Email: {{ detailData.email ? detailData.email : "" }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Phone: {{ detailData.phone ? detailData.phone : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
+          >Phone: {{ detailData.phone ? detailData.phone : "" }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >NID: {{ detailData?.info?.data.nid_passport ? detailData?.info?.data.nid_passport : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
+          >NID/Passport: {{ detailData?.info?.data.nid_passport ? detailData?.info?.data.nid_passport : "" }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Nationality: {{ detailData?.info?.data.nationality ? detailData?.info?.data.nationality : "     &nbsp; &nbsp;&nbsp; -    " }}</VCol
+          >Nationality: {{ detailData?.info?.data.nationality ? detailData?.info?.data.nationality : "" }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
           >Country:
           {{
             detailData?.info?.data.country
-              ? detailData?.info?.data.country.name
-              : "     &nbsp; &nbsp;&nbsp; -    "
+              ? detailData?.info?.data.country
+              : ""
           }}</VCol
         >
         <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Present Address: {{ detailData?.info?.data.present_address ? detailData?.info?.data.present_address : "     &nbsp; &nbsp;&nbsp; -    " }}
-          {{ detailData?.info?.data.present_dist_name ? detailData?.info?.data.present_dist_name : "     &nbsp; &nbsp;&nbsp; -    " }}
-          {{ detailData?.info?.data.present_up_name ? detailData?.info?.data.present_up_name  : "     &nbsp; &nbsp;&nbsp; -    " }}
+          >Present Address: {{ detailData?.info?.data.present_address ? detailData?.info?.data.present_address : "" }}
+          {{ detailData?.info?.data.present_dist_name ? detailData?.info?.data.present_dist_name : "" }}
+          {{ detailData?.info?.data.present_up_name ? detailData?.info?.data.present_up_name  : "" }}
         </VCol>
         <VCol
           cols="12"
           md="3"
           class="border-s border-b border-e d-flex align-center"
           >Permanent Address: <br />
-          {{ detailData?.info?.data.permanent_address ? detailData?.info?.data.permanent_address : "     &nbsp; &nbsp;&nbsp; -    " }}
-          {{ detailData?.info?.data.permanent_dist_name ? detailData?.info?.data.permanent_dist_name : "     &nbsp; &nbsp;&nbsp; -    " }}
+          {{ detailData?.info?.data.permanent_address ? detailData?.info?.data.permanent_address : "" }}
+          {{ detailData?.info?.data.permanent_dist_name ? detailData?.info?.data.permanent_dist_name : "" }}
           {{ detailData?.info?.data.permanent_up_name }}
         </VCol>
+        
       </VRow>
-      
     </ElDialog>
   </div>
 </template>

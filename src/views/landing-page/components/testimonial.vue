@@ -34,7 +34,7 @@
                 type="textarea"
                 v-model="ruleForm.title"
                 :disabled="mode == 'view'"
-                placeholder="Video Title"
+                placeholder="Testimonial Title"
               />
             </ElFormItem>
           </VCol>
@@ -52,10 +52,11 @@
                 type="textarea"
                 v-model="ruleForm.description"
                 :disabled="mode == 'view'"
-                placeholder="Video Description"
+                placeholder="Testimonial Description"
                 :rows="5"
               />
             </ElFormItem>
+            
           </VCol>
           <VCol v-for="(item, index) in ruleForm.testimonial" :key="index" cols="12" md="6">
             <div class="border rounded px-4 py-4">

@@ -182,8 +182,10 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 }
 
 .preview-mode .ql-editor {
-  background-color: #f9f9f9; /* Light gray background */
-  block-size: 100dvh !important;
+  block-size: auto !important;
+
+  // background-color: #f9f9f9; /* Light gray background */
+  min-block-size: 300px;
   pointer-events: none; /* Prevent text selection & editing */
   user-select: none; /* Disable text selection */
 
@@ -191,7 +193,7 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 
 
 .preview-quill{
-  block-size: 100dvh !important;
+  block-size: auto !important;
 }
 
 
