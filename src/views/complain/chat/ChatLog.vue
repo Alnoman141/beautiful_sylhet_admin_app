@@ -73,7 +73,6 @@ const msgGroups = computed(() => {
     <div class="chat-body d-inline-flex">
       <VAvatar
         size="32"
-        
         class="me-2"
       >
         <VImg
@@ -88,13 +87,17 @@ const msgGroups = computed(() => {
         style="background-color: rgb(var(--v-theme-surface))"
       >
         <p class="mb-0 text-base">
-          {{ store.userInfo.description }} 
+          {{ store.userInfo.description }}
         </p>
-        
-        
-       
+        <img
+          v-if="store.userInfo.file.endsWith('.png') || store.userInfo.file.endsWith('.jpg') || store.userInfo.file.endsWith('.webp')|| store.userInfo.file.endsWith('.jpeg') "
+          :src="store.userInfo.file"
+          alt="img"
+          width="100%"
+          height="400"
+        >
         <iframe
-          
+          v-else-if="store.userInfo.file"
           :src="store.userInfo.file"
           width="100%"
           height="600"
@@ -121,8 +124,12 @@ const msgGroups = computed(() => {
           <VImg
             :src="
               msgGrp.senderId === contact.id
-                ? index != 0 ? contact.avatar :''
-                : index != 0 ? store.activeChat.replies[0].user.avatar :''
+                ? index != 0
+                  ? contact.avatar
+                  : ''
+                : index != 0
+                  ? store.activeChat.replies[0].user.avatar
+                  : ''
             "
           />
         </VAvatar>
@@ -146,13 +153,17 @@ const msgGroups = computed(() => {
           <p class="mb-0 text-base">
             {{ msgData.message }}
           </p>
-         
-
-         
-          <iframe
-            
+          <!-- !msgData.image.endsWith('.pdf')" -->
+          <img
+            v-if="msgData.image.endsWith('.png') || msgData.image.endsWith('.jpg') || msgData.image.endsWith('.webp')|| msgData.image.endsWith('.jpeg') "
             :src="msgData.image"
-            
+            alt="img"
+            width="100%"
+            height="400"
+          >
+          <iframe
+            v-else-if="msgData.image"
+            :src="msgData.image"
             width="100%"
             height="600"
           />

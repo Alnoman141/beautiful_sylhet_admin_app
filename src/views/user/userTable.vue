@@ -124,44 +124,96 @@
             srcset=""
           />
         </VCol>
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
+        <VCol cols="12" md="3" class="border-s border-b"
           >Name: {{ detailData.name }}</VCol
         >
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
+        <VCol cols="12" md="3" class="border-s border-b"
           >Email: {{ detailData.email ? detailData.email : "" }}</VCol
         >
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
+        <VCol cols="12" md="3" class="border-s border-b"
           >Phone: {{ detailData.phone ? detailData.phone : "" }}</VCol
         >
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >NID/Passport: {{ detailData?.info?.data.nid_passport ? detailData?.info?.data.nid_passport : "" }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Nationality: {{ detailData?.info?.data.nationality ? detailData?.info?.data.nationality : "" }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Country:
+        <VCol cols="12" md="3" class="border-s border-b border-e"
+          >NID/Passport:
           {{
-            detailData?.info?.data.country
-              ? detailData?.info?.data.country
+            detailData?.info?.data.nid_passport
+              ? detailData?.info?.data.nid_passport
               : ""
           }}</VCol
         >
-        <VCol cols="12" md="3" class="border-s border-b d-flex align-center"
-          >Present Address: {{ detailData?.info?.data.present_address ? detailData?.info?.data.present_address : "" }}
-          {{ detailData?.info?.data.present_dist_name ? detailData?.info?.data.present_dist_name : "" }}
-          {{ detailData?.info?.data.present_up_name ? detailData?.info?.data.present_up_name  : "" }}
+        <VCol cols="12" md="3" class="border-s border-b"
+          >Nationality:
+          {{
+            detailData?.info?.data.nationality
+              ? detailData?.info?.data.nationality
+              : ""
+          }}</VCol
+        >
+        <VCol cols="12" md="3" class="border-s border-b"
+          >Country:
+          {{
+            detailData?.info?.data.country ? detailData?.info?.data.country : ""
+          }}</VCol
+        >
+        <VCol cols="12" md="3" class="border-s border-b px-0 py-0 mx-0 my-0">
+          <p class="mx-0 px-1 py-1 my-0 border-b">Present Address</p>
+          <p class="mx-1 px-0 py-0 my-1">
+            Address:
+            {{
+              detailData?.info?.data.present_address
+                ? detailData?.info?.data.present_address
+                : " &nbsp; -"
+            }}
+          </p>
+          <p class="mx-1 px-0 py-0 my-1">
+            Upazila:
+            {{
+              detailData?.info?.data.present_dist_name
+                ? detailData?.info?.data.present_dist_name
+                : " &nbsp; -"
+            }}
+          </p>
+          <p class="mx-1 px-0 py-0 my-1">
+            District:
+
+            {{
+              detailData?.info?.data.present_up_name
+                ? detailData?.info?.data.present_up_name
+                : " &nbsp; -"
+            }}
+          </p>
         </VCol>
         <VCol
           cols="12"
           md="3"
-          class="border-s border-b border-e d-flex align-center"
-          >Permanent Address: <br />
-          {{ detailData?.info?.data.permanent_address ? detailData?.info?.data.permanent_address : "" }}
-          {{ detailData?.info?.data.permanent_dist_name ? detailData?.info?.data.permanent_dist_name : "" }}
-          {{ detailData?.info?.data.permanent_up_name }}
+          class="border-s border-b border-e px-0 py-0 mx-0 my-0"
+          ><p class="mx-0 px-1 py-1 my-0 border-b">Permanent Address</p>
+
+          <p class="mx-1 px-0 py-0 my-1">
+            Address:
+            {{
+              detailData?.info?.data.permanent_address
+                ? detailData?.info?.data.permanent_address
+                : " &nbsp; -"
+            }}
+          </p>
+          <p class="mx-1 px-0 py-0 my-1">
+            Upazila:
+            {{
+              detailData?.info?.data.permanent_up_name
+                ? detailData?.info?.data.permanent_up_name
+                : " &nbsp; -"
+            }}
+          </p>
+          <p class="mx-1 px-0 py-0 my-1">
+            District:
+            {{
+              detailData?.info?.data.permanent_dist_name
+                ? detailData?.info?.data.permanent_dist_name
+                : " &nbsp; -"
+            }}
+          </p>
         </VCol>
-        
       </VRow>
     </ElDialog>
   </div>
@@ -250,16 +302,13 @@ const detailDialog = ref(false);
 const detailData = ref({});
 
 const showDetail = (item) => {
-  
-    detailData.value = item;
-    detailDialog.value = true;
-  
+  detailData.value = item;
+  detailDialog.value = true;
 };
 const handleClose = (done: () => void) => {
   detailDialog.value = false;
 
   done();
   detailData.value = {};
-  
 };
 </script>
