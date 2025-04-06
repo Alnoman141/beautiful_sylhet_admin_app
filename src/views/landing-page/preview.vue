@@ -362,7 +362,7 @@ const currentComponent = computed(() => components[step.value])
 const componentKey = computed(() => Object.keys(landingPage.value)[step.value - 1])
 
 const stepIncrement = item => {
-  console.log("item", item)
+  
   step.value = item
 }
 

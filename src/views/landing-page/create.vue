@@ -365,7 +365,7 @@ const getLandingPage = async () => {
 
    
     if (data.status_code == 200) {
-      landingPage.value = data.data.data
+      landingPage.value = data?.data?.data || {}
       loading.value = false
       landingPage.value.workflow ? "" : landingPage.value.workflow = tempLandingPage.workflow
       landingPage.value.testimonials ? "" : landingPage.value.testimonials = tempLandingPage.testimonials
@@ -377,10 +377,6 @@ const getLandingPage = async () => {
       landingPage.value.about ? "" : landingPage.value.about = tempLandingPage.about
       landingPage.value.caurosel ? "" : landingPage.value.caurosel = tempLandingPage.caurosel
       landingPage.value.header ? "" : landingPage.value.header = tempLandingPage.header 
-
-      
-      
-      
     }
   } catch (error) {
     console.log(error)

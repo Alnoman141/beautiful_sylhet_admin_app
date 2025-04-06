@@ -57,6 +57,7 @@ const isChatContactActive = computed(() => {
         {{ props.user.user.name }} </b><br>
       <small>Complain-No: {{ props.user.serial }}</small> <br>
       <small>Complain-Category: {{ props.user.category.name }}</small> <br>
+     
       <small
         :class="
           props.user.status == 0

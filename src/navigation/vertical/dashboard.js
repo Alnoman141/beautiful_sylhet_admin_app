@@ -222,9 +222,9 @@ export default [
   },
   {
     title: "Emergency",
-    to: "redZoneList",
+    to: "DC Activities",
     icon: { icon: "tabler-alert-triangle" },
-    subject: "bank",
+    subject: "notice",
     action: "show menu",
     children: [
       {
@@ -280,16 +280,6 @@ export default [
     subject: "notice",
     action: "show menu",
   },
-
-  // ------------------
-  // {
-  //       title: "Complain List",
-  //       to: "complainList",
-  //       icon: { icon: "tabler-activity" },
-  //       subject: "user",
-  //       action: "show menu",
-  //     },
-
   {
     title: "News",
     to: "newsList",
@@ -297,8 +287,6 @@ export default [
     subject: "news",
     action: "show menu",
   },
-  
- 
   {
     title: "Tourist List",
     to: "touristList",

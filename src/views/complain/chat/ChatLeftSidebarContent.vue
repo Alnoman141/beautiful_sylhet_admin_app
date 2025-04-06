@@ -15,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  complainList: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const emit = defineEmits([
@@ -22,6 +26,7 @@ const emit = defineEmits([
   "showUserProfile",
   "close",
   "update:search",
+  'getComplainList',
 ])
 
 const complainCategoryStore = useComplainCategoryStore()
@@ -42,29 +47,32 @@ const getcomplainCategoryList = async () => {
   }
 }
 
-const complainList = ref([])
+// const complainList = ref([])
 
 const getspotList = async () => {
   // size.value = pageSize
   // loading.value = true
+  // emit getComplainList
 
-  let parameter = {
-    page: 1,
-    per_page: 100000,
-    category_id: complainCategory.value,
-    serial: search.value,
-  }
-  try {
-    const { data } = await complainStore.getComplainList(parameter)
+  emit("getComplainList", complainCategory.value, search.value)
 
-    complainList.value = data.data.data
-  } catch (error) {
-    console.log(error)
-  }
+  // let parameter = {
+  //   page: 1,
+  //   per_page: 100000,
+  //   category_id: complainCategory.value,
+  //   serial: search.value,
+  // }
+  // try {
+  //   const { data } = await complainStore.getComplainList(parameter)
+
+  //   complainList.value = data.data.data
+  // } catch (error) {
+  //   console.log(error)
+  // }
 }
 
 onMounted(() => {
-  getspotList(10, 1)
+  // getspotList(10, 1)
   getcomplainCategoryList()
 })
 
@@ -99,7 +107,7 @@ const store = useChatStore()
         </VCol>
         <VCol cols="12">
           <label class="chat-contact-header text-primary text-h5">
-            Complains Category
+            Complains Category 
           </label>
           <ElSelect
             v-model="complainCategory"

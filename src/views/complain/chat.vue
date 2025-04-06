@@ -3,7 +3,7 @@ import { themes } from "@/plugins/vuetify/theme"
 
 import { useComplainStore } from "@/stores/tourism/complainStore"
 import { notify } from "@/utils/notification"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import { PerfectScrollbar } from "vue3-perfect-scrollbar"
 import { useDisplay, useTheme } from "vuetify"
 import ChatActiveChatUserProfileSidebarContent from "./chat/ChatActiveChatUserProfileSidebarContent.vue"
@@ -152,9 +152,11 @@ const complainId = ref(null)
 const complainUserInfo = ref({})
 
 const openChatOfContact = async (userId, userInfo) => {
+  
   complainUserInfo.value = userInfo
   store.userInfo = complainUserInfo.value
   complainId.value = userId
+  
   await store.getChat(userId)
 
   // Reset message input
@@ -191,6 +193,7 @@ const chatContentContainerBg = computed(() => {
 })
 
 const showAlert = item => {
+  
   ElMessageBox.alert(
     "Are you sure that you want to change this complain status ?",
     "Confirm",
@@ -212,7 +215,7 @@ const showAlert = item => {
 const changeStatus = async item => {
   let form = {
     id: store.userInfo.id,
-    status: store.userInfo.status,
+    status: item,
   }
 
   // changeStatus
@@ -222,7 +225,7 @@ const changeStatus = async item => {
     data.status_code == 200
       ? (notify("Congratulations!", data.message, "success", "top-right"),
       openChatOfContact(complainId.value, store.userInfo),
-      (loading.value = false))
+      (loading.value = false), getComplainList())
       : ""
 
     // data.status_code == 200 ? router.push({ name: "complainList" }) : "";
@@ -238,6 +241,36 @@ const changeStatus = async item => {
       "error",
       "top-right",
     )
+  }
+}
+
+const complainStatus = ref(0)
+
+onMounted(() => {
+  setTimeout(() => {
+    complainStatus.value = store.userInfo?.status
+    
+  }, 1000)
+  getComplainList()
+  
+})
+
+const complainList = ref([])
+
+const getComplainList = async (complainCategory, search) => {
+  console.log("emitted", complainCategory, search)
+  let parameter = {
+    page: 1,
+    per_page: 100000,
+    category_id: complainCategory,
+    serial: search,
+  }
+  try {
+    const { data } = await complainStore.getComplainList(parameter)
+
+    complainList.value = data.data.data
+  } catch (error) {
+    console.log(error)
   }
 }
 </script>
@@ -282,7 +315,9 @@ const changeStatus = async item => {
         <ChatLeftSidebarContent
           v-model:isDrawerOpen="isLeftSidebarOpen"
           v-model:search="q"
+          :complain-list="complainList"
           @open-chat-of-contact="openChatOfContact"
+          @get-complain-list="getComplainList"
           @show-user-profile="isUserProfileSidebarOpen = true"
           @close="isLeftSidebarOpen = false"
         />
@@ -363,13 +398,13 @@ const changeStatus = async item => {
                 <div class="active-chat-header d-flex align-center text-medium-emphasis">
                   <div>
                     <ElSelect
-                      v-model="store.userInfo.status"
+                      v-model="complainStatus"
                       clearable
                       placeholder="Complain Status"
                       size="large"
                       style="inline-size: 240px"
                       class="px-2"
-                      @change="showAlert(store.userInfo?.status)"
+                      @change="showAlert(complainStatus)"
                     >
                       <ElOption
                         v-for="item in options"
