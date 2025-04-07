@@ -49,7 +49,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'রেস্ট্রুরেন্ট ক্যাটাগরি' : 'Restaurnat Category Name'"
+                  :label=" index == 0 ? 'রেস্তোরা ক্যাটেগরি ' : 'Restaurant Category'"
                   :prop="
                     ruleForm.categories
                       ? 'categories.' + index + '.name'
@@ -57,13 +57,13 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'রেস্ট্রুরেন্ট ক্যাটাগরি আবশ্যক' : 'Restaurnat category is required',
+                    message: index == 0 ? 'রেস্তোরা ক্যাটেগরি   আবশ্যক' : 'Restaurant category is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput
                     v-model="item.name"
-                    :placeholder=" index == 0 ? 'রেস্ট্রুরেন্ট ক্যাটাগরি' : 'Category name'"
+                    :placeholder=" index == 0 ? 'রেস্তোরা ক্যাটেগরি  ' : 'Category name'"
                   />
                 </ElFormItem>
               </VCol>

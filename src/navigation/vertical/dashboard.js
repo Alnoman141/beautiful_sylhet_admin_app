@@ -166,7 +166,7 @@ export default [
       },
 
       {
-        title: "Zone Category",
+        title: "Dengar Zone Category",
         to: "redZoneCategoryList",
         icon: { icon: "tabler-category-2" },
         subject: "zonecategory",

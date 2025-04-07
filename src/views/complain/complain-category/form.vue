@@ -49,7 +49,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'কমপ্লেইন ক্যাটাগরি' : 'Complain Category Name'"
+                  :label=" index == 0 ? 'কমপ্লেইন ক্যাটেগরি ' : 'Complain Category Name'"
                   :prop="
                     ruleForm.categories
                       ? 'categories.' + index + '.name'
@@ -57,13 +57,13 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'কমপ্লেইন ক্যাটাগরি আবশ্যক' : 'Complain category is required',
+                    message: index == 0 ? 'কমপ্লেইন ক্যাটেগরি  আবশ্যক' : 'Complain category is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput
                     v-model="item.name"
-                    :placeholder=" index == 0 ? 'কমপ্লেইন ক্যাটাগরি' : 'Complain Category name'"
+                    :placeholder=" index == 0 ? 'কমপ্লেইন ক্যাটেগরি ' : 'Complain Category name'"
                   />
                 </ElFormItem>
               </VCol>
@@ -114,9 +114,9 @@
 import { useComplainCategoryStore } from "@/stores/tourism/complainCategoryStore";
 import { notify } from "@/utils/notification";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

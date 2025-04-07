@@ -83,12 +83,9 @@ const store = useChatStore()
 </script>
 
 <template>
-  <div style="position: fixed">
+  <div style=" z-index: 1000; background: white;">
     <!-- 👉 Chat list header -->
-    <div
-      class="chat-list-header"
-      style="position: sticky; inset-block-start: 0"
-    >
+    <div class="chat-list-header">
       <VRow class="py-4">
         <VCol cols="12">
           <VTextField
@@ -132,27 +129,26 @@ const store = useChatStore()
       Complains
     </h5>
     <hr>
-    <PerfectScrollbar
-      tag="ul"
-      class="d-flex flex-column gap-y-1 chat-contacts-list px-3 py-2 list-none"
-      :options="{ wheelPropagation: true }"
-      style="position: relative; block-size: 100vh; overflow-y: scroll"
-    >
-      <ChatContact
-        v-for="contact in complainList"
-        :key="`chat-${contact.id}`"
-        :user="contact"
-        is-chat-contact
-        :complain-list="complainList"
-        @click="$emit('openChatOfContact', contact.id, contact)"
-      />
-
-      <span
-        v-show="!complainList.length"
-        class="no-chat-items-text text-disabled"
-      >No chats found</span>
-    </PerfectScrollbar>
   </div>
+  <PerfectScrollbar
+    tag="ul"
+    class="d-flex flex-column gap-y-1 chat-contacts-list px-3 py-2 list-none"
+    :options="{ wheelPropagation: true }"
+  >
+    <ChatContact
+      v-for="contact in complainList"
+      :key="`chat-${contact.id}`"
+      :user="contact"
+      is-chat-contact
+      :complain-list="complainList"
+      @click="$emit('openChatOfContact', contact.id, contact)"
+    />
+
+    <span
+      v-show="!complainList.length"
+      class="no-chat-items-text text-disabled"
+    >No chats found</span>
+  </PerfectScrollbar>
 </template>
 
 <style lang="scss">

@@ -49,7 +49,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'ডেঞ্জার জোন ক্যাটাগরি' : 'Danger Zone Category Name'"
+                  :label=" index == 0 ? 'ডেঞ্জার জোন ক্যাটেগরি ' : 'Danger Zone Category Name'"
                   :prop="
                     ruleForm.category
                       ? 'category.' + index + '.name'
@@ -57,13 +57,13 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'ডেঞ্জার জোন ক্যাটাগরি আবশ্যক' : 'Danger Zone category is required',
+                    message: index == 0 ? 'ডেঞ্জার জোন ক্যাটেগরি  আবশ্যক' : 'Danger Zone category is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput
                     v-model="item.name"
-                    :placeholder=" index == 0 ? 'ডেঞ্জার জোন ক্যাটাগরি' : 'Danger Zone Category name'"
+                    :placeholder=" index == 0 ? 'ডেঞ্জার জোন ক্যাটেগরি ' : 'Danger Zone Category name'"
                   />
                 </ElFormItem>
               </VCol>

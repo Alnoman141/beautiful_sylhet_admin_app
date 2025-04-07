@@ -49,7 +49,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'হোটেল ক্যাটাগরি' : 'Hotel Category Name'"
+                  :label=" index == 0 ? 'হোটেল ক্যাটেগরি ' : 'Hotel Category Name'"
                   :prop="
                     ruleForm.categories
                       ? 'categories.' + index + '.name'
@@ -57,13 +57,13 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'হোটেল ক্যাটাগরি আবশ্যক' : 'Hotel category is required',
+                    message: index == 0 ? 'হোটেল ক্যাটেগরি  আবশ্যক' : 'Hotel category is required',
                     trigger: 'blur',
                   }"
                 >
                   <ElInput
                     v-model="item.name"
-                    :placeholder=" index == 0 ? 'হোটেল ক্যাটাগরি' : 'Category name'"
+                    :placeholder=" index == 0 ? 'হোটেল ক্যাটেগরি ' : 'Category name'"
                   />
                 </ElFormItem>
               </VCol>
@@ -114,9 +114,9 @@
 import { useHotelCategoryStore } from "@/stores/tourism/hotelCategoryStore";
 import { notify } from "@/utils/notification";
 import {
-  type ComponentSize,
-  type FormInstance,
-  type FormRules,
+    type ComponentSize,
+    type FormInstance,
+    type FormRules,
 } from "element-plus";
 import { defineEmits, defineProps, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";

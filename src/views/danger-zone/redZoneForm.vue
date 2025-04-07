@@ -131,21 +131,21 @@
 
           <VCol cols="12" md="6">            
             <ElFormItem
-              label="Hazard Category"
+              label="Danger Zone Category"
               prop="red_zone_category_parent_id"
               :rules="{
                 required: true,
-                message: 'Please select Hazard Category',
+                message: 'Please select Danger Zone',
                 trigger: 'change',
               }"
             >
               <el-select
                 v-model="ruleForm.red_zone_category_parent_id"
-                placeholder="Select Hazard Category"
+                placeholder="Select Danger Zone"
                 prop="red_zone_category_parent_id"
                 :rules="{
                   required: true,
-                  message: 'Please select Hazard Category',
+                  message: 'Please select Danger Zone',
                   trigger: 'change',
                 }"
               >

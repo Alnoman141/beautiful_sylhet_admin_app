@@ -91,8 +91,6 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
   text-overflow: ellipsis !important;
 }
 
-
-
 // disbale color correction
 .el-textarea.is-disabled .el-textarea__inner {
   background-color: white !important;
@@ -109,7 +107,7 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 
   #chatLog{
     overflow: hidden scroll !important;
-    block-size: 60dvh;
+    block-size: 100dvh !important;
   }
 }
 
@@ -121,26 +119,26 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 
   #chatLog{
     overflow: hidden scroll !important;
-    block-size: 60dvh;
+    block-size: 100dvh !important;
   }
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
   #chat{
     overflow: hidden scroll !important;
-    block-size: 70dvh !important;
+    block-size: 72dvh !important;
   }
 
   #chatLog{
     overflow: hidden scroll !important;
-    block-size: 50dvh;
+    block-size: 100dvh !important;
   }
 }
 
 @media screen and (min-width: 1440px) and (max-width: 1919px) {
   #chat{
     overflow: hidden scroll !important;
-    block-size: 57dvh !important;
+    block-size: 100dvh !important;
   }
 
   #chatLog{
@@ -152,7 +150,7 @@ html.dark.el-pagination.is-background .btn-next.is-disabled, .el-pagination.is-b
 @media screen and (min-width: 1024px) and (max-width: 1439px) {
   #chat{
     overflow: hidden scroll !important;
-    block-size: 58dvh !important;
+    block-size: 100dvh !important;
   }
 
   #chatLog{
