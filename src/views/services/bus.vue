@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$can('create', 'touristbus')">
     <ElCard class=" my-4">
       <VRow>
         <VCol>
@@ -7,11 +7,11 @@
         </VCol>
         <VCol class="text-right">
           <RouterLink
-            type="primary"
-            :underline="false"          
+            v-if="$can('create', 'touristbus')"
+            type="primary"          
           
+            :underline="false"
             :to="{ name: 'createBus', params: { type: 3 } }"
-           
             class="create-btn "
           >
             <ElTooltip

@@ -1,16 +1,19 @@
 <template>
-  <div>
+  <div v-if="$can('create', 'datourismcell')">
     <ElCard class=" my-4">
       <VRow>
         <VCol>
-          <b> DC Activities List </b>
+          <b> DC Tourism Cell </b>
         </VCol>
-        <VCol class="text-right">
+        <VCol
+          v-if="$can('create', 'datourismcell')"
+          class="text-right"
+        >
           <RouterLink
             v-if="spotList.length == 0"
-            type="primary"
-            :underline="false"          
-          
+            
+            type="primary"          
+            :underline="false"
             :to="{ name: 'createDc', params: { type: 2 } }"
            
             class="create-btn "

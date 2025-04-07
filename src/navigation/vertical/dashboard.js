@@ -6,7 +6,6 @@ export default [
     subject: "dashboard",
     action: "show menu",
   },
-
   {
     title: "Instructions",
     to: "guide-line",
@@ -68,7 +67,7 @@ export default [
     title: " Restaurant",
     to: "restaurantList",
     icon: { icon: "tabler-tools-kitchen" },
-    subject: "hotel",
+    subject: "restaurant",
     action: "show menu",
     children: [
      
@@ -76,7 +75,7 @@ export default [
         title: "Restaurant",
         to: "restaurantList",
         icon: { icon: "tabler-tools-kitchen" },
-        subject: "dangerzone",
+        subject: "restaurant",
         action: "show menu",
       },
       
@@ -86,7 +85,7 @@ export default [
         title: "Restaurant Category",
         to: "restaurantCategoryList",
         icon: { icon: "tabler-category" },
-        subject: "hotelcategory",
+        subject: "restaurantcategory",
         action: "show menu",
       },
       
@@ -170,7 +169,7 @@ export default [
         title: "Zone Category",
         to: "redZoneCategoryList",
         icon: { icon: "tabler-category-2" },
-        subject: "dangerzone",
+        subject: "zonecategory",
         action: "show menu",
       },
     ],
@@ -179,35 +178,35 @@ export default [
     title: "Tourist Bus",
     to: "Tourist Bus",
     icon: { icon: "tabler-bus" },
-    subject: "notice",
+    subject: "touristbus",
     action: "show menu",
   },
   {
     title: "Kitkot Chair",
     to: "Kitkot Chair",
     icon: { icon: "tabler-sailboat" },
-    subject: "notice",
+    subject: "kitkotchair",
     action: "show menu",
   },
   {
     title: "Fare",
     to: "fairList",
     icon: { icon: "tabler-cash-banknote" },
-    subject: "dangerzone",
+    subject: "fare",
     action: "show menu",
   },
   {
     title: "Complain & Suggestion",
     to: "complainList",
     icon: { icon: "tabler-mail-exclamation" },
-    subject: "dangerzone",
+    subject: "complain",
     action: "show menu",
     children: [
       {
         title: "Compalin List",
         to: "complainChatList",
         icon: { icon: "tabler-mail-exclamation" },
-        subject: "dangerzone",
+        subject: "complain",
         action: "show menu",
       },
 
@@ -215,7 +214,7 @@ export default [
         title: "Complain Category",
         to: "complainCategoryList",
         icon: { icon: "tabler-category-2" },
-        subject: "dangerzone",
+        subject: "complaincategory",
         action: "show menu",
       },
     ],
@@ -224,14 +223,14 @@ export default [
     title: "Emergency",
     to: "DC Activities",
     icon: { icon: "tabler-alert-triangle" },
-    subject: "notice",
+    subject: "emergency",
     action: "show menu",
     children: [
       {
         title: "DA Tourism Cell",
         to: "DC Activities",
         icon: { icon: "tabler-first-aid-kit" },
-        subject: "notice",
+        subject: "datourismcell",
         action: "show menu",
       },
       {
@@ -268,7 +267,7 @@ export default [
         title: "Tourism Corporation",
         to: "Tourism Corporation",
         icon: { icon: "tabler-first-aid-kit" },
-        subject: "notice",
+        subject: "tourismcorporation",
         action: "show menu",
       },
     ],
@@ -277,7 +276,7 @@ export default [
     title: "Announcement",
     to: "noticeList",
     icon: { icon: "tabler-pinned" },
-    subject: "notice",
+    subject: "announcement",
     action: "show menu",
   },
   {
@@ -291,7 +290,7 @@ export default [
     title: "Tourist List",
     to: "touristList",
     icon: { icon: "tabler-luggage" },
-    subject: "user",
+    subject: "touristlist",
     action: "show menu",
   },
   {
@@ -337,7 +336,7 @@ export default [
     title: "Landing Page",
     to: "landingPage",
     icon: { icon: "tabler-app-window" },
-    subject: "awareness",
+    subject: "landingpage",
     action: "show menu",
   },
 ]

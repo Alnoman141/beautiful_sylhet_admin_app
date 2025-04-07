@@ -85,6 +85,7 @@
                       content-type="html"
                       theme="snow"
                       toolbar="full"
+                      :customClass="'customClass'"
                       :text-change="checkData()"
                       :Placeholder=" index == 0 ? 'নির্দেশিকা' : 'Instruction'"
                     />

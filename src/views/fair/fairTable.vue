@@ -3,7 +3,7 @@
     <div class="border px-2 py-2">
       <div class="text-end">
         <RouterLink
-          v-if="$can('edit', 'dangerzone')"
+          v-if="$can('edit', 'fare')"
           class="mx-2"
           style="color:white"
           :to="{ name: 'editFair', params: { id: filterTableData?.fair_board_parent_id || 0 } }"

@@ -10,7 +10,7 @@
           class="text-right"
         >
           <RouterLink
-            v-if="$can('create', 'notice')"
+            v-if="$can('create', 'announcement')"
             type="primary"
             :underline="false"          
           

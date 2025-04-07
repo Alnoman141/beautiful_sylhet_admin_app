@@ -7,7 +7,7 @@
         </VCol>
         <VCol class="text-right">
           <RouterLink
-            v-if="$can('create', 'dangerzone')"
+            v-if="$can('create', 'complain')"
             type="primary"
             :underline="false"          
           

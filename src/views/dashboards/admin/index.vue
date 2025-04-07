@@ -384,10 +384,11 @@ const getDashboadData = async () => {
   transportData.value[1].value = dashbordData.value.transports[1].count
   transportData.value[2].title = "Ship"
   transportData.value[2].value = dashbordData.value.transports[2].count
-  transportData.value[4].title = "Bike"
-  transportData.value[4].value = dashbordData.value.transports[3].count
-  transportData.value[4].title = "Jeep"
-  transportData.value[4].value = dashbordData.value.transports[4].count
+
+  //transportData.value[4].title = "Bike"
+  //transportData.value[4].value = dashbordData.value.transports[3].count
+  //transportData.value[4].title = "Jeep"
+  //transportData.value[4].value = dashbordData.value.transports[4].count
 
   loading.value = false
 }

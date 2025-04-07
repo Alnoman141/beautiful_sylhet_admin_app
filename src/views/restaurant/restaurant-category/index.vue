@@ -7,7 +7,7 @@
         </VCol>
         <VCol class="text-right">
           <RouterLink
-            v-if="$can('create', 'hotelcategory')"
+            v-if="$can('create', 'restaurantcategory')"
             type="primary"
             :underline="false"          
           
