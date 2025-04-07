@@ -3,7 +3,7 @@ import { themes } from "@/plugins/vuetify/theme"
 
 import { useComplainStore } from "@/stores/tourism/complainStore"
 import { notify } from "@/utils/notification"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch } from "vue"
 import { PerfectScrollbar } from "vue3-perfect-scrollbar"
 import { useDisplay, useTheme } from "vuetify"
 import ChatActiveChatUserProfileSidebarContent from "./chat/ChatActiveChatUserProfileSidebarContent.vue"
@@ -153,11 +153,14 @@ const complainUserInfo = ref({})
 
 const openChatOfContact = async (userId, userInfo) => {
   
+  
   complainUserInfo.value = userInfo
   store.userInfo = complainUserInfo.value
   complainId.value = userId
-  
+  !changeStatusCondition.value ? complainStatus.value = store.userInfo?.status :''
   await store.getChat(userId)
+  
+  
 
   // Reset message input
   msg.value = ""
@@ -212,6 +215,8 @@ const showAlert = item => {
   )
 }
 
+const changeStatusCondition = ref(false)
+
 const changeStatus = async item => {
   let form = {
     id: store.userInfo.id,
@@ -224,9 +229,10 @@ const changeStatus = async item => {
 
     data.status_code == 200
       ? (notify("Congratulations!", data.message, "success", "top-right"),
-      openChatOfContact(complainId.value, store.userInfo),
-      (loading.value = false), getComplainList())
+      
+      (loading.value = false), getComplainList(), changeStatusCondition.value = true, store.userInfo.status = item)
       : ""
+    await openChatOfContact(complainId.value, store.userInfo) 
 
     // data.status_code == 200 ? router.push({ name: "complainList" }) : "";
   } catch (error) {
@@ -247,10 +253,10 @@ const changeStatus = async item => {
 const complainStatus = ref(0)
 
 onMounted(() => {
-  setTimeout(() => {
-    complainStatus.value = store.userInfo?.status
+  // setTimeout(() => {
+  //   complainStatus.value = store.userInfo?.status
     
-  }, 1000)
+  // }, 1000)
   getComplainList()
   
 })
@@ -273,6 +279,25 @@ const getComplainList = async (complainCategory, search) => {
     console.log(error)
   }
 }
+
+const showForm = ref(false)
+
+
+// Watch userInfo.status
+watch(
+  () => store.userInfo?.status,
+  (newStatus, oldStatus) => {
+    console.log('Status changed from', oldStatus, 'to', newStatus)
+    newStatus != 2 && newStatus != 3 ? showForm.value = false : showForm.value = true
+
+    // You can perform any logic here
+    if (newStatus === 2) {
+      console.log('The complaint is resolved.')
+    } else if (newStatus === 3) {
+      console.log('The complaint is rejected.')
+    }
+  },
+)
 </script>
 
 <template>
@@ -457,7 +482,7 @@ const getComplainList = async (complainCategory, search) => {
             
 
             <VForm
-              v-if="store.userInfo.status !=2 && store.userInfo.status !=3"
+              v-if="!showForm"
               class="chat-log-message-form mb-5 mx-5 chat-form"
               @submit.prevent="sendMessage"
             >
@@ -520,7 +545,7 @@ const getComplainList = async (complainCategory, search) => {
                 @change="onFileChange"
               >
             </VForm>
-            <!-- :class="store.userInfo.status == 2 ? 'text-success' : 'text-danger'" -->
+            
             <p
               v-else
               class="chat-log-message-form my-5 mx-5 chat-form text-center"
