@@ -50,8 +50,9 @@
           <div class="text-start">Actions {{ route.name }}</div>
         </template>
         <template #default="scope">
+          
           <RouterLink
-            v-if="$can('edit', 'user') && scope.row.id !== 1"
+            v-if="$can('edit', 'user') && scope.row.role !== 'superadmin'"
             class="mx-2"
             style="color: white"
             :to="{ name: 'editUser', params: { id: scope.row.id } }"
@@ -75,7 +76,7 @@
             placement="top-start"
           >
             <ElButton
-              v-if="$can('delete', 'user') && scope.row.id !== 1"
+              v-if="$can('delete', 'user') && scope.row.role !== 'superadmin'"
               size="small"
               type="danger"
               @click="showAlert(scope.row.id)"
@@ -122,6 +123,8 @@
             width="50"
             alt=""
             srcset=""
+            class="rounded-circle cursor-pointer"
+            @click="showImage(detailData.avatar)"
           />
         </VCol>
         <VCol cols="12" md="3" class="border-s border-b"
@@ -310,5 +313,18 @@ const handleClose = (done: () => void) => {
 
   done();
   detailData.value = {};
+};
+const showImage = (item) => {
+  ElMessageBox.alert(
+    `<img src="${item}" alt="Image" style="width: 100%; height: auto; ' " />`,
+    "Image",
+    {
+      dangerouslyUseHTMLString: true,
+      confirmButtonText: "Close",
+      callback: (action) => {
+        console.log("action", action);
+      },
+    }
+  );
 };
 </script>

@@ -6,8 +6,9 @@ export function getVolunteer(query) {
     url: "/beach-volunteer/list",
     method: "post",
 
-    // params: query,
-    params: { language_id: 2 },
+    params: query,
+
+    // params: { language_id: 2 },
   })
 }
 

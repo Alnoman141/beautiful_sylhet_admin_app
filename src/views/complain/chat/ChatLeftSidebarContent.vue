@@ -56,19 +56,7 @@ const getspotList = async () => {
 
   emit("getComplainList", complainCategory.value, search.value)
 
-  // let parameter = {
-  //   page: 1,
-  //   per_page: 100000,
-  //   category_id: complainCategory.value,
-  //   serial: search.value,
-  // }
-  // try {
-  //   const { data } = await complainStore.getComplainList(parameter)
 
-  //   complainList.value = data.data.data
-  // } catch (error) {
-  //   console.log(error)
-  // }
 }
 
 onMounted(() => {

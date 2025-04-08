@@ -6,7 +6,7 @@ function getLocker(query) {
   return request({
     url: "/locker/list",
     method: "post",
-    params: { language_id: 2 },
+    params: query,
   })
 }
 

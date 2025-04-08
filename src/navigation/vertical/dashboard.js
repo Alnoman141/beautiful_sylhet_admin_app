@@ -64,7 +64,7 @@ export default [
     ],
   },
   {
-    title: " Restaurant",
+    title: "Restaurant",
     to: "restaurantList",
     icon: { icon: "tabler-tools-kitchen" },
     subject: "restaurant",

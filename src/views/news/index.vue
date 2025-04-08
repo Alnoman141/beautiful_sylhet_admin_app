@@ -78,6 +78,7 @@ const getspotList = async (pageSize, pageNo) => {
     page: pageNo,
     per_page: pageSize,
     web: 1,
+    language_id: 2,
   }
   try {
     const { data } = await newsStore.getNews(parameter)

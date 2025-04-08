@@ -73,8 +73,8 @@
               v-model="information.description"
               content-type="html"
               theme="snow"
-              toolbar="full"                  
-              custom-class="customClass"
+              toolbar="full"                                
+              style="block-size: 100dvh !important;"
               preview-mode
               class="preview-quill"
             />

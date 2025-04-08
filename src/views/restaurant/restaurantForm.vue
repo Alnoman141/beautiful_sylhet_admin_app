@@ -51,7 +51,7 @@
             <VRow>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'রেস্তোরার নাম' : 'Restaurant Name'"
+                  :label="index == 0 ? 'রেস্তোরার নাম' : 'Restaurant Name'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.name'
@@ -59,16 +59,24 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'রেস্তোরার নাম আবশ্যক ' : 'Restaurant name is required',
+                    message:
+                      index == 0
+                        ? 'রেস্তোরার নাম আবশ্যক '
+                        : 'Restaurant name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput :placeholder=" index == 0 ? 'রেস্তোরার নাম' : 'Restaurant Name'" v-model="item.name" />
+                  <ElInput
+                    :placeholder="
+                      index == 0 ? 'রেস্তোরার নাম' : 'Restaurant Name'
+                    "
+                    v-model="item.name"
+                  />
                 </ElFormItem>
               </VCol>
 
               <!-- phone -->
-              <VCol cols="12">
+              <!-- <VCol cols="12">
                 <ElFormItem
                   :label=" index == 0 ? 'ফোন নম্বর' : 'Phone'"
                   :prop="
@@ -79,21 +87,24 @@
                 >
                   <ElInput :placeholder="index == 0 ? 'ফোন নম্বর' : 'Phone Number'" v-model="item.phone" />
                 </ElFormItem>
-              </VCol>
+              </VCol> -->
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'ঠিকানা' : 'Address'"
+                  :label="index == 0 ? 'ঠিকানা' : 'Address'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.address'
                       : 'data.' + index + '.address'
                   "
                 >
-                  <ElInput :placeholder="index == 0  ? 'ঠিকানা' : 'Address'" v-model="item.address" />
+                  <ElInput
+                    :placeholder="index == 0 ? 'ঠিকানা' : 'Address'"
+                    v-model="item.address"
+                  />
                 </ElFormItem>
               </VCol>
 
-              <VCol cols="12">
+              <!-- <VCol cols="12">
                 <ElFormItem
                   :label="index == 0 ? ' খোলার সময়' : 'Open Time'"
                   :prop="
@@ -103,14 +114,17 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? ' খোলার সময় আবশ্যক ' : 'Open Time is required',
+                    message:
+                      index == 0
+                        ? ' খোলার সময় আবশ্যক '
+                        : 'Open Time is required',
                     trigger: 'blur',
                   }"
                 >
                   <el-time-picker
                     style="inline-size: 100%"
                     v-model="item.open_time"
-                    :placeholder=" index == 0 ? ' খোলার সময়' : 'Open Time'"
+                    :placeholder="index == 0 ? ' খোলার সময়' : 'Open Time'"
                     format="hh:mm:ss a"
                     value-format="HH:mm:ss"
                     @change="openTimeChange(item.open_time)"
@@ -121,7 +135,7 @@
 
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'বন্ধের সময়' : 'Close Time'"
+                  :label="index == 0 ? 'বন্ধের সময়' : 'Close Time'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.close_time'
@@ -129,7 +143,10 @@
                   "
                   :rules="{
                     required: true,
-                    message:  index == 0 ? 'বন্ধের সময় আবশ্যক ' : 'Close Time is required',
+                    message:
+                      index == 0
+                        ? 'বন্ধের সময় আবশ্যক '
+                        : 'Close Time is required',
                     trigger: 'blur',
                   }"
                 >
@@ -144,11 +161,11 @@
                     :disabled="index == 1"
                   />
                 </ElFormItem>
-              </VCol>
+              </VCol> -->
 
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'বিস্তারিত' : 'Description'"
+                  :label="index == 0 ? 'বিস্তারিত' : 'Description'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.description'
@@ -156,7 +173,10 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'বিস্তারিত আবশ্যক ' : 'description is required',
+                    message:
+                      index == 0
+                        ? 'বিস্তারিত আবশ্যক '
+                        : 'description is required',
                     trigger: 'blur',
                   }"
                 >
@@ -168,14 +188,14 @@
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      :Placeholder=" index == 0 ? 'বিস্তারিত' : 'Description'"
+                      :Placeholder="index == 0 ? 'বিস্তারিত' : 'Description'"
                     />
                   </div>
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'সুযোগ-সুবিধা' : 'Facilities'"
+                  :label="index == 0 ? 'সুযোগ-সুবিধা' : 'Facilities'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.facilities'
@@ -190,7 +210,7 @@
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      :Placeholder=" index == 0 ? 'সুযোগ-সুবিধা' : 'Facilities'"
+                      :Placeholder="index == 0 ? 'সুযোগ-সুবিধা' : 'Facilities'"
                     />
                   </div>
                 </ElFormItem>
@@ -198,7 +218,7 @@
 
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'তালিকা' : 'Menu'"
+                  :label="index == 0 ? 'তালিকা' : 'Menu'"
                   :prop="
                     ruleForm.restaurants
                       ? 'restaurants.' + index + '.menu'
@@ -218,7 +238,7 @@
                     <QuillEditor
                       :text-change="checkData()"
                       v-model="item.menu"
-                      :Placeholder=" index == 0 ? 'তালিকা' : 'Menu'"
+                      :Placeholder="index == 0 ? 'তালিকা' : 'Menu'"
                     />
                   </div>
                 </ElFormItem>
@@ -245,12 +265,7 @@
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
-                prop="spot_parent_id"
-                :rules="{
-                  required: true,
-                  message: 'Please select Tourist Spot',
-                  trigger: 'change',
-                }"
+                
               >
                 <el-option
                   v-for="(item, index) in spotDropdown"
@@ -262,9 +277,10 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
+            
             <ElFormItem
               label="Restaurant Category"
-              prop="spot_parent_id"
+              prop="restaurant_category_parent_id"
               :rules="{
                 required: true,
                 message: 'Please select Restaurant Category',
@@ -288,6 +304,65 @@
                   :value="item.id"
                 />
               </el-select>
+            </ElFormItem>
+          </VCol>
+          <VCol cols="12" md="6">
+            
+            <ElFormItem
+              label="Open Time"
+              prop="open_time"
+              :rules="{
+                required: true,
+                message: 'Open Time is required',
+                trigger: 'blur',
+              }"
+            >
+              <el-time-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.open_time"
+                placeholder="Open Time"
+                format="hh:mm:ss a"
+                value-format="HH:mm:ss"
+                @change="openTimeChange(ruleForm.open_time)"
+              />
+            </ElFormItem>
+          </VCol>
+          <VCol cols="12" md="6">
+            <ElFormItem
+              label="Close Time"
+              prop="close_time"
+              :rules="{
+                required: true,
+                message: 'Close Time is required',
+                trigger: 'blur',
+              }"
+            >
+              <el-time-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.close_time"
+                type="time"
+                placeholder="Close Time"
+                format="hh:mm:ss a"
+                value-format="HH:mm:ss"
+                @change="closeTimeChange(ruleForm.close_time)"
+              />
+            </ElFormItem>
+          </VCol>
+          <VCol cols="12" md="6">
+            <ElFormItem
+              label="Phone Number"
+              prop="phoneNumber"
+              :rules="{
+                required: true,
+                message: 'Phone Number is required',
+                trigger: 'change',
+              }"
+            >
+              <ElInput
+                v-debounce:300="setPhoneNumber"
+                placeholder="Phone Number"
+                v-model="ruleForm.phoneNumber"
+              />
             </ElFormItem>
           </VCol>
 
@@ -334,7 +409,7 @@
                   class="border mt-2"
                   v-if="ruleForm.image || previewImage"
                 />
-                
+
                 <br />
                 Drop file here or <em>click to upload</em>
               </div>
@@ -442,13 +517,18 @@ const loading = ref(false);
 const formattedOpenTime = ref("");
 const formattedCloseTime = ref("");
 
-
 const submitForm = async (formEl: FormInstance | undefined) => {
+  
+// phone number
+  props.ruleForm?.restaurants
+    ? ((props.ruleForm.restaurants[0].phone = props.ruleForm.phoneNumber),
+      (props.ruleForm.restaurants[1].phone = props.ruleForm.phoneNumber))
+    : ((props.ruleForm.data[0].phone = props.ruleForm.phoneNumber),
+      (props.ruleForm.data[1].phone = props.ruleForm.phoneNumber));
   props.ruleForm.data = props.ruleForm.restaurants
     ? props.ruleForm.restaurants
     : props.ruleForm.data;
   props.ruleForm.data.map((e) => {
-
     // open time
     const [timePart, period] = e.open_time ? e.open_time.split(" ") : "";
     let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
@@ -476,12 +556,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     } else if (e.close_time && periodClose === "am" && hoursClose === "12") {
       hoursClose = "00";
     }
-    hoursClose != undefined && minutesClose != undefined && secondsClose != undefined
+    hoursClose != undefined &&
+    minutesClose != undefined &&
+    secondsClose != undefined
       ? (formattedCloseTime.value = `${hoursClose}:${minutesClose}:${secondsClose}`)
       : (formattedCloseTime.value = null);
 
     e.close_time = formattedCloseTime.value;
-
   });
   props.ruleForm.data.map((e) => {
     if (e.open_time) {
@@ -536,6 +617,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
       spot_parent_id: props.ruleForm.spot_parent_id,
+      restaurant_category_parent_id:props.ruleForm.restaurant_category_parent_id,
       map_link: props.ruleForm.map_link,
       website_link: props.ruleForm.website_link,
       data: props.ruleForm.data,
@@ -582,7 +664,7 @@ const restaurantCategoryList = ref([]);
 const getRestaurantCategory = async () => {
   const { data } = await restaurantCategory.getRestaurantCategory();
   restaurantCategoryList.value = data.data;
-}
+};
 const bankDropdown = ref([]);
 const getBankDropdown = async () => {
   const { data } = await bankStore.getBankDropdown();
@@ -686,15 +768,29 @@ const descriptionEditorRef = ref(null);
 const facilitiesEditorRef = ref(null);
 const menuEditorRef = ref(null);
 const openTimeChange = (val) => {
-  
-   props.ruleForm?.restaurants ? props.ruleForm.restaurants[1].open_time = val : props.ruleForm.data[1].open_time = val;
+  props.ruleForm?.restaurants
+    ? ((props.ruleForm.restaurants[0].open_time = val),
+      (props.ruleForm.restaurants[1].open_time = val))
+    : ((props.ruleForm.data[0].open_time = val),
+      (props.ruleForm.data[1].open_time = val));
 };
 const closeTimeChange = (val) => {
-  props.ruleForm?.restaurants ? props.ruleForm.restaurants[1].close_time = val : props.ruleForm.data[1].close_time = val;
+  props.ruleForm?.restaurants
+    ? ((props.ruleForm.restaurants[0].close_time = val),
+      (props.ruleForm.restaurants[1].close_time = val))
+    : ((props.ruleForm.data[0].close_time = val),
+      (props.ruleForm.data[1].close_time = val));
+};
+const setPhoneNumber = () => {
+  props.ruleForm?.restaurants
+    ? ((props.ruleForm.restaurants[0].phone = props.ruleForm.phoneNumber),
+      (props.ruleForm.data[1].phone = props.ruleForm.phoneNumber))
+    : ((props.ruleForm.data[0].phone = props.ruleForm.phoneNumber),
+      (props.ruleForm.data[1].phone = props.ruleForm.phoneNumber));
 };
 onMounted(() => {
   getSpotDropdown();
-  checkData();  
+  checkData();
   getRestaurantCategory();
 });
 </script>

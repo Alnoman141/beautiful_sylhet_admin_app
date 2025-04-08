@@ -7,8 +7,9 @@ function getNews(query) {
     url: "/news/list",
     method: "post",
 
-    // params: query,
-    params: { language_id: 2 },
+    params: query,
+
+    // params: { language_id: 2 },
   })
 }
 

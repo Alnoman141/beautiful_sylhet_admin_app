@@ -7,8 +7,9 @@ function getHotel(query) {
     url: "/hotel/list",
     method: "post",
 
-    // params: query,
-    params: { language_id: 2 },
+    params: query,
+
+    // params: { language_id: 2 },
   })
 }
 

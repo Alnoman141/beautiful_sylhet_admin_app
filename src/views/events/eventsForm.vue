@@ -60,16 +60,22 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'ইভেন্টের নাম   আবশ্যক' : 'Event name is required',
+                    message:
+                      index == 0
+                        ? 'ইভেন্টের নাম   আবশ্যক'
+                        : 'Event name is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput :placeholder="index == 0 ? 'ইভেন্টের নাম  ' : 'Event Name'" v-model="item.name" />
+                  <ElInput
+                    :placeholder="index == 0 ? 'ইভেন্টের নাম  ' : 'Event Name'"
+                    v-model="item.name"
+                  />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  :label=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"
+                  :label="index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.phone'
@@ -77,11 +83,17 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'ফোন নাম্বার আবশ্যক' : 'Phone number is required',
+                    message:
+                      index == 0
+                        ? 'ফোন নাম্বার আবশ্যক'
+                        : 'Phone number is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput :placeholder=" index == 0 ? 'ফোন নাম্বার' : 'Phone Number'" v-model="item.phone" />
+                  <ElInput
+                    :placeholder="index == 0 ? 'ফোন নাম্বার' : 'Phone Number'"
+                    v-model="item.phone"
+                  />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
@@ -94,16 +106,20 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? 'অবস্থান আবশ্যক' : 'Location is required',
+                    message:
+                      index == 0 ? 'অবস্থান আবশ্যক' : 'Location is required',
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput  :placeholder=" index == 0 ? ' অবস্থান' : 'Location'" v-model="item.location" />
+                  <ElInput
+                    :placeholder="index == 0 ? ' অবস্থান' : 'Location'"
+                    v-model="item.location"
+                  />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  :label=" index == 0 ? 'সময়' : 'Time'"
+                  :label="index == 0 ? 'সময়' : 'Time'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.time'
@@ -115,24 +131,30 @@
                     trigger: 'blur',
                   }"
                 >
-                  <ElInput :placeholder=" index == 0 ? 'সময়' : 'Time'" v-model="item.time" />
+                  <ElInput
+                    :placeholder="index == 0 ? 'সময়' : 'Time'"
+                    v-model="item.time"
+                  />
                 </ElFormItem>
               </VCol>
               <VCol cols="12" md="6">
                 <ElFormItem
-                  :label=" index == 0 ? 'খরচ' : 'Fee'"
+                  :label="index == 0 ? 'খরচ' : 'Fee'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.fare'
                       : 'data.' + index + '.fare'
                   "
                 >
-                  <ElInput :placeholder=" index == 0 ? 'খরচ' : 'Fee'" v-model="item.fare" />
+                  <ElInput
+                    :placeholder="index == 0 ? 'খরচ' : 'Fee'"
+                    v-model="item.fare"
+                  />
                 </ElFormItem>
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'শর্তাবলী' : 'Terms & Conditions'"
+                  :label="index == 0 ? 'শর্তাবলী' : 'Terms & Conditions'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.terms'
@@ -140,7 +162,9 @@
                   "
                 >
                   <ElInput
-                    :placeholder=" index == 0 ? 'শর্তাবলী' : 'Terms & Conditions'"
+                    :placeholder="
+                      index == 0 ? 'শর্তাবলী' : 'Terms & Conditions'
+                    "
                     type="textarea"
                     v-model="item.terms"
                   />
@@ -148,7 +172,7 @@
               </VCol>
               <VCol cols="12">
                 <ElFormItem
-                  :label=" index == 0 ? 'বিস্তারিত' : 'Description'"
+                  :label="index == 0 ? 'বিস্তারিত' : 'Description'"
                   :prop="
                     ruleForm.events
                       ? 'events.' + index + '.description'
@@ -178,40 +202,19 @@
       </VRow>
       <ElCard class="my-4">
         <VRow>
-          <VCol cols="12" md="6" class="my-2">
-            <el-upload class="upload-section" drag :on-change="onFileChange">
-              <div class="el-upload__text">
-                <el-icon
-                  v-if="!ruleForm.image && !previewImage"
-                  class="el-icon--upload"
-                  ><upload-filled
-                /></el-icon>
-                <img
-                  v-if="ruleForm.image || previewImage"
-                  :src="previewImage ? previewImage : ruleForm.image"
-                  alt=""
-                  height="60"
-                  width="60"
-                  class="border mt-2"
-                />
-                
-                <br />
-                Drop file here or <em>click to upload</em>
-              </div>
-              <template #tip>
-                <div class="el-upload__tip">
-                  jpg/png files with a size less than 2MB <br />
-                  <span
-                    v-if="imgUploadValidation == true"
-                    style="color: #fc6767; font-size: 12px; font-weight: light"
-                  >
-                    Image is required and must be valid format
-                  </span>
-                </div>
-              </template>
-            </el-upload>
+          <VCol cols="12" md="6">
+            <ElFormItem label="Event Expire at" :prop="'expiry'">
+              <el-date-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.expiry"
+                type="datetime"
+                placeholder="Pick a Date and Time"
+                format="YYYY/MM/DD hh:mm:ss a"
+                value-format="YYYY-MM-DD hh:mm:ss a"
+                :disabled-date="disabledDate"
+              />
+            </ElFormItem>
           </VCol>
-
           <VCol cols="12" md="6">
             <ElFormItem
               label="Event Spot"
@@ -237,18 +240,38 @@
               </el-select>
             </ElFormItem>
           </VCol>
-          <VCol cols="12" md="6">
-            <ElFormItem label="Expire at" :prop="'expiry'">
-              <el-date-picker
-                style="inline-size: 100%"
-                v-model="ruleForm.expiry"
-                type="datetime"
-                placeholder="Pick a Date"
-                format="YYYY/MM/DD hh:mm:ss a"
-                value-format="YYYY-MM-DD hh:mm:ss a"
-                :disabled-date="disabledDate"
-              />
-            </ElFormItem>
+          <VCol cols="12" md="6" class="my-2">
+            <el-upload class="upload-section" drag :on-change="onFileChange">
+              <div class="el-upload__text">
+                <el-icon
+                  v-if="!ruleForm.image && !previewImage"
+                  class="el-icon--upload"
+                  ><upload-filled
+                /></el-icon>
+                <img
+                  v-if="ruleForm.image || previewImage"
+                  :src="previewImage ? previewImage : ruleForm.image"
+                  alt=""
+                  height="60"
+                  width="60"
+                  class="border mt-2"
+                />
+
+                <br />
+                Drop file here or <em>click to upload</em>
+              </div>
+              <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 2MB <br />
+                  <span
+                    v-if="imgUploadValidation == true"
+                    style="color: #fc6767; font-size: 12px; font-weight: light"
+                  >
+                    Image is required and must be valid format
+                  </span>
+                </div>
+              </template>
+            </el-upload>
           </VCol>
         </VRow>
         <div class="py-4">
@@ -354,17 +377,24 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   // }
   // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :'';
-  let [hours, minutes, seconds] = timePart ? timePart.split(':') : '';
- 
-  if (props.ruleForm.expiry && period === 'pm' && hours !== '12') {
-    hours = String(Number(hours) + 12);
-  } else if (props.ruleForm.expiry && period === 'am' && hours === '12') {
-    hours = '00';
-  }
-  datePart != undefined && hours != undefined && minutes != undefined && seconds != undefined ? formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}` : formattedDate.value = null;
+  const [datePart, timePart, period] = props.ruleForm.expiry
+    ? props.ruleForm.expiry.split(" ")
+    : "";
+  let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
 
-  props.ruleForm.expiry = formattedDate.value
+  if (props.ruleForm.expiry && period === "pm" && hours !== "12") {
+    hours = String(Number(hours) + 12);
+  } else if (props.ruleForm.expiry && period === "am" && hours === "12") {
+    hours = "00";
+  }
+  datePart != undefined &&
+  hours != undefined &&
+  minutes != undefined &&
+  seconds != undefined
+    ? (formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`)
+    : (formattedDate.value = null);
+
+  props.ruleForm.expiry = formattedDate.value;
 
   props.ruleForm.expiry = formattedDate.value;
 

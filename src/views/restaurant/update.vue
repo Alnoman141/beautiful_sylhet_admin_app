@@ -52,12 +52,15 @@ const getNewsDetails = async () => {
     
   })
 
-  // const [datePart24, timePart24] = data.data.expiry ?  data.data.expiry.split(' ') :''
-  // let [hours24, minutes24, seconds24] = timePart24 ?  timePart24.split(':') :''
-  // const period24 = Number(hours24) >= 12 ? 'pm' : 'am'
+ 
 
-  // hours24 = Number(hours24) % 12 || 12
-  // ruleForm.value.expiry = `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`
+  ruleForm.value.phoneNumber = data?.data?.restaurants?.[0]?.phone || ""
+
+  ruleForm.value.open_time = data?.data?.restaurants?.[0]?.open_time || ""
+  ruleForm.value.close_time = data?.data?.restaurants?.[0]?.close_time || ""
+
+  
+ 
 }
 
 onMounted(() => {

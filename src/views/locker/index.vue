@@ -67,11 +67,12 @@ const totalData = ref(0)
 const getspotList = async (pageSize, pageNo) => {
   loading.value = true
   let parameter = {
-    page: pageNo,
-    per_page: pageSize,
+    //page: pageNo,
+    //per_page: pageSize,
+    language_id: 2,
   }
   try {
-    const { data } = await lockerStore.getLocker()
+    const { data } = await lockerStore.getLocker(parameter)
 
     loading.value = false
     

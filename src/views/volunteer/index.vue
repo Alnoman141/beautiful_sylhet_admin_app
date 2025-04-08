@@ -76,6 +76,7 @@ const getspotList = async (pageSize, pageNo) => {
   let parameter = {
     page: pageNo,
     per_page: pageSize,
+    language_id: 2,
   }
   try {
     const { data } = await volunteerStore.getVolunteer(parameter)

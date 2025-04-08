@@ -12,8 +12,13 @@
             :to="{ name: 'noticeList' }"
             class="create-btn"
           >
-          <el-tooltip class="item" effect="dark" content="Notice List" placement="top-start">
-            Announcement List
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Notice List"
+              placement="top-start"
+            >
+              Announcement List
             </el-tooltip>
           </RouterLink>
         </VCol>
@@ -21,7 +26,7 @@
     </ElCard>
 
     <ElForm
-    v-loading="loading"
+      v-loading="loading"
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
@@ -55,12 +60,13 @@
                   "
                   :rules="{
                     required: true,
-                    message: index == 0 ? ' ঘোষনা আবশ্যক' : 'Notice is required',
+                    message:
+                      index == 0 ? ' ঘোষনা আবশ্যক' : 'Notice is required',
                     trigger: 'blur',
                   }"
                 >
                   <!-- <ElInput v-model="item.name"  /> -->
-                
+
                   <div>
                     <QuillEditor
                       ref="noticeEditorRef"
@@ -69,7 +75,9 @@
                       theme="snow"
                       toolbar="full"
                       :text-change="checkData()"
-                      :Placeholder=" index == 0 ? 'ঘোষনা লিখুন' : 'Type Announcement here'"
+                      :Placeholder="
+                        index == 0 ? 'ঘোষনা লিখুন' : 'Type Announcement here'
+                      "
                     />
                   </div>
                 </ElFormItem>
@@ -80,6 +88,20 @@
       </VRow>
       <ElCard class="my-4">
         <VRow>
+          <!-- expires at expiry -->
+          <VCol cols="12" md="6">
+            <ElFormItem label="Notice Expire at" :prop="'expiry'">
+              <el-date-picker
+                style="inline-size: 100%"
+                v-model="ruleForm.expiry"
+                type="datetime"
+                placeholder="Pick a Date and Time"
+                format="YYYY/MM/DD hh:mm:ss a"
+                value-format="YYYY-MM-DD hh:mm:ss a"
+                :disabled-date="disabledDate"
+              />
+            </ElFormItem>
+          </VCol>
           <VCol cols="12" md="6">
             <el-upload
               class="upload-section"
@@ -119,47 +141,45 @@
               </template>
             </el-upload>
           </VCol>
-          <!-- expires at expiry -->
-
-          <VCol cols="12" md="6">
-            
-            <ElFormItem label="Expire at" :prop="'expiry'">              
-              <el-date-picker
-                style="inline-size: 100%"
-                v-model="ruleForm.expiry"
-                type="datetime"
-                placeholder="Pick a Date"
-                format="YYYY/MM/DD hh:mm:ss a"
-                value-format="YYYY-MM-DD hh:mm:ss a"
-                 :disabled-date="disabledDate"
-                
-              />
-            </ElFormItem>
-          </VCol>
         </VRow>
         <div class="py-4">
-          <el-tooltip class="item" effect="dark" content="Submit" placement="top-start">
-          <ElButton
-            class="submit"
-            type="primary"
-            @click="submitForm(ruleFormRef)"
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Submit"
+            placement="top-start"
           >
-            {{ mode }}
-          </ElButton>
+            <ElButton
+              class="submit"
+              type="primary"
+              @click="submitForm(ruleFormRef)"
+            >
+              {{ mode }}
+            </ElButton>
           </el-tooltip>
 
-          <el-tooltip class="item" effect="dark" content="Reset" placement="top-start">
-          <ElButton
-            v-if="mode == 'create'"
-            class="submit-btn"
-            type="secondary"
-            @click="resetForm(ruleFormRef)"
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Reset"
+            placement="top-start"
           >
-            Reset
-          </ElButton>
+            <ElButton
+              v-if="mode == 'create'"
+              class="submit-btn"
+              type="secondary"
+              @click="resetForm(ruleFormRef)"
+            >
+              Reset
+            </ElButton>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Back" placement="top-start">
-          <ElButton @click="router.go(-1)" type="info">Back</ElButton>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Back"
+            placement="top-start"
+          >
+            <ElButton @click="router.go(-1)" type="info">Back</ElButton>
           </el-tooltip>
         </div>
       </ElCard>
@@ -211,20 +231,26 @@ const imgUploadValidation = ref(false);
 const formattedDate = ref("");
 const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-
   // convert date to 24h format from am pm
-  const [datePart, timePart, period] = props.ruleForm.expiry ? props.ruleForm.expiry.split(' ') :'';
-  let [hours, minutes, seconds] = timePart ? timePart.split(':') : '';
- 
-  if (props.ruleForm.expiry && period === 'pm' && hours !== '12') {
-    hours = String(Number(hours) + 12);
-  } else if (props.ruleForm.expiry && period === 'am' && hours === '12') {
-    hours = '00';
-  }
-  datePart != undefined && hours != undefined && minutes != undefined && seconds != undefined ? formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}` : formattedDate.value = null;
+  const [datePart, timePart, period] = props.ruleForm.expiry
+    ? props.ruleForm.expiry.split(" ")
+    : "";
+  let [hours, minutes, seconds] = timePart ? timePart.split(":") : "";
 
-  props.ruleForm.expiry = formattedDate.value
-  
+  if (props.ruleForm.expiry && period === "pm" && hours !== "12") {
+    hours = String(Number(hours) + 12);
+  } else if (props.ruleForm.expiry && period === "am" && hours === "12") {
+    hours = "00";
+  }
+  datePart != undefined &&
+  hours != undefined &&
+  minutes != undefined &&
+  seconds != undefined
+    ? (formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`)
+    : (formattedDate.value = null);
+
+  props.ruleForm.expiry = formattedDate.value;
+
   props.mode == "create" && !tempImg.value
     ? (imgUploadValidation.value = true)
     : (imgUploadValidation.value = false);
@@ -254,12 +280,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               "success",
               "top-right",
               3000
-            ), emit("getEmit"),
-              loading.value = false)
+            ),
+            emit("getEmit"),
+            (loading.value = false))
           : "";
         data.status_code == 200 ? router.push({ name: "noticeList" }) : "";
       } catch (error) {
-        loading.value = false
+        loading.value = false;
         // notify("Error", "Something went wrong", "error", "top-right");
         notify(
           error?.response?.data?.message,
@@ -301,9 +328,8 @@ const checkData = () => {
     //e.getHTML() == "<p><br></p>" ? e.setHTML("") : "";
   });
   props.ruleForm?.data?.map((e) => {
-    
     // e.name == "<p><br></p>" ? (e.name = "") : "";
-     e.name == "<p><br></p>" ||
+    e.name == "<p><br></p>" ||
     e.description == "<h2><br></h2>" ||
     e.description == "<h3><br></h3>" ||
     e.description == "<h4><br></h4>" ||
@@ -388,7 +414,7 @@ const formatExpiryDate = (date) => {
   //   hours = '00';
   // }
   // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
-  console.log("formattedDate.value 24H",formattedDate.value)
+  console.log("formattedDate.value 24H", formattedDate.value);
 
   // Convert date back to am/pm format
   // const [datePart24, timePart24] = formattedDate.value.split(' ');
@@ -397,10 +423,7 @@ const formatExpiryDate = (date) => {
   // hours24 = Number(hours24) % 12 || 12;
   // formattedDate.value = `${datePart24} ${hours24}:${minutes24}:${seconds24} ${period24}`;
   // console.log("formattedDate.value AM/PM",formattedDate.value)
-  
-
-  
-}
+};
 const disabledDate = (time) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Reset time to start of the day
@@ -408,7 +431,7 @@ const disabledDate = (time) => {
 };
 
 onMounted(() => {
-  console.log("props.ruleForm",props.ruleForm)
+  console.log("props.ruleForm", props.ruleForm);
   checkData();
 });
 </script>

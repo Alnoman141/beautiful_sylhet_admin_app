@@ -84,6 +84,12 @@ watch(() => props.modelValue, newValue => {
   /* inline-size: 90vw; */
 }
 
+.customClassInfo{
+  block-size: 100dvh !important;
+
+  /* inline-size: 90vw; */
+}
+
 /* media query for 320px */
 @media (min-width: 320px) {
   .quill-editor {

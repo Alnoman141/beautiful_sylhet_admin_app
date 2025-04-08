@@ -264,7 +264,7 @@ onMounted(() => {
 const complainList = ref([])
 
 const getComplainList = async (complainCategory, search) => {
-  console.log("emitted", complainCategory, search)
+  
   let parameter = {
     page: 1,
     per_page: 100000,
@@ -287,15 +287,10 @@ const showForm = ref(false)
 watch(
   () => store.userInfo?.status,
   (newStatus, oldStatus) => {
-    console.log('Status changed from', oldStatus, 'to', newStatus)
+    
     newStatus != 2 && newStatus != 3 ? showForm.value = false : showForm.value = true
 
-    // You can perform any logic here
-    if (newStatus === 2) {
-      console.log('The complaint is resolved.')
-    } else if (newStatus === 3) {
-      console.log('The complaint is rejected.')
-    }
+    
   },
 )
 </script>

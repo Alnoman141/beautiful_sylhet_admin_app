@@ -55,8 +55,8 @@
                 theme="snow"
                 toolbar="full"
                 :text-change="checkData()"
-                style="block-size: 100dvh;"
-                :customClass="'customClass'"
+                 
+                :customClass="'customClassInfo'"
                 :Placeholder="index == 0 ? 'কক্সবাজার সম্পর্কিত তথ্য' : 'Type Coxs Bazar Info here'"
               />
             </div> 

@@ -100,12 +100,12 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            <ElFormItem label="Expire at" :prop="'expiry'">
+            <ElFormItem label="News Expire at" :prop="'expiry'">
               <el-date-picker
                 style="inline-size: 100%"
                 v-model="ruleForm.expiry"
                 type="datetime"
-                placeholder="Pick a Date"
+                placeholder="Pick a Date and Time"
                 format="YYYY/MM/DD hh:mm:ss a"
                 value-format="YYYY-MM-DD hh:mm:ss a"
                 :disabled-date="disabledDate"

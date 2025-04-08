@@ -32,6 +32,20 @@
     </ElCard>
     <ElCard>
       <div class="mb-5">
+        <VTextField
+          v-model="search"
+          v-debounce:300="getspotList"
+          class="mb-4"
+          placeholder="Search Tourist by name email or phone"
+          clearable
+        >
+          <template #prepend-inner>
+            <VIcon
+              size="22"
+              icon="tabler-search"
+            />
+          </template>
+        </VTextField>
         <BankTable
           v-loading="loading"
           :filter-table-data="spotList"
@@ -74,6 +88,7 @@ const totalData = ref(0)
 const loading = ref(false)
 const page = ref(1)
 const size = ref(10)
+const search = ref("")
 
 const getspotList = async (pageSize, pageNo) => {
   size.value = pageSize
@@ -81,6 +96,8 @@ const getspotList = async (pageSize, pageNo) => {
   let parameter = {
     page: pageNo,
     per_page: pageSize,
+    role: "",
+    name: search.value,
   }
   try {
     const { data } = await userStore.getUser(parameter)

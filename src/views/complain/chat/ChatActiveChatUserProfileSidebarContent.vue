@@ -24,33 +24,42 @@ const { resolveAvatarBadgeVariant } = useChat()
     </div>
 
     <!-- User Avatar + Name + Role -->
-    <div class="text-center px-6">
-      <VAvatar
-        size="40"
+    <div class=" px-6">
+      <div class="text-center">
+        <VAvatar
+          size="40"
         
-        class="cursor-pointer"
-      >
-        <VImg
-          v-if="store.userInfo?.user?.avatar"
-          :src="store.userInfo?.user?.avatar"
-          :alt="
-            store.userInfo?.user?.name
-          "
-        />
-        <span v-else>{{
-          avatarText(
-            store.userInfo?.user?.name
-          )
-        }}</span>
-      </VAvatar>
+          class="cursor-pointer"
+        >
+          <VImg
+            v-if="store.userInfo?.user?.avatar"
+            :src="store.userInfo?.user?.avatar"
+            :alt="
+              store.userInfo?.user?.name
+            "
+          />
+          <span v-else>{{
+            avatarText(
+              store.userInfo?.user?.name
+            )
+          }}</span>
+        </VAvatar>
+      </div>
       <h5 class="text-h5">
         Name: {{ store.userInfo?.user?.name }} 
       </h5>
       <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
-        Complain-Category: {{ store.userInfo.category.name }}
+        <b>Phone-No: {{ store.userInfo?.user.phone }} </b> 
       </p>
       <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
-        Complain-No: {{ store.userInfo.serial }}
+        <b>Email: {{ store.userInfo?.user.email }} </b> 
+      </p>
+      <hr>
+      <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
+        <b>Complain-Category:</b> {{ store.userInfo.category.name }}
+      </p>
+      <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
+        <b>Complain-No:</b> {{ store.userInfo.serial }}
       </p>
       
       
@@ -59,7 +68,7 @@ const { resolveAvatarBadgeVariant } = useChat()
         disabled
         size="small"
       >
-        Complain-Status: <b
+        <b> Complain-Status:</b> <b
           :class="
             store.userInfo.status.status == 0
               ? 'text-info'
@@ -85,7 +94,7 @@ const { resolveAvatarBadgeVariant } = useChat()
       </small> 
      
       <p class="text-medium-emphasis mx-0 my-0 px-0 py-0">
-        Complain-Detail: {{ store.userInfo.description }}
+        <b> Complain-Detail:</b> {{ store.userInfo.description }}
       </p>
     </div>
   </template>

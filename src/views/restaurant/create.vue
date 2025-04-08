@@ -27,6 +27,9 @@ const ruleForm = ref({
   website_link: '',
   description: '',
   restaurant_category_parent_id: null,
+  phoneNumber: '',
+  open_time: '',
+  close_time: '',
   data: [
     {
       language_id: 1, 
@@ -38,6 +41,7 @@ const ruleForm = ref({
       menu: '',
       description: '',
       facilities: '',
+
     },
     {
       language_id: 2, 
