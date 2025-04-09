@@ -1,81 +1,73 @@
 <template>
-  <div>
-    <ElTable
-      :data="filterTableData"
-      border
-      :row-style="configStore.getRowStyle"
-      :header-cell-style="configStore.getHeaderRowStyle"
-      style="inline-size: 100%"
-    >
-      <ElTableColumn
-        v-for="(column, index) in columns"
-        :key="index"
-        :label="column.label"
-        :prop="column.prop"
-        :sortable="column.sortable"
-        :align="column.align"
-        :width="
-          column.prop == 'log_name' || column.prop == 'event'
-            ? '120'
-            : column.prop == 'description'
-            ? '300'
-            : ''
-        "
-      >
-        <template #default="scope">
-          <div
-            v-if="column.prop !== 'content' && column.prop !== 'info'"
-            v-html="
-              column.prop !== 'id'
-                ? scope.row[column.prop] && scope.row[column.prop].name
-                  ? scope.row[column.prop].name
-                  : scope.row[column.prop]
-                : pageNo == 1
-                ? index++
-                : (pageNo - 1) * pageSize + index++
-            "
-          />
+  <table border style=" border-collapse: collapse;inline-size: 100%;" class="table table-bordered table-striped table-hover log-table">
+  <thead>
+    <tr>
+      <th v-for="(column, index) in columns" :key="index" :style="configStore.getHeaderRowStyle">
+        {{ column.label }}
+      </th>
+      <th colspan="2" style="text-align: start;">Change Log</th>
+    </tr>
+    <tr>
+      <!-- Empty headers for other columns -->
+      <template v-for="(column, index) in columns">
+        <th></th>
+       
+        
+      </template>
+      <th>Before</th>
+      <th>After</th>
+    </tr>
+  </thead>
 
-          <div v-else>
-            {{ scope.row[column.prop].data.title }}
+  <tbody>
+    <tr class="mx-2" v-for="(row, rowIndex) in filterTableData" :key="rowIndex" :style="configStore.getRowStyle(row, rowIndex)">
+      <!-- Dynamic table columns -->
+      <td class="px-2" v-for="(column, colIndex) in columns" :key="colIndex" :style="{ textAlign: column.align }">
+        <div v-if="column.prop !== 'content' && column.prop !== 'info'" v-html="
+              column.prop !== 'id'
+                ? row[column.prop] && row[column.prop].name
+                  ? row[column.prop].name
+                  : row[column.prop]
+                : pageNo == 1
+                ? colIndex + 1
+                : (pageNo - 1) * pageSize + colIndex + 1
+            ">
+        </div>
+
+        <div v-else>
+          {{ row[column.prop].data.title }}
+        </div>
+      </td>
+
+      <!-- Activity Change Log - BEFORE -->
+      <td style="vertical-align: top;" class="px-2">
+        <template v-if="row.properties && row.properties.old">
+          <div v-for="(value, key) in row.properties.old" :key="key">
+            <strong>{{ key }}:</strong>
+            <span v-if="isHtml(value)" v-html="value"></span>
+            <span v-else>{{ value }}</span>
           </div>
         </template>
-      </ElTableColumn>
+      </td>
 
-      <!-- Action Buttons Column -->
-
-      <ElTableColumn align="left">
-        <template #header>
-          <div class="text-start">Activity Change Log</div>
+      <!-- Activity Change Log - AFTER -->
+      <td style="vertical-align: top;" class="px-2">
+        <template v-if="row.properties && row.properties.attributes">
+          <div v-for="(value, key) in row.properties.attributes" :key="key">
+            <strong>{{ key }}:</strong>
+            <span v-if="isHtml(value)" v-html="value"></span>
+            <span v-else>{{ value }}</span>
+          </div>
         </template>
-        <template #default="scope" class="mx-0 my-0 px-0 py-0">
 
-          <VRow class="mx-2">
+        <p>
+          <b>Changed At:</b> {{ formatDate(row.created_at) }}
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-          <VCol
-              v-for="(section, sectionKey) in scope.row.properties"
-              :key="sectionKey"
-            >
-
-            <!-- {{String(sectionKey) !="old" && String(sectionKey) == "attributes" ? "Created":'' }} -->
-              <h4>{{ String(sectionKey) === "old" ? "Before" :String(sectionKey) === "attributes" ? "After":'' }}</h4>
-              <hr>
-              <div v-for="(value, key) in section" :key="key">
-                <strong>{{ key }}:</strong>
-                <span v-if="isHtml(value)" v-html="value"></span>
-                <span v-else>{{ value }}</span>
-              </div>
-            </VCol>
-          </VRow>
-     
-
-          <p class="mx-2 my-2">
-            <b>Changed At:</b>{{ formatDate(scope.row.created_at) }}
-          </p>
-        </template>
-      </ElTableColumn>
-    </ElTable>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -204,11 +196,30 @@ const formatDate = (datetime) => {
 </script>
 
 <style scoped>
-.log-table-tr:hover {
-  background-color: #f2f2f2;
-}
+  table {
+    border-collapse: collapse;
+    font-family: sans-serif;
+    inline-size: 100%;
+  }
 
-.log-table:hover {
-  background-color: #f2f2f2;
-}
+  th, td {
+    border: 1px solid #ddd; /* Muted gray border */
+    padding-block: 8px;
+    padding-inline: 12px;
+    text-align: start;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
 </style>

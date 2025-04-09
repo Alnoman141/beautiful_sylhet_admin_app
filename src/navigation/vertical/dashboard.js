@@ -308,16 +308,9 @@ export default [
         action: "show menu",
       },
 
-      // {
-      //   title: "Complain List",
-      //   to: "complainList",
-      //   icon: { icon: "tabler-activity" },
-      //   subject: "user",
-      //   action: "show menu",
-      // },
     
       {
-        title: "User Activity",
+        title: "Activity Log",
         to: "userActivity",
         icon: { icon: "tabler-activity" },
         subject: "user",
