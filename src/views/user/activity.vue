@@ -3,7 +3,7 @@
     <ElCard class="my-4">
       <VRow>
         <VCol cols="6">
-          <b> User List</b>
+          <b> Activity Log Report</b>
         </VCol>
         <!--
           <VCol
@@ -26,7 +26,7 @@
     </ElCard>
     <ElCard>
       <div class="mb-5">
-        <BankTable
+        <ActivityTable
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
@@ -46,7 +46,7 @@ import { useConfigStore } from "@/@core/stores/config"
 import PaginationSection from "@/components/tourism/pagination.vue"
 import { useUserStore } from "@/stores/tourism/userStore"
 import { onMounted, ref } from "vue"
-import BankTable from "./userTable.vue"
+import ActivityTable from "./activityTable.vue"
 
 const configStore = useConfigStore()
 
@@ -55,9 +55,10 @@ const userStore = useUserStore()
 const spotList = ref([])
 
 const columns = ref( [
-  { label: 'S.L', prop: 'id', sortable: false },
-  { label: 'Name', prop: 'name', sortable: false },        
-  { label: 'Activity', prop: 'content', sortable: false },        
+  // { label: 'S.L', prop: 'id', sortable: false },
+  { label: 'Activity Field', prop: 'log_name', sortable: false },  
+  { label: 'Activity Type', prop: 'event', sortable: false },        
+  { label: 'Activity Description', prop: 'description', sortable: false },        
        
         
 ])
@@ -70,14 +71,17 @@ const getspotList = async (pageSize, pageNo) => {
   let parameter = {
     page: pageNo,
     per_page: pageSize,
+    activity: 'new',
   }
   try {
     const { data } = await userStore.getUserActivity(parameter)
+
     loading.value = false
   
+    console.log(data.data.data)
 
     spotList.value = data.data.data
-    
+    console.log(spotList.value)
     
     totalData.value = data.data.total
     loading.value = false

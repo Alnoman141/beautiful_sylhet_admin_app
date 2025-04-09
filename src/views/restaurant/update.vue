@@ -8,12 +8,11 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { useRestaurantStore } from "@/stores/tourism/restaurantStore"
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import RestaurantForm from './restaurantForm.vue'
+import { onMounted, ref } from "vue"
+import { useRoute } from "vue-router"
+import RestaurantForm from "./restaurantForm.vue"
 
 const route = useRoute()
 
@@ -22,25 +21,29 @@ const restaurantStore = useRestaurantStore()
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  
-
-  const { data } = await restaurantStore.editRestaurant({ id: route.params.id })
-
-  
+  const { data } = await restaurantStore.editRestaurant({
+    id: route.params.id,
+  })
 
   ruleForm.value = data.data
 
   // Convert date back to am/pm format
-  
 
   ruleForm.value.restaurants.map(e => {
-    const [ timePart] = e.open_time ? e.open_time.split(" ") : ""
+    const [timePart] = e.open_time ? e.open_time.split(" ") : ""
     let [hours, minutes, seconds] = timePart ? timePart.split(":") : ""
     const period = Number(hours) >= 12 ? "pm" : "am"
 
     hours = Number(hours) % 12 || 12
-    e.open_time = `${hours ? hours :'00' }:${minutes ? minutes : '00'}:${seconds ? seconds : '00'} ${period ? period : 'am'}`
-    
+
+    // Pad with leading zeros
+    const pad = val => String(val).padStart(2, "0")
+
+    e.open_time = `${pad(hours)}:${pad(minutes || "00")}:${pad(
+      seconds || "00",
+    )} ${period}`
+
+    // e.open_time = `${hours ? hours :'00' }:${minutes ? minutes : '00'}:${seconds ? seconds : '00'} ${period ? period : 'am'}`
 
     // close time
     const [timePart1] = e.close_time ? e.close_time.split(" ") : ""
@@ -48,19 +51,22 @@ const getNewsDetails = async () => {
     const period1 = Number(hours1) >= 12 ? "pm" : "am"
 
     hours1 = Number(hours1) % 12 || 12
-    e.close_time = `${hours1 ? hours1 : '00'}:${minutes1 ? minutes1 : '00'}:${seconds1 ? seconds1 : '00'} ${period1 ? period1 : 'am'}`
-    
-  })
 
- 
+    // Pad with leading zeros
+
+    e.close_time = `${pad(hours)}:${pad(minutes || "00")}:${pad(
+      seconds || "00",
+    )} ${period}`
+
+    // e.close_time = `${hours1 ? hours1 : "00"}:${minutes1 ? minutes1 : "00"}:${
+    //   seconds1 ? seconds1 : "00"
+    // } ${period1 ? period1 : "am"}`
+  })
 
   ruleForm.value.phoneNumber = data?.data?.restaurants?.[0]?.phone || ""
 
   ruleForm.value.open_time = data?.data?.restaurants?.[0]?.open_time || ""
   ruleForm.value.close_time = data?.data?.restaurants?.[0]?.close_time || ""
-
-  
- 
 }
 
 onMounted(() => {

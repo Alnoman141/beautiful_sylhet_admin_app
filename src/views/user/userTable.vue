@@ -14,7 +14,7 @@
         :prop="column.prop"
         :sortable="column.sortable"
         :align="column.align"
-        :width="column.prop == 'id' ? '100' : ''"
+        :width="column.prop == 'id' ? '100' : column.prop == 'log_name' || column.prop == 'event' ? '100%'  :column.prop == 'description' ? '100%' :''"
       >
         <template #default="scope">
           <div
@@ -50,7 +50,6 @@
           <div class="text-start">Actions {{ route.name }}</div>
         </template>
         <template #default="scope">
-          
           <RouterLink
             v-if="$can('edit', 'user') && scope.row.role !== 'superadmin'"
             class="mx-2"
@@ -103,6 +102,46 @@
           <ElButton plain @click="showDetail(scope.row)">
             <VIcon icon="tabler-eye" size="15" />
           </ElButton>
+        </template>
+      </ElTableColumn>
+      <ElTableColumn
+        v-if="route.name == 'userActivity'"
+        align="left"
+       
+        
+      >
+        <template #header>
+          <div class="text-start">Activity Change Log</div>
+        </template>
+        <template #default="scope" class="mx-0 my-0 px-0 py-0">
+          <!-- {{scope.row.properties}} -->
+          <!-- <div
+            v-for="(section, sectionKey) in scope.row.properties"
+            :key="sectionKey"
+          >
+            <h4>{{ sectionKey }}</h4>
+            <div v-for="(value, key) in section" :key="key">
+              <strong>{{ key }}:</strong> {{ stripHtml(value) }}
+            </div>
+          </div>  
+          <hr> -->
+          <VRow class="mx-0 my-0 px-0 py-0 ">
+          <VCol
+            v-for="(section, sectionKey) in scope.row.properties"
+            :key="sectionKey"
+            class="  border-s border-t border-b border-e"
+            
+          >
+          
+            <h4 class="my-2"> {{ String(sectionKey) === 'old' ? 'Before' : 'After' }}</h4>
+           <hr>
+            <div v-for="(value, key) in section" :key="key">
+              <strong>{{ key }}:</strong>
+              <span v-if="isHtml(value)" v-html="value"></span>
+              <span v-else>{{ value }}</span>
+            </div>
+          </VCol>
+          </VRow>
         </template>
       </ElTableColumn>
     </ElTable>
@@ -326,5 +365,15 @@ const showImage = (item) => {
       },
     }
   );
+};
+const stripHtml = (val) => {
+  if (typeof val === "string") {
+    const doc = new DOMParser().parseFromString(val, "text/html");
+    return doc.body.textContent || "";
+  }
+  return val;
+};
+const isHtml = (val) => {
+  return typeof val === "string" && /<\/?[a-z][\s\S]*>/i.test(val);
 };
 </script>

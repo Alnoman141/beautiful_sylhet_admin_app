@@ -227,8 +227,13 @@ const eventsStore = useEventsStore()
 const eventList = ref([])
 
 const getEventList = async () => {
+  let parameter = {
+    
+    language_id: 2,
+    
+  }
   try {
-    const { data } = await eventsStore.getEvents()
+    const { data } = await eventsStore.getEvents(parameter)
 
     loading.value = false
     eventList.value = data.data.data
@@ -241,8 +246,13 @@ const getEventList = async () => {
 const campaignList = ref([])
 
 const getCampaignList = async () => {
+  let parameter = {
+    
+    language_id: 2,
+    
+  }
   try {
-    const { data } = await campaignStore.getCampaign()
+    const { data } = await campaignStore.getCampaign(parameter)
 
     campaignList.value = data.data.data
   } catch (error) {

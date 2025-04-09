@@ -265,7 +265,6 @@
               <el-select
                 v-model="ruleForm.spot_parent_id"
                 placeholder="Select Tourist Spot"
-                
               >
                 <el-option
                   v-for="(item, index) in spotDropdown"
@@ -277,7 +276,6 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            
             <ElFormItem
               label="Restaurant Category"
               prop="restaurant_category_parent_id"
@@ -307,7 +305,6 @@
             </ElFormItem>
           </VCol>
           <VCol cols="12" md="6">
-            
             <ElFormItem
               label="Open Time"
               prop="open_time"
@@ -317,10 +314,13 @@
                 trigger: 'blur',
               }"
             >
-              <el-time-picker
+              <el-time-select
                 style="inline-size: 100%"
                 v-model="ruleForm.open_time"
                 placeholder="Open Time"
+                start="00:00"
+                step="00:15"
+                end="23:59"
                 format="hh:mm:ss a"
                 value-format="HH:mm:ss"
                 @change="openTimeChange(ruleForm.open_time)"
@@ -337,9 +337,12 @@
                 trigger: 'blur',
               }"
             >
-              <el-time-picker
+              <el-time-select
                 style="inline-size: 100%"
                 v-model="ruleForm.close_time"
+                start="00:00"
+                step="00:15"
+                end="23:59"
                 type="time"
                 placeholder="Close Time"
                 format="hh:mm:ss a"
@@ -518,8 +521,7 @@ const formattedOpenTime = ref("");
 const formattedCloseTime = ref("");
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  
-// phone number
+  // phone number
   props.ruleForm?.restaurants
     ? ((props.ruleForm.restaurants[0].phone = props.ruleForm.phoneNumber),
       (props.ruleForm.restaurants[1].phone = props.ruleForm.phoneNumber))
@@ -617,15 +619,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       id: props.ruleForm.id,
       image: tempImg.value ? tempImg.value : null,
       spot_parent_id: props.ruleForm.spot_parent_id,
-      restaurant_category_parent_id:props.ruleForm.restaurant_category_parent_id,
+      restaurant_category_parent_id:
+        props.ruleForm.restaurant_category_parent_id,
       map_link: props.ruleForm.map_link,
       website_link: props.ruleForm.website_link,
       data: props.ruleForm.data,
     };
+
     if (valid && !imgUploadValidation.value) {
       loading.value = true;
 
       try {
+        /*const { open_time, close_time, ...rest } = ruleForm;
+        ruleForm = rest;*/
+        delete props.ruleForm.open_time;
+        delete props.ruleForm.close_time;
         const { data } = props.ruleForm.id
           ? await restaurantStore.updateRestaurant(form)
           : await restaurantStore.createRestaurant(props.ruleForm);
