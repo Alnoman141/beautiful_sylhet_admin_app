@@ -106,6 +106,7 @@
                 type="password"
                 placeholder="Password"
                 v-model="ruleForm.password"
+                autocomplete="off"
                 
               />
             </ElFormItem>
@@ -147,6 +148,7 @@
                   width="60"
                   class="border mt-2"
                 />
+                <br>
                 
                 Drop file here or <em>click to upload</em>
               </div>
