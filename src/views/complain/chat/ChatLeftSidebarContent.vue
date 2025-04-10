@@ -91,7 +91,7 @@ const store = useChatStore()
           </VTextField>
         </VCol>
         <VCol cols="12">
-          <label class="chat-contact-header text-primary text-h5">
+          <label class="chat-contact-header text-primary text-h6">
             Complains Category 
           </label>
           <ElSelect

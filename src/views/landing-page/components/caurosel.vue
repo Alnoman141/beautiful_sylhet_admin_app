@@ -233,18 +233,35 @@ const tempImg = ref("");
 /*  multiple image upload section   */
 const multpleTempImg = ref([]);
 const previewMultipleImage = ref([]);
+// const onFileChangeMultiple = (file) => {
+
+//   multpleTempImg.value.push(file.raw);
+//   const reader = new FileReader();
+//   reader.readAsDataURL(file.raw);
+//   let tempBase64 = []
+//   reader.onload = () => {
+//     previewMultipleImage.value.push(reader.result);
+//     console.log("props.ruleForm.imageBase64",props.ruleForm.imageBase64)
+//     props.ruleForm.imageBase64 = [...props.ruleForm.imageBase64, previewMultipleImage.value];
+//     previewMultipleImage.value = []
+//   };
+// };
+
 const onFileChangeMultiple = (file) => {
-  
   multpleTempImg.value.push(file.raw);
   const reader = new FileReader();
   reader.readAsDataURL(file.raw);
-  let tempBase64 = []
+  
   reader.onload = () => {
-    previewMultipleImage.value.push(reader.result);
-    props.ruleForm.imageBase64 = [...props.ruleForm.imageBase64, previewMultipleImage.value];
-    previewMultipleImage.value = []
+    // initialize if undefined
+    if (!Array.isArray(props.ruleForm.imageBase64)) {
+      props.ruleForm.imageBase64 = [];
+    }
+
+    props.ruleForm.imageBase64.push(reader.result);
   };
 };
+
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (
     rawFile.type !== "image/jpeg" &&

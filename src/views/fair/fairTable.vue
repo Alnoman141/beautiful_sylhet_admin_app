@@ -29,91 +29,9 @@
       <label for="">  Fare Detail </label>
 
       <hr>
-      <p v-html="filterTableData.name" />
+      <div v-html="filterTableData.name" />
     </div>
   </div>
-  <!--
-    <ElTable
-    :data="filterTableData"
-    border
-    :row-style="configStore.getRowStyle"
-    :header-cell-style="configStore.getHeaderRowStyle"
-    style="inline-size: 100%"
-    >
-    <ElTableColumn
-    v-for="(column, index) in columns"
-    :key="index"
-    :label="column.label"
-    :prop="column.prop"
-    :sortable="column.sortable"
-    :align="column.align"
-    :width="column.prop == 'id' ? '100' : ''"
-    >
-    <template #default="scope">
-    <div v-html="column.prop == 'name' ? scope.row[column.prop] :column.prop == 'spot' ? scope.row[column.prop].name : pageNo == 1 ? index++ : (pageNo - 1) * pageSize + index++" />
-    </template>
-    </ElTableColumn> 
-  -->
-
-
-  <!-- Action Buttons Column -->
-  <!--
-    <ElTableColumn
-    align="left"
-    width="180"
-    >
-    <template #header>
-    <div class="text-start">
-    Actions
-    </div>
-    </template>
-    <template #default="scope">
-    <RouterLink
-    v-if="$can('edit', 'dangerzone')"
-    class="mx-2"
-    style="color:white"
-    :to="{ name: 'editFair', params: { id: scope.row.fair_board_parent_id } }"
-    >
-    <ElTooltip
-    class="item"
-    effect="dark"
-    content="Edit"
-    placement="top-start"
-    >
-    <ElButton
-    size="small"
-    type="primary"
-    >
-    <VIcon
-    icon="tabler-edit"
-    size="15"
-    />
-    </ElButton>
-    </ElTooltip>
-    </RouterLink>
-    <ElTooltip
-    class="item"
-    effect="dark"
-    content="Delete"
-    placement="top-start"
-    >
-    <ElButton
-    v-if="$can('delete', 'dangerzone')"
-    size="small"
-    type="danger"
-    @click="showAlert(scope.row.fair_board_parent_id)"
-    >
-    <VIcon
-    icon="tabler-trash"
-    size="15"
-    />
-            
-    </ElButton>
-    </ElTooltip>
-    </template>
-    </ElTableColumn> 
-  -->
-  <!-- </ElTable> -->
 </template>
 
 <script setup lang="ts">
@@ -199,3 +117,88 @@ const showAlert = item => {
   })
 }
 </script>
+
+<style>
+  table {
+    background-color: #fff;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 10%);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    inline-size: 100%;
+    margin-block: 20px;
+    margin-inline: 0;
+  }
+
+  
+  tr:first-child {
+    background-color: #868585b0;
+  }
+
+  tr:first-child:hover {
+    background-color: #868585b0;
+  }
+
+  thead tr {
+    background-color: #f4f4f4;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding-block: 12px;
+    padding-inline: 15px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tr:hover {
+    background-color: #f1f7ff;
+  }
+
+  td:first-child {
+    text-align: start;
+  }
+
+  @media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    thead tr {
+      display: none;
+    }
+
+    tr {
+      padding: 10px;
+      border: 1px solid #ddd;
+      margin-block-end: 15px;
+    }
+
+    td {
+      position: relative;
+      padding-inline-start: 50%;
+      text-align: end;
+    }
+
+    td::before {
+      position: absolute;
+      content: attr(data-label);
+      font-weight: bold;
+      inline-size: 45%;
+      inset-inline-start: 10px;
+      padding-inline-end: 10px;
+      text-align: start;
+      white-space: nowrap;
+    }
+  }
+</style>
+
