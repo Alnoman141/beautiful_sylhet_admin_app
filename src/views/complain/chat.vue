@@ -270,6 +270,7 @@ const getComplainList = async (complainCategory, search) => {
     per_page: 100000,
     category_id: complainCategory,
     serial: search,
+    language_id: 2,
   }
   try {
     const { data } = await complainStore.getComplainList(parameter)
