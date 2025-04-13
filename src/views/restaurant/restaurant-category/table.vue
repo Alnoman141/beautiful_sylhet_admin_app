@@ -35,7 +35,7 @@
         </template>
         <template #default="scope">
           <RouterLink
-            v-if="$can('edit', 'hotelcategory')"
+            v-if="$can('edit', 'restaurantcategory')"
             class="mx-2"
             style="color:white"
             :to="{ name: 'editRestaurantCategory', params: { id: scope.row.id } }"
@@ -60,7 +60,7 @@
             placement="top"
           >
             <ElButton
-              v-if="$can('delete', 'hotelcategory')"
+              v-if="$can('delete', 'restaurantcategory')"
               type="danger"
               size="small"
               @click="showAlert(scope.row.id)"
