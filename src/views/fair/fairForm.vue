@@ -7,6 +7,7 @@
         </VCol>
         <VCol cols="6" class="text-right">
           <RouterLink
+            v-if="$can('edit', 'fare')"
             type="primary"
             :underline="false"
             :to="{ name: 'fairList' }"
@@ -69,13 +70,13 @@
                   /> -->
                   <div>
                     <QuillEditor
-                      v-model="item.name"                      
+                      v-model="item.name"
                       content-type="html"
                       theme="snow"
                       toolbar="full"
                       :customClass="'customClass'"
                       :text-change="checkData()"
-                      :Placeholder=" index == 0 ? 'ভাড়া' : 'Fare'"
+                      :Placeholder="index == 0 ? 'ভাড়া' : 'Fare'"
                     />
                   </div>
                 </ElFormItem>
@@ -301,25 +302,25 @@ const checkData = () => {
   // });
   props.ruleForm.fair_boards
     ? props.ruleForm.fair_boards?.map((e) => {
-         e.name == "<p><br></p>" ||
-    e.name == "<h1><br></h1>" ||
-    e.name == "<h2><br></h2>" ||
-    e.name == "<h3><br></h3>" ||
-    e.name == "<h4><br></h4>" ||
-    e.name == "<h5><br></h5>" ||
-    e.name == "<h6><br></h6>" ||
-    e.name == "<b><br></b>" ||
-    e.name == "<i><br></i>" ||
-    e.name == "<u><br></u>" ||
-    e.name == "<span><br></span>" ||
-    e.name == "<div><br></div>" ||
-    e.name == "<s><br></s>"
-      ? (e.name = "")
-      : "";
+        e.name == "<p><br></p>" ||
+        e.name == "<h1><br></h1>" ||
+        e.name == "<h2><br></h2>" ||
+        e.name == "<h3><br></h3>" ||
+        e.name == "<h4><br></h4>" ||
+        e.name == "<h5><br></h5>" ||
+        e.name == "<h6><br></h6>" ||
+        e.name == "<b><br></b>" ||
+        e.name == "<i><br></i>" ||
+        e.name == "<u><br></u>" ||
+        e.name == "<span><br></span>" ||
+        e.name == "<div><br></div>" ||
+        e.name == "<s><br></s>"
+          ? (e.name = "")
+          : "";
       })
     : "";
   props.ruleForm.data?.map((e) => {
-     e.name == "<p><br></p>" ||
+    e.name == "<p><br></p>" ||
     e.name == "<h1><br></h1>" ||
     e.name == "<h2><br></h2>" ||
     e.name == "<h3><br></h3>" ||
@@ -335,7 +336,6 @@ const checkData = () => {
       ? (e.name = "")
       : "";
   });
-  
 };
 const imgViewModal = ref(false);
 const modalImg = ref(null);
