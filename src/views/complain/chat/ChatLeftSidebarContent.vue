@@ -99,30 +99,28 @@ watch(search, (newVal, oldVal) => {
             </template>
           </VTextField>
         </VCol>
-        <VCol cols="12">
-          <label class="chat-contact-header text-primary text-h6">
-            Complains Category 
-          </label>
-          <ElSelect
-            v-model="complainCategory"
-            clearable
-            placeholder="Select Complain Category"
-            size="large"
-            style="inline-size: 100%"
-            class="px-2"
-            @change="getspotList"
-          >
-            <ElOption
-              v-for="item in complainCategoryList"
-              :key="item.name"
-              :label="item.name"
-              :value="item.id"
-            />
-          </ElSelect>
-        </VCol>
       </VRow>
     </div>
-    <h5 class="px-2 chat-contact-header text-primary text-h6">
+    <label class="px-2 pt-2 chat-contact-header text-primary text-h6">
+      Complains Category 
+    </label>
+    <ElSelect
+      v-model="complainCategory"
+      clearable
+      placeholder="Select Complain Category"
+      size="large"
+      style="inline-size: 100%"
+      class="px-2"
+      @change="getspotList"
+    >
+      <ElOption
+        v-for="item in complainCategoryList"
+        :key="item.name"
+        :label="item.name"
+        :value="item.id"
+      />
+    </ElSelect>
+    <h5 class="px-2 pt-1 chat-contact-header text-primary text-h6">
       Complains
     </h5>
     <hr>

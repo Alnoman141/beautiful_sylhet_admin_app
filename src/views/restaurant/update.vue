@@ -30,6 +30,8 @@ const getNewsDetails = async () => {
   // Convert date back to am/pm format
 
   ruleForm.value.restaurants.map(e => {
+    console.log("close time", e.close_time)
+
     const [timePart] = e.open_time ? e.open_time.split(" ") : ""
     let [hours, minutes, seconds] = timePart ? timePart.split(":") : ""
     const period = Number(hours) >= 12 ? "pm" : "am"
@@ -54,8 +56,8 @@ const getNewsDetails = async () => {
 
     // Pad with leading zeros
 
-    e.close_time = `${pad(hours)}:${pad(minutes || "00")}:${pad(
-      seconds || "00",
+    e.close_time = `${pad(hours1)}:${pad(minutes1 || "00")}:${pad(
+      seconds1 || "00",
     )} ${period}`
 
     // e.close_time = `${hours1 ? hours1 : "00"}:${minutes1 ? minutes1 : "00"}:${
@@ -65,7 +67,7 @@ const getNewsDetails = async () => {
 
   ruleForm.value.phoneNumber = data?.data?.restaurants?.[0]?.phone || ""
 
-  ruleForm.value.open_time = data?.data?.restaurants?.[0]?.open_time || ""
+  ruleForm.value.open_time = data?.data?.restaurants?.[0]?.open_time || ""  
   ruleForm.value.close_time = data?.data?.restaurants?.[0]?.close_time || ""
 }
 
