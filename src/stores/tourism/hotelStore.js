@@ -23,7 +23,7 @@ export const useHotelStore = defineStore('hotelStore', {
       return new Promise((resolve, reject) => {
         editHotel(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

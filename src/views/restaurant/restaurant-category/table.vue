@@ -147,7 +147,7 @@ const showAlert = item => {
         message: `action: ${action}`,
       })
 
-      console.log("action", action)
+      
       action == 'confirm' ? deleteHotelCategory(item) : ''
     },
   })

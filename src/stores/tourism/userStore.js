@@ -64,7 +64,7 @@ export const useUserStore = defineStore('userStore', {
       return new Promise((resolve, reject) => {
         editUser(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

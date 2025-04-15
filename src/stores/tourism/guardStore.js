@@ -23,7 +23,7 @@ export const useGuardStore = defineStore('guardStore', {
       return new Promise((resolve, reject) => {
         editGuard(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

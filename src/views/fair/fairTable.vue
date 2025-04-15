@@ -8,47 +8,37 @@
           style="color:white"
           :to="{ name: 'editFair', params: { id: filterTableData?.fair_board_parent_id || 0 } }"
         >
-          <ElTooltip
-            class="item"
-            effect="dark"
-            content="Edit"
-            placement="top-start"
-          >
-            <ElButton
-              size="small"
-              type="primary"
-            >
-              <VIcon
-                icon="tabler-edit"
-                size="15"
-              />
+          <ElTooltip class="item" effect="dark" content="Edit" placement="top-start">
+            <ElButton size="small" type="primary">
+              <VIcon icon="tabler-edit" size="15" />
             </ElButton>
           </ElTooltip>
         </RouterLink>
       </div>
-      <label for="">  Fare Detail </label>
 
-      <hr>
-      <div v-html="filterTableData.name" />
+      <label>Fare Detail</label>
+      <hr />
+
+      <!-- Wrap with class for targeting via JS-injected CSS -->
+      <div class="fare-table" v-html="filterTableData.name" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useConfigStore } from "@/@core/stores/config"
-import { useFairStore } from "@/stores/tourism/fairStore"
+import { useConfigStore } from '@/@core/stores/config'
+import { useFairStore } from '@/stores/tourism/fairStore'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { defineEmits, defineProps, ref } from "vue"
-
+import { defineEmits, defineProps, onMounted, ref } from 'vue'
 
 const props = defineProps({
   filterTableData: {
-    type: Array,
+    type: Object,
     default: () => ({}),
   },
   columns: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   pageNo: {
     type: Number,
@@ -58,45 +48,23 @@ const props = defineProps({
     type: Number,
     default: 10,
   },
-  
 })
 
-const emit = defineEmits(["tableDataEmit"]) 
-
-const fairStore = useFairStore()
-
-const editorContent = ref('') // Reactive variable to store the editor content
-
-
-
-
-
-
+const emit = defineEmits(['tableDataEmit'])
 
 const configStore = useConfigStore()
+const fairStore = useFairStore()
 const search = ref('')
 
-
-// const filterTableData = computed(() =>
-//   props.filterTableData.filter(
-//     data =>
-//       !search.value ||
-//       data.name.toLowerCase().includes(search.value.toLowerCase()), 
-//   ),
-
-
-// )
-
 const deleteTransport = async item => {
-  let arr = []
-  arr.push(item)
-  try{
+  try {
     const { data } = await fairStore.deleteFair({ id: item })
+    data.status_code == 200
+      ? notify('Deleted!', data.message, 'error', 'top-right')
+      : notify('Error', data.message, 'error', 'top-right')
 
-    data.status_code == 200 ? notify('Deleted!', data.message, 'error', 'top-right') : notify('Error', data.message, 'error', 'top-right')
-
-    emit('tableDataEmit')}
-  catch(err){
+    emit('tableDataEmit')
+  } catch (err) {
     console.log(err)
   }
 }
@@ -111,15 +79,15 @@ const showAlert = item => {
         message: `action: ${action}`,
       })
 
-      console.log("action", action)
-      action == 'confirm' ? deleteTransport(item) : ''
+      if (action === 'confirm') deleteTransport(item)
     },
   })
 }
-</script>
 
-<style>
-  table {
+onMounted(() => {
+  const style = document.createElement('style')
+  style.innerHTML = `
+    table {
     background-color: #fff;
     border-collapse: collapse;
     box-shadow: 0 0 10px rgba(0, 0, 0, 10%);
@@ -200,5 +168,12 @@ const showAlert = item => {
       white-space: nowrap;
     }
   }
-</style>
+  `
+  document.head.appendChild(style)
+})
+</script>
 
+<!-- Optional: No scoped styles here since we're injecting with JS -->
+<style>
+/* leave empty or remove */
+</style>

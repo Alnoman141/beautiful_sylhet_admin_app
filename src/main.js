@@ -6,8 +6,8 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 import vueDebounce from 'vue-debounce'
 
 // quill editor 
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
+// import { QuillEditor } from '@vueup/vue-quill'
+// import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 
 // Styles
@@ -31,7 +31,7 @@ app.use(MasonryWall)
 registerPlugins(app)
 
 // register components
-app.component('QuillEditor', QuillEditor)
+// app.component('QuillEditor', QuillEditor)
 
 
 // Mount vue app

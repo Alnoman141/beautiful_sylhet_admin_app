@@ -97,7 +97,7 @@ const getCampaignList = async (pageSize, pageNo) => {
 
     // convert expiry date to am/pm format and update the spotList
     spotList.value.forEach(item => {
-      console.log(item)
+      
 
       const [datePart24, timePart24] = item.expiry ? item.expiry.split(' ') : ''
       let [hours24, minutes24, seconds24] = timePart24 ? timePart24.split(':') : ''

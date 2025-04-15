@@ -80,7 +80,7 @@ const getspotList = async (pageSize, pageNo) => {
   try {
     const { data } = await userStore.getComplainList(parameter)
 
-    console.log("complain data", data.data)
+    
     spotList.value = data.data.data
     
     

@@ -1,8 +1,8 @@
+import { paginateArray } from '@api-utils/paginateArray'
+import { db } from '@db/apps/users/db'
 import is from '@sindresorhus/is'
 import destr from 'destr'
 import { rest } from 'msw'
-import { db } from '@db/apps/users/db'
-import { paginateArray } from '@api-utils/paginateArray'
 
 export const handlerAppsUsers = [
   // Get Users Details
@@ -31,7 +31,7 @@ export const handlerAppsUsers = [
 
     // sort users
     if (sortByLocal) {
-      console.log(sortByLocal)
+      
       if (sortByLocal === 'user') {
         filteredUsers = filteredUsers.sort((a, b) => {
           if (orderByLocal === 'asc')

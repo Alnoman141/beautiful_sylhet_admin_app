@@ -54,7 +54,7 @@ const login = async () => {
     // eslint-disable-next-line camelcase
     const { data } = res
 
-    // console.log(data)
+    
 
     // this will use later    
     const abilityData = data.permissions

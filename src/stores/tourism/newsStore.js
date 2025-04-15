@@ -34,7 +34,7 @@ export const useNewsStore = defineStore('newsStore', {
       return new Promise((resolve, reject) => {
         editNews(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

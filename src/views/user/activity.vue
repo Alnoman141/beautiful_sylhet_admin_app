@@ -80,10 +80,10 @@ const getspotList = async (pageSize, pageNo) => {
 
     loading.value = false
   
-    console.log(data.data.data)
+    
 
     spotList.value = data.data.data
-    console.log(spotList.value)
+    
     
     totalData.value = data.data.total
     loading.value = false

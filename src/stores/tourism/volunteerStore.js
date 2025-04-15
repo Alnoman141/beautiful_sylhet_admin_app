@@ -23,7 +23,7 @@ export const useVolunteerStore = defineStore('volunteerStore', {
       return new Promise((resolve, reject) => {
         editVolunteer(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

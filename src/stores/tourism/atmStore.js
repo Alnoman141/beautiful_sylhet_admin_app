@@ -23,7 +23,7 @@ export const useAtmStore = defineStore('atmStore', {
       return new Promise((resolve, reject) => {
         editAtm(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

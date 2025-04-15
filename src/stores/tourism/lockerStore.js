@@ -34,7 +34,7 @@ export const useLockerStore = defineStore('lockerStore', {
       return new Promise((resolve, reject) => {
         editLocker(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

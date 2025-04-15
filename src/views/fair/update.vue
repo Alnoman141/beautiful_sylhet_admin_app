@@ -22,7 +22,7 @@ const fairStore = useFairStore()
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  
 
   const { data } = await fairStore.editFair({ id: route.params.id })
 

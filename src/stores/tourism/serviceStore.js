@@ -35,7 +35,7 @@ export const useServiceStore = defineStore('serviceStore', {
       return new Promise((resolve, reject) => {
         editService(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

@@ -35,7 +35,7 @@ export const useEventsStore = defineStore('eventsStore', {
       return new Promise((resolve, reject) => {
         editEvents(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

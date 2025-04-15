@@ -10,7 +10,7 @@ export function getTouristList(query) {
 
 // complain
 export function getComplainList(query) {
-  console.log("called complain")
+  
   
   return request({
     url: "/complain/list",

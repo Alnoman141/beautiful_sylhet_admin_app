@@ -315,7 +315,7 @@ const landingPage = ref({
 })
 
 onMounted(() => {
-  console.log("consolessss", JSON.parse(localStorage.getItem("header")))
+  
 
   // header
   landingPage.value.header = JSON.parse(localStorage.getItem("header"))
@@ -380,7 +380,7 @@ const submitForm = async() => {
 
     const { data } = await landingPageStore.createLandingPage({ data: landingPage.value })
 
-    console.log("data response", data)
+    
     data.status_code == 200
       ? (notify("Congratulations!", data.message, "success", "top-right"),
       (loading.value = false))

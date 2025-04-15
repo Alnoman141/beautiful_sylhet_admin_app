@@ -23,7 +23,7 @@ export const useDoctorStore = defineStore('doctorStore', {
       return new Promise((resolve, reject) => {
         editDoctor(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

@@ -404,7 +404,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 
 const formatExpiryDate = (date) => {
-  console.log("data", date);
+  
   // convert date to 24h format from am pm
   // const [datePart, timePart, period] = date.split(' ');
   // let [hours, minutes, seconds] = timePart.split(':');
@@ -414,7 +414,7 @@ const formatExpiryDate = (date) => {
   //   hours = '00';
   // }
   // formattedDate.value = `${datePart} ${hours}:${minutes}:${seconds}`;
-  console.log("formattedDate.value 24H", formattedDate.value);
+  
 
   // Convert date back to am/pm format
   // const [datePart24, timePart24] = formattedDate.value.split(' ');
@@ -431,7 +431,7 @@ const disabledDate = (time) => {
 };
 
 onMounted(() => {
-  console.log("props.ruleForm", props.ruleForm);
+  
   checkData();
 });
 </script>

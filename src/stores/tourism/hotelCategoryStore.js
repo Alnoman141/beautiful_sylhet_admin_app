@@ -1,4 +1,4 @@
-import { createHotelCategory, deleteHotelCategory, editHotelCategory, getHotelCategory, updateHotelCategory, getHotelCategoryDropdown } from '@/api/toruism/hotelCategory'
+import { createHotelCategory, deleteHotelCategory, editHotelCategory, getHotelCategory, getHotelCategoryDropdown, updateHotelCategory } from '@/api/toruism/hotelCategory'
 import { defineStore } from 'pinia'
 
 export const useHotelCategoryStore = defineStore('hotelCategoryStore', {
@@ -51,7 +51,7 @@ export const useHotelCategoryStore = defineStore('hotelCategoryStore', {
       return new Promise((resolve, reject) => {
         editHotelCategory(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

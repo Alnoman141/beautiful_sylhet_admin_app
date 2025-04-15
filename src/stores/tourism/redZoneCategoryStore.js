@@ -23,7 +23,7 @@ export const useRedZoneCategoryStore = defineStore('redZoneCategoryStore', {
       return new Promise((resolve, reject) => {
         editRedZoneCategory(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

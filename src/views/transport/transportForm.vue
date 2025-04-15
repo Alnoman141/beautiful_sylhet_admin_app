@@ -265,7 +265,7 @@ const transportDropdownData = ref([]);
 const getTransportTypeDropdownList = async () => {
   try {
     const { data } = await transportStore.getTransportType();
-    console.log("transport data", data);
+    
 
     data.data.map((e) => {
       e.id != 0 ? transportDropdownData.value.push(e) : "";

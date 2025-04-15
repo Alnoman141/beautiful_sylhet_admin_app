@@ -23,7 +23,7 @@ export const useRedZoneStore = defineStore('redZoneStore', {
       return new Promise((resolve, reject) => {
         editRedZone(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

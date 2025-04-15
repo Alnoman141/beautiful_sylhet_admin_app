@@ -43,7 +43,7 @@ export const useComplainStore = defineStore('complainStore', {
       return new Promise((resolve, reject) => {
         editComplain(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {
@@ -57,7 +57,7 @@ export const useComplainStore = defineStore('complainStore', {
       return new Promise((resolve, reject) => {
         changeStatus(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

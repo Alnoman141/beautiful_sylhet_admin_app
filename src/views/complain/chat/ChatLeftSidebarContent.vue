@@ -72,7 +72,7 @@ const store = useChatStore()
 
 // Watch for clearing
 watch(search, (newVal, oldVal) => {
-  console.log("search", newVal, oldVal)
+  
   if (newVal === '' || newVal === null) {
     getspotList() // Call on clear
   }

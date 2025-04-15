@@ -23,7 +23,7 @@ export const usePoliceStore = defineStore('policeStore', {
       return new Promise((resolve, reject) => {
         editPolice(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

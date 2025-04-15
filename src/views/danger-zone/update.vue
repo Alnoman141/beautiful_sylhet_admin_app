@@ -22,11 +22,11 @@ const redZoneStore = useRedZoneStore()
 const ruleForm = ref({})
 
 const getNewsDetails = async () => {
-  console.log(route.params.id)
+  
 
   const { data } = await redZoneStore.editRedZone({ id: route.params.id })
 
-  console.log("data", data)
+  
 
   ruleForm.value = data.data
 }

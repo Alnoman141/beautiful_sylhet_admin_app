@@ -342,7 +342,7 @@ const currentComponentKey = computed(
 
 // ✅ Handle tab click
 const handleClick = tab => {
-  console.log(tab)
+  
 
   const newStep = parseInt(tab.paneName, 10)
 

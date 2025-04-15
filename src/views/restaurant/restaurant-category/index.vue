@@ -68,7 +68,7 @@ const getspotList = async () => {
 
     loading.value = false
     spotList.value = data.data
-    console.log(data)
+    
     data.status_code == 200 ? loading.value = false :''
 
     

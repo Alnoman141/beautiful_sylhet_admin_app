@@ -35,7 +35,7 @@ export const useBankStore = defineStore('bankStore', {
       return new Promise((resolve, reject) => {
         editBank(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

@@ -32,7 +32,7 @@ const onTextChange = () => {
  
   const htmlContent = quillEditor.value.getHTML()
 
-  console.log(htmlContent)
+  
   editorContent.value = htmlContent
   
 

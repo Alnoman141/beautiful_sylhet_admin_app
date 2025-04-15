@@ -51,7 +51,7 @@ export const useRestaurantCategoryStore = defineStore('RestaurantCategoryStore',
       return new Promise((resolve, reject) => {
         editRestaurantCategory(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

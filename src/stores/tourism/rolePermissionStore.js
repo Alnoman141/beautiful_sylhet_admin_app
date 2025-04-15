@@ -23,7 +23,7 @@ export const useRolePermissionStore = defineStore('rolePermissionStore', {
       return new Promise((resolve, reject) => {
         selfRolePermission(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

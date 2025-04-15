@@ -190,7 +190,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   // Proceed with form validation
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log("props.ruleForm",props.ruleForm)
+      
       loading.value = true;
       try {
         // localStorage.setItem("speciality", JSON.stringify(props.ruleForm));

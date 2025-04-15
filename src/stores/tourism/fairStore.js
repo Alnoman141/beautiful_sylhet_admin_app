@@ -23,7 +23,7 @@ export const useFairStore = defineStore('fairStore', {
       return new Promise((resolve, reject) => {
         editFair(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

@@ -23,7 +23,7 @@ export const useRestaurantStore = defineStore('RestaurantStore', {
       return new Promise((resolve, reject) => {
         editRestaurant(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

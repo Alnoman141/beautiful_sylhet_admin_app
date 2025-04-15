@@ -45,10 +45,10 @@ const background = ref(false)
 const disabled = ref(false)
 
 const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
+ 
 }
 const handleCurrentChange = (val: number) => {
-  console.log(`current page: ${val}`)
+  
 }
 const loading = ref(false)
 
@@ -102,10 +102,10 @@ const getUsers = async () => {
 
 
 const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+  
 }
 const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+  
 }
 
 onMounted(() => {

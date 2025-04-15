@@ -35,7 +35,7 @@ export const useCampaignStore = defineStore('campaignStore', {
       return new Promise((resolve, reject) => {
         editCampaign(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

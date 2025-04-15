@@ -30,7 +30,7 @@ const getNewsDetails = async () => {
   // Convert date back to am/pm format
 
   ruleForm.value.restaurants.map(e => {
-    console.log("close time", e.close_time)
+    
 
     const [timePart] = e.open_time ? e.open_time.split(" ") : ""
     let [hours, minutes, seconds] = timePart ? timePart.split(":") : ""

@@ -36,7 +36,7 @@ service.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log("error", error) // for debug
+    
     error.response.data.status_code == 401 ? (removeUserAbilityRules(), removeToken(), removeUserData()) : '' 
     
     

@@ -41,17 +41,16 @@
           @table-data-emit="getspotList"
         />
       </div>
-      <PaginationSection
+      <!-- <PaginationSection
         :total-data="totalData"
         @get-emit="getspotList"
-      />
+      /> -->
     </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
-import PaginationSection from "@/components/tourism/pagination.vue"
 import { useFairStore } from "@/stores/tourism/fairStore"
 import { onMounted, ref } from "vue"
 import BankTable from "./fairTable.vue"
@@ -88,7 +87,7 @@ const getspotList = async (pageSize, pageNo) => {
     loading.value = false
 
     // page.value = data.data.current_page
-    console.log("data", data)
+    
     spotList.value = data.data
 
     // totalData.value = data.data.total

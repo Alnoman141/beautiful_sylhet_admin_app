@@ -142,7 +142,7 @@ const showAlert = (item) => {
           message: `action: ${action}`,
         });
 
-        console.log("action", action);
+        ;
         action == "confirm" ? deleteTransport(item) : "";
       },
     }
@@ -170,7 +170,7 @@ const showImage = (item) => {
       dangerouslyUseHTMLString: true,
       confirmButtonText: "Close",
       callback: (action) => {
-        console.log("action", action);
+        ;
       },
     }
   );

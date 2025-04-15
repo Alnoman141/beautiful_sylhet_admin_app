@@ -46,7 +46,7 @@ export const useTransportStore = defineStore('transportStore', {
       return new Promise((resolve, reject) => {
         editTransport(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {

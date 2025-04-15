@@ -47,7 +47,7 @@ export const useHotelTypeStore = defineStore('hotelTypeStore', {
       return new Promise((resolve, reject) => {
         editHotelType(query)
           .then(response => {
-            console.log(response)
+            
             resolve(response)
           })
           .catch(error => {
