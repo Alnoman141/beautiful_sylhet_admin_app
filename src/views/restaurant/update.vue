@@ -45,7 +45,7 @@ const getNewsDetails = async () => {
       seconds || "00",
     )} ${period}`
 
-    // e.open_time = `${hours ? hours :'00' }:${minutes ? minutes : '00'}:${seconds ? seconds : '00'} ${period ? period : 'am'}`
+    
 
     // close time
     const [timePart1] = e.close_time ? e.close_time.split(" ") : ""
@@ -58,11 +58,9 @@ const getNewsDetails = async () => {
 
     e.close_time = `${pad(hours1)}:${pad(minutes1 || "00")}:${pad(
       seconds1 || "00",
-    )} ${period}`
+    )} ${period1}`
 
-    // e.close_time = `${hours1 ? hours1 : "00"}:${minutes1 ? minutes1 : "00"}:${
-    //   seconds1 ? seconds1 : "00"
-    // } ${period1 ? period1 : "am"}`
+
   })
 
   ruleForm.value.phoneNumber = data?.data?.restaurants?.[0]?.phone || ""

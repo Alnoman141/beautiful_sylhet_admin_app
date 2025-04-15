@@ -87,37 +87,7 @@
       </VRow>
 
       <ElCard class="my-4">
-        <!-- <VRow>
-          <VCol cols="12" md="6">
-            <ElFormItem
-              label="Tourist Spot"
-              prop="spot_parent_id"
-              :rules="{
-                required: true,
-                message: 'Please select Tourist Spot',
-                trigger: 'change',
-              }"
-            >
-              <el-select
-                v-model="ruleForm.spot_parent_id"
-                placeholder="Select Tourist Spot"
-                prop="spot_parent_id"
-                :rules="{
-                  required: true,
-                  message: 'Please select Tourist Spot',
-                  trigger: 'change',
-                }"
-              >
-                <el-option
-                  v-for="(item, index) in spotDropdown"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </ElFormItem>
-          </VCol>
-        </VRow> -->
+        
 
         <div class="py-4">
           <el-tooltip
