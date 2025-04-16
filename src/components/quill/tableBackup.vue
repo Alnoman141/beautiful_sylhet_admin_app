@@ -1,13 +1,17 @@
 <template>
   <div class="editor-container">
-    <div class="editor-toolbar">
+    <!--
+      <div class="editor-toolbar">
+      <div class="text-end">
       <ElButton
-        size="small"
-        @click="insertTable"
+      size="small"
+      @click="insertTable(0, noOfColumn)"
       >
-        Insert Table
+      Insert Table
       </ElButton>
-    </div>
+      </div>
+      </div> 
+    -->
     <div
       ref="quillEditor"
       class="quill-editor"
@@ -16,153 +20,202 @@
 </template>
 
 <script setup>
-import { ElForm, ElFormItem, ElInputNumber, ElMessage, ElMessageBox } from 'element-plus'
-import Quill from 'quill'
-import 'quill/dist/quill.snow.css'
-import { h, nextTick, onMounted, ref } from 'vue'
+import {
+  ElForm,
+  ElFormItem,
+  ElInputNumber,
+  ElMessage,
+  ElMessageBox,
+} from "element-plus"
+import Quill from "quill"
+import "quill/dist/quill.snow.css"
+import { h, onMounted, ref } from "vue"
 
-const props = defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue'])
+const props = defineProps(["modelValue"])
+const emit = defineEmits(["update:modelValue"])
 
 const quillEditor = ref(null)
 let quill
-let initialColumns = 0  // Store the first column input
+let initialColumns = 0
 let columnSetOnce = false
 
 onMounted(() => {
   quill = new Quill(quillEditor.value, {
-    theme: 'snow',
+    theme: "snow",
+    placeholder: props.Placeholder,
     modules: {
-      toolbar: false,
+      toolbar: [
+        [{ size: [] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ color: [] }, { background: [] }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ align: [] }],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+        ["link", "image", "video"],
+        ["clean"],
+
+        // Custom table button — will be added below
+      ],
     },
   })
 
-  quill.root.innerHTML = props.modelValue || ''
+  // Create the custom insertTable button
+  const toolbarContainer = quill.getModule("toolbar").container
+  const customButton = document.createElement("button")
 
-  quill.on('text-change', () => {
-    emit('update:modelValue', quill.root.innerHTML)
+  customButton.title = "Add Table"
+  customButton.setAttribute("type", "button") // 👈 important!
+  customButton.classList.add("ql-insertTable")
+  customButton.innerHTML = "🧾" // or an icon/SVG
+
+  // Add the custom button to the toolbar
+  toolbarContainer.appendChild(customButton)
+
+  // Add event listener for your custom logic
+  customButton.addEventListener("click", e => {
+    e.preventDefault()
+    insertTable(0, noOfColumn)
+  })
+
+
+  // delete last row button section
+  const deleteRowBtn = document.createElement("button")
+
+  deleteRowBtn.innerHTML = "➖"
+  deleteRowBtn.title = "Delete Last Row"
+  deleteRowBtn.onclick = e => {
+    e.preventDefault()
+    deleteLastRow()
+  }
+  toolbarContainer.appendChild(deleteRowBtn)
+
+  // delete last column button section
+  const deleteColumnBtn = document.createElement("button")
+
+  // deleteColumnBtn.innerHTML = "➖❌"
+  deleteColumnBtn.innerHTML = "┃" // Column + delete
+  deleteColumnBtn.title = "Delete Last Column"
+  deleteColumnBtn.onclick = e => {
+    e.preventDefault()
+    deleteLastColumn()
+  }
+  toolbarContainer.appendChild(deleteColumnBtn)
+
+  // Rest of your setup
+  quill.root.innerHTML = props.modelValue || ""
+
+  quill.on("text-change", () => {
+    emit("update:modelValue", quill.root.innerHTML)
     styleTables()
   })
 
-  quill.root.addEventListener('keydown', handleKeyPress)
+  quill.root.addEventListener("keydown", handleKeyPress)
   styleTables()
 })
 
+
+const noOfColumn = ref(0)
+
+// const handleKeyPress = e => {
+//   if (e.key === "Enter" || e.key === "Tab") {
+//     console.log("Key pressed:", e.key, noOfColumn.value)
+//     insertTable(1, noOfColumn)
+//   }
+// }
+
 const handleKeyPress = e => {
-  console.log('Key pressed:', e.key)
-  if ((e.key === 'Enter' || e.key === 'Tab')) {
-    const selection = window.getSelection()
-    if (!selection.rangeCount) return
+  if (e.key !== "Enter" && e.key !== "Tab") return
 
-    const range = selection.getRangeAt(0)
-    const currentNode = range.startContainer
-    const cell = findParentTag(currentNode, 'TD')
+  const selection = window.getSelection()
+  if (!selection || selection.rangeCount === 0) return
 
-    if (!cell) return
+  const range = selection.getRangeAt(0)
+  const currentCell = range.startContainer.closest("td")
 
-    const row = cell.parentElement
-    const table = findParentTag(cell, 'TABLE')
+  if (!currentCell) return
 
-    if (!row || !table) return
+  const currentRow = currentCell.parentElement
+  const table = currentRow.closest("table")
 
-    const isLastRow = table.rows[table.rows.length - 1] === row
-    const isLastCell = row.cells[row.cells.length - 1] === cell
+  if (!table) return
 
-    if (isLastRow && isLastCell) {
-      e.preventDefault()
+  const allRows = Array.from(table.querySelectorAll("tr"))
+  const isLastRow = currentRow === allRows[allRows.length - 1]
 
-      if (!columnSetOnce && initialColumns === 0 && row.cells.length) {
-        initialColumns = row.cells.length
-        columnSetOnce = true
-      }
+  const currentCells = Array.from(currentRow.querySelectorAll("td"))
+  const isLastColumn = currentCell === currentCells[currentCells.length - 1]
 
-      // Call insertTable directly but skip MessageBox and use preset rows/columns
-      insertTableDirectly()
-
-      nextTick(() => {
-        const newTables = quillEditor.value.querySelectorAll('table')
-        const lastTable = newTables[newTables.length - 1]
-        const firstCell = lastTable?.rows?.[0]?.cells?.[0]
-        if (firstCell) {
-          const range = document.createRange()
-
-          range.selectNodeContents(firstCell)
-          range.collapse(true)
-
-          const sel = window.getSelection()
-
-          sel.removeAllRanges()
-          sel.addRange(range)
-        }
-      })
-    }
+  if (isLastRow && isLastColumn) {
+    e.preventDefault()
+    insertTable(1, noOfColumn)
   }
 }
 
-const findParentTag = (el, tag) => {
-  while (el && el.tagName !== tag) {
-    el = el.parentElement
-  }
-  
-  return el?.tagName === tag ? el : null
-}
 
-const insertTable = async () => {
-  const form = ref({ rows: 2, columns: 2 })
+const insertTable = async (noOfRows, noOfColumns) => {
+  const columnsInitialValue =
+    typeof noOfColumns === "object" && "value" in noOfColumns
+      ? noOfColumns.value
+      : noOfColumns
+
+  const form = ref({
+    rows: 2,
+    columns: columnsInitialValue || 2,
+  })
 
   try {
     await ElMessageBox({
-      title: 'Insert Table',
+      title: "Insert Table",
       message: () =>
-        h('div', { style: 'padding: 10px 0' }, [
+        h("div", { style: "padding: 10px 0" }, [
           h(
             ElForm,
             {
-              labelPosition: 'top',
-              labelWidth: '100px',
-              size: 'small',
-              style: 'width: 100%; max-width: 300px; margin: auto;',
+              labelPosition: "top",
+              labelWidth: "100px",
+              size: "small",
+              style: "width: 100%; max-width: 300px; margin: auto;",
             },
             () => [
-              h(
-                ElFormItem,
-                { label: 'Number of Rows' },
-                () =>
-                  h(ElInputNumber, {
-                    modelValue: form.value.rows,
-                    'onUpdate:modelValue': val => (form.value.rows = val),
-                    min: 1,
-                    controlsPosition: 'right',
-                    style: 'width: 100%;',
-                  }),
+              h(ElFormItem, { label: "Number of Rows" }, () =>
+                h(ElInputNumber, {
+                  modelValue: form.value.rows,
+                  "onUpdate:modelValue": val => (form.value.rows = val),
+                  min: 1,
+                  controlsPosition: "right",
+                  style: "width: 100%;",
+                }),
               ),
-              h(
-                ElFormItem,
-                { label: 'Number of Columns' },
-                () =>
-                  h(ElInputNumber, {
-                    modelValue: form.value.columns,
-                    'onUpdate:modelValue': val => {
-                      form.value.columns = val
-                      if (!columnSetOnce) {
-                        initialColumns = val
-                        columnSetOnce = true
-                      }
-                    },
-                    min: 1,
-                    controlsPosition: 'right',
-                    style: 'width: 100%;',
-                  }),
+              h(ElFormItem, { label: "Number of Columns" }, () =>
+                h(ElInputNumber, {
+                  modelValue: form.value.columns,
+                  "onUpdate:modelValue": val => {
+                    form.value.columns = val
+                    if (!columnSetOnce) {
+                      initialColumns = val
+                      columnSetOnce = true
+                    }
+                  },
+                  min: 1,
+                  controlsPosition: "right",
+                  style: "width: 100%;",
+                }),
               ),
             ],
           ),
         ]),
-      confirmButtonText: 'Insert',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: "Insert",
+      cancelButtonText: "Cancel",
       beforeClose: (action, instance, done) => {
-        if (action === 'confirm') {
+        if (action === "confirm") {
           if (!form.value.rows || !form.value.columns) {
-            ElMessage.error('Please enter valid row and column numbers.')
+            ElMessage.error("Please enter valid row and column numbers.")
             
             return
           }
@@ -175,28 +228,21 @@ const insertTable = async () => {
 
     insertNodeAtCursor(table)
     styleTables()
+
+    noOfColumn.value = form.value.columns
   } catch {
     // cancelled
   }
 }
 
-const insertTableDirectly = () => {
-  const rows = 1
-  const columns = initialColumns || 2
-  const table = createTable(rows, columns)
-
-  insertNodeAtCursor(table)
-  styleTables()
-}
-
 const createTable = (rows, columns) => {
-  const table = document.createElement('table')
+  const table = document.createElement("table")
   for (let i = 0; i < rows; i++) {
-    const row = document.createElement('tr')
+    const row = document.createElement("tr")
     for (let j = 0; j < columns; j++) {
-      const cell = document.createElement('td')
+      const cell = document.createElement("td")
 
-      cell.innerText = 'Cell'
+      cell.innerText = ""
       row.appendChild(cell)
     }
     table.appendChild(row)
@@ -206,10 +252,8 @@ const createTable = (rows, columns) => {
 }
 
 const insertNodeAtCursor = node => {
-  
-
   const range = quill.getSelection(true)
-  const temp = document.createElement('div')
+  const temp = document.createElement("div")
 
   temp.appendChild(node)
 
@@ -219,26 +263,72 @@ const insertNodeAtCursor = node => {
 }
 
 const styleTables = () => {
-  const tables = quillEditor.value.querySelectorAll('table')
+  const tables = quillEditor.value.querySelectorAll("table")
 
   tables.forEach(table => {
-    table.style.width = '100%'
-    table.style.borderCollapse = 'collapse'
-    table.style.margin = '10px 0'
+    table.style.width = "100%"
+    table.style.borderCollapse = "collapse"
+    table.style.margin = "10px 0"
 
-    const cells = table.querySelectorAll('td, th')
+    const cells = table.querySelectorAll("td, th")
 
     cells.forEach(cell => {
-      cell.style.border = '1px solid #aaa'
-      cell.style.padding = '6px'
-      cell.style.textAlign = 'center'
-      cell.style.cursor = 'auto'
+      cell.style.border = "1px solid #aaa"
+      cell.style.padding = "6px"
+      cell.style.textAlign = "center"
+      cell.style.cursor = "auto"
     })
   })
+}
+
+function deleteLastRow() {
+  const editor = quill.root
+  const tables = editor.querySelectorAll("table")
+
+  if (tables.length === 0) return
+
+  const table = tables[tables.length - 1] // Get the last inserted table
+  const rows = table.querySelectorAll("tr")
+
+  if (rows.length > 1) {
+    const lastRow = rows[rows.length - 1]
+
+    table.deleteRow(lastRow.rowIndex) // Use deleteRow instead of removeChild
+  } else {
+    // Optionally, if there's only one row left, remove the entire table
+    table.remove()
+  }
+}
+function deleteLastColumn() {
+  const editor = quill.root
+  const tables = editor.querySelectorAll("table")
+
+  if (tables.length === 0) return
+
+  const table = tables[tables.length - 1] // Get the last inserted table
+  const rows = table.querySelectorAll("tr")
+
+  if (rows.length > 0) {
+    // Loop through all rows to remove the last cell in each
+    rows.forEach(row => {
+      const cells = row.querySelectorAll("td, th")
+      if (cells.length > 0) {
+        row.deleteCell(cells.length - 1) // Delete the last cell
+      }
+    })
+  }
 }
 </script>
 
 <style scoped>
+.ql-insertTable {
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding-block: 0;
+  padding-inline: 6px;
+}
+
 .editor-container {
   overflow: hidden;
   border: 1px solid #ccc;
@@ -256,7 +346,60 @@ const styleTables = () => {
   min-block-size: 250px;
 }
 
-table td:last-child:last-of-type:hover {
-  background-color: #f0f9eb;
+@media (min-width: 320px) {
+  .quill-editor {
+    block-size: 300px;
+    inline-size: 70vw;
+  }
+}
+
+@media (min-width: 375px) {
+  .quill-editor {
+    inline-size: 75vw;
+  }
+}
+
+@media (min-width: 425px) {
+  .quill-editor {
+    inline-size: 80vw;
+  }
+}
+
+@media (min-width: 430px) and (max-width: 500px) {
+  .quill-editor {
+    inline-size: 82vw;
+  }
+}
+
+@media (min-width: 510px) and (max-width: 600px) {
+  .quill-editor {
+    inline-size: 85vw;
+  }
+}
+
+@media (min-width: 610px) and (max-width: 768px) {
+  .quill-editor {
+    inline-size: 88vw;
+  }
+}
+
+@media (min-width: 780px) and (max-width: 1022px) {
+  .quill-editor {
+    inline-size: 90vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .quill-editor {
+    block-size: 100dvh;
+    inline-size: 34.1vw;
+  }
+}
+
+@media (min-width: 1920px) {
+  .quill-editor {
+    block-size: 100dvh !important;
+    inline-size: 39vw !important;
+  }
 }
 </style>

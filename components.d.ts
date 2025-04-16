@@ -59,7 +59,6 @@ declare module 'vue' {
     QuillEditor: typeof import('./src/components/quill/QuillEditor.vue')['default']
     QuillEditorTable: typeof import('./src/components/quill/QuillEditorTable.vue')['default']
     QuillInput: typeof import('./src/components/quillInput.vue')['default']
-    QuillTable: typeof import('./src/components/quill/QuillTable.vue')['default']
     RooTable: typeof import('./src/components/tourism/rooTable.vue')['default']
     RootFormDynamicOne: typeof import('./src/components/tourism/rootFormDynamicOne.vue')['default']
     RootFormDynamicTwo: typeof import('./src/components/tourism/rootFormDynamicTwo.vue')['default']
