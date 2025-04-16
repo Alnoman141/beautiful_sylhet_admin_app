@@ -129,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import QuillEditor from "@/components/quill/QuillEditor.vue";
+import QuillEditor from "@/components/quill/QuillEditorTable.vue";
 import { useBankStore } from "@/stores/tourism/bankStore";
 import { useFairStore } from "@/stores/tourism/fairStore";
 import { useSpotStore } from "@/stores/tourism/spotStore";
