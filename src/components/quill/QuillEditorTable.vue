@@ -299,6 +299,7 @@ function deleteLastRow() {
     table.remove()
   }
 }
+
 function deleteLastColumn() {
   const editor = quill.root
   const tables = editor.querySelectorAll("table")

@@ -58,6 +58,7 @@ declare module 'vue' {
     Pagination: typeof import('./src/components/tourism/pagination.vue')['default']
     QuillEditor: typeof import('./src/components/quill/QuillEditor.vue')['default']
     QuillEditorTable: typeof import('./src/components/quill/QuillEditorTable.vue')['default']
+    QuillEditorTableOptimized: typeof import('./src/components/quill/QuillEditorTableOptimized.vue')['default']
     QuillInput: typeof import('./src/components/quillInput.vue')['default']
     RooTable: typeof import('./src/components/tourism/rooTable.vue')['default']
     RootFormDynamicOne: typeof import('./src/components/tourism/rootFormDynamicOne.vue')['default']

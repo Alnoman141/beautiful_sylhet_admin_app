@@ -1,43 +1,76 @@
 <template>
   <div class="editor-container">
-    <!--
-      <div class="editor-toolbar">
-      <div class="text-end">
-      <ElButton
-      size="small"
-      @click="insertTable(0, noOfColumn)"
-      >
-      Insert Table
-      </ElButton>
-      </div>
-      </div> 
-    -->
     <div
       ref="quillEditor"
       class="quill-editor"
     />
+    <!-- Hover insert buttons -->
+    <div
+      v-show="showControls"
+      ref="tableControls"
+      class="table-controls"
+    >
+      <button @click="insertRowAbove">
+        ➕ Row ↑
+      </button>
+      <button @click="insertRowBelow">
+        ➕ Row ↓
+      </button>
+      <button @click="insertColLeft">
+        ➕ Col ⬅
+      </button>
+      <button @click="insertColRight">
+        ➕ Col ➡
+      </button>
+    </div>
+    <!-- Custom context menu -->
+    <ul
+      v-show="showContextMenu"
+      ref="contextMenu"
+      class="context-menu"
+      :style="{ top: contextMenuY + 'px', left: contextMenuX + 'px' }"
+    >
+      <li @click="mergeCells">
+        Merge Cells
+      </li>
+      <li @click="deleteRow">
+        Delete Row
+      </li>
+      <li @click="deleteColumn">
+        Delete Column
+      </li>
+      <li @click="clearCell">
+        Clear Cell
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup>
-import {
-  ElForm,
-  ElFormItem,
-  ElInputNumber,
-  ElMessage,
-  ElMessageBox,
-} from "element-plus"
+import { ElForm, ElFormItem, ElInputNumber, ElMessage, ElMessageBox } from "element-plus"
 import Quill from "quill"
 import "quill/dist/quill.snow.css"
 import { h, onMounted, ref } from "vue"
 
-const props = defineProps(["modelValue"])
+const props = defineProps(["modelValue", "Placeholder"])
 const emit = defineEmits(["update:modelValue"])
 
 const quillEditor = ref(null)
+const tableControls = ref(null)
+const contextMenu = ref(null)
+
 let quill
 let initialColumns = 0
 let columnSetOnce = false
+
+const noOfColumn = ref(0)
+
+const showControls = ref(false)
+const selectedCell = ref(null)
+
+const showContextMenu = ref(false)
+const contextMenuX = ref(0)
+const contextMenuY = ref(0)
 
 onMounted(() => {
   quill = new Quill(quillEditor.value, {
@@ -59,115 +92,69 @@ onMounted(() => {
         ],
         ["link", "image", "video"],
         ["clean"],
-
-        // Custom table button — will be added below
       ],
     },
   })
 
-  // Create the custom insertTable button
   const toolbarContainer = quill.getModule("toolbar").container
-  const customButton = document.createElement("button")
+  const insertTableBtn = document.createElement("button")
 
-  customButton.title = "Add Table"
-  customButton.setAttribute("type", "button") // 👈 important!
-  customButton.classList.add("ql-insertTable")
-  customButton.innerHTML = "🧾" // or an icon/SVG
-
-  // Add the custom button to the toolbar
-  toolbarContainer.appendChild(customButton)
-
-  // Add event listener for your custom logic
-  customButton.addEventListener("click", e => {
+  insertTableBtn.title = "Insert Table"
+  insertTableBtn.innerHTML = "🧾"
+  insertTableBtn.classList.add("ql-insertTable")
+  insertTableBtn.onclick = e => {
     e.preventDefault()
     insertTable(0, noOfColumn)
-  })
+  }
+  toolbarContainer.appendChild(insertTableBtn)
 
-
-  // delete last row button section
+  // Additional buttons
   const deleteRowBtn = document.createElement("button")
 
-  deleteRowBtn.innerHTML = "➖"
   deleteRowBtn.title = "Delete Last Row"
+  deleteRowBtn.innerHTML = "➖"
   deleteRowBtn.onclick = e => {
     e.preventDefault()
     deleteLastRow()
   }
   toolbarContainer.appendChild(deleteRowBtn)
 
-  // delete last column button section
-  const deleteColumnBtn = document.createElement("button")
+  const deleteColBtn = document.createElement("button")
 
-  // deleteColumnBtn.innerHTML = "➖❌"
-  deleteColumnBtn.innerHTML = "┃" // Column + delete
-  deleteColumnBtn.title = "Delete Last Column"
-  deleteColumnBtn.onclick = e => {
+  deleteColBtn.title = "Delete Last Column"
+  deleteColBtn.innerHTML = "┃"
+  deleteColBtn.onclick = e => {
     e.preventDefault()
     deleteLastColumn()
   }
-  toolbarContainer.appendChild(deleteColumnBtn)
+  toolbarContainer.appendChild(deleteColBtn)
 
-  // Rest of your setup
   quill.root.innerHTML = props.modelValue || ""
-
   quill.on("text-change", () => {
     emit("update:modelValue", quill.root.innerHTML)
     styleTables()
   })
 
   quill.root.addEventListener("keydown", handleKeyPress)
+  quill.root.addEventListener("click", handleCellHover)
+  quill.root.addEventListener("contextmenu", handleContextMenu)
+
+  document.addEventListener("click", () => {
+    showContextMenu.value = false
+    showControls.value = false
+  })
+
   styleTables()
 })
 
-
-const noOfColumn = ref(0)
-
-// const handleKeyPress = e => {
-//   if (e.key === "Enter" || e.key === "Tab") {
-//     console.log("Key pressed:", e.key, noOfColumn.value)
-//     insertTable(1, noOfColumn)
-//   }
-// }
-
-const handleKeyPress = e => {
-  if (e.key !== "Enter" && e.key !== "Tab") return
-
-  const selection = window.getSelection()
-  if (!selection || selection.rangeCount === 0) return
-
-  const range = selection.getRangeAt(0)
-  const currentCell = range.startContainer.closest("td")
-
-  if (!currentCell) return
-
-  const currentRow = currentCell.parentElement
-  const table = currentRow.closest("table")
-
-  if (!table) return
-
-  const allRows = Array.from(table.querySelectorAll("tr"))
-  const isLastRow = currentRow === allRows[allRows.length - 1]
-
-  const currentCells = Array.from(currentRow.querySelectorAll("td"))
-  const isLastColumn = currentCell === currentCells[currentCells.length - 1]
-
-  if (isLastRow && isLastColumn) {
-    e.preventDefault()
-    insertTable(1, noOfColumn)
-  }
-}
-
-
+// ---- Table Insert Logic ----
 const insertTable = async (noOfRows, noOfColumns) => {
   const columnsInitialValue =
     typeof noOfColumns === "object" && "value" in noOfColumns
       ? noOfColumns.value
       : noOfColumns
 
-  const form = ref({
-    rows: 2,
-    columns: columnsInitialValue || 2,
-  })
+  const form = ref({ rows: 2, columns: columnsInitialValue || 2 })
 
   try {
     await ElMessageBox({
@@ -176,23 +163,16 @@ const insertTable = async (noOfRows, noOfColumns) => {
         h("div", { style: "padding: 10px 0" }, [
           h(
             ElForm,
-            {
-              labelPosition: "top",
-              labelWidth: "100px",
-              size: "small",
-              style: "width: 100%; max-width: 300px; margin: auto;",
-            },
+            { labelPosition: "top", size: "small" },
             () => [
-              h(ElFormItem, { label: "Number of Rows" }, () =>
+              h(ElFormItem, { label: "Rows" }, () =>
                 h(ElInputNumber, {
                   modelValue: form.value.rows,
                   "onUpdate:modelValue": val => (form.value.rows = val),
                   min: 1,
-                  controlsPosition: "right",
-                  style: "width: 100%;",
                 }),
               ),
-              h(ElFormItem, { label: "Number of Columns" }, () =>
+              h(ElFormItem, { label: "Columns" }, () =>
                 h(ElInputNumber, {
                   modelValue: form.value.columns,
                   "onUpdate:modelValue": val => {
@@ -203,8 +183,6 @@ const insertTable = async (noOfRows, noOfColumns) => {
                     }
                   },
                   min: 1,
-                  controlsPosition: "right",
-                  style: "width: 100%;",
                 }),
               ),
             ],
@@ -213,12 +191,10 @@ const insertTable = async (noOfRows, noOfColumns) => {
       confirmButtonText: "Insert",
       cancelButtonText: "Cancel",
       beforeClose: (action, instance, done) => {
-        if (action === "confirm") {
-          if (!form.value.rows || !form.value.columns) {
-            ElMessage.error("Please enter valid row and column numbers.")
-            
-            return
-          }
+        if (action === "confirm" && (!form.value.rows || !form.value.columns)) {
+          ElMessage.error("Please enter valid numbers.")
+          
+          return
         }
         done()
       },
@@ -228,11 +204,8 @@ const insertTable = async (noOfRows, noOfColumns) => {
 
     insertNodeAtCursor(table)
     styleTables()
-
     noOfColumn.value = form.value.columns
-  } catch {
-    // cancelled
-  }
+  } catch {}
 }
 
 const createTable = (rows, columns) => {
@@ -276,51 +249,275 @@ const styleTables = () => {
       cell.style.border = "1px solid #aaa"
       cell.style.padding = "6px"
       cell.style.textAlign = "center"
-      cell.style.cursor = "auto"
+      cell.style.position = "relative"
+      cell.style.cursor = "text"
+      enableResize(cell)
     })
   })
 }
 
-function deleteLastRow() {
-  const editor = quill.root
-  const tables = editor.querySelectorAll("table")
+// ---- Resize Columns ----
+function enableResize(cell) {
+  const grip = document.createElement("div")
 
-  if (tables.length === 0) return
+  grip.className = "resize-grip"
+  cell.appendChild(grip)
 
-  const table = tables[tables.length - 1] // Get the last inserted table
-  const rows = table.querySelectorAll("tr")
+  let startX, startWidth
 
-  if (rows.length > 1) {
-    const lastRow = rows[rows.length - 1]
+  grip.addEventListener("mousedown", e => {
+    e.stopPropagation()
+    startX = e.clientX
+    startWidth = parseInt(document.defaultView.getComputedStyle(cell).width, 10)
+    document.documentElement.addEventListener("mousemove", doDrag)
+    document.documentElement.addEventListener("mouseup", stopDrag)
+  })
 
-    table.deleteRow(lastRow.rowIndex) // Use deleteRow instead of removeChild
-  } else {
-    // Optionally, if there's only one row left, remove the entire table
-    table.remove()
+  function doDrag(e) {
+    cell.style.width = `${startWidth + e.clientX - startX}px`
+  }
+
+  function stopDrag() {
+    document.documentElement.removeEventListener("mousemove", doDrag)
+    document.documentElement.removeEventListener("mouseup", stopDrag)
   }
 }
-function deleteLastColumn() {
-  const editor = quill.root
-  const tables = editor.querySelectorAll("table")
 
-  if (tables.length === 0) return
+// --- Insert Buttons on Hover ---
+function handleCellHover(e) {
+  const cell = e.target.closest("td")
+  if (cell) {
+    selectedCell.value = cell
+    showControls.value = true
 
-  const table = tables[tables.length - 1] // Get the last inserted table
+    const rect = cell.getBoundingClientRect()
+    const offset = 10
+
+    tableControls.value.style.top = `${rect.top + window.scrollY - offset}px`
+    tableControls.value.style.left = `${rect.left + window.scrollX + offset}px`
+  } else {
+    showControls.value = false
+  }
+}
+
+// --- Insert Logic ---
+const insertRowAbove = () => {
+  const row = selectedCell.value?.parentElement
+  if (row) {
+    const newRow = row.cloneNode(true)
+
+    newRow.querySelectorAll("td").forEach(cell => (cell.innerText = ""))
+    row.parentElement.insertBefore(newRow, row)
+  }
+}
+
+const insertRowBelow = () => {
+  const row = selectedCell.value?.parentElement
+  if (row) {
+    const newRow = row.cloneNode(true)
+
+    newRow.querySelectorAll("td").forEach(cell => (cell.innerText = ""))
+    row.parentElement.insertBefore(newRow, row.nextSibling)
+  }
+}
+
+const insertColLeft = () => {
+  const colIndex = Array.from(selectedCell.value.parentNode.children).indexOf(selectedCell.value)
+  const table = selectedCell.value.closest("table")
+
+  table.querySelectorAll("tr").forEach(row => {
+    const cell = row.children[colIndex].cloneNode(true)
+
+    cell.innerText = ""
+    row.insertBefore(cell, row.children[colIndex])
+  })
+}
+
+const insertColRight = () => {
+  const colIndex = Array.from(selectedCell.value.parentNode.children).indexOf(selectedCell.value)
+  const table = selectedCell.value.closest("table")
+
+  table.querySelectorAll("tr").forEach(row => {
+    const cell = row.children[colIndex].cloneNode(true)
+
+    cell.innerText = ""
+    row.insertBefore(cell, row.children[colIndex + 1])
+  })
+}
+
+// --- Context Menu Logic ---
+function handleContextMenu(e) {
+  const cell = e.target.closest("td")
+  if (!cell) return
+
+  e.preventDefault()
+  selectedCell.value = cell
+  showContextMenu.value = true
+  contextMenuX.value = e.pageX
+  contextMenuY.value = e.pageY
+}
+
+const mergeCells = () => {
+  const cell = selectedCell.value
+  const nextCell = cell.nextElementSibling
+  if (cell && nextCell) {
+    cell.colSpan = (cell.colSpan || 1) + 1
+    cell.innerHTML += " " + nextCell.innerHTML
+    nextCell.remove()
+  }
+}
+
+const deleteRow = () => {
+  selectedCell.value?.parentElement?.remove()
+}
+
+const deleteColumn = () => {
+  const colIndex = Array.from(selectedCell.value.parentNode.children).indexOf(selectedCell.value)
+  const table = selectedCell.value.closest("table")
+
+  table.querySelectorAll("tr").forEach(row => row.deleteCell(colIndex))
+}
+
+const clearCell = () => {
+  selectedCell.value.innerText = ""
+}
+
+// --- Default Delete Last Row/Col (from your logic) ---
+function deleteLastRow() {
+  const tables = quill.root.querySelectorAll("table")
+  const table = tables[tables.length - 1]
   const rows = table.querySelectorAll("tr")
+  if (rows.length > 1) table.deleteRow(rows.length - 1)
+  else table.remove()
+}
 
-  if (rows.length > 0) {
-    // Loop through all rows to remove the last cell in each
-    rows.forEach(row => {
-      const cells = row.querySelectorAll("td, th")
-      if (cells.length > 0) {
-        row.deleteCell(cells.length - 1) // Delete the last cell
-      }
-    })
+function deleteLastColumn() {
+  const tables = quill.root.querySelectorAll("table")
+  const table = tables[tables.length - 1]
+
+  table.querySelectorAll("tr").forEach(row => {
+    const cells = row.querySelectorAll("td, th")
+    if (cells.length > 0) row.deleteCell(cells.length - 1)
+  })
+}
+
+// --- Smart Add Extra Row on Enter/Tab at Last Cell ---
+const handleKeyPress = e => {
+  if (!["Enter", "Tab"].includes(e.key)) return
+
+  const selection = window.getSelection()
+  if (!selection || selection.rangeCount === 0) return
+
+  const range = selection.getRangeAt(0)
+  const currentCell = range.startContainer.closest("td")
+  if (!currentCell) return
+
+  const currentRow = currentCell.parentElement
+  const table = currentRow.closest("table")
+  if (!table) return
+
+  const isLastRow = currentRow === table.querySelector("tr:last-child")
+  const isLastCol = currentCell === currentRow.querySelector("td:last-child")
+
+  if (isLastRow && isLastCol) {
+    e.preventDefault()
+    insertTable(1, noOfColumn)
   }
 }
 </script>
 
+
 <style scoped>
+.editor-container {
+  position: relative;
+  inline-size: 100%;
+}
+
+.quill-editor {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  block-size: 400px;
+}
+
+.table-controls {
+  position: absolute;
+  z-index: 10;
+  display: none;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 90%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 20%);
+}
+
+.context-menu {
+  position: absolute;
+  z-index: 1000;
+  padding: 0;
+  border: 1px solid #ccc;
+  margin: 0;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 10%);
+  font-size: 12px;
+  inline-size: 160px;
+  list-style: none;
+}
+
+.context-menu li {
+  padding: 10px;
+  cursor: pointer;
+  text-align: start;
+}
+
+.context-menu li:hover {
+  background-color: #f4f4f4;
+}
+
+.resize-grip {
+  position: absolute;
+  background: #888;
+  block-size: 10px;
+  cursor: se-resize;
+  inline-size: 10px;
+  inset-block-end: 2px;
+  inset-inline-end: 2px;
+}
+
+button.ql-insertTable,
+button.ql-deleteRow,
+button.ql-deleteCol {
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  margin-inline-end: 5px;
+  padding-block: 4px;
+  padding-inline: 8px;
+}
+
+button.ql-insertTable {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+button.ql-deleteRow {
+  font-size: 16px;
+}
+
+button.ql-deleteCol {
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:focus {
+  outline: none;
+}
+
 .ql-insertTable {
   cursor: pointer;
   font-size: 16px;
@@ -403,3 +600,4 @@ function deleteLastColumn() {
   }
 }
 </style>
+
