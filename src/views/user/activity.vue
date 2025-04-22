@@ -5,23 +5,6 @@
         <VCol cols="6">
           <b> Activity Log Report</b>
         </VCol>
-        <!--
-          <VCol
-          cols="6"
-          class="text-right"
-          >
-          <RouterLink
-          type="primary"
-          :underline="false"          
-          
-          :to="{ name: 'createUser'}"
-            
-          class="create-btn "
-          >
-          Create User
-          </RouterLink>
-          </VCol> 
-        -->
       </VRow>
     </ElCard>
     <ElCard>
@@ -30,7 +13,7 @@
           v-loading="loading"
           :filter-table-data="spotList"
           :columns="columns"
-          @table-data-emit="getspotList(10,1)"
+          @table-data-emit="getspotList(20,1)"
         />
       </div>
       <PaginationSection
@@ -95,7 +78,7 @@ const getspotList = async (pageSize, pageNo) => {
 
 onMounted(() => {
   
-  getspotList(10, 1)
+  getspotList(20, 1)
 })
 </script>
 
