@@ -377,7 +377,7 @@ watch(
                     @click="isActiveChatUserProfileSidebarOpen = true"
                   >
                     <VAvatar
-                      size="40"
+                      size="50"
                       :variant="
                         !store.userInfo?.user?.avatar ? 'tonal' : undefined
                       "
@@ -393,15 +393,15 @@ watch(
                       }}</span>
                     </VAvatar>
 
-                    <div class="flex-grow-1 ms-4 overflow-hidden">
-                      <div class="text-h6 mb-0 font-weight-regular">
-                        <b>
-                          {{ store.userInfo?.user?.name }}
-                        </b>
-                        <br>
-                        <small>Complain-No: {{ store.userInfo?.serial }} </small><br>
-                        <small>Complain-Category: {{ store.userInfo?.category.name }} </small><br>
-                      </div>
+                    <div class="d-flex align-start  flex-column mx-2">
+                      <!-- <div class="text-h6 mb-0 font-weight-regular"> -->
+                      <b class="text-base text-high-emphasis mb-0">
+                        {{ store.userInfo?.user?.name }}
+                      </b>
+                        
+                      <small>No: {{ store.userInfo?.serial }} </small>
+                      <small>Category:  {{ store.userInfo?.category.name }} </small>
+                      <!-- </div> -->
                     </div>
                   </div>
                   <!-- <br> -->

@@ -52,41 +52,49 @@ const isChatContactActive = computed(() => {
       <span v-else>{{ avatarText(user.user.name) }}</span>
     </VAvatar>
     <!-- </VBadge> -->
-    <div class="flex-grow-1 ms-4 overflow-hidden">
+    <!--
+      <div class="flex-grow-1 ms-4 overflow-hidden">
       <b class="text-base text-high-emphasis mb-0">
-        {{ props.user.user.name }} </b><br>
+      {{ props.user.user.name }} </b><br>
       <small>Complain-No: {{ props.user.serial }}</small> <br>
       <small>Complain-Category: {{ props.user.category.name }}</small> <br>
      
       <small
-        :class="
-          props.user.status == 0
-            ? 'text-info'
-            : props.user.status == 1
-              ? ''
-              : props.user.status == 2
-                ? 'text-success'
-                : props.user.status == 3
-                  ? 'text-danger'
-                  : 'text-warning'
-        "
-        disabled
-        size="small"
+      :class="
+      props.user.status == 0
+      ? 'text-info'
+      : props.user.status == 1
+      ? ''
+      : props.user.status == 2
+      ? 'text-success'
+      : props.user.status == 3
+      ? 'text-danger'
+      : 'text-warning'
+      "
+      disabled
+      size="small"
       >
-        {{
-          props.user.status == 0
-            ? "Submitted"
-            : props.user.status == 1
-              ? "In-Progress"
-              : props.user.status == 2
-                ? "Resolved"
-                : props.user.status == 3
-                  ? "Rejected"
-                  : "In-Review"
-        }}
+      {{
+      props.user.status == 0
+      ? "Submitted"
+      : props.user.status == 1
+      ? "In-Progress"
+      : props.user.status == 2
+      ? "Resolved"
+      : props.user.status == 3
+      ? "Rejected"
+      : "In-Review"
+      }}
       </small>
       
       <br>
+      </div> 
+    -->
+    <div class="d-flex align-start  flex-column mx-2">
+      <b class="text-base text-high-emphasis mb-0">
+        {{ props.user.user.name }} </b>
+      <small>No: {{ props.user.serial }}</small>
+      <small>Category: {{ props.user.category.name }}</small>
     </div>
   </li>
 </template>
