@@ -647,6 +647,7 @@ const insertColRight = () => {
 
 // --- Context Menu Logic ---
 function handleContextMenu(e) {
+  
   const cell = e.target.closest("td, th")
   if (!cell) return
 

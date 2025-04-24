@@ -359,7 +359,7 @@ watch(
             <VRow class="">
               <VCol
                 cols="12"
-                md="6"
+                md="10"
               >
                 <div class="active-chat-header d-flex align-center text-medium-emphasis">
                   <!-- Sidebar toggler -->
@@ -374,6 +374,7 @@ watch(
 
                   <div
                     class="d-flex align-center cursor-pointer"
+                    style="width: 100% !important; "
                     @click="isActiveChatUserProfileSidebarOpen = true"
                   >
                     <VAvatar
@@ -392,15 +393,22 @@ watch(
                         avatarText(store.userInfo?.user?.name)
                       }}</span>
                     </VAvatar>
-
-                    <div class="d-flex align-start  flex-column mx-2">
+                    <div
+                      class="mx-2 "
+                      style=" display: flex;width: 100% !important; justify-content: space-between; "
+                    >
                       <!-- <div class="text-h6 mb-0 font-weight-regular"> -->
-                      <b class="text-base text-high-emphasis mb-0">
-                        {{ store.userInfo?.user?.name }}
-                      </b>
+                      <div class="d-flex flex-column">
+                        <b class="text-base text-high-emphasis mb-0">
+                          {{ store.userInfo?.user?.name }}
+                        </b>
                         
-                      <small>No: {{ store.userInfo?.serial }} </small>
-                      <small>Category:  {{ store.userInfo?.category.name }} </small>
+                        <small>No: {{ store.userInfo?.serial }} </small>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <small>Category:  {{ store.userInfo?.category.name }} </small>
+                        <small>Date:  {{ store.userInfo.date }} </small>
+                      </div>
                       <!-- </div> -->
                     </div>
                   </div>
@@ -413,30 +421,26 @@ watch(
               <VCol
                 v-if="store.userInfo?.status || store.userInfo?.status == 0"
                 cols="12"
-                md="6"
-                class="d-flex justify-end"
+                md="2"
+                class="d-flex align-center justify-end"
               >
-                <div class="active-chat-header d-flex align-center text-medium-emphasis">
-                  <div>
-                    <ElSelect
-                      v-model="complainStatus"
-                      clearable
-                      placeholder="Complain Status"
-                      size="large"
-                      style="inline-size: 240px"
-                      class="px-2"
-                      @change="showAlert(complainStatus)"
-                    >
-                      <ElOption
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                        :disabled="item.value == 0 || item.value == 1"
-                      />
-                    </ElSelect>
-                  </div>
-                </div>
+                <ElSelect
+                  v-model="complainStatus"
+                  clearable
+                  placeholder="Complain Status"
+                  size="large"
+                  style=" inline-size: 100% !important;"
+                  class="px-2"
+                  @change="showAlert(complainStatus)"
+                >
+                  <ElOption
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.value == 0 || item.value == 1"
+                  />
+                </ElSelect>
               </VCol>
             </VRow>
           </div>
