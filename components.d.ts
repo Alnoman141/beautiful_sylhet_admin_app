@@ -57,6 +57,7 @@ declare module 'vue' {
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
+    Npm: typeof import('./src/components/quill/npm.vue')['default']
     Pagination: typeof import('./src/components/tourism/pagination.vue')['default']
     QuillEditor: typeof import('./src/components/quill/QuillEditor.vue')['default']
     QuillEditorTable: typeof import('./src/components/quill/QuillEditorTable.vue')['default']

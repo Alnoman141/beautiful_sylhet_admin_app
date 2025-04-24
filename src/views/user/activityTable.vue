@@ -85,9 +85,9 @@
       >
         <div v-if="hasChanged(key)">
           <strong>{{ formatKey(key) }}:</strong>
-          <div class="diff-box   py-2" >
+          <div class="diff-box  px-4 py-2">
             <span
-              class="before "
+              class="before px-4"
               v-if="isHtml(getNested(oldVals, key))"
               v-html="getNested(oldVals, key)"
             ></span>
@@ -230,8 +230,7 @@ tr:hover {
 
 .diff-box .before {
   color: #f56c6c;
-
-  /* text-decoration: line-through; */
+  text-decoration: line-through;
 }
 
 .diff-box .arrow {
