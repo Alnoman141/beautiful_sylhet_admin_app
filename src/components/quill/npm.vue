@@ -40,7 +40,7 @@
         left: screenType === 'mobile' ? (contextMenuX - 80) + 'px' :
           screenType === 'tablet' ? (contextMenuX - 150) + 'px' :
           screenType === 'laptop' ? (contextMenuX -100) + 'px' :
-          (contextMenuX - 400) + 'px' ,
+          (contextMenuX ) + 'px' ,
         position: 'fixed',
         zIndex: 9999
       }"
