@@ -28,7 +28,7 @@ const props = defineProps({
 const emit = defineEmits(["getEmit"]);
 const page = ref(null);
 
-const pageSize = ref(10);
+const pageSize = ref(20);
 
 const size = ref<ComponentSize>("default");
 const background = ref(false);
