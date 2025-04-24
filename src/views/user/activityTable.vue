@@ -1,225 +1,246 @@
 <template>
-  <table border style=" border-collapse: collapse;inline-size: 100%;" class="table table-bordered table-striped table-hover log-table">
-  <thead>
-    <tr>
-      <th v-for="(column, index) in columns" :key="index" :style="configStore.getHeaderRowStyle">
-        {{ column.label }}
-      </th>
-      <th colspan="2" style="text-align: start;">Change Log</th>
-    </tr>
-    <tr>
-      <!-- Empty headers for other columns -->
-      <template v-for="(column, index) in columns">
+  <table class="log-table">
+    <thead>
+      <tr>
+        <th
+          v-for="(column, index) in columns"
+          :key="index"
+          :style="configStore.getHeaderRowStyle"
+        >
+          {{ column.label }}
+        </th>
+        <th>Change Log</th>
+      </tr>
+      <!-- <tr>
+        <template v-for="(_, index) in columns">
+          <th></th>
+        </template>
         <th></th>
-       
-        
-      </template>
-      <th>Before</th>
-      <th>After</th>
-    </tr>
-  </thead>
+      </tr> -->
+    </thead>
 
-  <tbody>
-    <tr class="mx-2" v-for="(row, rowIndex) in filterTableData" :key="rowIndex" :style="configStore.getRowStyle(row, rowIndex)">
-      <!-- Dynamic table columns -->
-      <td class="px-2" v-for="(column, colIndex) in columns" :key="colIndex" :style="{ textAlign: column.align }">
-        <div v-if="column.prop !== 'content' && column.prop !== 'info'" v-html="
-              column.prop !== 'id'
-                ? row[column.prop] && row[column.prop].name
-                  ? row[column.prop].name
-                  : row[column.prop]
-                : pageNo == 1
+    <tbody>
+      <tr
+        v-for="(row, rowIndex) in filterTableData"
+        :key="rowIndex"
+        :style="configStore.getRowStyle(row, rowIndex)"
+      >
+        <!-- Table columns -->
+        <!-- <td v-for="(column, colIndex) in columns" :key="colIndex" :style="{ textAlign: column.align }">
+          <div v-if="column.prop !== 'content' && column.prop !== 'info'" v-html="
+            column.prop !== 'id'
+              ? row[column.prop]?.name ?? row[column.prop]
+              : pageNo === 1
                 ? colIndex + 1
                 : (pageNo - 1) * pageSize + colIndex + 1
-            ">
-        </div>
-
-        <div v-else>
-          {{ row[column.prop].data.title }}
-        </div>
-      </td>
-
-      <!-- Activity Change Log - BEFORE -->
-      <td style="vertical-align: top;" class="px-2">
-        <template v-if="row.properties && row.properties.old">
-          <div v-for="(value, key) in row.properties.old" :key="key">
-            <strong>{{ key }}:</strong>
-            <span v-if="isHtml(value)" v-html="value"></span>
-            <span v-else>{{ value }}</span>
+          "></div>
+          <div v-else>
+            {{ row[column.prop].data.title }}
           </div>
-        </template>
-      </td>
+        </td> -->
 
-      <!-- Activity Change Log - AFTER -->
-      <td style="vertical-align: top;" class="px-2">
-        <template v-if="row.properties && row.properties.attributes">
-          <div v-for="(value, key) in row.properties.attributes" :key="key">
-            <strong>{{ key }}:</strong>
-            <span v-if="isHtml(value)" v-html="value"></span>
-            <span v-else>{{ value }}</span>
+        <td
+          v-for="(column, colIndex) in columns"
+          :key="colIndex"
+          :style="{ textAlign: column.align }"
+        >
+          <div v-if="column.prop !== 'content' && column.prop !== 'info'">
+            <span
+              v-html="
+                column.prop !== 'id'
+                  ? formatKey(row[column.prop])
+                  : pageNo === 1
+                  ? colIndex + 1
+                  : (pageNo - 1) * pageSize + colIndex + 1
+              "
+            ></span>
           </div>
-        </template>
+          <div v-else>
+            {{ formatKey(row[column.prop]?.data?.title || "") }}
+          </div>
+        </td>
 
-        <p>
-          <b>Changed At:</b> {{ formatDate(row.created_at) }}
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <!-- Change Log Button -->
+        <td>
+          <el-button type="warning" size="small" @click="openChangeLog(row)">
+            📋 View Change Log
+          </el-button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
+  <!-- Modal -->
+  <el-dialog
+    v-model="logDialogVisible"
+    title="Change Log Details"
+    width="80%"
+    :before-close="handleLogClose"
+  >
+    <div v-if="selectedLogRow">
+      <div
+        v-for="(afterVal, key) in selectedLogRow.properties?.attributes || {}"
+        :key="key"
+        class="mb-3 "
+      >
+        <div v-if="hasChanged(key)">
+          <strong>{{ formatKey(key) }}:</strong>
+          <div class="diff-box   py-2" >
+            <span
+              class="before "
+              v-if="isHtml(getNested(oldVals, key))"
+              v-html="getNested(oldVals, key)"
+            ></span>
+            <span class="before" v-else>{{ getNested(oldVals, key) }}</span>
+            <span class="arrow">➜</span>
+            <span
+              class="after"
+              v-if="isHtml(afterVal)"
+              v-html="afterVal"
+            ></span>
+            <span class="after" v-else>{{ afterVal }}</span>
+          </div>
+        </div>
+      </div>
+      <p class="mt-4">
+        <b>Changed At:</b> {{ formatDate(selectedLogRow.created_at) }}
+      </p>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config";
-import { useUserStore } from "@/stores/tourism/userStore";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { defineEmits, defineProps, ref } from "vue";
-import { useRoute } from "vue-router";
+import { computed, defineEmits, defineProps, ref } from "vue";
 
 const props = defineProps({
-  filterTableData: {
-    type: Array,
-    default: () => [],
-  },
-  columns: {
-    type: Array,
-    default: () => [],
-  },
-  pageNo: {
-    type: Number,
-    default: 1,
-  },
-  pageSize: {
-    type: Number,
-    default: 10,
-  },
+  filterTableData: Array,
+  columns: Array,
+  pageNo: Number,
+  pageSize: Number,
 });
 
 const emit = defineEmits(["tableDataEmit"]);
-const route = useRoute();
-const userStore = useUserStore();
-
-const editorContent = ref(""); // Reactive variable to store the editor content
 
 const configStore = useConfigStore();
 const search = ref("");
 
 const filterTableData = computed(() =>
   props.filterTableData.filter(
-    (data) =>
+    (d) =>
       !search.value ||
-      data.name.toLowerCase().includes(search.value.toLowerCase())
+      d.name?.toLowerCase().includes(search.value.toLowerCase())
   )
 );
 
-const deleteTransport = async (item) => {
-  let arr = [];
-  arr.push(item);
-  try {
-    const { data } = await userStore.deleteUser({ id: item });
+// Modal logic
+const logDialogVisible = ref(false);
+const selectedLogRow = ref(null);
 
-    data.status_code == 200
-      ? notify("Deleted!", data.message, "error", "top-right")
-      : notify("Error", data.message, "error", "top-right");
-
-    emit("tableDataEmit");
-  } catch (err) {
-    console.log(err);
-  }
+const openChangeLog = (row) => {
+  selectedLogRow.value = row;
+  logDialogVisible.value = true;
 };
 
-const showAlert = (item) => {
-  ElMessageBox.alert(
-    "Are you sure that you want to delete this user ?",
-    "Delete",
-    {
-      confirmButtonText: "Delete",
-      confirmButtonClass: "el-button--danger",
-      callback: (action) => {
-        ElMessage({
-          type: "info",
-          message: `action: ${action}`,
-        });
-
-        ;
-        action == "confirm" ? deleteTransport(item) : "";
-      },
-    }
-  );
-};
-
-const detailDialog = ref(false);
-const detailData = ref({});
-
-const showDetail = (item) => {
-  detailData.value = item;
-  detailDialog.value = true;
-};
-const handleClose = (done: () => void) => {
-  detailDialog.value = false;
-
+const handleLogClose = (done: () => void) => {
+  logDialogVisible.value = false;
+  selectedLogRow.value = null;
   done();
-  detailData.value = {};
 };
-const showImage = (item) => {
-  ElMessageBox.alert(
-    `<img src="${item}" alt="Image" style="width: 100%; height: auto; ' " />`,
-    "Image",
-    {
-      dangerouslyUseHTMLString: true,
-      confirmButtonText: "Close",
-      callback: (action) => {
-        ;
-      },
-    }
-  );
+
+// Helpers
+const formatKey = (key: string) => {
+  if (!key) return "";
+  return key
+    .replace(/[_-]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 };
-const stripHtml = (val) => {
-  if (typeof val === "string") {
-    const doc = new DOMParser().parseFromString(val, "text/html");
-    return doc.body.textContent || "";
-  }
-  return val;
-};
-const isHtml = (val) => {
-  return typeof val === "string" && /<\/?[a-z][\s\S]*>/i.test(val);
-};
+
+const isHtml = (val) =>
+  typeof val === "string" && /<\/?[a-z][\s\S]*>/i.test(val);
 
 const formatDate = (datetime) => {
   const date = new Date(datetime);
   return new Intl.DateTimeFormat("en-US", {
-    dateStyle: "medium", // or 'short', 'long'
+    dateStyle: "medium",
     timeStyle: "short",
   }).format(date);
 };
+
+// Compare and Diff
+const getNested = (obj, path) => {
+  return path
+    .split(".")
+    .reduce((o, p) => (o && o[p] !== undefined ? o[p] : ""), obj);
+};
+
+const hasChanged = (key) => {
+  const oldVal = getNested(selectedLogRow.value.properties?.old || {}, key);
+  const newVal = getNested(
+    selectedLogRow.value.properties?.attributes || {},
+    key
+  );
+  return oldVal !== newVal;
+};
+
+const oldVals = computed(() => selectedLogRow.value?.properties?.old || {});
 </script>
 
 <style scoped>
-  table {
-    border-collapse: collapse;
-    font-family: sans-serif;
-    inline-size: 100%;
-  }
+table {
+  border-collapse: collapse;
+  font-family: sans-serif;
+  inline-size: 100%;
+}
 
-  th, td {
-    border: 1px solid #ddd; /* Muted gray border */
-    padding-block: 8px;
-    padding-inline: 12px;
-    text-align: start;
-    vertical-align: top;
-  }
+th,
+td {
+  border: 1px solid #ddd;
+  padding-block: 8px;
+  padding-inline: 12px;
+  text-align: start;
+  vertical-align: top;
+}
 
-  th {
-    background-color: #f9f9f9;
-    font-weight: 600;
-  }
+th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+}
 
-  tr:nth-child(even) {
-    background-color: #fafafa;
-  }
+tr:nth-child(even) {
+  background-color: #fafafa;
+}
 
-  tr:hover {
-    background-color: #f5f5f5;
-  }
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.diff-box {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  background: #fdf6ec;
+  border-inline-start: 3px solid #e6a23c;
+  gap: 8px;
+  margin-block-start: 4px;
+}
+
+.diff-box .before {
+  color: #f56c6c;
+
+  /* text-decoration: line-through; */
+}
+
+.diff-box .arrow {
+  color: #909399;
+  font-weight: bold;
+}
+
+.diff-box .after {
+  color: #67c23a;
+  font-weight: bold;
+}
 </style>

@@ -1,1 +1,0 @@
-import{a$ as t,x as e,c as s,c5 as n}from"./index-eca952e4.js";function i(){const o=t(!1);return e(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:s(()=>o.value?void 0:{transition:"none !important"}),isBooted:n(o)}}export{i as u};
