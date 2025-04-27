@@ -25,19 +25,7 @@
         :key="rowIndex"
         :style="configStore.getRowStyle(row, rowIndex)"
       >
-        <!-- Table columns -->
-        <!-- <td v-for="(column, colIndex) in columns" :key="colIndex" :style="{ textAlign: column.align }">
-          <div v-if="column.prop !== 'content' && column.prop !== 'info'" v-html="
-            column.prop !== 'id'
-              ? row[column.prop]?.name ?? row[column.prop]
-              : pageNo === 1
-                ? colIndex + 1
-                : (pageNo - 1) * pageSize + colIndex + 1
-          "></div>
-          <div v-else>
-            {{ row[column.prop].data.title }}
-          </div>
-        </td> -->
+     
 
         <td
           v-for="(column, colIndex) in columns"
