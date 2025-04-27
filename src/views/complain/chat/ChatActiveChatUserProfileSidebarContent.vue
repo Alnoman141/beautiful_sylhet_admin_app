@@ -70,24 +70,24 @@ const { resolveAvatarBadgeVariant } = useChat()
       >
         <b> Complain-Status:</b> <b
           :class="
-            store.userInfo.status.status == 0
+            store.userInfo.status == 0
               ? 'text-info'
-              : store.userInfo.status.status == 1
+              : store.userInfo.status == 1
                 ? ''
-                : store.userInfo.status.status == 2
+                : store.userInfo.status == 2
                   ? 'text-success'
-                  : store.userInfo.status.status == 3
+                  : store.userInfo.status == 3
                     ? 'text-danger'
                     : 'text-warning'
           "
         > {{
-          store.userInfo.status.status == 0
+          store.userInfo.status == 0
             ? "Submitted"
-            : store.userInfo.status.status == 1
+            : store.userInfo.status == 1
               ? "In-Progress"
-              : store.userInfo.status.status == 2
+              : store.userInfo.status == 2
                 ? "Resolved"
-                : store.userInfo.status.status == 3
+                : store.userInfo.status == 3
                   ? "Rejected"
                   : "In-Review"
         }} </b>
