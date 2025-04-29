@@ -463,11 +463,12 @@ watch(
               >
                 <!-- on hover show text close -->
                 <p
+                  v-if="previewImage && previewImage?.includes('application/pdf') || previewImage?.includes('video')"
                   class="cursor-pointer text-medium-emphasis text-disabled "
                   style="border-radius: 50%; color: red !important; "
-                  @click="previewImage = ''"
+                  @click="previewImage ? previewImage = '' :'', tempImg ? tempImg = '':''"
                 >
-                  X
+                  X 
                 </p>
               </div>
               
@@ -502,15 +503,24 @@ watch(
                 autofocus
               >
                 <template #append-inner>
+                  <!-- <div class="upload-image"> -->
                   <img
                     v-if="previewImage && !previewImage?.includes('application/pdf') && !previewImage?.includes('video')"
                     :src="previewImage"
                     alt=""
                     height="60"
                     width="60"
-                    class="border mx-2 my-2"
+                    class="border mx-2 my-2 upload-image"
+                    @click="previewImage ? previewImage = '' :'', tempImg ? tempImg = '':''"
                   >
-                 
+                  <p
+                    v-if="previewImage && !previewImage?.includes('application/pdf') && !previewImage?.includes('video')"
+                    class="remove-image "
+                    @click="previewImage ? previewImage = '' :'', tempImg ? tempImg = '':''"
+                  >
+                    X
+                  </p>
+                  <!-- </div> -->
                   <div class="d-flex gap-1">
                     <IconBtn @click="refInputEl?.click()">
                       <VIcon
@@ -682,5 +692,72 @@ $chat-app-header-height: 76px;
     height: 0.75rem;
     /* stylelint-enable liberty/use-logical-spec */
   }
+}
+
+
+.upload-image:hover {
+  cursor: pointer !important;
+  filter: blur(0.5px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.upload-image::after {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  color: red !important;
+  content: "X" !important;
+  cursor: pointer !important;
+  font-size: 20px !important;
+}
+
+.upload-image::after {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  color: red !important;
+  content: "X" !important;
+  cursor: pointer !important;
+  font-size: 20px !important;
+}
+
+// .remove-image{
+//   display: none !important;
+// }
+
+// .remove-image:hover {
+//   position: absolute !important;
+//   top: 0 !important;
+//   right: 0 !important;
+//   display: block !important;
+//   color: red !important;
+//   content: "X" !important;
+//   cursor: pointer !important;
+//   font-size: 20px !important;
+// }
+
+.remove-image {
+  // position: relative !important;
+  // top: 0 !important;
+  // right: 0 !important;
+  // display: none !important;
+  // color: red !important;
+  // content: "X" !important;
+  // cursor: pointer !important;
+  // font-size: 20px !important;
+  display:none !important;
+}
+
+// remove image will be shown on hover upload image
+.upload-image:hover + .remove-image {
+  position: relative !important;
+  z-index: 999 !important;
+  top: 20% !important;
+  right: 20% !important;
+  display: block !important;
+  color: red !important;
+  content: "X" !important;
+  cursor: pointer !important;
+  font-size: 20px !important;
 }
 </style>

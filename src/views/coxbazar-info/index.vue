@@ -74,7 +74,7 @@
               content-type="html"
               theme="snow"
               toolbar="full"                                
-              style="block-size: 100dvh !important;"
+              style=" overflow: hidden !important;block-size: 100dvh !important;"
               preview-mode
               class="preview-quill"
             />

@@ -99,6 +99,10 @@
           @table-data-emit="getspotList(20,1)"
         />
       </div>
+      <PaginationSection
+        :total-data="totalData"
+        @get-emit="getspotList"
+      />
     </ElCard>
   </div>
 </template>
@@ -106,6 +110,7 @@
 <script setup lang="ts">
 import { useConfigStore } from "@/@core/stores/config"
 import PaginationSection from "@/components/tourism/pagination.vue"
+
 import { useUserStore } from "@/stores/tourism/userStore"
 import { onMounted, ref } from "vue"
 import ActivityTable from "./activityTable.vue"
