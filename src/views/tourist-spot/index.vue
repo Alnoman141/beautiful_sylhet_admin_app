@@ -37,8 +37,17 @@
           :page-size="size"
           @table-data-emit="getspotList"
         />
+
+        
+        <!--
+          <PaginationSection
+          :total-data="totalData"
+          @get-emit="getspotList"
+          /> 
+        -->
         <PaginationSection
           :total-data="totalData"
+          :page-size-passed="size"
           @get-emit="getspotList"
         />
       </div>
@@ -92,7 +101,7 @@ const getspotList = async (pageSize, pageNo) => {
 }
 
 onMounted(() => {  
-  getspotList(10, 1)
+  getspotList(size.value, 1)
 })
 </script>
 
