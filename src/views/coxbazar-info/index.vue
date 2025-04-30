@@ -146,7 +146,7 @@ onMounted(() => {
 
 .quill-scroll-wrapper {
   box-sizing: border-box;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   max-block-size: 70vh;
   overflow-y: auto;
 }
