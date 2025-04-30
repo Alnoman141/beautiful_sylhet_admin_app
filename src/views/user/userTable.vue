@@ -14,7 +14,15 @@
         :prop="column.prop"
         :sortable="column.sortable"
         :align="column.align"
-        :width="column.prop == 'id' ? '100' : column.prop == 'log_name' || column.prop == 'event' ? '100%'  :column.prop == 'description' ? '100%' :''"
+        :width="
+          column.prop == 'id'
+            ? '100'
+            : column.prop == 'log_name' || column.prop == 'event'
+            ? '100%'
+            : column.prop == 'description'
+            ? '100%'
+            : ''
+        "
       >
         <template #default="scope">
           <div
@@ -104,12 +112,7 @@
           </ElButton>
         </template>
       </ElTableColumn>
-      <ElTableColumn
-        v-if="route.name == 'userActivity'"
-        align="left"
-       
-        
-      >
+      <ElTableColumn v-if="route.name == 'userActivity'" align="left">
         <template #header>
           <div class="text-start">Activity Change Log</div>
         </template>
@@ -125,22 +128,22 @@
             </div>
           </div>  
           <hr> -->
-          <VRow class="mx-0 my-0 px-0 py-0 ">
-          <VCol
-            v-for="(section, sectionKey) in scope.row.properties"
-            :key="sectionKey"
-            class="  border-s border-t border-b border-e"
-            
-          >
-          
-            <h4 class="my-2"> {{ String(sectionKey) === 'old' ? 'Before' : 'After' }}</h4>
-           <hr>
-            <div v-for="(value, key) in section" :key="key">
-              <strong>{{ key }}:</strong>
-              <span v-if="isHtml(value)" v-html="value"></span>
-              <span v-else>{{ value }}</span>
-            </div>
-          </VCol>
+          <VRow class="mx-0 my-0 px-0 py-0">
+            <VCol
+              v-for="(section, sectionKey) in scope.row.properties"
+              :key="sectionKey"
+              class="border-s border-t border-b border-e"
+            >
+              <h4 class="my-2">
+                {{ String(sectionKey) === "old" ? "Before" : "After" }}
+              </h4>
+              <hr />
+              <div v-for="(value, key) in section" :key="key">
+                <strong>{{ key }}:</strong>
+                <span v-if="isHtml(value)" v-html="value"></span>
+                <span v-else>{{ value }}</span>
+              </div>
+            </VCol>
           </VRow>
         </template>
       </ElTableColumn>
@@ -149,112 +152,109 @@
       v-model="detailDialog"
       :title="`Tourist - ${detailData.name} Details`"
       :before-close="handleClose"
+      width="400"
     >
-      <VRow class="my-4">
-        <VCol
-          cols="12"
-          md="12"
-          class="border d-flex align-center justify-center"
-        >
+      <VRow class="dialog-body compact-dialog">
+        <!-- Avatar & Name -->
+        <VCol cols="12" class="d-flex align-center mb-3">
           <img
             :src="detailData.avatar"
             height="50"
             width="50"
-            alt=""
-            srcset=""
-            class="rounded-circle cursor-pointer"
+            class="detail-avatar me-3"
             @click="showImage(detailData.avatar)"
           />
+          <div class="detail-title">{{ detailData.name }}</div>
         </VCol>
-        <VCol cols="12" md="3" class="border-s border-b"
-          >Name: {{ detailData.name }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b"
-          >Email: {{ detailData.email ? detailData.email : "" }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b"
-          >Phone: {{ detailData.phone ? detailData.phone : "" }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b border-e"
-          >NID/Passport:
-          {{
-            detailData?.info?.data.nid_passport
-              ? detailData?.info?.data.nid_passport
-              : ""
-          }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b"
-          >Nationality:
-          {{
-            detailData?.info?.data.nationality
-              ? detailData?.info?.data.nationality
-              : ""
-          }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b"
-          >Country:
-          {{
-            detailData?.info?.data.country ? detailData?.info?.data.country : ""
-          }}</VCol
-        >
-        <VCol cols="12" md="3" class="border-s border-b px-0 py-0 mx-0 my-0">
-          <p class="mx-0 px-1 py-1 my-0 border-b">Present Address</p>
-          <p class="mx-1 px-0 py-0 my-1">
-            Address:
-            {{
-              detailData?.info?.data.present_address
-                ? detailData?.info?.data.present_address
-                : " &nbsp; -"
-            }}
-          </p>
-          <p class="mx-1 px-0 py-0 my-1">
-            Upazila:
-            {{
-              detailData?.info?.data.present_dist_name
-                ? detailData?.info?.data.present_dist_name
-                : " &nbsp; -"
-            }}
-          </p>
-          <p class="mx-1 px-0 py-0 my-1">
-            District:
 
-            {{
-              detailData?.info?.data.present_up_name
-                ? detailData?.info?.data.present_up_name
-                : " &nbsp; -"
-            }}
-          </p>
+        <!-- Contact Info -->
+        <VCol cols="12" class="group-box">
+          <div class="group-title">Contact Info</div>
+          <VRow>
+            <VCol cols="6">
+              <div class="label">Email</div>
+              <div class="value">{{ detailData.email || "—" }}</div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">Phone</div>
+              <div class="value">{{ detailData.phone || "—" }}</div>
+            </VCol>
+          </VRow>
         </VCol>
-        <VCol
-          cols="12"
-          md="3"
-          class="border-s border-b border-e px-0 py-0 mx-0 my-0"
-          ><p class="mx-0 px-1 py-1 my-0 border-b">Permanent Address</p>
 
-          <p class="mx-1 px-0 py-0 my-1">
-            Address:
-            {{
-              detailData?.info?.data.permanent_address
-                ? detailData?.info?.data.permanent_address
-                : " &nbsp; -"
-            }}
-          </p>
-          <p class="mx-1 px-0 py-0 my-1">
-            Upazila:
-            {{
-              detailData?.info?.data.permanent_up_name
-                ? detailData?.info?.data.permanent_up_name
-                : " &nbsp; -"
-            }}
-          </p>
-          <p class="mx-1 px-0 py-0 my-1">
-            District:
-            {{
-              detailData?.info?.data.permanent_dist_name
-                ? detailData?.info?.data.permanent_dist_name
-                : " &nbsp; -"
-            }}
-          </p>
+        <!-- Identity Info -->
+        <VCol cols="12" class="group-box">
+          <div class="group-title">Identity</div>
+          <VRow>
+            <VCol cols="6">
+              <div class="label">NID/Passport</div>
+              <div class="value">
+                {{ detailData?.info?.data.nid_passport || "—" }}
+              </div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">Nationality</div>
+              <div class="value">
+                {{ detailData?.info?.data.nationality || "—" }}
+              </div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">Country</div>
+              <div class="value">
+                {{ detailData?.info?.data.country || "—" }}
+              </div>
+            </VCol>
+          </VRow>
+        </VCol>
+
+        <!-- Present Address -->
+        <VCol cols="12" class="group-box">
+          <div class="group-title">Present Address</div>
+          <VRow>
+            <VCol cols="6">
+              <div class="label">Address</div>
+              <div class="value">
+                {{ detailData?.info?.data.present_address || "—" }}
+              </div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">Upazila</div>
+              <div class="value">
+                {{ detailData?.info?.data.present_up_name || "—" }}
+              </div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">District</div>
+              <div class="value">
+                {{ detailData?.info?.data.present_dist_name || "—" }}
+              </div>
+            </VCol>
+          </VRow>
+        </VCol>
+
+        <!-- Permanent Address -->
+        <VCol cols="12" class="group-box">
+          <div class="group-title">Permanent Address</div>
+          <VRow>
+            <VCol cols="6">
+              <div class="label">Address</div>
+              <div class="value">
+                {{ detailData?.info?.data.permanent_address || "—" }}
+              </div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">Upazila</div>
+              <div class="value">
+                {{ detailData?.info?.data.permanent_up_name || "—" }}
+              </div>
+            </VCol>
+            <VCol cols="6">
+              <div class="label">District</div>
+              <div class="value">
+                {{ detailData?.info?.data.permanent_dist_name || "—" }}
+              </div>
+            </VCol>
+          </VRow>
         </VCol>
       </VRow>
     </ElDialog>
@@ -333,7 +333,6 @@ const showAlert = (item) => {
           message: `action: ${action}`,
         });
 
-        ;
         action == "confirm" ? deleteTransport(item) : "";
       },
     }
@@ -360,9 +359,7 @@ const showImage = (item) => {
     {
       dangerouslyUseHTMLString: true,
       confirmButtonText: "Close",
-      callback: (action) => {
-        ;
-      },
+      callback: (action) => {},
     }
   );
 };
@@ -377,3 +374,52 @@ const isHtml = (val) => {
   return typeof val === "string" && /<\/?[a-z][\s\S]*>/i.test(val);
 };
 </script>
+<style scoped>
+.compact-dialog {
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+}
+
+.detail-avatar {
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 20%);
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.detail-title {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.group-box {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fff;
+  margin-block-end: 1rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+}
+
+.group-title {
+  border-block-end: 1px solid #eee;
+  color: #444;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-block-end: 0.5rem;
+  padding-block-end: 4px;
+}
+
+.label {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.value {
+  color: #333;
+  font-size: 0.85rem;
+}
+</style>
+

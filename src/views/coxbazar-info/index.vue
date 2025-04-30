@@ -68,16 +68,29 @@
             </div>
            
             
-            <QuillEditor
+            <!--
+              <QuillEditor
               id="preview-quill-editor"
               v-model="information.description"
               content-type="html"
               theme="snow"
               toolbar="full"                                
-              style="block-size: 100dvh !important;"
+              style=" overflow: scroll !important;block-size: 100dvh !important;"
               preview-mode
               class="preview-quill"
-            />
+              /> 
+            -->
+            <div class="quill-scroll-wrapper">
+              <QuillEditor
+                id="preview-quill-editor"
+                v-model="information.description"
+                content-type="html"
+                theme="snow"
+                toolbar="full"
+                preview-mode
+                class="preview-quill"
+              />
+            </div>
           </VCol>
         </VRow>
       </div>
@@ -129,5 +142,21 @@ onMounted(() => {
   color: #fff;
   padding-block: 6px;
   padding-inline: 10px;
+}
+
+.quill-scroll-wrapper {
+  box-sizing: border-box;
+  /* padding: 0.5rem; */
+  max-block-size: 70vh;
+  overflow-y: auto;
+}
+
+.preview-quill {
+  pointer-events: none;
+}
+
+/* Optional: tighten spacing inside the preview editor */
+.preview-quill .ql-editor {
+  padding: 0;
 }
 </style>

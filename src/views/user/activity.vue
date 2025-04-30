@@ -99,9 +99,14 @@
           @table-data-emit="getspotList(20,1)"
         />
       </div>
-      <PaginationSection
+      <!-- <PaginationSection
         :total-data="totalData"
-        @get-emit="getspotList"
+       @get-emit="getspotList"
+      /> -->
+       <PaginationSection
+        :total-data="totalData"
+        :page-size-passed="size"
+       @get-emit="getspotList"
       />
     </ElCard>
   </div>
@@ -125,7 +130,8 @@ const columns = ref([
   { label: "User Role", prop: "roles", sortable: false },
   { label: "Description", prop: "description", sortable: false },
 ])
-
+const page = ref(1)
+const size = ref(20)
 const totalData = ref(0)
 const loading = ref(false)
 const selecteUserId = ref(null)
@@ -190,7 +196,7 @@ const getspotList = async (pageSize: number, pageNo: number) => {
 
 onMounted(() => {
   
-  getspotList(20, 1)
+  getspotList(size.value, 1)
 })
 </script>
 

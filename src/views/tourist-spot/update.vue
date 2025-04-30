@@ -4,7 +4,7 @@
       v-loading="loading"
       :rule-form="ruleForm"
       mode="update"
-      @get-emit="getSpotlist"
+      @get-emit="getspotList"
     />
   </div>
 </template>

@@ -38,8 +38,15 @@
           @table-data-emit="getspotList"
         />
       </div>
+      <!--
+        <PaginationSection
+        :total-data="totalData"
+        @get-emit="getspotList"
+        /> 
+      -->
       <PaginationSection
         :total-data="totalData"
+        :page-size-passed="size"
         @get-emit="getspotList"
       />
     </ElCard>
@@ -111,7 +118,7 @@ const getspotList = async (pageSize, pageNo) => {
 
 onMounted(() => {
   
-  getspotList(10, 1)
+  getspotList(size.value, 1)
 })
 </script>
 

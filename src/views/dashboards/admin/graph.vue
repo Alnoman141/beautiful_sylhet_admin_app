@@ -51,8 +51,15 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+const props = defineProps<{
+  todayVisitor: number;
+  allVisitor: number;
+  todayRegistered: number;
+  allRegistered: number;
+  height?: number;
+}>();
 const container = ref<HTMLDivElement | null>(null);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
@@ -72,7 +79,14 @@ const selectedType = ref('bar');
 
 const labels = ["Today Visitor", "All Visitor", "Today Registered", "All Registered"];
 const values = [120, 5200, 30, 3000];
-
+// use watch to assign props value to values
+watch(() => [props.todayVisitor, props.allVisitor, props.todayRegistered, props.allRegistered], () => {
+  values[0] = props.todayVisitor;
+  values[1] = props.allVisitor;
+  values[2] = props.todayRegistered;
+  values[3] = props.allRegistered;
+  drawGraph();
+})
 const resizeCanvas = () => {
   if (canvas.value && container.value) {
     canvas.value.width = container.value.clientWidth;
@@ -102,50 +116,6 @@ const drawGraph = () => {
   }
 };
 
-// const drawLineChart = (ctx: CanvasRenderingContext2D) => {
-//   const width = canvas.value!.width;
-//   const height = canvasHeight;
-//   const margin = 50;
-//   const step = (width - margin * 2) / (values.length - 1);
-//   const maxValue = Math.max(...values);
-
-//   ctx.beginPath();
-//   ctx.strokeStyle = "#3498db";
-//   ctx.lineWidth = 2;
-
-//   values.forEach((value, index) => {
-//     const x = margin + index * step;
-//     const y = height - (value / maxValue) * (height - margin * 2) - margin;
-//     if (index === 0) ctx.moveTo(x, y);
-//     else ctx.lineTo(x, y);
-//   });
-
-//   ctx.stroke();
-
-//   values.forEach((value, index) => {
-//     const x = margin + index * step;
-//     const y = height - (value / maxValue) * (height - margin * 2) - margin;
-//     ctx.beginPath();
-//     ctx.arc(x, y, 5, 0, 2 * Math.PI);
-//     ctx.fillStyle = "#e74c3c";
-//     ctx.fill();
-//   });
-// };
-
-// const drawBarChart = (ctx: CanvasRenderingContext2D) => {
-//   const width = canvas.value!.width;
-//   const height = canvasHeight;
-//   const margin = 50;
-//   const barWidth = (width - margin * 2) / values.length;
-//   const maxValue = Math.max(...values);
-
-//   values.forEach((value, index) => {
-//     const x = margin + index * barWidth;
-//     const barHeight = (value / maxValue) * (height - margin * 2);
-//     ctx.fillStyle = "#2ecc71";
-//     ctx.fillRect(x, height - barHeight - margin, barWidth * 0.6, barHeight);
-//   });
-// };
 
 const drawLineChart = (ctx: CanvasRenderingContext2D) => {
   const width = canvas.value!.width;
@@ -222,26 +192,6 @@ const drawBarChart = (ctx: CanvasRenderingContext2D) => {
   });
 };
 
-
-// const drawPieChart = (ctx: CanvasRenderingContext2D) => {
-//   const width = canvas.value!.width;
-//   const height = canvasHeight;
-//   const centerX = width / 2;
-//   const centerY = height / 2;
-//   const radius = Math.min(width, height) / 4;
-//   const total = values.reduce((acc, val) => acc + val, 0);
-
-//   let startAngle = 0;
-//   values.forEach((value, index) => {
-//     const sliceAngle = (value / total) * 2 * Math.PI;
-//     ctx.beginPath();
-//     ctx.moveTo(centerX, centerY);
-//     ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
-//     ctx.fillStyle = `hsl(${(index / values.length) * 360}, 70%, 60%)`;
-//     ctx.fill();
-//     startAngle += sliceAngle;
-//   });
-// };
 
 const drawPieChart = (ctx: CanvasRenderingContext2D) => {
   const width = canvas.value!.width;
@@ -396,7 +346,7 @@ const tinyCanvases = ref<Record<string, HTMLCanvasElement | null>>({});
 const graphTypes = [
   { label: "Line", value: "line" },
   { label: "Bar", value: "bar" },
-  { label: "Pie", value: "pie" },
+  // { label: "Pie", value: "pie" },
 ];
 
 const getFirstValue = () => {

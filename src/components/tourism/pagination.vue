@@ -1,10 +1,12 @@
 <template>
   <div class="d-flex justify-content-center py-4">
+
+    
   <el-pagination
     v-model:current-page="page"
     v-model:page-size="pageSize"
     :page-sizes="[10, 20, 50, 100]"
-    :size="size"
+    :size="pageSizePassed"
     :disabled="disabled"
     :background="background"
     layout="total, sizes, prev, pager, next, jumper"
@@ -22,6 +24,10 @@ const props = defineProps({
     type: Number,
     
   },
+  pageSizePassed: {
+    type: Number,
+    default: 10,
+  },
   
   
 })
@@ -35,12 +41,12 @@ const background = ref(false);
 const disabled = ref(false);
 
 const handleSizeChange = (val: number) => {
-  
+  pageSize.value= props.pageSizePassed
   pageSize.value=val
    emit('getEmit',pageSize.value,page.value)
 };
 const handleCurrentChange = (val: number) => {
-  
+  pageSize.value= props.pageSizePassed
   page.value=val
   emit('getEmit',pageSize.value,page.value)
   

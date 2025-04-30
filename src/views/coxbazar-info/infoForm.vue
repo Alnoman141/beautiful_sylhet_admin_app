@@ -54,8 +54,7 @@
                 content-type="html"
                 theme="snow"
                 toolbar="full"
-                :text-change="checkData()"
-                 
+                :text-change="checkData()"                 
                 :customClass="'customClassInfo'"
                 :Placeholder="index == 0 ? 'কক্সবাজার সম্পর্কিত তথ্য' : 'Type Coxs Bazar Info here'"
               />
@@ -102,22 +101,13 @@ const formSize = ref<ComponentSize>("default");
 const ruleFormRef = ref<FormInstance>();
 const locationOptions = ["Home", "Company", "School"];
 const rules = reactive<FormRules<RuleForm>>({
-  // name: [
-  //   { required: true, message: 'Please input Activity name', trigger: 'blur' },
-  //   { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-  // ],
+  
 });
 
 const validationLock = ref(false);
 const loading = ref(false);
 const submitForm = async (formEl: FormInstance | undefined) => {
-  //  ruleForm.value[0].description.length <= 11 || ruleForm.value[1].description.length <= 11 ? validationLock.value = true : validationLock.value = false
-
-  // if (validationLock.value) {
-  //   notify('Error!', 'Please fill all fields', 'error', 'top-right')
-
-  //   return
-  // }
+  
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
