@@ -1,63 +1,73 @@
 <template>
-  <div v-loading="loading">
-    <ElCard class="my-2">
-      <p class="my-0 py-0">
-        Welcome to Admin Dashboard
-      </p>
-    </ElCard>
-
-    <TopCard :logistic-data="logisticData" />
-
-    <VRow>
-      <VCol
-        cols="12"
-        md="6"
-      >
-        <VRow>
-          <VCol cols="12">
-            <ElCard class="mb-4">
-              <h5 class="text-h5 mb-2">
-                Welcome back to,
-                <span class="text-h4">Cox's Bazar Admin Panel</span>
-              </h5>
-              <div
-                class="text-wrap text-body-1"
-                style="max-inline-size: 370px"
-              >
-                Get the real-time analytics of your tourism application.
-              </div>
-            </ElCard>
+  <div class="">
+    <VCard class="mb-4 px-2 py-2">
+      <h5 class="text-h5 mb-2">
+        Welcome back to,
+        <span class="text-h4">Cox's Bazar Admin Panel</span>
+      </h5>
+      <div class="text-wrap text-body-1">
+        Get the real-time analytics of your tourism application.
+      </div>
+    </VCard>
+    <VRow align="stretch">
+      <!-- Left Column -->
+      <VCol cols="12" md="5" class="d-flex flex-column h-100">
+        <h3 class="text-h5 font-weight-bold mb-4">Visitor Statistics</h3>
+        <VRow class="">
+          <VCol v-for="(stat, index) in mainStats" :key="index" md="6">
+            <VCard class="w-100  rounded-lg">
+              <VCardText>
+                <VAvatar :color="stat.color" size="48" rounded="sm">
+                  <VIcon :icon="stat.icon" size="28" />
+                </VAvatar>
+                <h2
+                  :class="`text-${stat.color}`"
+                  class="text-h1 text-white font-weight-bold py-2"
+                >
+                  {{ stat.value }}
+                </h2>
+                <h4
+                  :class="`text-${stat.color}`"
+                  class="text-h5 text-white font-weight-bold"
+                >
+                  {{ stat.label }}
+                </h4>
+              </VCardText>
+            </VCard>
           </VCol>
 
-          <!-- Visitor and Registration Stats -->
           <VCol cols="12">
-            <VRow>
+            <h3 class="text-h5 font-weight-bold mb-4">
+              Infrastructure Summary
+            </h3>
+            <VRow dense>
               <VCol
-                v-for="(stat, index) in mainStats"
+                v-for="(item, index) in infrastructureData"
                 :key="index"
                 cols="12"
-                md="6"
               >
-                <VCard class="mb-4">
-                  <VCardText class="d-flex justify-space-between align-center">
-                    <div>
-                      <h4 class="text-h5 font-weight-medium mb-2">
-                        {{ stat.label }}
+                <VCard class="rounded-lg elevation-2 pa-2">
+                  <VCardText
+                    class="d-flex align-center justify-space-between pa-2"
+                    style="min-block-size: 72px"
+                  >
+                    <!-- Icon Box -->
+                    <VAvatar :color="item.color" size="56" rounded="sm">
+                      <VIcon :icon="item.icon" size="32" />
+                    </VAvatar>
+
+                    <!-- Text Info -->
+                    <div class="text-end ms-2">
+                      <h4 class="text-body-2 font-weight-medium mb-1">
+                        {{ item.title }}
                       </h4>
-                      <h2 class="text-h4 font-weight-bold">
-                        {{ stat.value }}
+                      <h2
+                        :class="`text-${item.color}`"
+                        class="text-h5 font-weight-bold"
+                      >
+                        {{ item.value }}
                       </h2>
                     </div>
-                    <VAvatar
-                      variant="tonal"
-                      :color="stat.color"
-                      size="48"
-                    >
-                      <VIcon
-                        :icon="stat.icon"
-                        size="28"
-                      />
-                    </VAvatar>
                   </VCardText>
                 </VCard>
               </VCol>
@@ -65,85 +75,90 @@
           </VCol>
         </VRow>
       </VCol>
+      <VCol cols="12" md="7">
+        <h3 class="text-h5 font-weight-bold mb-4">Visitor Analytics</h3>
 
-      <!-- Removed Right Panel: Empty Space -->
-      <VCol
-        cols="12"
-        md="6"
-      >
-        <ElCard>
-          <Graph
-            :today-visitor="dashboardData.visitor_today"
-            :all-visitor="dashboardData.visitor_all"
-            :today-registered="dashboardData.today_registered"
-            :all-registered="dashboardData.all_registered"
-          />
-        </ElCard>
-      </VCol>
-      <!-- Hotels, Lockers, Spots -->
-      <VCol cols="12">
-        <ElCard class="mb-4">
-          <h5 class="text-h5 mb-4">
-            Infrastructure Overview
-          </h5>
-          <VRow>
-            <VCol
-              v-for="(item, idx) in infrastructureData"
-              :key="idx"
-              cols="12"
-              md="4"
+        <VCard class="flex-grow-1 pa-4">
+          <div class="h-100 w-100">
+            <!-- <Graph
+              class="w-100 h-100"
+              :labels="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
+              :values="[100, 250, 180, 300, 220, 400, 350, 500, 450, 600, 700, 800]"
+            /> -->
+            <Graph
+              class="w-100 h-100"
+              :labels="[
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+              ]"
+              :values="{
+                thisYear: [
+                  100, 250, 180, 300, 220, 400, 350, 500, 450, 600, 700, 800,
+                ],
+                lastYear: [
+                  80, 200, 150, 100, 210, 390, 320, 460, 410, 550, 620, 750,
+                ],
+              }"
+            />
+          </div>
+        </VCard>
+        <h3 class="text-h5 font-weight-bold my-4">Transport Summary</h3>
+
+        <VRow>
+          <VCol
+            v-for="(item, index) in logisticData"
+            :key="index"
+            cols="12"
+            md="4"
+            class="h-100"
+          >
+            <ElCard
+              class="h-100 rounded-lg text-center d-flex flex-column justify-center align-center"
+              style="block-size: 250px !important"
             >
-              <VCard class="text-center pa-4">
-                <h2 class="text-h4 font-weight-bold">
-                  {{ item.value }}
-                </h2>
-                <p class="text-body-1">
-                  {{ item.label }}
-                </p>
-              </VCard>
-            </VCol>
-          </VRow>
-        </ElCard>
+              <VAvatar :color="item.color" size="64" class="mb-2">
+                <VIcon :icon="item.icon" size="36" />
+              </VAvatar>
+              <h2
+                :class="`text-${item.color}`"
+                class="text-h1 font-weight-bold mb-1"
+              >
+                {{ item.value }}
+              </h2>
+              <p
+                :class="`text-${item.color}`"
+                class="text-caption font-weight-bold text-medium-emphasis mb-0"
+              >
+                {{ item.title }}
+              </p>
+            </ElCard>
+          </VCol>
+        </VRow>
       </VCol>
-    
+      <!-- Right Column -->
     </VRow>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { useDashboardStore } from "@/stores/tourism/dashboardStore"
+<script setup lang="ts">
+import { useDashboardStore } from "@/stores/tourism/dashboardStore";
+import { computed, onMounted, ref } from "vue";
+import Graph from "./graph.vue";
 
-import { computed, onMounted, ref } from "vue"
-import Graph from "./graph.vue"
-import TopCard from "./topCard.vue"
-
-const loading = ref(true)
-const dashboardData = ref<any>({})
-
-const dashboardStore = useDashboardStore()
-
-// const logisticData = ref([
-//   {
-//     icon: "tabler-bus",
-//     color: "primary",
-//     value: "120",
-//     title: "Total Vehicles",
-//   },
-//   {
-//     icon: "tabler-map-pin",
-//     color: "success",
-//     value: "32",
-//     title: "Active Routes",
-//   },
-//   {
-//     icon: "tabler-users",
-//     color: "warning",
-//     value: "540",
-//     title: "Total Drivers",
-//   },
-// ])
+const loading = ref(true);
+const dashboardData = ref<any>({});
+const dashboardStore = useDashboardStore();
 const logisticData = ref<any[]>([]);
-
 
 const mainStats = computed(() => [
   {
@@ -170,146 +185,91 @@ const mainStats = computed(() => [
     icon: "tabler-user-check",
     color: "warning",
   },
-])
+]);
 
-const infrastructureData = computed(() => [
-  {
-    label: "Hotels",
-    value: dashboardData.value.hotel ?? 0,
-  },
-  {
-    label: "Lockers",
-    value: dashboardData.value.locker ?? 0,
-  },
-  {
-    label: "Tourist Spots",
-    value: dashboardData.value.spot ?? 0,
-  },
-])
-
-const getDashboardData = async () => {
-  loading.value = true
-  try {
-    const { data } = await dashboardStore.getDashboard({ language_id: 2 })
-
-    dashboardData.value = data.data
-     // Now transform dashboardData.transports into logisticData
-  logisticData.value = (dashboardData.value.transports || []).filter((item: any) => {
-      const name = item.name?.toLowerCase() || '';
-      return ['flight', 'train', 'ship'].includes(name);
-    })
-    .map((item: any) => ({
-      icon: getTransportIcon(item.name),
-      color: getTransportColor(item.name),
-      value: item.count,
-      title: item.name,
-    }));
-  } catch (error) {
-    console.log(error)
-  }
-  loading.value = false
-}
 const getTransportIcon = (name: string) => {
   switch (name.toLowerCase()) {
-    case 'flight':
-      return 'tabler-plane';
-    case 'train':
-      return 'tabler-train';
-    case 'ship':
-      return 'tabler-ship';
-    case 'bus':
-      return 'tabler-bus';
+    case "flight":
+      return "tabler-plane";
+    case "train":
+      return "tabler-train";
+    case "ship":
+      return "tabler-ship";
+    case "bus":
+      return "tabler-bus";
     default:
-      return 'tabler-truck'; // default icon
+      return "tabler-truck";
   }
 };
 
 const getTransportColor = (name: string) => {
   switch (name.toLowerCase()) {
-    case 'flight':
-      return 'info';
-    case 'train':
-      return 'success';
-    case 'ship':
-      return 'primary';
-    case 'bus':
-      return 'warning';
+    case "flight":
+      return "info";
+    case "train":
+      return "success";
+    case "ship":
+      return "primary";
+    case "bus":
+      return "warning";
     default:
-      return 'secondary'; // default color
+      return "secondary";
   }
 };
 
+const infrastructureData = computed(() => [
+  {
+    title: "Hotels",
+    value: dashboardData.value.hotel ?? 0,
+    color: "primary",
+    icon: "tabler-building-skyscraper",
+    isHover: false,
+  },
+  {
+    title: "Lockers",
+    value: dashboardData.value.locker ?? 0,
+    color: "success",
+    icon: "tabler-lock",
+    isHover: false,
+  },
+  {
+    title: "Tourist Spots",
+    value: dashboardData.value.spot ?? 0,
+    color: "warning",
+    icon: "tabler-map-pin",
+    isHover: false,
+  },
+]);
+
+const getDashboardData = async () => {
+  loading.value = true;
+  try {
+    const { data } = await dashboardStore.getDashboard({ language_id: 2 });
+
+    dashboardData.value = data.data;
+
+    logisticData.value = (dashboardData.value.transports || [])
+      .filter((item: any) => {
+        const name = item.name?.toLowerCase() || "";
+        return ["flight", "train", "ship"].includes(name);
+      })
+      .map((item: any) => ({
+        icon: getTransportIcon(item.name),
+        color: getTransportColor(item.name),
+        value: item.count,
+        title: item.name,
+      }));
+  } catch (error) {
+    console.log(error);
+  }
+  loading.value = false;
+};
+
 onMounted(() => {
-  getDashboardData()
-})
+  getDashboardData();
+});
 </script>
 
 <style scoped>
-/* your style part is already fine */
-.event {
-  block-size: 30dvh;
-  overflow-y: auto;
-}
-
-.small-cards-container {
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-  gap: 8px;
-  margin-block: 16px;
-}
-
-.card-scroll {
-  display: flex;
-  flex: 1;
-  justify-content: space-evenly;
-  gap: 16px;
-  overflow-x: auto;
-  padding-block: 8px;
-  scroll-behavior: smooth;
-}
-
-.small-card {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border: 2px solid rgba(var(--v-theme-surface), var(--v-disabled-opacity));
-  border-radius: 12px;
-  background: var(--v-theme-surface);
-  background-color: white;
-  block-size: 100px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 10%);
-  cursor: pointer;
-  max-inline-size: 250px;
-  min-inline-size: 224px;
-  transition: 0.3s ease;
-}
-
-.card-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  inline-size: 100%;
-}
-
-.card-label {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.card-graph {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  block-size: 50px;
-  inline-size: 50px;
-}
-
-.right-bar {
-  border-radius: 4px;
-  background: white !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 10%);
-  margin-block-end: 1.5% !important;
-}
+/* Removed unused .visitor and .graph-section styles */
 </style>
