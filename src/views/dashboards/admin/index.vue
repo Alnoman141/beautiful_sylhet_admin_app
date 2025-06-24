@@ -1,11 +1,11 @@
 <template>
   <div class="">
-    <VCard class="mb-4 px-2 py-2">
-      <h5 class="text-h5 mb-2">
+    <VCard class="mb-4 px-2 py-4">
+      <p class="mb-2 font-weight-bold pt-4 px-4 font-poppins text-primary" style="font-size: 3rem !important; ">
         Welcome back to,
-        <span class="text-h4">Cox's Bazar Admin Panel</span>
-      </h5>
-      <div class="text-wrap text-body-1">
+        <span class="text-h3">Cox's Bazar Admin Panel</span>
+      </p>
+      <div class="text-wrap text-body-1  font-weight-medium pb-4 px-4 mt-0 pt-0">
         Get the real-time analytics of your tourism application.
       </div>
     </VCard>
@@ -103,10 +103,10 @@
               ]"
               :values="{
                 thisYear: [
-                  100, 250, 180, 300, 220, 400, 350, 500, 450, 600, 700, 800,
+                  100, 250, 180, 300, 220, 400, 350, 500, 450, 600, 0, 800,
                 ],
                 lastYear: [
-                  80, 200, 150, 100, 210, 390, 320, 460, 410, 550, 620, 750,
+                  80, 200, 150, 100, 210, 390, 0, 460, 410, 550, 620, 750,
                 ],
               }"
             />

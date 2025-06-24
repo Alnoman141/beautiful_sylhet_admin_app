@@ -20,7 +20,7 @@
     </div>
 
     <div class="graph-types-wrapper">
-      <button @click="scrollLeft" class="scroll-btn">‹</button>
+      <!-- <button @click="scrollLeft" class="scroll-btn">‹</button> -->
       <div class="graph-types" ref="cardContainer">
         <div
           v-for="type in graphTypes"
@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <button @click="scrollRight" class="scroll-btn">›</button>
+      <!-- <button @click="scrollRight" class="scroll-btn">›</button> -->
     </div>
   </div>
 </template>
@@ -128,7 +128,7 @@ const drawLineChart = (ctx: CanvasRenderingContext2D) => {
 
   // Last year
   ctx.beginPath();
-  ctx.strokeStyle = "#ccc";
+  ctx.strokeStyle = "#efa55f";
   ctx.lineWidth = 1.5;
   lastYearValues.value.forEach((v, i) => {
     const x = margin + i * step;
@@ -174,11 +174,11 @@ const drawBarChart = (ctx: CanvasRenderingContext2D) => {
     const x = margin + i * barWidth;
 
     const h1 = (lastYearValues.value[i] / max) * (height - margin * 2);
-    ctx.fillStyle = "#bbb";
+    ctx.fillStyle = "#efa55f";
     ctx.fillRect(x, height - h1 - margin, barWidth * 0.3, h1);
 
     const h2 = (thisYearValues.value[i] / max) * (height - margin * 2);
-    ctx.fillStyle = "#2ecc71";
+    ctx.fillStyle = "#7367F0";
     ctx.fillRect(x + barWidth * 0.35, height - h2 - margin, barWidth * 0.3, h2);
 
     const labelX = x + barWidth / 2;
@@ -289,7 +289,7 @@ const drawTinyGraph = () => {
     switch (type) {
       case 'line':
         ctx.beginPath();
-        ctx.strokeStyle = "#2980b9";
+        ctx.strokeStyle = "#ffffff";
         ctx.lineWidth = 1.5;
         vals.forEach((v, i) => {
           const x = (i + 1) * (w / (vals.length + 1));
@@ -300,7 +300,7 @@ const drawTinyGraph = () => {
         break;
       case 'bar':
         const barW = w / (vals.length * 2);
-        ctx.fillStyle = "#27ae60";
+        ctx.fillStyle = "white";
         vals.forEach((v, i) => {
           const x = i * (barW * 2) + barW;
           const bh = (v / Math.max(...vals)) * h;
@@ -318,7 +318,7 @@ const drawTinyGraph = () => {
         });
         ctx.lineTo(w, h);
         ctx.closePath();
-        ctx.fillStyle = "rgba(52, 152, 219, 0.4)";
+        ctx.fillStyle = "#ffffff";
         ctx.fill();
         break;
       case 'pie':
@@ -347,92 +347,6 @@ const drawTinyGraph = () => {
     }
   }
 };
-
-// const handleMouseMove = (e: MouseEvent) => {
-//   const rect = canvas.value!.getBoundingClientRect();
-//   const x = e.clientX - rect.left;
-//   const y = e.clientY - rect.top;
-
-//   const width = canvas.value!.width;
-//   const height = canvasHeight;
-//   const margin = 50;
-//   const step = (width - margin * 2) / (thisYearValues.value.length - 1);
-//   const max = Math.max(...thisYearValues.value, ...lastYearValues.value);
-
-//   // Line/Area hover
-//   if (["line", "area"].includes(selectedType.value)) {
-//     for (let i = 0; i < thisYearValues.value.length; i++) {
-//       const cx = margin + i * step;
-//       const cy = height - (thisYearValues.value[i] / max) * (height - margin * 2) - margin;
-//       if (Math.abs(x - cx) < 10 && Math.abs(y - cy) < 10) {
-//         tooltip.value = {
-//           visible: true,
-//           x: cx + 10,
-//           y: cy - 10,
-//           label: labels.value[i],
-//           thisYear: thisYearValues.value[i].toString(),
-//           lastYear: lastYearValues.value[i].toString()
-//         };
-//         return;
-//       }
-//     }
-//   }
-
-//   // Bar hover
-//   if (selectedType.value === "bar") {
-//     const count = thisYearValues.value.length;
-//     const barWidth = (width - margin * 2) / count;
-//     for (let i = 0; i < count; i++) {
-//       const xStart = margin + i * barWidth;
-//       const lastBar = {
-//         x: xStart,
-//         width: barWidth * 0.3,
-//         height: (lastYearValues.value[i] / max) * (height - margin * 2),
-//       };
-//       const thisBar = {
-//         x: xStart + barWidth * 0.35,
-//         width: barWidth * 0.3,
-//         height: (thisYearValues.value[i] / max) * (height - margin * 2),
-//       };
-
-//       if (
-//         x >= lastBar.x &&
-//         x <= lastBar.x + lastBar.width &&
-//         y >= height - lastBar.height - margin &&
-//         y <= height - margin
-//       ) {
-//         tooltip.value = {
-//           visible: true,
-//           x,
-//           y,
-//           label: labels.value[i],
-//           thisYear: thisYearValues.value[i].toString(),
-//           lastYear: lastYearValues.value[i].toString()
-//         };
-//         return;
-//       }
-
-//       if (
-//         x >= thisBar.x &&
-//         x <= thisBar.x + thisBar.width &&
-//         y >= height - thisBar.height - margin &&
-//         y <= height - margin
-//       ) {
-//         tooltip.value = {
-//           visible: true,
-//           x,
-//           y,
-//           label: labels.value[i],
-//           thisYear: thisYearValues.value[i].toString(),
-//           lastYear: lastYearValues.value[i].toString()
-//         };
-//         return;
-//       }
-//     }
-//   }
-
-//   tooltip.value.visible = false;
-// };
 
 
 
@@ -592,9 +506,7 @@ const graphTypes = [
 ];
 </script>
 
-<style scoped>
-/* keep your existing styles here - omitted for brevity */
-</style>
+
 
 <style scoped>
 .graph-container {
@@ -686,7 +598,7 @@ const graphTypes = [
   align-items: center;
   padding: 8px;
   border-radius: 10px;
-  background: #f8f8f8;
+  background: #a5a3c050;
   block-size: 60px;
   box-shadow: 0 1px 3px rgba(0,0,0,20%);
   cursor: pointer;
@@ -696,9 +608,15 @@ const graphTypes = [
 }
 
 .graph-type-token.active {
-  background: #3498db;
-  color: white;
+  background: #7367F0;
+  color: white !important;
 }
+
+.graph-type-token.active .token-value {
+  color: white !important;
+  font-weight: bold;
+}
+
 
 .token-content {
   display: flex;
@@ -722,6 +640,8 @@ const graphTypes = [
   color: #666;
   font-size: 14px;
 }
+
+
 
 .token-graph {
   block-size: 40px;
