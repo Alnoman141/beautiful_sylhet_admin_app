@@ -3,10 +3,10 @@
     <VCard class="mb-4 px-2 py-4">
       <p class="mb-2 font-weight-bold pt-4 px-4 font-poppins text-primary" style="font-size: 3rem !important; ">
         Welcome back to,
-        <span class="text-h3">Cox's Bazar Admin Panel</span>
+        <span class="text-h3">Vromonica Admin Panel</span>
       </p>
       <div class="text-wrap text-body-1  font-weight-medium pb-4 px-4 mt-0 pt-0">
-        Get the real-time analytics of your tourism application.
+        real-time analytics of Vromonica mobile application.
       </div>
     </VCard>
     <VRow align="stretch">

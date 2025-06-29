@@ -339,7 +339,7 @@ const drawTinyGraph = () => {
             ctx.lineTo(cx, cy);
           }
           ctx.closePath();
-          ctx.fillStyle = `hsl(${i * 90}, 70%, 60%)`;
+          ctx.fillStyle = `hsl(${i * 30}, 100%, 60%)`;
           ctx.fill();
           start += slice;
         });
