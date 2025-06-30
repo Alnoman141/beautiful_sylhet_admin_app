@@ -4,7 +4,7 @@
       <canvas
         ref="canvas"
         :height="canvasHeight"
-        style="border: 1px solid #ccc; inline-size: 100%;"
+        style="border: 1px solid #ccc; border-radius: 8px; inline-size: 100%;"
         @mousemove="handleMouseMove"
         @mouseleave="hideTooltip"
       ></canvas>
@@ -13,13 +13,14 @@
         :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }"
         class="graph-tooltip"
       >
-        {{ tooltip.label }}: {{ tooltip.value }}
+        {{ tooltip.label }}<br />
+        This Year: {{ tooltip.thisYear }}<br />
+        Last Year: {{ tooltip.lastYear }}
       </div>
     </div>
 
     <div class="graph-types-wrapper">
-      <button @click="scrollLeft" class="scroll-btn">‹</button>
-
+      <!-- <button @click="scrollLeft" class="scroll-btn">‹</button> -->
       <div class="graph-types" ref="cardContainer">
         <div
           v-for="type in graphTypes"
@@ -31,12 +32,11 @@
           <div class="token-content">
             <div class="token-label">
               <div class="token-title">{{ type.label }}</div>
-              <div class="token-value">{{ getFirstValue() }}</div>
+              <div class="token-value">{{ thisYearValues.reduce((a, b) => a + b, 0) }}</div>
             </div>
-
             <div class="token-graph">
               <canvas
-                :ref="el => tinyCanvases[type.value] = el"
+                :ref="el => (tinyCanvases[type.value] = el)"
                 width="80"
                 height="40"
               ></canvas>
@@ -44,383 +44,51 @@
           </div>
         </div>
       </div>
-
-      <button @click="scrollRight" class="scroll-btn">›</button>
+      <!-- <button @click="scrollRight" class="scroll-btn">›</button> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 const props = defineProps<{
-  todayVisitor: number;
-  allVisitor: number;
-  todayRegistered: number;
-  allRegistered: number;
+  labels: string[];
+  values: { thisYear: number[]; lastYear: number[] };
   height?: number;
 }>();
+
 const container = ref<HTMLDivElement | null>(null);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 const cardContainer = ref<HTMLDivElement | null>(null);
-
+const tinyCanvases = ref<Record<string, HTMLCanvasElement | null>>({});
 const canvasHeight = 300;
+const selectedType = ref('bar');
+
+const labels = computed(() => props.labels);
+const thisYearValues = computed(() => props.values.thisYear);
+const lastYearValues = computed(() => props.values.lastYear);
 
 const tooltip = ref({
   visible: false,
   x: 0,
   y: 0,
   label: '',
-  value: '',
+  thisYear: '',
+  lastYear: ''
 });
 
-const selectedType = ref('bar');
-
-const labels = ["Today Visitor", "All Visitor", "Today Registered", "All Registered"];
-const values = [120, 5200, 30, 3000];
-// use watch to assign props value to values
-watch(() => [props.todayVisitor, props.allVisitor, props.todayRegistered, props.allRegistered], () => {
-  values[0] = props.todayVisitor;
-  values[1] = props.allVisitor;
-  values[2] = props.todayRegistered;
-  values[3] = props.allRegistered;
+watch(() => props.values, () => {
   drawGraph();
-})
+  drawTinyGraph();
+});
+
 const resizeCanvas = () => {
   if (canvas.value && container.value) {
     canvas.value.width = container.value.clientWidth;
     drawGraph();
   }
-};
-
-const drawGraph = () => {
-  if (!canvas.value) return;
-  const c = canvas.value;
-  const context = c.getContext("2d");
-  if (!context) return;
-  ctx.value = context;
-
-  context.clearRect(0, 0, c.width, c.height);
-
-  switch (selectedType.value) {
-    case "line":
-      drawLineChart(context);
-      break;
-    case "bar":
-      drawBarChart(context);
-      break;
-    case "pie":
-      drawPieChart(context);
-      break;
-  }
-};
-
-
-const drawLineChart = (ctx: CanvasRenderingContext2D) => {
-  const width = canvas.value!.width;
-  const height = canvasHeight;
-  const margin = 50;
-  const step = (width - margin * 2) / (values.length - 1);
-  const maxValue = Math.max(...values);
-
-  ctx.beginPath();
-  ctx.strokeStyle = "#3498db";
-  ctx.lineWidth = 2;
-
-  values.forEach((value, index) => {
-    const x = margin + index * step;
-    const y = height - (value / maxValue) * (height - margin * 2) - margin;
-    if (index === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  });
-
-  ctx.stroke();
-
-  values.forEach((value, index) => {
-    const x = margin + index * step;
-    const y = height - (value / maxValue) * (height - margin * 2) - margin;
-
-    // Draw points
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, 2 * Math.PI);
-    ctx.fillStyle = "#e74c3c";
-    ctx.fill();
-
-    // Draw value above point
-    ctx.fillStyle = "#666";
-    ctx.font = "bold 12px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(value.toString(), x, y - 10);
-
-    // Draw label below point
-    ctx.fillStyle = "#333";
-    ctx.font = "12px sans-serif";
-    ctx.fillText(labels[index], x, height - margin + 15);
-  });
-};
-
-const drawBarChart = (ctx: CanvasRenderingContext2D) => {
-  const width = canvas.value!.width;
-  const height = canvasHeight;
-  const margin = 50;
-  const barWidth = (width - margin * 2) / values.length;
-  const maxValue = Math.max(...values);
-
-  values.forEach((value, index) => {
-    const x = margin + index * barWidth;
-    const barHeight = (value / maxValue) * (height - margin * 2);
-
-    // Draw bar
-    ctx.fillStyle = "#2ecc71";
-    ctx.fillRect(x, height - barHeight - margin, barWidth * 0.6, barHeight);
-
-    // Draw label under bar
-    ctx.fillStyle = "#333";
-    ctx.font = "12px sans-serif";
-    ctx.textAlign = "center";
-
-    const labelX = x + (barWidth * 0.6) / 2;
-    const labelY = height - margin + 15;
-
-    ctx.fillText(labels[index], labelX, labelY);
-
-    // Draw value above bar
-    ctx.fillStyle = "#666";
-    ctx.font = "bold 12px sans-serif";
-    ctx.fillText(value.toString(), labelX, height - barHeight - margin - 10);
-  });
-};
-
-
-const drawPieChart = (ctx: CanvasRenderingContext2D) => {
-  const width = canvas.value!.width;
-  const height = canvasHeight;
-  const centerX = width / 2;
-  const centerY = height / 2;
-  const radius = Math.min(width, height) / 4;
-  const total = values.reduce((acc, val) => acc + val, 0);
-
-  let startAngle = 0;
-  values.forEach((value, index) => {
-    const sliceAngle = (value / total) * 2 * Math.PI;
-
-    // Draw pie slice
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
-    ctx.closePath();
-    ctx.fillStyle = `hsl(${(index / values.length) * 360}, 70%, 60%)`;
-    ctx.fill();
-
-    // Draw labels outside slice
-    const midAngle = startAngle + sliceAngle / 2;
-    const labelX = centerX + Math.cos(midAngle) * (radius + 30);
-    const labelY = centerY + Math.sin(midAngle) * (radius + 30);
-
-    ctx.fillStyle = "#333";
-    ctx.font = "12px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(labels[index], labelX, labelY);
-
-    // Draw value under label
-    ctx.fillStyle = "#666";
-    ctx.font = "bold 12px sans-serif";
-    ctx.fillText(value.toString(), labelX, labelY + 15);
-
-    startAngle += sliceAngle;
-  });
-};
-
-
-const handleMouseMove = (e: MouseEvent) => {
-  if (!canvas.value) return;
-
-  const rect = canvas.value.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  const width = canvas.value!.width;
-  const height = canvasHeight;
-  const margin = 50;
-  const step = (width - margin * 2) / (values.length - (selectedType.value === 'line' ? 1 : 0));
-  const maxValue = Math.max(...values);
-
-  let found = false;
-
-  if (selectedType.value === "line") {
-    values.forEach((value, index) => {
-      const cx = margin + index * step;
-      const cy = height - (value / maxValue) * (height - margin * 2) - margin;
-      if (Math.abs(x - cx) < 10 && Math.abs(y - cy) < 10) {
-        tooltip.value = {
-          visible: true,
-          x: cx + 10,
-          y: cy - 10,
-          label: labels[index],
-          value: value.toString(),
-        };
-        found = true;
-      }
-    });
-  } else if (selectedType.value === "bar") {
-    const barWidth = (width - margin * 2) / values.length;
-    values.forEach((value, index) => {
-      const bx = margin + index * barWidth;
-      const bh = (value / maxValue) * (height - margin * 2);
-      if (x >= bx && x <= bx + barWidth * 0.6 &&
-          y >= height - bh - margin &&
-          y <= height - margin) {
-        tooltip.value = {
-          visible: true,
-          x: bx + barWidth * 0.3,
-          y: height - bh - margin - 10,
-          label: labels[index],
-          value: value.toString(),
-        };
-        found = true;
-      }
-    });
-  } else if (selectedType.value === "pie") {
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radius = Math.min(width, height) / 4;
-    const dx = x - centerX;
-    const dy = y - centerY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance <= radius) {
-      const total = values.reduce((acc, val) => acc + val, 0);
-      let angle = Math.atan2(dy, dx);
-      if (angle < 0) angle += 2 * Math.PI;
-
-      let startAngle = 0;
-      for (let i = 0; i < values.length; i++) {
-        const sliceAngle = (values[i] / total) * 2 * Math.PI;
-        if (angle >= startAngle && angle <= startAngle + sliceAngle) {
-          tooltip.value = {
-            visible: true,
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top - 10,
-            label: labels[i],
-            value: values[i].toString(),
-          };
-          found = true;
-          break;
-        }
-        startAngle += sliceAngle;
-      }
-    }
-  }
-
-  if (!found) {
-    tooltip.value.visible = false;
-  }
-};
-
-const hideTooltip = () => {
-  tooltip.value.visible = false;
-};
-
-const selectGraphType = (type: string) => {
-  selectedType.value = type;
-  nextTick(() => {
-    drawGraph();
-  });
-};
-
-const scrollLeft = () => {
-  if (cardContainer.value) {
-    cardContainer.value.scrollLeft -= 100;
-  }
-};
-
-const scrollRight = () => {
-  if (cardContainer.value) {
-    cardContainer.value.scrollLeft += 100;
-  }
-};
-
-const tinyCanvases = ref<Record<string, HTMLCanvasElement | null>>({});
-
-const graphTypes = [
-  { label: "Line", value: "line" },
-  { label: "Bar", value: "bar" },
-  // { label: "Pie", value: "pie" },
-];
-
-const getFirstValue = () => {
-  return values[0];
-};
-
-const drawTinyGraph = () => {
-  for (const [type, canvas] of Object.entries(tinyCanvases.value)) {
-    if (!canvas) continue;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) continue;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    switch (type) {
-      case 'line':
-        drawTinyLine(ctx, canvas);
-        break;
-      case 'bar':
-        drawTinyBar(ctx, canvas);
-        break;
-      case 'pie':
-        drawTinyPie(ctx, canvas);
-        break;
-    }
-  }
-};
-
-const drawTinyLine = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-  const w = canvas.width;
-  const h = canvas.height;
-  ctx.beginPath();
-  ctx.strokeStyle = "#2980b9";
-  ctx.lineWidth = 2;
-  values.forEach((value, index) => {
-    const x = (index + 1) * (w / (values.length + 1));
-    const y = h - (value / Math.max(...values)) * h;
-    if (index === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  });
-  ctx.stroke();
-};
-
-const drawTinyBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-  const w = canvas.width;
-  const h = canvas.height;
-  const barWidth = w / (values.length * 2);
-  ctx.fillStyle = "#27ae60";
-  values.forEach((value, index) => {
-    const x = index * (barWidth * 2) + barWidth;
-    const barHeight = (value / Math.max(...values)) * h;
-    ctx.fillRect(x, h - barHeight, barWidth, barHeight);
-  });
-};
-
-const drawTinyPie = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-  const w = canvas.width;
-  const h = canvas.height;
-  const cx = w / 2;
-  const cy = h / 2;
-  const r = Math.min(w, h) / 3;
-  let start = 0;
-  const total = values.reduce((a, b) => a + b, 0);
-  values.forEach((v, i) => {
-    const slice = (v / total) * Math.PI * 2;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, start, start + slice);
-    ctx.closePath();
-    ctx.fillStyle = `hsl(${i * 90}, 70%, 60%)`;
-    ctx.fill();
-    start += slice;
-  });
 };
 
 onMounted(() => {
@@ -433,12 +101,413 @@ onBeforeUnmount(() => {
   window.removeEventListener("resize", resizeCanvas);
 });
 
-watch(tinyCanvases, () => {
-  nextTick(() => {
-    drawTinyGraph();
+watch(tinyCanvases, () => nextTick(drawTinyGraph));
+
+const drawGraph = () => {
+  if (!canvas.value) return;
+  const context = canvas.value.getContext("2d");
+  if (!context) return;
+  ctx.value = context;
+  context.clearRect(0, 0, canvas.value.width, canvasHeight);
+
+  switch (selectedType.value) {
+    case "line": drawLineChart(context); break;
+    case "bar": drawBarChart(context); break;
+    case "area": drawAreaChart(context); break;
+    case "pie": drawPieChart(context); break;
+    case "donut": drawDonutChart(context); break;
+  }
+};
+
+const drawLineChart = (ctx: CanvasRenderingContext2D) => {
+  const width = canvas.value!.width;
+  const height = canvasHeight;
+  const margin = 50;
+  const step = (width - margin * 2) / (thisYearValues.value.length - 1);
+  const maxValue = Math.max(...thisYearValues.value, ...lastYearValues.value);
+
+  // Last year
+  ctx.beginPath();
+  ctx.strokeStyle = "#efa55f";
+  ctx.lineWidth = 1.5;
+  lastYearValues.value.forEach((v, i) => {
+    const x = margin + i * step;
+    const y = height - (v / maxValue) * (height - margin * 2) - margin;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
-});
+  ctx.stroke();
+
+  // This year
+  ctx.beginPath();
+  ctx.strokeStyle = "#3498db";
+  ctx.lineWidth = 2;
+  thisYearValues.value.forEach((v, i) => {
+    const x = margin + i * step;
+    const y = height - (v / maxValue) * (height - margin * 2) - margin;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  thisYearValues.value.forEach((v, i) => {
+    const x = margin + i * step;
+    const y = height - (v / maxValue) * (height - margin * 2) - margin;
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fillStyle = "#e74c3c";
+    ctx.fill();
+    ctx.fillStyle = "#333";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(labels.value[i], x, height - margin + 15);
+  });
+};
+
+const drawBarChart = (ctx: CanvasRenderingContext2D) => {
+  const width = canvas.value!.width;
+  const height = canvasHeight;
+  const margin = 50;
+  const count = thisYearValues.value.length;
+  const barWidth = (width - margin * 2) / count;
+  const max = Math.max(...thisYearValues.value, ...lastYearValues.value);
+
+  for (let i = 0; i < count; i++) {
+    const x = margin + i * barWidth;
+
+    const h1 = (lastYearValues.value[i] / max) * (height - margin * 2);
+    ctx.fillStyle = "#efa55f";
+    ctx.fillRect(x, height - h1 - margin, barWidth * 0.3, h1);
+
+    const h2 = (thisYearValues.value[i] / max) * (height - margin * 2);
+    ctx.fillStyle = "#7367F0";
+    ctx.fillRect(x + barWidth * 0.35, height - h2 - margin, barWidth * 0.3, h2);
+
+    const labelX = x + barWidth / 2;
+    ctx.fillStyle = "#333";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(labels.value[i], labelX, height - margin + 15);
+  }
+};
+
+const drawAreaChart = (ctx: CanvasRenderingContext2D) => {
+  drawLineChart(ctx); // Reuse the same as line chart
+  ctx.globalAlpha = 0.3;
+  ctx.fillStyle = "#3498db";
+  fillArea(ctx, thisYearValues.value);
+  ctx.fillStyle = "#ccc";
+  fillArea(ctx, lastYearValues.value);
+  ctx.globalAlpha = 1;
+};
+
+const fillArea = (ctx: CanvasRenderingContext2D, values: number[]) => {
+  const width = canvas.value!.width;
+  const height = canvasHeight;
+  const margin = 50;
+  const step = (width - margin * 2) / (values.length - 1);
+  const max = Math.max(...thisYearValues.value, ...lastYearValues.value);
+
+  ctx.beginPath();
+  ctx.moveTo(margin, height - margin);
+  values.forEach((v, i) => {
+    const x = margin + i * step;
+    const y = height - (v / max) * (height - margin * 2) - margin;
+    ctx.lineTo(x, y);
+  });
+  ctx.lineTo(margin + (values.length - 1) * step, height - margin);
+  ctx.closePath();
+  ctx.fill();
+};
+
+// const drawPieChart = (ctx: CanvasRenderingContext2D) => {
+//   drawCircularChart(ctx, thisYearValues.value);
+// };
+
+// const drawDonutChart = (ctx: CanvasRenderingContext2D) => {
+//   drawCircularChart(ctx, thisYearValues.value, true);
+// };
+const drawDonutChart = (ctx: CanvasRenderingContext2D) => {
+  drawDualCircularChart(ctx, thisYearValues.value, lastYearValues.value, true);
+};
+
+const drawPieChart = (ctx: CanvasRenderingContext2D) => {
+  drawDualCircularChart(ctx, thisYearValues.value, lastYearValues.value, false);
+};
+
+const drawDualCircularChart = (
+  ctx: CanvasRenderingContext2D,
+  outerVals: number[],
+  innerVals: number[],
+  donut: boolean = false
+) => {
+  const width = canvas.value!.width;
+  const height = canvasHeight;
+  const cx = width / 2;
+  const cy = height / 2;
+  const outerRadius = Math.min(width, height) / 2.5;
+  const innerRadius = donut ? outerRadius / 1.7 : outerRadius / 2.2;
+
+  const drawRing = (
+    vals: number[],
+    radius: number,
+    thickness: number,
+    baseHue: number = 0,
+    desaturate = false
+  ) => {
+    const total = vals.reduce((a, b) => a + b, 0);
+    let start = 0;
+    vals.forEach((v, i) => {
+      const angle = (v / total) * 2 * Math.PI;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, start, start + angle);
+      ctx.arc(cx, cy, radius - thickness, start + angle, start, true);
+      ctx.closePath();
+      ctx.fillStyle = desaturate
+        ? `hsl(${(i * 90 + baseHue) % 360}, 10%, 80%)`
+        : `hsl(${(i * 90 + baseHue) % 360}, 70%, 60%)`;
+      ctx.fill();
+      start += angle;
+    });
+  };
+
+  // Draw outer: thisYear
+  drawRing(outerVals, outerRadius, donut ? outerRadius / 3 : outerRadius, 0);
+
+  // Draw inner: lastYear
+  drawRing(innerVals, innerRadius, donut ? innerRadius / 2 : innerRadius, 180, true);
+};
+
+
+const drawTinyGraph = () => {
+  for (const [type, canvas] of Object.entries(tinyCanvases.value)) {
+    if (!canvas) continue;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) continue;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const w = canvas.width;
+    const h = canvas.height;
+    const vals = thisYearValues.value;
+    switch (type) {
+      case 'line':
+        ctx.beginPath();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.5;
+        vals.forEach((v, i) => {
+          const x = (i + 1) * (w / (vals.length + 1));
+          const y = h - (v / Math.max(...vals)) * h;
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        break;
+      case 'bar':
+        const barW = w / (vals.length * 2);
+        ctx.fillStyle = "white";
+        vals.forEach((v, i) => {
+          const x = i * (barW * 2) + barW;
+          const bh = (v / Math.max(...vals)) * h;
+          ctx.fillRect(x, h - bh, barW, bh);
+        });
+        break;
+      case 'area':
+        const step = w / (vals.length - 1);
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        vals.forEach((v, i) => {
+          const x = i * step;
+          const y = h - (v / Math.max(...vals)) * h;
+          ctx.lineTo(x, y);
+        });
+        ctx.lineTo(w, h);
+        ctx.closePath();
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+        break;
+      case 'pie':
+      case 'donut':
+        const cx = w / 2;
+        const cy = h / 2;
+        const outer = Math.min(w, h) / 3;
+        const inner = type === 'donut' ? outer / 2 : 0;
+        const total = vals.reduce((a, b) => a + b, 0);
+        let start = 0;
+        vals.forEach((v, i) => {
+          const slice = (v / total) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.arc(cx, cy, outer, start, start + slice);
+          if (type === 'donut') {
+            ctx.arc(cx, cy, inner, start + slice, start, true);
+          } else {
+            ctx.lineTo(cx, cy);
+          }
+          ctx.closePath();
+          ctx.fillStyle = `hsl(${i * 30}, 100%, 60%)`;
+          ctx.fill();
+          start += slice;
+        });
+        break;
+    }
+  }
+};
+
+
+
+const handleMouseMove = (e: MouseEvent) => {
+  const rect = canvas.value!.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const width = canvas.value!.width;
+  const height = canvasHeight;
+  const margin = 50;
+  const max = Math.max(...thisYearValues.value, ...lastYearValues.value);
+  const step = (width - margin * 2) / (thisYearValues.value.length - 1);
+
+  tooltip.value.visible = false;
+
+  // Line/Area hover
+  if (["line", "area"].includes(selectedType.value)) {
+    for (let i = 0; i < thisYearValues.value.length; i++) {
+      const cx = margin + i * step;
+      const cy = height - (thisYearValues.value[i] / max) * (height - margin * 2) - margin;
+      if (Math.abs(x - cx) < 10 && Math.abs(y - cy) < 10) {
+        tooltip.value = {
+          visible: true,
+          x: cx + 10,
+          y: cy - 10,
+          label: labels.value[i],
+          thisYear: thisYearValues.value[i].toString(),
+          lastYear: lastYearValues.value[i].toString()
+        };
+        return;
+      }
+    }
+  }
+
+  // Bar hover
+  if (selectedType.value === "bar") {
+    const count = thisYearValues.value.length;
+    const barWidth = (width - margin * 2) / count;
+    for (let i = 0; i < count; i++) {
+      const xStart = margin + i * barWidth;
+      const lastHeight = (lastYearValues.value[i] / max) * (height - margin * 2);
+      const thisHeight = (thisYearValues.value[i] / max) * (height - margin * 2);
+
+      const bars = [
+        { x: xStart, width: barWidth * 0.3, height: lastHeight },
+        { x: xStart + barWidth * 0.35, width: barWidth * 0.3, height: thisHeight }
+      ];
+
+      for (const bar of bars) {
+        if (
+          x >= bar.x &&
+          x <= bar.x + bar.width &&
+          y >= height - bar.height - margin &&
+          y <= height - margin
+        ) {
+          tooltip.value = {
+            visible: true,
+            x,
+            y: y - 10,
+            label: labels.value[i],
+            thisYear: thisYearValues.value[i].toString(),
+            lastYear: lastYearValues.value[i].toString()
+          };
+          return;
+        }
+      }
+    }
+  }
+
+  // Pie/Donut hover
+  if (["pie", "donut"].includes(selectedType.value)) {
+    const cx = width / 2;
+    const cy = height / 2;
+    const dx = x - cx;
+    const dy = y - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    const outerRadius = Math.min(width, height) / 2.5;
+    const innerRadius = selectedType.value === "donut" ? outerRadius / 1.7 : outerRadius / 2.2;
+    const outerThickness = selectedType.value === "donut" ? outerRadius / 3 : outerRadius;
+    const innerThickness = selectedType.value === "donut" ? innerRadius / 2 : innerRadius;
+
+    const angle = Math.atan2(dy, dx) < 0
+      ? Math.atan2(dy, dx) + 2 * Math.PI
+      : Math.atan2(dy, dx);
+
+    const checkHoverRing = (
+      values: number[],
+      ringRadius: number,
+      thickness: number
+    ): number | null => {
+      if (dist < ringRadius - thickness || dist > ringRadius) return null;
+      const total = values.reduce((a, b) => a + b, 0);
+      let start = 0;
+      for (let i = 0; i < values.length; i++) {
+        const slice = (values[i] / total) * Math.PI * 2;
+        if (angle >= start && angle <= start + slice) return i;
+        start += slice;
+      }
+      return null;
+    };
+
+    // Outer ring = thisYear
+    let index = checkHoverRing(thisYearValues.value, outerRadius, outerThickness);
+    if (index !== null) {
+      tooltip.value = {
+        visible: true,
+        x,
+        y: y - 10,
+        label: labels.value[index],
+        thisYear: thisYearValues.value[index].toString(),
+        lastYear: lastYearValues.value[index].toString()
+      };
+      return;
+    }
+
+    // Inner ring = lastYear
+    index = checkHoverRing(lastYearValues.value, innerRadius, innerThickness);
+    if (index !== null) {
+      tooltip.value = {
+        visible: true,
+        x,
+        y: y - 10,
+        label: labels.value[index],
+        thisYear: thisYearValues.value[index].toString(),
+        lastYear: lastYearValues.value[index].toString()
+      };
+      return;
+    }
+  }
+};
+
+
+const hideTooltip = () => {
+  tooltip.value.visible = false;
+};
+
+const scrollLeft = () => {
+  if (cardContainer.value) cardContainer.value.scrollLeft -= 100;
+};
+const scrollRight = () => {
+  if (cardContainer.value) cardContainer.value.scrollLeft += 100;
+};
+
+const selectGraphType = (type: string) => {
+  selectedType.value = type;
+  nextTick(drawGraph);
+};
+
+const graphTypes = [
+  { label: "Line", value: "line" },
+  { label: "Bar", value: "bar" },
+  { label: "Pie", value: "pie" },
+  { label: "Area", value: "area" },
+  { label: "Donut", value: "donut" }
+];
 </script>
+
+
+
 <style scoped>
 .graph-container {
   inline-size: 100%;
@@ -529,7 +598,7 @@ watch(tinyCanvases, () => {
   align-items: center;
   padding: 8px;
   border-radius: 10px;
-  background: #f8f8f8;
+  background: #a5a3c050;
   block-size: 60px;
   box-shadow: 0 1px 3px rgba(0,0,0,20%);
   cursor: pointer;
@@ -539,9 +608,15 @@ watch(tinyCanvases, () => {
 }
 
 .graph-type-token.active {
-  background: #3498db;
-  color: white;
+  background: #7367F0;
+  color: white !important;
 }
+
+.graph-type-token.active .token-value {
+  color: white !important;
+  font-weight: bold;
+}
+
 
 .token-content {
   display: flex;
@@ -565,6 +640,8 @@ watch(tinyCanvases, () => {
   color: #666;
   font-size: 14px;
 }
+
+
 
 .token-graph {
   block-size: 40px;

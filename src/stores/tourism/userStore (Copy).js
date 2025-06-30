@@ -1,0 +1,131 @@
+import { createUser, deleteUser, editUser, getComplainList, getTouristList, getUser, getUserActivity, updatePassword, updateUser } from '@/api/toruism/user'
+import { defineStore } from 'pinia'
+
+export const useUserStore = defineStore('userStore', {
+  actions: {     
+    
+    getTouristList(query) {
+      return new Promise((resolve, reject) => {
+        getTouristList(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    // getComplainList
+
+    getComplainList(query) {
+      return new Promise((resolve, reject) => {
+        getComplainList(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getUser(query) {
+      return new Promise((resolve, reject) => {
+        getUser(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    // getUserActivity
+    getUserActivity(query) {
+      return new Promise((resolve, reject) => {
+        getUserActivity(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    // editAwareness
+
+    editUser(query) {
+      return new Promise((resolve, reject) => {
+        editUser(query)
+          .then(response => {
+            
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateUser(data) {
+      return new Promise((resolve, reject) => {
+        updateUser(data)
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+
+    // updatePassword
+    updatePassword(data) {
+      return new Promise((resolve, reject) => {
+        updatePassword(data)
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    
+    
+
+    createUser(data) {
+      return new Promise((resolve, reject) => {
+        createUser(data)
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    deleteUser(data) {
+      return new Promise((resolve, reject) => {
+        deleteUser(data)
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    }, 
+  },
+})
+
+
+
+ 

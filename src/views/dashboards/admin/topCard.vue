@@ -29,7 +29,7 @@ const props = defineProps({
               <VAvatar
                 variant="tonal"
                 :color="data.color"
-                rounded
+                rounded="sm"
               >
                 <VIcon
                   :icon="data.icon"
@@ -41,10 +41,10 @@ const props = defineProps({
                   {{ data.value }}
                 </h3>
               </div>
-              <p class="text-body-1 my-0">
-                {{ data.title }}
-              </p>
             </div>
+            <p class="text-body-1 my-0 text-center font-weight-bold">
+              {{ data.title }}
+            </p>
           </VCardText>
         </VCard>
       </div>
