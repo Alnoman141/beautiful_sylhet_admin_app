@@ -712,10 +712,6 @@ const onFileChange = (file) => {
   reader.onload = () => {
     previewImage.value = reader.result;
   };
-
-  // file.raw.name
-  //   ? (imgUploadValidation.value = false)
-  //   : (imgUploadValidation.value = true);
 };
 
 // multiple image upload

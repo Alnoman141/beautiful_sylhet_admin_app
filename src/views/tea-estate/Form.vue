@@ -133,19 +133,6 @@
                   />
                 </ElFormItem>
               </VCol>
-
-              <!-- Map -->
-              <VCol cols="12">
-                <ElFormItem
-                  :label="index === 0 ? 'মানচিত্রের লিংক' : 'Map URL'"
-                  :prop="`data.${index}.map`"
-                >
-                  <ElInput
-                    v-model="item.map"
-                    :placeholder="index === 0 ? 'মানচিত্রের লিংক দিন' : 'Enter map URL'"
-                  />
-                </ElFormItem>
-              </VCol>
             </VRow>
           </ElCard>
         </VCol>
@@ -154,6 +141,15 @@
       <!-- Image and expiry -->
       <ElCard class="my-4">
         <VRow>
+          <VCol cols="12" md="6" class="my-2">
+            <ElFormItem label="Map Link" prop="map">
+              <ElInput
+                type="url"
+                placeholder="https://www.xyz.com"
+                v-model="ruleForm.map"
+              />
+            </ElFormItem>
+          </VCol>
           <!-- Single Image -->
           <VCol cols="12" md="6">
             <ElFormItem label="Single Image" prop="image">
@@ -408,7 +404,7 @@ const submitForm = async () => {
       ? await teaEstateStore.updateTeaEstate(formData)
       : await teaEstateStore.createTeaEstate(formData)
 
-    if (response?.data?.status_code === 200) {
+    if (response?.status_code === 200) {
       ElMessage.success(
         response.data.message || 'Tourist tea estate saved successfully.',
       )
