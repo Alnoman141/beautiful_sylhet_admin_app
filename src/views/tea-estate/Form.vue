@@ -404,7 +404,7 @@ const submitForm = async () => {
       ? await teaEstateStore.updateTeaEstate(formData)
       : await teaEstateStore.createTeaEstate(formData)
 
-    if (response?.status_code === 200) {
+    if (response?.data?.status_code === 200 || response?.data?.status_code === 201) {
       ElMessage.success(
         response.data.message || 'Tourist tea estate saved successfully.',
       )
