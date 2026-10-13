@@ -36,6 +36,7 @@ import { tourismRoutes } from './tourism'
 import { transportRoutes } from './transport'
 import { userRoutes } from './user'
 import { volunteerRoutes } from './volunteer'
+import { teaEstateRoutes } from './teaEstate'
 
 function recursiveLayouts(route) {
   if (route.children) {
@@ -91,6 +92,7 @@ const router = createRouter({
       ...complainRoutes,
       ...complainCategoryRoutes,
       ...restaurantCategoryRoutes,
+      ...teaEstateRoutes,
 
       // ...servicesRoutes,
     ].map(route => recursiveLayouts(route)),

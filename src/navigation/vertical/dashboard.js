@@ -99,6 +99,13 @@ export default [
     action: "show menu",
   },
   {
+    title: "Tea Estate",
+    to: "teaEstateList",
+    icon: { icon: "tabler-map" },
+    subject: "tea estate",
+    action: "show menu",
+  },
+  {
     title: "Event Information",
     to: "eventsList",
     icon: { icon: "tabler-ticket" },
