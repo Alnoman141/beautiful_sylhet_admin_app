@@ -30,6 +30,13 @@ export default [
     action: "show menu",
   },
   {
+    title: "Tourist Places Rating",
+    to: "spotRatingList",
+    icon: { icon: "tabler-map" },
+    subject: "spot rating",
+    action: "show menu",
+  },
+  {
     title: "Hotel/Motel/Resort",
     to: "hotelList",
     icon: { icon: "tabler-building-skyscraper" },
@@ -105,6 +112,7 @@ export default [
     subject: "tea estate",
     action: "show menu",
   },
+
   // {
   //   title: "Event Information",
   //   to: "eventsList",
@@ -119,6 +127,7 @@ export default [
     subject: "campaign",
     action: "show menu",
   },
+
   // {
   //   title: `About Cox's Bazar`,
   //   to: "info",
@@ -255,6 +264,7 @@ export default [
         subject: "doctor",
         action: "show menu",
       },
+
       // {
       //   title: "Life Guard",
       //   to: "guardList",
@@ -332,6 +342,7 @@ export default [
       },
     ],
   },
+
   // {
   //   title: "Landing Page",
   //   to: "landingPage",

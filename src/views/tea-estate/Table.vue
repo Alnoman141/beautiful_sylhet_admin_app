@@ -61,47 +61,6 @@
               </ElButton>
             </ElTooltip>
           </RouterLink>
-
-          <!--
-            <ElTooltip
-            class="box-item"
-            effect="dark"
-            content="Delete"
-            placement="top-start"
-            >
-            <ElButton
-            v-if="$can('delete', 'tea estate')"
-            type="danger"
-            size="small"
-            @click="showAlert(scope.row.parent_id)"
-            >
-            <VIcon
-            icon="tabler-trash"
-            size="15"
-            />
-            </ElButton>
-            </ElTooltip> 
-          -->
-          <!-- publish button  -->
-          <!--
-            <ElTooltip
-            class="box-item"
-            effect="dark"
-            :content="scope.row.status == 1 ? 'Unpublish':'Publish'"
-            placement="top-start"
-            >
-            <ElButton
-            size="small"
-            :type="scope.row.status == 1 ? 'success':''"
-            @click="showPublishAlert(scope.row.parent_id,scope.row.status)"
-            >
-            <VIcon
-            :icon="scope.row.status == 1 ? 'tabler-check':'tabler-eye-off'"
-            size="15"
-            />
-            </ElButton>
-            </ElTooltip> 
-          -->
         </template>
       </ElTableColumn>
     </ElTable>
