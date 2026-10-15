@@ -10,7 +10,7 @@
         target="_blank"
         rel="noopener noreferrer"
         class="text-primary ms-1"
-      >DC Office | Cox's Bazar</a>
+      >DC Office | Sylhet</a>
     </span>
     <!-- 👉 Footer: right content -->
     <span class="d-flex align-center">
@@ -22,11 +22,11 @@
         class="mx-1"
       />
       By <a
-        href="https://inflack.com/"
+        href="https://thinkflowinnovation.com/"
         target="_blank"
         rel="noopener noreferrer"
         class="text-primary ms-1"
-      >Inflack Limited</a>
+      >Thinkflow Innovation</a>
     </span>
   </div>
 </template>
